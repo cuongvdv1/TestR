@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "6722812600",
+    "project_id": "removebackground-for-dev",
+    "storage_bucket": "removebackground-for-dev.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:6722812600:android:99005e4d37b4a26e02d24d",
+        "android_client_info": {
+          "package_name": "com.vm.backgroundremove.objectremove"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB92Y8GiD_NgeIqTqzBTyqIkzuBJje5NHw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
