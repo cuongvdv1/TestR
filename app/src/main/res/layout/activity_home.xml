@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:contentDescription="ic_eraser"
+            android:contentDescription="@string/ic_eraser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_eraser" />
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             style="@style/CustomText_color_37414B_20"
             android:paddingHorizontal="4dp"
-            android:text="Remove Background" />
+            android:text="@string/remove_background" />
     </LinearLayout>
 
     <ScrollView
@@ -55,6 +55,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" >
                 <ImageView
+                    android:contentDescription="@string/remove_bg"
                     android:id="@+id/iv_remove_bg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -67,7 +68,7 @@
                     android:id="@+id/tv_title_remove_bg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Remove Background"
+                    android:text="@string/remove_background"
                     style="@style/CustomText_White_16"
                     app:layout_constraintTop_toBottomOf="@id/iv_remove_bg"
                     app:layout_constraintStart_toStartOf="parent"
@@ -79,7 +80,7 @@
                     android:minLines="2"
                     android:layout_marginEnd="70dp"
                     style="@style/CustomText_White_12"
-                    android:text="Instantly remove the background from any image with precision."
+                    android:text="@string/instantly_remove_the_background_from_any_image_with_precision"
                     app:layout_constraintTop_toBottomOf="@id/tv_title_remove_bg"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="20dp"/>
@@ -96,6 +97,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ctl_option_remove_bg" >
                 <ImageView
+                    android:contentDescription="@string/iv_remove_object"
                     android:id="@+id/iv_remove_object"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -108,7 +110,7 @@
                     android:id="@+id/tv_title_remove_object"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Object Remove"
+                    android:text="@string/object_remove"
                     style="@style/CustomText_White_16"
                     app:layout_constraintTop_toBottomOf="@id/iv_remove_object"
                     app:layout_constraintStart_toStartOf="parent"
@@ -120,7 +122,7 @@
                     android:minLines="2"
                     style="@style/CustomText_White_12"
                     android:layout_marginEnd="70dp"
-                    android:text="Effortlessly erase unwanted objects from your photos for a clean, natural look."
+                    android:text="@string/effortlessly_erase_unwanted_objects_from_your_photos_for_a_clean_natural_look"
                     app:layout_constraintTop_toBottomOf="@id/tv_title_remove_object"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -134,7 +136,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_weight="1"
                 style="@style/CustomText_color_37414B_16"
-                android:text="Recent Projects"
+                android:text="@string/recent_projects"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ctl_option_remove_obj" />
 
@@ -146,7 +148,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_weight="1"
                 style="@style/CustomText_color_FF6846_16"
-                android:text="View all"
+                android:text="@string/view_all"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ctl_option_remove_obj" />
 
@@ -163,13 +165,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_view_all">
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcv_recent_projects"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
                     tools:listitem="@layout/item_project" />
 
                 <ImageView
-                    android:contentDescription="img_project_empty"
+                    android:contentDescription="@string/img_project_empty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -182,7 +185,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="50dp"
                     style="@style/CustomText_color_37414B_16"
-                    android:text="There are no projects yet"
+                    android:text="@string/there_are_no_projects_yet"
                     android:textAlignment="center" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -218,7 +221,7 @@
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Home"
+                android:text="@string/home"
                 style="@style/CustomText_color_FF6846_14"
                 android:textAlignment="center"
                 android:layout_marginTop="6dp"
@@ -228,16 +231,16 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/ctl_AI_portrait"
+            android:id="@+id/ctl_your_projects"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="12dp"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ctl_history"
+            app:layout_constraintEnd_toStartOf="@+id/ctl_setting"
             app:layout_constraintStart_toEndOf="@id/ctl_home">
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_portrait"
+                android:id="@+id/iv_your_projects"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -247,16 +250,16 @@
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Your Projects"
+                android:text="@string/your_projects"
                 style="@style/CustomText_color_8F9DAA_14"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="6dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_portrait" />
+                app:layout_constraintTop_toBottomOf="@+id/iv_your_projects" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/ctl_history"
+            android:id="@+id/ctl_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="38dp"
@@ -264,7 +267,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_history"
+                android:id="@+id/iv_setting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -274,13 +277,13 @@
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Setting"
+                android:text="@string/setting"
                 style="@style/CustomText_color_8F9DAA_14"
                 android:textAlignment="center"
                 android:layout_marginTop="6dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_history" />
+                app:layout_constraintTop_toBottomOf="@+id/iv_setting" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

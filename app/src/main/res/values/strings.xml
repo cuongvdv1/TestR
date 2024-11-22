@@ -1,3 +1,33 @@
 <resources>
     <string name="app_name">RemoveBackground</string>
+    <string name="img_project_empty">img_project_empty</string>
+    <string name="there_are_no_projects_yet">There are no projects yet</string>
+    <string name="home">Home</string>
+    <string name="your_projects">Your Projects</string>
+    <string name="setting">Setting</string>
+    <string name="remove_bg">remove_bg</string>
+    <string name="iv_remove_object">iv_remove_object</string>
+    <string name="recent_projects">Recent Projects</string>
+    <string name="instantly_remove_the_background_from_any_image_with_precision">Instantly remove the background from any image with precision.</string>
+    <string name="object_remove">Object Remove</string>
+    <string name="effortlessly_erase_unwanted_objects_from_your_photos_for_a_clean_natural_look">Effortlessly erase unwanted objects from your photos for a clean, natural look.</string>
+    <string name="remove_background">Remove Background</string>
+    <string name="ic_eraser">ic_eraser</string>
+    <string name="view_all">View all</string>
+    <string name="ic_back">ic_back</string>
+    <string name="export">Export</string>
+    <string name="ic_share">ic_share</string>
+    <string name="share">Share</string>
+    <string name="img_result">img_result</string>
+    <string name="iv_photo_selected">iv_photo_selected</string>
+    <string name="iv_photo">iv_photo</string>
+    <string name="ic_calendar">ic_calendar</string>
+    <string name="ic_clock">ic_clock</string>
+    <string name="ic_menu">ic_menu</string>
+    <string name="creative_1">creative-1</string>
+    <string name="_01_59">01:59</string>
+    <string name="_12_03_2023">12-03-2023</string>
+    <string name="ic_download">ic_download</string>
+    <string name="delete">Delete</string>
+    <string name="ic_delete">ic_delete</string>
 </resources>

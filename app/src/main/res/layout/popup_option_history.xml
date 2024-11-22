@@ -7,8 +7,6 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="4dp"
         android:background="@drawable/bg_border_transparent_8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,6 +21,7 @@
             android:layout_marginBottom="16dp">
 
             <ImageView
+                android:contentDescription="@string/ic_download"
                 android:id="@+id/ic_download"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -35,7 +34,7 @@
                 style="@style/CustomText_color_37414B_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Export"
+                android:text="@string/export"
                 android:layout_marginStart="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toBottomOf=""
@@ -50,6 +49,7 @@
             android:layout_marginBottom="16dp">
 
             <ImageView
+                android:contentDescription="@string/ic_share"
                 android:id="@+id/ic_share"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Share"
+                android:text="@string/share"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ic_share"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -76,7 +76,7 @@
             android:layout_marginBottom="16dp">
 
             <ImageView
-
+                android:contentDescription="@string/ic_delete"
                 android:id="@+id/ic_report"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Delete"
+                android:text="@string/delete"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ic_report"
                 app:layout_constraintTop_toTopOf="parent" />
