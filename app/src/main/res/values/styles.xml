@@ -107,6 +107,11 @@
     </style>
 
 
+    <!--Custom text view #2E3338-->
+    <style name="CustomText_color_2E3338_16">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#2E3338</item>
+    </style>
 
 
 </resources>

@@ -27,18 +27,44 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/your_projects" />
+
+
+
+        <ImageView
+            android:visibility="gone"
+            android:contentDescription="@string/ic_home_on"
+            android:layout_gravity="end"
+            android:layout_marginEnd="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_home_on"/>
     </Toolbar>
 
     <ImageView
-        android:contentDescription="@string/img_result"
         android:id="@+id/iv_history_result"
         android:layout_width="wrap_content"
         android:layout_height="470dp"
-        android:src="@drawable/img_result"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/img_result"
         android:scaleType="fitXY"
+        android:src="@drawable/img_result"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
+
+    <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont500
+        style="@style/CustomText_color_2E3338_16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        android:text="@string/your_image_has_been_saved_successfully"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/ll_btn_export"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_history_result" />
 
     <LinearLayout
         android:id="@+id/ll_btn_export"
@@ -55,7 +81,7 @@
         app:layout_constraintTop_toBottomOf="@+id/iv_history_result">
 
         <ImageView
-            android:contentDescription="ic_download"
+            android:contentDescription="@string/ic_download"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_download"
