@@ -32,4 +32,8 @@
     <string name="ic_delete">ic_delete</string>
     <string name="your_image_has_been_saved_successfully">Your image has been saved successfully</string>
     <string name="ic_home_on">ic_home_on</string>
+    <string name="i_want_to">I want to ...</string>
+    <string name="skip">Skip</string>
+    <string name="ic_hello">ic_hello</string>
+    <string name="welcome_to_remove_bg">Welcome to Remove BG</string>
 </resources>
