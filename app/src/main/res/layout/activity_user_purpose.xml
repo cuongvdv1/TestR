@@ -6,6 +6,17 @@
     android:background="#F0F8FF"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <ImageView
+        android:contentDescription="@string/ic_selected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_selected"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="12dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -51,6 +62,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_purpose">
 
+        <ImageView
+            android:contentDescription="@string/iv_choose_rmv_bg"
+            android:id="@+id/iv_choose_rmv_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_choose_purpose_off"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_title_remove_bg" />
+
 
         <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont700
             android:id="@+id/tv_title_remove_bg"
@@ -87,6 +108,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ctl_option_remove_bg" >
+
+        <ImageView
+            android:contentDescription="@string/iv_choose_rmv_obj"
+            android:id="@+id/iv_choose_rmv_obj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_choose_purpose_off"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_title_remove_object" />
         <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont700
             android:id="@+id/tv_title_remove_object"
             android:layout_width="wrap_content"
