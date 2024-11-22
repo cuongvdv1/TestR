@@ -26,20 +26,23 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+                android:contentDescription="@string/img_project_empty"
                 android:id="@+id/img_process"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:src="@drawable/img_project_empty" />
         </androidx.cardview.widget.CardView>
-        <TextView
+        <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
             android:id="@+id/tv_item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="creative-1"
+            android:text="@string/creative_1"
+            style="@style/CustomText_color_37414B_16"
             android:layout_marginStart="16dp"
             app:layout_constraintStart_toEndOf="@id/cv_process"
             app:layout_constraintTop_toTopOf="parent" />
         <ImageView
+            android:contentDescription="@string/ic_menu"
             android:id="@+id/iv_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,25 +52,29 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
+            android:contentDescription="@string/ic_clock"
             android:id="@+id/ic_time_process"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:src="@drawable/ic_clock"
+            app:tint="#37414B"
             app:layout_constraintStart_toEndOf="@id/cv_process"
             app:layout_constraintTop_toBottomOf="@id/tv_item_name" />
 
-        <TextView
+        <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
             android:id="@+id/tv_time_process"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="01:59"
+            android:text="@string/_01_59"
+            style="@style/CustomText_color_37414B_12"
             app:layout_constraintStart_toEndOf="@id/ic_time_process"
             app:layout_constraintTop_toTopOf="@id/ic_time_process"/>
 
         <ImageView
+            android:contentDescription="@string/ic_calendar"
             android:id="@+id/ic_calendar_process"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -75,12 +82,13 @@
             android:src="@drawable/ic_calendar"
             app:layout_constraintStart_toEndOf="@id/tv_time_process"
             app:layout_constraintTop_toTopOf="@id/tv_time_process" />
-        <TextView
+        <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
             android:id="@+id/tv_day_process"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="12-03-2023"
+            android:text="@string/_12_03_2023"
+            style="@style/CustomText_color_37414B_12"
             app:layout_constraintStart_toEndOf="@id/ic_calendar_process"
             app:layout_constraintTop_toTopOf="@id/ic_calendar_process" />
     </androidx.constraintlayout.widget.ConstraintLayout>

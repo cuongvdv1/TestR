@@ -23,6 +23,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:contentDescription="@string/iv_photo"
                 android:id="@+id/img_choose_photo"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -42,6 +43,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
+                android:contentDescription="@string/iv_photo_selected"
                 android:visibility="gone"
                 android:id="@+id/ic_photo_selected"
                 android:layout_width="wrap_content"
