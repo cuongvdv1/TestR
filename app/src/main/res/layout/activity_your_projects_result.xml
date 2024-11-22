@@ -16,9 +16,9 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:contentDescription="@string/ic_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/ic_back"
             android:src="@drawable/ic_back" />
 
         <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont700
@@ -29,15 +29,14 @@
             android:text="@string/your_projects" />
 
 
-
         <ImageView
-            android:visibility="gone"
-            android:contentDescription="@string/ic_home_on"
-            android:layout_gravity="end"
-            android:layout_marginEnd="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_home_on"/>
+            android:layout_gravity="end"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/ic_home_on"
+            android:src="@drawable/ic_home_on"
+            android:visibility="gone" />
     </Toolbar>
 
     <ImageView
@@ -49,7 +48,6 @@
         android:scaleType="fitXY"
         android:src="@drawable/img_result"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
 
@@ -58,9 +56,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:visibility="gone"
         android:text="@string/your_image_has_been_saved_successfully"
         android:textAlignment="center"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/ll_btn_export"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,20 +68,20 @@
         android:id="@+id/ll_btn_export"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="41dp"
         android:background="@drawable/bg_gradient_border_27"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingHorizontal="52dp"
-        android:paddingVertical="8dp"
-        android:layout_marginTop="41dp"
+        android:paddingVertical="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_history_result">
 
         <ImageView
-            android:contentDescription="@string/ic_download"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/ic_download"
             android:src="@drawable/ic_download"
             app:tint="@color/white" />
 
@@ -100,22 +98,22 @@
         android:id="@+id/ll_btn_share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
         android:background="@drawable/bg_border_stroke_27"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingHorizontal="52dp"
-        android:paddingVertical="8dp"
-        android:layout_marginTop="13dp"
+        android:paddingVertical="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_btn_export">
 
         <ImageView
-            android:contentDescription="@string/ic_share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/ic_share"
             android:src="@drawable/ic_share"
-            app:tint="#FF6846" />
+            app:tint="@color/color_FF6846" />
 
         <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont500
             style="@style/CustomText_color_FF6846_16"

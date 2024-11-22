@@ -56,27 +56,27 @@
 
     <style name="CustomText_color_37414B_12">
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">#37414B</item>
+        <item name="android:textColor">@color/color_37414B</item>
     </style>
 
     <style name="CustomText_color_37414B_14">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">#37414B</item>
+        <item name="android:textColor">@color/color_37414B</item>
     </style>
 
     <style name="CustomText_color_37414B_16">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">#37414B</item>
+        <item name="android:textColor">@color/color_37414B</item>
     </style>
 
     <style name="CustomText_color_37414B_18">
         <item name="android:textSize">18sp</item>
-        <item name="android:textColor">#37414B</item>
+        <item name="android:textColor">@color/color_37414B</item>
     </style>
 
     <style name="CustomText_color_37414B_20">
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">#37414B</item>
+        <item name="android:textColor">@color/color_37414B</item>
     </style>
 
 
@@ -95,36 +95,36 @@
 
     <style name="CustomText_color_FF6846_14">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">#FF6846</item>
+        <item name="android:textColor">@color/color_FF6846</item>
     </style>
-
 
     <style name="CustomText_color_FF6846_16">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">#FF6846</item>
+        <item name="android:textColor">@color/color_FF6846</item>
     </style>
 
     <style name="CustomText_color_FF6846_20">
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">#FF6846</item>
+        <item name="android:textColor">@color/color_FF6846</item>
     </style>
+
 <!--Custom text view 8F9DAA-->
 
     <style name="CustomText_color_8F9DAA_14">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">#8F9DAA</item>
+        <item name="android:textColor">@color/color_8F9DAA</item>
     </style>
 
 <!--Custom text view FFA637-->
 
     <style name="CustomText_color_FFA637_20">
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">#FFA637</item>
+        <item name="android:textColor">@color/color_FFA637</item>
     </style>
     <!--Custom text view #2E3338-->
     <style name="CustomText_color_2E3338_16">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">#2E3338</item>
+        <item name="android:textColor">@color/color_2E3338</item>
     </style>
 
 

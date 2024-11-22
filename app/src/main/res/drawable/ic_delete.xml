@@ -5,22 +5,22 @@
     android:viewportWidth="24"
     android:viewportHeight="24">
     <path
-        android:strokeColor="#FFFF4646"
+        android:strokeColor="@color/color_FFFF4646"
         android:strokeWidth="1.5"
         android:strokeLineCap="round"
         android:pathData="M19.5 5.5l-0.62 10.03c-0.16 2.56-0.24 3.84-0.88 4.76-0.32 0.45-0.73 0.84-1.2 1.13C15.84 22 14.56 22 12 22c-2.58 0-3.86 0-4.82-0.59-0.48-0.28-0.88-0.67-1.2-1.13-0.64-0.92-0.72-2.2-0.88-4.76L4.5 5.5"/>
     <path
-        android:strokeColor="#FFFF4646"
+        android:strokeColor="@color/color_FFFF4646"
         android:strokeWidth="1.5"
         android:strokeLineCap="round"
         android:pathData="M3 5.5h18m-4.94 0l-0.69-1.4c-0.45-0.94-0.68-1.41-1.07-1.7l-0.27-0.18C13.59 2 13.07 2 12.03 2c-1.06 0-1.6 0-2.03 0.23L9.72 2.41c-0.4 0.3-0.62 0.8-1.06 1.76L8.06 5.5"/>
     <path
-        android:strokeColor="#FFFF4646"
+        android:strokeColor="@color/color_FFFF4646"
         android:strokeWidth="1.5"
         android:strokeLineCap="round"
         android:pathData="M9.5 16.5v-6"/>
     <path
-        android:strokeColor="#FFFF4646"
+        android:strokeColor="@color/color_FFFF4646"
         android:strokeWidth="1.5"
         android:strokeLineCap="round"
         android:pathData="M14.5 16.5v-6"/>

@@ -1,43 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_app"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:background="@drawable/bg_app">
+
     <Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
+
         <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:contentDescription="@string/ic_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_back"/>
+            android:src="@drawable/ic_back" />
+
         <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont700
+            style="@style/CustomText_color_37414B_20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/your_projects"
-            style="@style/CustomText_color_37414B_20"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:text="@string/your_projects" />
     </Toolbar>
 
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintBottom_toTopOf="@id/ctl_bottom_nav"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintBottom_toTopOf="@id/ctl_bottom_nav">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginHorizontal="16dp"
-            tools:listitem=""
-       />
-    </ScrollView>
+        tools:listitem="@layout/item_project" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ctl_bottom_nav"
@@ -68,14 +65,13 @@
                 app:srcCompat="@drawable/ic_home_on" />
 
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
+                style="@style/CustomText_color_FF6846_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/home"
                 android:layout_marginTop="6dp"
-                style="@style/CustomText_color_FF6846_14"
+                android:text="@string/home"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_home" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -89,6 +85,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/ctl_setting"
             app:layout_constraintStart_toEndOf="@id/ctl_home">
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_your_project"
                 android:layout_width="wrap_content"
@@ -97,12 +94,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_history_off" />
+
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
+                style="@style/CustomText_color_8F9DAA_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/your_projects"
                 android:layout_marginTop="6dp"
-                style="@style/CustomText_color_8F9DAA_14"
+                android:text="@string/your_projects"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_your_project" />
@@ -116,6 +114,7 @@
             android:paddingHorizontal="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_setting"
                 android:layout_width="wrap_content"
@@ -126,12 +125,12 @@
                 app:srcCompat="@drawable/ic_setting_off" />
 
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
+                style="@style/CustomText_color_8F9DAA_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
                 android:text="@string/setting"
                 android:textAlignment="center"
-                android:layout_marginTop="6dp"
-                style="@style/CustomText_color_8F9DAA_14"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

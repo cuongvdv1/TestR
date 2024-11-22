@@ -5,5 +5,20 @@
     <!--    ads-->
     <color name="darkBlack">#80206080</color>
     <color name="lightTransparent">#16000000</color>
+    <color name="color_8F9DAA">#8F9DAA</color>
+    <color name="color_FF6846">#FF6846</color>
+    <color name="color_FF964B">#FF964B</color>
+    <color name="color_FECE51">#FECE51</color>
+    <color name="color_FF37414B">#FF37414B</color>
+    <color name="color_FFFF6846">#FFFF6846</color>
+    <color name="color_FFFFA637">#FFFFA637</color>
+    <color name="color_FFF7F7FC">#FFF7F7FC</color>
+    <color name="color_FFD5DEE5">#FFD5DEE5</color>
+    <color name="color_FFFF4646">#FFFF4646</color>
+    <color name="color_37414B">#37414B</color>
+    <color name="color_FFA637">#FFA637</color>
+    <color name="color_2E3338">#2E3338</color>
+    <color name="color_4DFB9A38">#4DFB9A38</color>
+    <color name="color_F0F8FF">#F0F8FF</color>
     <!--    -->
 </resources>

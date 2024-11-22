@@ -5,7 +5,7 @@ import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseViewModel
 import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.databinding.ActivityHomeBinding
-import com.vm.backgroundremove.objectremove.ui.main.remove_backgound.RemoveBackgroundActivity
+import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_object.RemoveObjectActivity
 
 class HomeActivity:BaseActivity<ActivityHomeBinding,BaseViewModel>() {

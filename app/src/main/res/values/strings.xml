@@ -40,4 +40,10 @@
     <string name="iv_choose_rmv_bg">iv_choose_rmv_bg</string>
     <string name="iv_choose_rmv_obj">iv_choose_rmv_obj</string>
     <string name="ic_selected">ic_selected</string>
+    <string name="permission">Permission</string>
+    <string name="img_permission">img_permission</string>
+    <string name="remove_background_requires_these_permissions_to_function_properly">Remove Background requires these permissions to function properly</string>
+    <string name="notification">Notification</string>
+    <string name="library">Library</string>
+    <string name="continue_without_permission">Continue without permission</string>
 </resources>

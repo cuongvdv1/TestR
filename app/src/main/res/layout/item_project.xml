@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingHorizontal="16dp"
-    android:layout_marginBottom="16dp">
+    android:layout_marginBottom="16dp"
+    android:paddingHorizontal="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
@@ -20,75 +20,78 @@
             android:id="@+id/cv_process"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
             android:background="@drawable/bg_border_white_16"
+            app:cardCornerRadius="12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:contentDescription="@string/img_project_empty"
                 android:id="@+id/img_process"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:contentDescription="@string/img_project_empty"
                 android:src="@drawable/img_project_empty" />
         </androidx.cardview.widget.CardView>
+
         <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
             android:id="@+id/tv_item_name"
+            style="@style/CustomText_color_37414B_16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/creative_1"
-            style="@style/CustomText_color_37414B_16"
             android:layout_marginStart="16dp"
+            android:text="@string/creative_1"
             app:layout_constraintStart_toEndOf="@id/cv_process"
             app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
-            android:contentDescription="@string/ic_menu"
             android:id="@+id/iv_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu"
             android:layout_marginEnd="8dp"
+            android:contentDescription="@string/ic_menu"
+            android:src="@drawable/ic_menu"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:contentDescription="@string/ic_clock"
             android:id="@+id/ic_time_process"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:contentDescription="@string/ic_clock"
             android:src="@drawable/ic_clock"
-            app:tint="#37414B"
             app:layout_constraintStart_toEndOf="@id/cv_process"
-            app:layout_constraintTop_toBottomOf="@id/tv_item_name" />
+            app:layout_constraintTop_toBottomOf="@id/tv_item_name"
+            app:tint="@color/color_37414B" />
 
         <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
             android:id="@+id/tv_time_process"
+            style="@style/CustomText_color_37414B_12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="@string/_01_59"
-            style="@style/CustomText_color_37414B_12"
             app:layout_constraintStart_toEndOf="@id/ic_time_process"
-            app:layout_constraintTop_toTopOf="@id/ic_time_process"/>
+            app:layout_constraintTop_toTopOf="@id/ic_time_process" />
 
         <ImageView
-            android:contentDescription="@string/ic_calendar"
             android:id="@+id/ic_calendar_process"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:contentDescription="@string/ic_calendar"
             android:src="@drawable/ic_calendar"
             app:layout_constraintStart_toEndOf="@id/tv_time_process"
             app:layout_constraintTop_toTopOf="@id/tv_time_process" />
+
         <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
             android:id="@+id/tv_day_process"
+            style="@style/CustomText_color_37414B_12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="@string/_12_03_2023"
-            style="@style/CustomText_color_37414B_12"
             app:layout_constraintStart_toEndOf="@id/ic_calendar_process"
             app:layout_constraintTop_toTopOf="@id/ic_calendar_process" />
     </androidx.constraintlayout.widget.ConstraintLayout>
