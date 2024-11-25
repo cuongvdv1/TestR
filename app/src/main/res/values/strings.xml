@@ -49,4 +49,12 @@
     <string name="Grant_Permission">Grant Permission</string>
     <string name="Please_grant_all_permissions">Please grant all permissions</string>
     <string name="Go_to_setting">Go to setting</string>
+    <string name="color">Color</string>
+    <string name="background">Background</string>
+    <string name="ic_export">ic_export</string>
+    <string name="edit">Edit</string>
+    <string name="remove_BG">Remove BG</string>
+    <string name="ic_undo">ic_undo</string>
+    <string name="ic_redo">ic_redo</string>
+    <string name="ic_before_after">ic_before_after</string>
 </resources>
