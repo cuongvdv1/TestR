@@ -14,6 +14,12 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:colorAccent">@color/black</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+
     <style name="Native.AdHeadline">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -126,6 +132,7 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/color_2E3338</item>
     </style>
+
 
 
 </resources>

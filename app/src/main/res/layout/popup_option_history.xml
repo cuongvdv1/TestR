@@ -37,7 +37,6 @@
                 android:text="@string/export"
                 android:layout_marginStart="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toBottomOf=""
                 app:layout_constraintStart_toEndOf="@+id/ic_download"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -46,4 +46,7 @@
     <string name="notification">Notification</string>
     <string name="library">Library</string>
     <string name="continue_without_permission">Continue without permission</string>
+    <string name="Grant_Permission">Grant Permission</string>
+    <string name="Please_grant_all_permissions">Please grant all permissions</string>
+    <string name="Go_to_setting">Go to setting</string>
 </resources>

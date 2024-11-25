@@ -55,7 +55,7 @@
         app:layout_constraintTop_toBottomOf="@id/iv_permission" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/ctl_notification"
+        android:id="@+id/ctl_camera"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="18dp"
@@ -64,11 +64,12 @@
         android:orientation="horizontal"
         android:padding="14dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_description_permission">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/iv_permission_camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_bell"
@@ -77,18 +78,18 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
-            android:id="@+id/customTextViewFont400"
+            android:id="@+id/tv_permission_camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="6dp"
             android:text="@string/notification"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintStart_toEndOf="@+id/iv_permission_camera"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/iv_switch_noti"
+            android:id="@+id/iv_switch_camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -109,7 +110,7 @@
         android:padding="14dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ctl_notification">
+        app:layout_constraintTop_toBottomOf="@+id/ctl_camera">
 
         <ImageView
             android:id="@+id/iv_books"
@@ -143,6 +144,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont500
+        android:id="@+id/tv_continue"
         style="@style/CustomText_color_FF6846_16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
