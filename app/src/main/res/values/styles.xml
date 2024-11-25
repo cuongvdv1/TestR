@@ -120,6 +120,10 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/color_8F9DAA</item>
     </style>
+    <style name="CustomText_color_8F9DAA_16">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/color_8F9DAA</item>
+    </style>
 
 <!--Custom text view FFA637-->
 
