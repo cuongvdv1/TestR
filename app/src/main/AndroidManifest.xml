@@ -31,6 +31,9 @@
             android:name=".ui.common.SplashActivity"
             android:exported="false" />
         <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.main.home.HomeActivity"
             android:exported="false" />
         <activity

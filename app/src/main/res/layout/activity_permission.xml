@@ -41,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_title_permission" />
 
     <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont500
-        android:id="@+id/tv_description_permission"
+        android:id="@+id/tv_description_noti"
         style="@style/CustomText_color_37414B_18"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
         app:layout_constraintTop_toBottomOf="@id/iv_permission" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/ctl_camera"
+        android:id="@+id/ctl_permission_noti"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="18dp"
@@ -66,7 +66,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_description_permission">
+        app:layout_constraintTop_toBottomOf="@id/tv_description_noti">
 
         <ImageView
             android:id="@+id/iv_permission_camera"
@@ -78,7 +78,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
-            android:id="@+id/tv_permission_camera"
+            android:id="@+id/tv_permission_noti"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -89,7 +89,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/iv_switch_camera"
+            android:id="@+id/iv_switch_noti"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -100,7 +100,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/ctl_library"
+        android:id="@+id/ctl_permission_camera"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="18dp"
@@ -110,7 +110,7 @@
         android:padding="14dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ctl_camera">
+        app:layout_constraintTop_toBottomOf="@+id/ctl_permission_noti">
 
         <ImageView
             android:id="@+id/iv_books"
@@ -122,7 +122,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
-            android:id="@+id/tv_library"
+            android:id="@+id/tv_camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -133,7 +133,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/iv_switch_libra"
+            android:id="@+id/iv_switch_camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -152,6 +152,6 @@
         android:text="@string/continue_without_permission"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ctl_library" />
+        app:layout_constraintTop_toBottomOf="@id/ctl_permission_camera" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
