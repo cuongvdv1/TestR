@@ -51,5 +51,22 @@ object SharePrefUtils {
         editor.putInt("countChat", countChat(context) + 1)
         editor.commit()
     }
+    fun countPermission(context: Context): Int {
+        val pre = context.getSharedPreferences("data", Context.MODE_PRIVATE)
+        return pre.getInt("countPermission", 0)
+    }
+    fun increaseCountPermission(context: Context){
+        val pre = context.getSharedPreferences("data", Context.MODE_PRIVATE)
+        val editor = pre.edit()
+        editor.putInt("countPermission", countChat(context)+1)
+        editor.commit()
+    }
+
+    fun setFristTimePermission(context: Context) {
+        val  pre = context.getSharedPreferences("data", Context.MODE_PRIVATE)
+        val editor = pre.edit()
+        editor.putBoolean("firstTimePermission", true)
+        editor.commit()
+    }
 
 }

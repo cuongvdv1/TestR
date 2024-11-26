@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="37dp"
+    android:height="19dp"
+    android:viewportWidth="37"
+    android:viewportHeight="19">
+    <path
+        android:pathData="M0.22 9.96c0-4.99 4.05-9.04 9.04-9.04h18.1c4.99 0 9.04 4.05 9.04 9.04v0.01c0 4.99-4.05 9.04-9.04 9.04h-18.1c-4.99 0-9.04-4.05-9.04-9.04z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="linear"
+                android:startX="36.39"
+                android:startY="19.01"
+                android:endX="-0.17"
+                android:endY="16.84">
+                <item
+                    android:color="#FFFF964B"
+                    android:offset="0"/>
+                <item
+                    android:color="#FFFECE51"
+                    android:offset="1"/>
+            </gradient>
+        </aapt:attr>
+    </path>
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M19.18 10.1c0-4.52 3.66-8.18 8.18-8.18h0.01c4.52 0 8.18 3.66 8.18 8.18v0.01c0 4.52-3.66 8.18-8.18 8.18h-0.01c-4.52 0-8.18-3.66-8.18-8.18z"/>
+</vector>

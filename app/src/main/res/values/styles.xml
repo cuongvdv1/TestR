@@ -14,6 +14,12 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:colorAccent">@color/black</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+
     <style name="Native.AdHeadline">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -51,4 +57,82 @@
         <item name="android:minHeight">15.0px</item>
         <item name="android:text">Ad</item>
     </style>
+
+<!--    custom text view color 37414B-->
+
+    <style name="CustomText_color_37414B_12">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/color_37414B</item>
+    </style>
+
+    <style name="CustomText_color_37414B_14">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_37414B</item>
+    </style>
+
+    <style name="CustomText_color_37414B_16">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/color_37414B</item>
+    </style>
+
+    <style name="CustomText_color_37414B_18">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/color_37414B</item>
+    </style>
+
+    <style name="CustomText_color_37414B_20">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/color_37414B</item>
+    </style>
+
+
+
+<!--    custom text view white-->
+    <style name="CustomText_White_16">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="CustomText_White_12">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+<!--    Custom text view FF6846-->
+
+    <style name="CustomText_color_FF6846_14">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_FF6846</item>
+    </style>
+
+    <style name="CustomText_color_FF6846_16">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/color_FF6846</item>
+    </style>
+
+    <style name="CustomText_color_FF6846_20">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/color_FF6846</item>
+    </style>
+
+<!--Custom text view 8F9DAA-->
+
+    <style name="CustomText_color_8F9DAA_14">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_8F9DAA</item>
+    </style>
+
+<!--Custom text view FFA637-->
+
+    <style name="CustomText_color_FFA637_20">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/color_FFA637</item>
+    </style>
+    <!--Custom text view #2E3338-->
+    <style name="CustomText_color_2E3338_16">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/color_2E3338</item>
+    </style>
+
+
+
 </resources>
