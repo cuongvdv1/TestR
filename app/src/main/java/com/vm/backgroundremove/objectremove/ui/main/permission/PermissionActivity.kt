@@ -2,7 +2,6 @@ package com.vm.backgroundremove.objectremove.ui.main.permission
 
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
@@ -24,33 +23,52 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding, BaseViewModel
         return BaseViewModel()
     }
 
+    override fun onResume() {
+        super.onResume()
+        setStatusPermissionPhoto()
+        setStatusPermissionNoti()
+        checkAllPermissions()
+    }
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun initView() {
         super.initView()
         SharePrefUtils.setFristTimePermission(this)
         SharePrefUtils.countPermission(this)
-        if (checkCameraPermission()) {
-            binding.ivSelectedPermission.visibility = View.VISIBLE
-            binding.ivSwitchCamera.setImageResource(R.drawable.ic_switch_on)
-        } else {
-            binding.ivSwitchCamera.setImageResource(R.drawable.ic_switch_off)
-        }
-        binding.ctlCamera.tap {
+        setStatusPermissionPhoto()
+        setStatusPermissionNoti()
+        checkAllPermissions()
+        binding.ivSwitchCamera.tap {
             countRequestPermission++
-            if (checkCameraPermission()) {
-                binding.ivSelectedPermission.visibility = View.VISIBLE
+            if (checkPermissions()) {
                 binding.ivSwitchCamera.setImageResource(R.drawable.ic_switch_on)
             } else {
-                binding.ivSwitchCamera.setImageResource(R.drawable.ic_switch_off)
                 if (countRequestPermission <= 2) {
-                    requestPermission()
+                    requestPermissionPhoto()
                 } else {
                     dialogPermission()
                     showDialogPermission()
+                    setStatusPermissionPhoto()
+                    checkAllPermissions()
                 }
             }
-            binding.ivSwitchCamera.setImageResource(R.drawable.ic_switch_on)
         }
+        binding.ivSwitchNoti.tap{
+            countRequestPermission++
+            if(checkNotiPermission()){
+                binding.ivSwitchNoti.setImageResource(R.drawable.ic_switch_on)
+            }else{
+                if(countRequestPermission<=2){
+                    requestPermissionNoti()
+                }else{
+                    dialogPermission()
+                    showDialogPermission()
+                    setStatusPermissionNoti()
+                    checkAllPermissions()
+                }
+            }
+        }
+
 
         binding.ivSelectedPermission.tap {
             startActivity(Intent(this@PermissionActivity, HomeActivity::class.java))
@@ -66,7 +84,26 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding, BaseViewModel
                 finishAffinity()
             }
         })
-
-
+    }
+    fun setStatusPermissionPhoto() {
+        if (checkPermissions()) {
+            binding.ivSwitchCamera.setImageResource(R.drawable.ic_switch_on)
+        } else {
+            binding.ivSwitchCamera.setImageResource(R.drawable.ic_switch_off)
+        }
+    }
+    fun setStatusPermissionNoti() {
+        if(checkNotiPermission()){
+            binding.ivSwitchNoti.setImageResource(R.drawable.ic_switch_on)
+        }else{
+            binding.ivSwitchNoti.setImageResource(R.drawable.ic_switch_off)
+        }
+    }
+    fun checkAllPermissions() {
+        if(checkPermissions() && checkNotiPermission()){
+            binding.ivSelectedPermission.visibility =View.VISIBLE
+        }else{
+            binding.ivSelectedPermission.visibility = View.GONE
+        }
     }
 }

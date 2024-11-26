@@ -139,7 +139,6 @@ abstract class BaseActivity<VB : ViewBinding, V: ViewModel> : AppCompatActivity(
             permissionsApiTo33
         }else{
             permissionsApiFrom5To12
-
         }
         return permission
     }
@@ -177,6 +176,18 @@ abstract class BaseActivity<VB : ViewBinding, V: ViewModel> : AppCompatActivity(
         }
     }
 
+    // Ham check cap quyen notification
+    fun checkNotiPermission():Boolean{
+        return if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED)
+        }else{
+            return true
+        }
+    }
+
     private var alertDialog : AlertDialog ? = null
 
     fun dialogPermission(){
@@ -199,7 +210,7 @@ abstract class BaseActivity<VB : ViewBinding, V: ViewModel> : AppCompatActivity(
         }
         alertDialog?.show()
     }
-    private var permissionsResult: ActivityResultLauncher<Array<String>> =
+    private var permissionsPhotoResult: ActivityResultLauncher<Array<String>> =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
             if (result.entries.all { it.value }) {
 
@@ -207,11 +218,21 @@ abstract class BaseActivity<VB : ViewBinding, V: ViewModel> : AppCompatActivity(
                 showDialogPermission()
             }
         }
+    private var permissionNotiResult: ActivityResultLauncher<String> =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
+            if (result) {
+            } else {
+
+                showDialogPermission()
+            }
+        }
+    fun requestPermissionNoti(){
+        permissionNotiResult.launch(Manifest.permission.POST_NOTIFICATIONS)
+    }
 
 
-
-    fun requestPermission() {
-        permissionsResult.launch(arrayPermission())
+    fun requestPermissionPhoto() {
+        permissionsPhotoResult.launch(arrayPermission())
     }
 
 }
