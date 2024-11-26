@@ -6,12 +6,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.vm.backgroundremove.objectremove.R
+import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
+import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseViewModel
+import com.vm.backgroundremove.objectremove.databinding.ActivityRemoveObjectBinding
 
-class RemoveObjectActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_remove_object)
+class RemoveObjectActivity : BaseActivity<ActivityRemoveObjectBinding, BaseViewModel>(){
+    override fun createBinding() = ActivityRemoveObjectBinding.inflate(layoutInflater)
+
+
+    override fun setViewModel() = BaseViewModel()
+
+
+    override fun initView() {
+        super.initView()
+
+
+
 
     }
 }
