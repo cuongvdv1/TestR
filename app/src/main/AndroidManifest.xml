@@ -40,7 +40,7 @@
             android:name=".ui.main.remove_object.RemoveObjectActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.main.remove_background.RemoveBackgroundActivity"
+            android:name=".ui.main.permission.PermissionActivity"
             android:exported="false" />
 
         <property
@@ -74,7 +74,7 @@
             android:value="true" />
 
         <activity
-            android:name=".ui.main.permission.PermissionActivity"
+            android:name=".ui.main.remove_background.RemoveBackgroundActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
