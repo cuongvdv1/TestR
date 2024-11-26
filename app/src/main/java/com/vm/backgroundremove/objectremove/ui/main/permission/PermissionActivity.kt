@@ -2,7 +2,6 @@ package com.vm.backgroundremove.objectremove.ui.main.permission
 
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
