@@ -126,6 +126,7 @@ class HSView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
         if (x > measuredWidth) x = measuredWidth.toFloat()
         var hue = (360f / measuredWidth) * x
         if (hue == 360f) hue = 0f
+
         return hue
     }
 
@@ -133,15 +134,12 @@ class HSView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
         return 1f - (event.y / measuredHeight)
     }
 
-
     private fun setUpHSShader() {
-        val centerX = hsBound.width() / 2
-        val centerY = hsBound.height() / 2
-        val radius = Math.min(hsBound.width(), hsBound.height()) / 2
-
-       val sweepGradient = SweepGradient(
-            centerX,
-            centerY,
+        val colorGradient = LinearGradient(
+            hsBound.left,
+            hsBound.top,
+            hsBound.right,
+            hsBound.top,
             intArrayOf(
                 context.getColor(R.color.color_FF0000),
                 context.getColor(R.color.color_FF8A00),
@@ -152,24 +150,21 @@ class HSView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
                 context.getColor(R.color.color_AD00FF),
                 context.getColor(R.color.color_FF00C7),
                 context.getColor(R.color.color_FF0000),
-            ),
-            null
+            ), null, TileMode.CLAMP
         )
 
-      val radialGradient = RadialGradient(
-            centerX,
-            centerY,
-            radius,
-            intArrayOf(Color.WHITE, Color.TRANSPARENT),
-            floatArrayOf(0f, 1f),
+        val lightnessGradient = LinearGradient(
+            hsBound.left,
+            hsBound.top,
+            hsBound.left,
+            hsBound.bottom,
+            Color.WHITE,
+            Color.TRANSPARENT,
             TileMode.CLAMP
         )
-        Log.d("HSView", "CenterX: $centerX, CenterY: $centerY, Radius: $radius")
-
-        shaderHSPaint.shader = ComposeShader(sweepGradient, radialGradient, PorterDuff.Mode.SRC_OVER)
+        shaderHSPaint.shader =
+            ComposeShader(colorGradient, lightnessGradient, PorterDuff.Mode.MULTIPLY)
     }
-
-
     private fun drawHSView(canvas: Canvas) {
         canvas.drawRoundRect(
             0f,

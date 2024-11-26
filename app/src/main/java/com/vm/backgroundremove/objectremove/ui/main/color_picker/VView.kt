@@ -141,10 +141,7 @@ class VView(context: Context, attrs: AttributeSet?) : View(context, attrs), HSVi
     }
 
     private fun changePosition(newPosition: Float) {
-        // Giới hạn vị trí tâm chấm tròn trong khoảng `bound.left + controllerRadius` và `bound.right - controllerRadius`
         controllerPosition = newPosition.coerceIn(bound.left + controllerRadius, bound.right - controllerRadius)
-
-        // Cập nhật giá trị màu sắc (giá trị "value" trong HSV)
         currentColorArray[2] = 1f - ((controllerPosition - bound.left - controllerRadius) / (bound.width() - 2 * controllerRadius))
         updateCircleColor()
         onValueChange(currentColorArray[2])
