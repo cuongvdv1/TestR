@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginHorizontal="21.5dp"
+    android:background="@drawable/bg_dialog_border_24"
+    android:padding="24dp">
+
+    <ImageView
+        android:id="@+id/img_chplay"
+        android:layout_width="100.33dp"
+        android:layout_height="25.59dp"
+        android:background="@drawable/img_chplay"
+        android:scaleType="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont500
+        android:id="@+id/tvUpdate"
+        style="@style/CustomText_color_37414B_16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18.41dp"
+        android:paddingVertical="4dp"
+        android:text="@string/update_available"
+        app:layout_constraintTop_toBottomOf="@+id/img_chplay" />
+
+    <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
+        android:id="@+id/tvToUse"
+        style="@style/CustomText_color_37414B_12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="4dp"
+        android:text="@string/to_use_this_app_download_the_latest_version"
+        app:layout_constraintTop_toBottomOf="@+id/tvUpdate" />
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/ic_logo_app_demo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvToUse" />
+
+    <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
+        android:id="@+id/tv_ama_chatbot"
+        style="@style/CustomText_color_37414B_20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:paddingVertical="4dp"
+        android:text="@string/app_name"
+        app:layout_constraintStart_toEndOf="@+id/iv_logo"
+        app:layout_constraintTop_toBottomOf="@+id/tvToUse" />
+
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/img_old"
+        app:layout_constraintStart_toEndOf="@+id/iv_logo"
+        app:layout_constraintTop_toBottomOf="@+id/tv_ama_chatbot" />
+
+    <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont500
+        android:id="@+id/tv_title"
+        style="@style/CustomText_color_37414B_16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
+        android:gravity="start"
+        android:text="@string/what_s_new"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_logo" />
+
+    <ImageView
+        android:id="@+id/ivWhatNew"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_whatsnew"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_logo" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:text="@string/app_name"
+        android:textColor="#2E3338"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+
+    <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont500
+        android:id="@+id/btn_submit"
+        style="@style/CustomText_color_37414B_13"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/bg_btn_update"
+        android:gravity="center"
+        android:text="@string/update"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_content" />
+
+    <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont500
+        android:id="@+id/btn_cancel"
+        style="@style/CustomText_color_37414B_13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:gravity="center"
+        android:text="@string/cancel"
+        android:textColor="@color/color_3B8562"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_submit" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

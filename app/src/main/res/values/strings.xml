@@ -5,7 +5,7 @@
     <string name="home">Home</string>
     <string name="your_projects">Your Projects</string>
     <string name="setting">Setting</string>
-    <string name="remove_bg">remove_bg</string>
+    <string name="remove_bg">Remove BG</string>
     <string name="iv_remove_object">iv_remove_object</string>
     <string name="recent_projects">Recent Projects</string>
     <string name="instantly_remove_the_background_from_any_image_with_precision">Instantly remove the background from any image with precision.</string>
@@ -57,4 +57,51 @@
     <string name="Grant_Permission">Grant Permission</string>
     <string name="Please_grant_all_permissions">Please grant all permissions</string>
     <string name="Go_to_setting">Go to setting</string>
+
+
+    <string name="remove_nbackground">Remove\nBackground</string>
+    <string name="this_action_may_contain_advertising">This action may contain advertising.</string>
+    <string name="language">Language</string>
+    <string name="i_want_to_remove_the_background_from_any_image_with_precision">I want to remove the background from any image with precision.</string>
+    <string name="i_want_to_erase_unwanted_objects_from_photos_for_a_clean_natural_look">I want to erase unwanted objects from photos for a clean, natural look.</string>
+    <string name="next">Next</string>
+    <string name="title_1">Instant Background Removal</string>
+    <string name="content_1">Eerase backgrounds with precision in a tap</string>
+    <string name="title_2">Object Eraser</string>
+    <string name="content_2">Delete unwanted items effortlessly</string>
+    <string name="title_3">Auto Object Detection</string>
+    <string name="content_3">AI instantly spots objects</string>
+    <string name="title_4">Background Variety</string>
+    <string name="content_4">Easily switch to any background</string>
+
+    <string name="update_available">Update available</string>
+    <string name="to_use_this_app_download_the_latest_version">To use this app, download the latest version</string>
+    <string name="what_s_new">What’s new</string>
+    <string name="update">Update</string>
+    <string name="cancel">Cancel</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="no_internet_connection_available_due_to_network_or_service_issue">No internet connection available due to network or service issue</string>
+    <string name="try_again">Try again</string>
+
+    <string name="we_re_glad_to_have_you_here_again_let_s_pick_up_where_you_left_off_and_continue_your_journey">We\'re glad to have you here again. Let\'s pick up where you left off and continue your journey!</string>
+    <string name="welcome_back">Welcome back</string>
+    <string name="contines">Contine</string>
+    <string name="feedback">Feedback</string>
+    <string name="rate">Rate</string>
+    <string name="privacy_policy">Privacy policy</string>
+
+    <string name="thank_you">Thank You!</string>
+    <string name="thank_you_for_taking_the_time_to_rate_us_i_m_really_appreciate_that">Thank you for taking the time to rate us. I’m really appreciate that.</string>
+    <string name="got_it">Got It.</string>
+    <string name="choose_your_subject">Choose your subject</string>
+    <string name="your_subject">Your subject</string>
+    <string name="what_tip_you_like_to_give_us">What tip you like to give us?</string>
+    <string name="enter_your_feedback">Enter your feedback</string>
+    <string name="send">Send</string>
+    <string name="please_send_us_some_feedback">Please send us some feedback!</string>
+    <string name="gmail_is_not_available_on_this_device_feedback_needs_to_be_sent_via_gmail_application">Gmail is not available on this device. Feedback needs to be sent via Gmail application</string>
+    <string name="version">Version</string>
+    <string name="do_you_like_this_app">Do you like this app?</string>
+    <string name="let_us_know_your_experience_5_stars_is_the_best_on_google_play">Let us know your experience 5 stars is the best on Google Play!</string>
+    <string name="submit">Submit</string>
 </resources>

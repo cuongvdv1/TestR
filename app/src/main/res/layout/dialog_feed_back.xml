@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_bottomsheet_send_email"
+    android:fitsSystemWindows="false">
+
+    <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont700
+        android:id="@+id/tvHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="31dp"
+        android:text="@string/feedback"
+        android:textColor="@color/color_FF6846"
+        style="@style/CustomText_color_37414B_18"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/icDismiss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="19dp"
+        android:background="@drawable/ic_close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont700
+        android:id="@+id/tvChosseYourSubject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginEnd="19dp"
+        android:layout_marginTop="21dp"
+        android:text="@string/choose_your_subject"
+        style="@style/CustomText_color_37414B_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvHeader" />
+
+    <EditText
+        android:id="@+id/etSubject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginEnd="19dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_text_input"
+        android:hint="@string/your_subject"
+        android:padding="16dp"
+        android:textColorHint="#8F9DAA"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@+id/tvChosseYourSubject"
+        tools:layout_editor_absoluteX="20dp" />
+
+    <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont700
+        android:id="@+id/tv_what_tip_you_like_to_give_us"
+        style="@style/CustomText_color_37414B_16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/what_tip_you_like_to_give_us"
+        android:textColor="@color/color_2E3338"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etSubject" />
+
+    <EditText
+        android:id="@+id/et_enter_your_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_edittext_input"
+        android:gravity="top"
+        android:hint="@string/enter_your_feedback"
+        android:padding="16dp"
+        android:textColorHint="#8F9DAA"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_what_tip_you_like_to_give_us"
+        tools:layout_editor_absoluteX="20dp" />
+
+    <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont700
+        android:id="@+id/btnSave"
+        style="@style/CustomText_color_37414B_16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="29dp"
+        android:layout_marginBottom="48dp"
+        android:background="@drawable/bg_btn_thanks"
+        android:gravity="center"
+        android:text="@string/send"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/et_enter_your_feedback"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
