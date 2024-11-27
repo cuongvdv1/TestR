@@ -6,16 +6,11 @@ import android.graphics.Color
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RoundRectShape
 import android.net.Uri
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManager
@@ -68,6 +63,9 @@ class SettingActivity : BaseActivity<ActivitySettingBinding, BaseViewModel>() {
             RemoteConfigKey.screen_feedback,
             RemoteConfigScreenFeedbackModel::class.java
         )
+        binding.ivBack.tap {
+            finish()
+        }
 
 
         binding.languageSetting.tap {

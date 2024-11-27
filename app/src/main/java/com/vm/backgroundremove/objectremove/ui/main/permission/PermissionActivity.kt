@@ -5,6 +5,7 @@ import android.os.Build
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseViewModel
@@ -33,6 +34,9 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding, BaseViewModel
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun initView() {
         super.initView()
+        window.statusBarColor = ContextCompat.getColor(this, R.color.color_F0F8FF)
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+
         SharePrefUtils.setFristTimePermission(this)
         SharePrefUtils.countPermission(this)
         setStatusPermissionPhoto()

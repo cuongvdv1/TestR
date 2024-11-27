@@ -104,4 +104,11 @@
     <string name="do_you_like_this_app">Do you like this app?</string>
     <string name="let_us_know_your_experience_5_stars_is_the_best_on_google_play">Let us know your experience 5 stars is the best on Google Play!</string>
     <string name="submit">Submit</string>
+    <string name="discard_changes">Discard Changes ?</string>
+    <string name="are_you_sure_you_want_to_go_back">Are you sure you want to go back?</string>
+    <string name="yes">Yes</string>
+    <string name="loading">Loading</string>
+    <string name="maybe_ads_will_be_showed">Maybe ads will be showed</string>
+    <string name="detecting">Detecting...</string>
+    <string name="processing">Processing</string>
 </resources>

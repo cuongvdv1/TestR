@@ -8,6 +8,9 @@ data class RemoteConfigScreenIntroModel (
     val layout_name: String,
     val next_screen_default: String,
 
+    //Anh 20241117 add
+    val is_reload_ad_when_change_slide: Boolean,
+
     //custom properties
     val is_slide1_show: Boolean,
     val is_slide1_ad_show: Boolean,

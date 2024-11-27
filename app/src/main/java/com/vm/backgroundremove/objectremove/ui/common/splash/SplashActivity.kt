@@ -159,14 +159,14 @@ class SplashActivity : AppCompatActivity() {
 
             //load banner
             //confirm banner lib call callback
-            //loadAndShowBanner()
+            loadAndShowBanner()
 
 
             // update version
             setUpdateVersion()
 
             //init inter ad
-            //initInterAd()
+            initInterAd()
 
             //init open resume ad
             //initOpenResumeAd()
@@ -176,12 +176,10 @@ class SplashActivity : AppCompatActivity() {
             //delay 3s show ad splash
             if (remoteConfigAdSplashBanner?.is_show == true) {
                 Handler(Looper.getMainLooper()).postDelayed({
-//                    loadAndShowAdSplash()
-                    nextActivity()
+                    loadAndShowAdSplash()
                 }, 3000)
             } else
-//                loadAndShowAdSplash()
-                nextActivity()
+                loadAndShowAdSplash()
 
             //log event
             FirebaseLogEventUtils.logEventScreenView(this@SplashActivity, "onCreat")
@@ -303,7 +301,7 @@ class SplashActivity : AppCompatActivity() {
             RemoteConfigKey.version_update,
             RemoteConfigVersionUpdateModel::class.java
         )
-        if (remoteConfigScreenSplashModel != null) {
+        if (remoteConfigVersionUpdateModel != null) {
             AppUpdateManager.checkUpdate =
                 AppUpdateManager.checkUpdate(
                     BuildConfig.VERSION_NAME,

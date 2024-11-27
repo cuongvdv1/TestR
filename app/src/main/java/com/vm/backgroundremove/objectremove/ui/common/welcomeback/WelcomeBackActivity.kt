@@ -2,6 +2,7 @@ package com.vm.backgroundremove.objectremove.ui.common.welcomeback
 
 import com.util.RemoteConfig
 import com.vm.backgroundremove.objectremove.a1_common_utils.RemoteConfigKey
+import com.vm.backgroundremove.objectremove.a1_common_utils.ad.AdCommon
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseViewModel
 import com.vm.backgroundremove.objectremove.a1_common_utils.model_remote_config.app.RemoteConfigAppAllModel
@@ -32,4 +33,13 @@ class WelcomeBackActivity : BaseActivity<ActivityWelcomeBackBinding, BaseViewMod
         }
     }
 
+    override fun initAd() {
+        //native
+        AdCommon.loadAndShowAdNativeAdvance(
+            lifecycle,
+            RemoteConfigKey.ad_native_welcomeback,
+            binding.frAd,
+            null
+        )
+    }
 }
