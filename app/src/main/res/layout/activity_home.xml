@@ -78,6 +78,7 @@
                     android:layout_height="wrap_content"
                     android:minLines="2"
                     android:layout_marginEnd="70dp"
+                    android:layout_marginStart="20dp"
                     style="@style/CustomText_White_12"
                     android:text="@string/instantly_remove_the_background_from_any_image_with_precision"
                     app:layout_constraintStart_toStartOf="parent"
@@ -99,6 +100,8 @@
                     android:id="@+id/iv_remove_object"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginStart="20dp"
                     android:src="@drawable/img_remove_object_home"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

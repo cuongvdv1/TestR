@@ -3,6 +3,7 @@ package com.vm.backgroundremove.objectremove.ui.common.language
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.FrameLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -10,11 +11,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lib.admob.bannerAds.adaptive.AdaptiveBannerManager
+import com.lib.admob.bannerAds.collapsible.BannerGravity
 import com.lib.admob.bannerAds.collapsible.CollapseBannerManager
 import com.lib.admob.nativeAds.advance.manager.NativeAdvanceManager2
 import com.util.RemoteConfig
 import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.a1_common_utils.RemoteConfigKey
+import com.vm.backgroundremove.objectremove.a1_common_utils.ad.AdCommon
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseViewModel
 import com.vm.backgroundremove.objectremove.a1_common_utils.model_remote_config.screens.RemoteConfigScreenLanguageStartModel
@@ -110,52 +113,52 @@ class LanguageStartActivity : BaseActivity<ActivityLanguageStartBinding, BaseVie
         binding.rvLanguage.adapter = languageAdapter
     }
 
-//    override fun initAd() {
-////        nativeAdvanceManagerBottom = AdCommon.loadAndShowAdNativeAdvance(lifecycle,
-////            RemoteConfigKey.ad_native_language_bottom,
-////            binding.frAdsLangBottom,
-////            null)
-////
+    override fun initAd() {
+//        nativeAdvanceManagerBottom = AdCommon.loadAndShowAdNativeAdvance(lifecycle,
+//            RemoteConfigKey.ad_native_language_bottom,
+//            binding.frAdsLangBottom,
+//            null)
 //
-//        //ad type
-//        var adType= remoteConfigScreenLanguageStartModel?.ad_type
-//
-//        //ad adPlacement
-//        var frAd: FrameLayout?=null
-//        var bannerGravity : BannerGravity?=null
-//        var adPlacement= remoteConfigScreenLanguageStartModel?.ad_placement
-//
-//        if (adPlacement.equals("top")) {
-//            frAd = binding.frAdsLangTop
-//            bannerGravity= BannerGravity.TOP
-//        } else if (adPlacement.equals("bottom")) {
-//            frAd = binding.frAdsLangBottom
-//            bannerGravity= BannerGravity.BOTTOM
-//        }
-//
-//
-//        var adManager =
-//            AdCommon.loadAndShowNativeOrBanner(
-//                lifecycle,
-//                adType=adType,
-//                frAd = frAd,
-//                rmcfKeyNativeAdvance = RemoteConfigKey.ad_native_language_bottom,
-//                rmcfKeyBannerCollap = RemoteConfigKey.ad_banner_collapsible_all,
-//                rmcfKeyBannerAdaptive = RemoteConfigKey.ad_banner_adaptive_all,
-//                bannerGravity = bannerGravity,
-//                nativeCallback = null,
-//                bannerCallback = null
-//            )
-//
-//        //return
-//        if (adManager is NativeAdvanceManager2)
-//            nativeAdvanceManager = adManager
-//        else if (adManager is CollapseBannerManager)
-//            collapseBannerManager = adManager
-//        else if (adManager is AdaptiveBannerManager)
-//            adaptiveBannerManager = adManager
-//
-//    }
+
+        //ad type
+        var adType= remoteConfigScreenLanguageStartModel?.ad_type
+
+        //ad adPlacement
+        var frAd: FrameLayout?=null
+        var bannerGravity : BannerGravity?=null
+        var adPlacement= remoteConfigScreenLanguageStartModel?.ad_placement
+
+        if (adPlacement.equals("top")) {
+            frAd = binding.frAdsLangTop
+            bannerGravity= BannerGravity.TOP
+        } else if (adPlacement.equals("bottom")) {
+            frAd = binding.frAdsLangBottom
+            bannerGravity= BannerGravity.BOTTOM
+        }
+
+
+        var adManager =
+            AdCommon.loadAndShowNativeOrBanner(
+                lifecycle,
+                adType=adType,
+                frAd = frAd,
+                rmcfKeyNativeAdvance = RemoteConfigKey.ad_native_language_bottom,
+                rmcfKeyBannerCollap = RemoteConfigKey.ad_banner_collapsible_all,
+                rmcfKeyBannerAdaptive = RemoteConfigKey.ad_banner_adaptive_all,
+                bannerGravity = bannerGravity,
+                nativeCallback = null,
+                bannerCallback = null
+            )
+
+        //return
+        if (adManager is NativeAdvanceManager2)
+            nativeAdvanceManager = adManager
+        else if (adManager is CollapseBannerManager)
+            collapseBannerManager = adManager
+        else if (adManager is AdaptiveBannerManager)
+            adaptiveBannerManager = adManager
+
+    }
 
 
 
