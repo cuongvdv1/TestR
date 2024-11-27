@@ -14,6 +14,7 @@
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
 
     <application
@@ -28,7 +29,25 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ui.common.SplashActivity"
+            android:name=".ui.common.setting.SettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.common.welcomeback.WelcomeBackActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.common.nointernet.NoInternetActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.common.update.AppUpdateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.common.intro.IntroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.common.language.LanguageSettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.common.language.LanguageStartActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -41,6 +60,12 @@
             android:exported="false" />
         <activity
             android:name=".ui.main.permission.PermissionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.remove_background.RemoveBackgroundActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.user_perpose.UserPerposeActivity"
             android:exported="false" />
 
         <property
@@ -74,8 +99,10 @@
             android:value="true" />
 
         <activity
-            android:name=".ui.main.remove_background.RemoveBackgroundActivity"
-            android:exported="true">
+            android:name=".ui.common.splash.SplashActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

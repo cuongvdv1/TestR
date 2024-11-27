@@ -69,4 +69,16 @@ object SharePrefUtils {
         editor.commit()
     }
 
+    fun getAppLaunchCountPermisstion(context: Context): Int {
+        val pre = context.getSharedPreferences("data", Context.MODE_PRIVATE)
+        return pre.getInt("launchCount123", 0)
+    }
+
+    fun increaseAppLaunchCountPermisstion(context: Context) {
+        val pre = context.getSharedPreferences("data", Context.MODE_PRIVATE)
+        val editor = pre.edit()
+        editor.putInt("launchCount123", getAppLaunchCountPermisstion(context) + 1)
+        editor.commit()
+    }
+
 }

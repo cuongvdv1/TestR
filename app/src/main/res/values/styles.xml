@@ -65,6 +65,11 @@
         <item name="android:textColor">@color/color_37414B</item>
     </style>
 
+    <style name="CustomText_color_37414B_13">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/color_37414B</item>
+    </style>
+
     <style name="CustomText_color_37414B_14">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/color_37414B</item>
@@ -82,6 +87,16 @@
 
     <style name="CustomText_color_37414B_20">
         <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/color_37414B</item>
+    </style>
+
+    <style name="CustomText_color_37414B_24">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/color_37414B</item>
+    </style>
+
+    <style name="CustomText_color_37414B_28">
+        <item name="android:textSize">28sp</item>
         <item name="android:textColor">@color/color_37414B</item>
     </style>
 
@@ -137,6 +152,20 @@
         <item name="android:textColor">@color/color_2E3338</item>
     </style>
 
+    <!--Custom text view #787B82-->
+    <style name="CustomText_color_787B82_16">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/color_787B82</item>
+    </style>
+
+
+
+    <style name="CustomBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CustomBottomSheetStyle</item>
+    </style>
+    <style name="CustomBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
 
 
 </resources>
