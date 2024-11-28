@@ -1,9 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.main.remove_object.RemoveObjectFragment">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctl_rmv_obj"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctl_draw_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
+                android:id="@+id/tv_purpose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="36dp"
+                android:layout_marginTop="20dp"
+                style="@style/CustomText_color_37414B_14"
+                android:background="@drawable/bg_border_white_16"
+                android:backgroundTint="@color/color_F2F2F2"
+                android:paddingVertical="10dp"
+                android:text="@string/use_brush_to_manually_draw_over_objects"
+                android:textAlignment="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+            />
+
+            <LinearLayout
+                android:id="@+id/ll_brush_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingVertical="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_purpose">
+
+                <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont500
+                    android:id="@+id/tv_brush"
+                    android:layout_width="0dp"
+                    style="@style/CustomText_color_37414B_14"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/brush_size" />
+
+                <ProgressBar
+                    android:layout_width="0dp"
+                    android:layout_height="5dp"
+                    android:layout_weight="7"
+                    android:indeterminate="false" />
+
+                <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont500
+                    android:id="@+id/tv_brush_size"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    style="@style/CustomText_color_FF6846_14"
+                    android:textAlignment="textEnd"
+                    android:text="@string/_20" />
+            </LinearLayout>
+
+            <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
+                android:textAlignment="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/remove"
+                style="@style/CustomText_White_16"
+                android:paddingVertical="10dp"
+                android:layout_marginTop="16dp"
+                android:paddingHorizontal="34dp"
+                android:background="@drawable/bg_gradient_border_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_brush_size" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                style="@style/CustomText_color_37414B_14"
+                android:id="@+id/ed_rmv_object"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="18dp"
+                android:paddingVertical="8dp"
+                android:layout_marginTop="10dp"
+                android:paddingStart="16dp"
+                android:background="@drawable/bg_border_white_16"
+                android:backgroundTint="@color/color_F2F2F2"
+                android:text="@string/enter_your_object_you_want_to_remove"
+                android:textColor="@color/adb9c7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+
+            <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                style="@style/CustomText_White_16"
+                android:background="@drawable/bg_gradient_border_16"
+                android:paddingHorizontal="34dp"
+                android:paddingVertical="10dp"
+                android:text="@string/remove"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ed_rmv_object" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</LinearLayout>
