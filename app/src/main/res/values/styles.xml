@@ -90,16 +90,6 @@
         <item name="android:textColor">@color/color_37414B</item>
     </style>
 
-    <style name="CustomText_color_37414B_24">
-        <item name="android:textSize">24sp</item>
-        <item name="android:textColor">@color/color_37414B</item>
-    </style>
-
-    <style name="CustomText_color_37414B_28">
-        <item name="android:textSize">28sp</item>
-        <item name="android:textColor">@color/color_37414B</item>
-    </style>
-
 
 
 <!--    custom text view white-->
