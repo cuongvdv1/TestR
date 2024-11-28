@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:contentDescription="@string/iv_bottomsheet_dialog"
+        android:id="@+id/iv_bottomsheet_dialog"
+        android:layout_width="60dp"
+        android:layout_height="5dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/bg_border_white_16"
+        android:backgroundTint="@color/color_D9D9D9"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+    
+
+  <LinearLayout
+      android:id="@+id/ll_choose_color_gradient"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:paddingVertical="10dp"
+      android:gravity="center"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/iv_bottomsheet_dialog">
+      <ImageView
+          android:contentDescription="@string/iv_cancel"
+          android:id="@+id/iv_cancel"
+          android:layout_width="0dp"
+          android:layout_weight="1"
+          android:layout_height="wrap_content"
+          android:src="@drawable/ic_back"
+        />
+
+      <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
+          android:id="@+id/tv_color_picker"
+          android:layout_width="0dp"
+          android:textAlignment="center"
+          android:layout_weight="8"
+          android:layout_height="wrap_content"
+          android:text="@string/color_picker"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintEnd_toStartOf="@+id/iv_selected"
+          app:layout_constraintStart_toEndOf="@+id/iv_cancel" />
+
+      <ImageView
+          android:contentDescription="@string/iv_selected"
+          android:id="@+id/iv_selected"
+          android:layout_width="0dp"
+          android:layout_weight="1"
+          android:layout_height="wrap_content"
+          android:src="@drawable/ic_selected"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:tint="@color/color_FF6846" />
+  </LinearLayout>
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_D9D9D9"
+        app:layout_constraintTop_toBottomOf="@id/ll_choose_color_gradient" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctl_picker_color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="41dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_choose_color_gradient">
+
+        <com.vm.backgroundremove.objectremove.ui.main.color_picker.HSView
+            android:id="@+id/picker_color"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.vm.backgroundremove.objectremove.ui.main.color_picker.VView
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="23dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/picker_color" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
