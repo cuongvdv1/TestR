@@ -137,6 +137,13 @@
         <item name="android:textColor">@color/color_2E3338</item>
     </style>
 
+<!--    Custom text view #B9C1CC-->
+
+    <style name="CustomText_color_B9C1CC_16">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/color_B9C1CC</item>
+    </style>
+
 
 
 </resources>
