@@ -173,6 +173,8 @@
     <style name="CustomBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
+<!--    Custom text view #B9C1CC-->
+
 
 
 </resources>
