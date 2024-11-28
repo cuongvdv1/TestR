@@ -1,4 +1,6 @@
 package com.vm.backgroundremove.objectremove.ui.main.remove_background
+import android.view.View
+import androidx.core.content.ContextCompat
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.util.Log
@@ -18,6 +20,8 @@ import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.databinding.ActivityRemoveBackgroundBinding
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.ColorAdapter
+import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.ColorSelectorListener
+
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
