@@ -34,6 +34,7 @@ class BackGroundAdapter(
     }
     interface backGroundSelect {
         fun backGroundSelected(position: Int)
+        fun backGrounSelected(position: Int)
     }
 
 }
