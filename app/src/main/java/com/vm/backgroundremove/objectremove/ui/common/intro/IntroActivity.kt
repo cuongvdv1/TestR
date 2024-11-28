@@ -21,6 +21,7 @@ import com.vm.backgroundremove.objectremove.a1_common_utils.RemoteConfigKey
 import com.vm.backgroundremove.objectremove.a1_common_utils.ad.AdCommon
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseViewModel
+import com.vm.backgroundremove.objectremove.a1_common_utils.model_remote_config.ads.RemoteConfigAdNativeModel
 import com.vm.backgroundremove.objectremove.a1_common_utils.model_remote_config.app.RemoteConfigAppAllModel
 import com.vm.backgroundremove.objectremove.a1_common_utils.model_remote_config.screens.RemoteConfigScreenIntroModel
 import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
@@ -37,7 +38,7 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, BaseViewModel>() {
     private var nativeAdvanceManager2: NativeAdvanceManager2? = null
     //native full
     private var nativeFullScreenManager2: NativeAdvanceManager2? = null
-
+    private var remoteConfigNativeFull : RemoteConfigAdNativeModel? = null
     private var remoteConfigScreenIntroModel: RemoteConfigScreenIntroModel? = null
     private var introAdapter: IntroAdapter? = null
 
@@ -128,21 +129,30 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, BaseViewModel>() {
 
                 //get slide image position
                 var imageNumber = 0
-                val pos1 = (remoteConfigScreenIntroModel?.ad_native_full_pos1 ?: 0) - 1
-                val pos2 = (remoteConfigScreenIntroModel?.ad_native_full_pos2 ?: 0) - 1
+                if (remoteConfigNativeFull?.is_show == true){
+                    //ad processing
+                    processAdInSlide(listIntroSlide, listAdShowStatus, position)
+
+                    val pos1 = (remoteConfigScreenIntroModel?.ad_native_full_pos1 ?: 0) - 1
+                    val pos2 = (remoteConfigScreenIntroModel?.ad_native_full_pos2 ?: 0) - 1
 
 
-                //if slide is showing ad native full
-                if ((position == pos1) or (position == pos2))
-                    return
+                    //if slide is showing ad native full
+                    if ((position == pos1) or (position == pos2))
+                        return
 
-                //convert from slide index 0-5 to slide image only index 0-3
-                if (position < pos1)
+                    //convert from slide index 0-5 to slide image only index 0-3
+
+                    if (position < pos1)
+                        imageNumber = position
+                    else if ((position > pos1) and (position < pos2))
+                        imageNumber = position - 1
+                    else if (position > pos2)
+                        imageNumber = position - 2
+                }
+                else{
                     imageNumber = position
-                else if ((position > pos1) and (position < pos2))
-                    imageNumber = position - 1
-                else if (position > pos2)
-                    imageNumber = position - 2
+                }
 
 
                 //other data
