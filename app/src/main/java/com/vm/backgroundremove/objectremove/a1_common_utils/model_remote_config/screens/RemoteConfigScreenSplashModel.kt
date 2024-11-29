@@ -7,4 +7,8 @@ data class RemoteConfigScreenSplashModel (
     val is_hide_navi_menu: Boolean,
     val layout_name: String,
     val next_screen_default: String,
+
+    //ANH ad 20241117
+    val is_show_banner_splash: Boolean,
+    val banner_splash_show_delay_time: Long
 )

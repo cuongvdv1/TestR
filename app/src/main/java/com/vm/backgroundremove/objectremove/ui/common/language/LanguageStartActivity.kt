@@ -2,6 +2,7 @@ package com.vm.backgroundremove.objectremove.ui.common.language
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import androidx.activity.enableEdgeToEdge
@@ -10,9 +11,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.ads.nativead.NativeAdView
 import com.lib.admob.bannerAds.adaptive.AdaptiveBannerManager
 import com.lib.admob.bannerAds.collapsible.BannerGravity
 import com.lib.admob.bannerAds.collapsible.CollapseBannerManager
+import com.lib.admob.nativeAds.advance.base.NativeCallback
 import com.lib.admob.nativeAds.advance.manager.NativeAdvanceManager2
 import com.util.RemoteConfig
 import com.vm.backgroundremove.objectremove.R
@@ -23,11 +26,12 @@ import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseViewModel
 import com.vm.backgroundremove.objectremove.a1_common_utils.model_remote_config.screens.RemoteConfigScreenLanguageStartModel
 import com.vm.backgroundremove.objectremove.a8_app_utils.SystemUtil
 import com.vm.backgroundremove.objectremove.databinding.ActivityLanguageStartBinding
+import com.vm.backgroundremove.objectremove.ui.common.intro.IntroActivity
 import com.vm.backgroundremove.objectremove.ui.main.user_perpose.UserPerposeActivity
 
 
 class LanguageStartActivity : BaseActivity<ActivityLanguageStartBinding, BaseViewModel>() {
-
+    private val tag:String = "LanguageStartActivity"
     private  var languageAdapter: LanguageAdapter? = null
     private var lang : String = ""
 
@@ -48,9 +52,6 @@ class LanguageStartActivity : BaseActivity<ActivityLanguageStartBinding, BaseVie
     override fun initView() {
         super.initView()
 
-        window.statusBarColor = ContextCompat.getColor(this, R.color.color_F0F8FF)
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-
         //ad
         remoteConfigScreenLanguageStartModel = RemoteConfig.getConfigObject(
             this,
@@ -59,20 +60,29 @@ class LanguageStartActivity : BaseActivity<ActivityLanguageStartBinding, BaseVie
         )
 
         binding.ivCheck.setOnClickListener {
+            //ANH edit 20241126
+            //move to function
 
-            SystemUtil.saveLocale(this, lang)
-
-            //check next screen
-            var nextScreen = SystemUtil.getActivityClass(
-                remoteConfigScreenLanguageStartModel?.next_screen_default,
-                UserPerposeActivity::class.java
-            )
-
-            val intent = Intent(this@LanguageStartActivity, nextScreen)
-            intent.putExtra("from_language_to_customization","from_language_to_customization")
-            startActivity(intent)
-            finishAffinity()
+//            SystemUtil.saveLocale(this, lang)
+//
+//            //check next screen
+//            val nextScreen = SystemUtil.getActivityClass(
+//                remoteConfigScreenLanguageStartModel?.next_screen_default,
+//                IntroActivity::class.java
+//            )
+//
+//            val intent = Intent(this@LanguageStartActivity, nextScreen)
+//            intent.putExtra("from_language_to_customization","from_language_to_customization")
+//            startActivity(intent)
+//            finishAffinity()
+            saveLanguageAndNextScreen()
         }
+
+        binding.btnFanSelectedLanguage.setOnClickListener {
+            //ANH add 20241126 for change UI for FAN
+            saveLanguageAndNextScreen()
+        }
+
 
         val listLang = mutableListOf(
             LanguageModel("Hindi", "hi", false, R.drawable.img_logo_hindi),
@@ -100,7 +110,12 @@ class LanguageStartActivity : BaseActivity<ActivityLanguageStartBinding, BaseVie
                 override fun onItemClick(position: Int) {
 
                     //reload native ad
-                    nativeAdvanceManager?.reloadNow()
+                    //anh edit 20241117 add condition reload
+                    if ((remoteConfigScreenLanguageStartModel?.is_reload_after_select_language == true) &&
+                        (nativeAdvanceManager != null)){
+                        nativeAdvanceManager?.reloadNow()
+
+                    }
 
 
                     //other process
@@ -120,24 +135,33 @@ class LanguageStartActivity : BaseActivity<ActivityLanguageStartBinding, BaseVie
 //            null)
 //
 
+        val adNativeCallback:NativeCallback = object :NativeCallback{
+            override fun onChangeCtrWhenFan(view: NativeAdView) {
+                super.onChangeCtrWhenFan(view)
+                Log.v(tag,"onChangeCtrWhenFan")
+                binding.ivCheck.visibility=View.GONE
+                binding.btnFanSelectedLanguage.visibility=View.VISIBLE
+            }
+        }
+
         //ad type
-        var adType= remoteConfigScreenLanguageStartModel?.ad_type
+        val adType= remoteConfigScreenLanguageStartModel?.ad_type
 
         //ad adPlacement
         var frAd: FrameLayout?=null
-        var bannerGravity : BannerGravity?=null
-        var adPlacement= remoteConfigScreenLanguageStartModel?.ad_placement
+        var bannerGravity :BannerGravity?=null
+        val adPlacement= remoteConfigScreenLanguageStartModel?.ad_placement
 
         if (adPlacement.equals("top")) {
             frAd = binding.frAdsLangTop
-            bannerGravity= BannerGravity.TOP
+            bannerGravity=BannerGravity.TOP
         } else if (adPlacement.equals("bottom")) {
             frAd = binding.frAdsLangBottom
-            bannerGravity= BannerGravity.BOTTOM
+            bannerGravity=BannerGravity.BOTTOM
         }
 
 
-        var adManager =
+        val adManager =
             AdCommon.loadAndShowNativeOrBanner(
                 lifecycle,
                 adType=adType,
@@ -146,7 +170,7 @@ class LanguageStartActivity : BaseActivity<ActivityLanguageStartBinding, BaseVie
                 rmcfKeyBannerCollap = RemoteConfigKey.ad_banner_collapsible_all,
                 rmcfKeyBannerAdaptive = RemoteConfigKey.ad_banner_adaptive_all,
                 bannerGravity = bannerGravity,
-                nativeCallback = null,
+                nativeCallback = adNativeCallback,
                 bannerCallback = null
             )
 
@@ -167,5 +191,20 @@ class LanguageStartActivity : BaseActivity<ActivityLanguageStartBinding, BaseVie
             return super.hideNavigationBar()
         else
             return
+    }
+
+    private fun saveLanguageAndNextScreen(){
+        SystemUtil.saveLocale(this, lang)
+
+        //check next screen
+        val nextScreen = SystemUtil.getActivityClass(
+            remoteConfigScreenLanguageStartModel?.next_screen_default,
+            IntroActivity::class.java
+        )
+
+        val intent = Intent(this@LanguageStartActivity, nextScreen)
+        intent.putExtra("from_language_to_customization","from_language_to_customization")
+        startActivity(intent)
+        finishAffinity()
     }
 }

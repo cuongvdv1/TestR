@@ -1,3 +1,9 @@
+/**
+ *hien tai neu khong co intenet den man hinh nointernet\
+ * sau do co internet thi se bat lai app tu man splash cho du truoc do o man hinh khac
+ */
+
+
 package com.vm.backgroundremove.objectremove.ui.common.nointernet
 
 import android.content.Intent

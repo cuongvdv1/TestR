@@ -1,4 +1,4 @@
-package com.vm.backgroundremove.objectremove.ui.common.setting
+package com.vm.backgroundremove.objectremove.dialog
 
 import android.app.Dialog
 import android.content.Context

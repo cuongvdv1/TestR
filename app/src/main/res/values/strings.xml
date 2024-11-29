@@ -111,4 +111,8 @@
     <string name="maybe_ads_will_be_showed">Maybe ads will be showed</string>
     <string name="detecting">Detecting...</string>
     <string name="processing">Processing</string>
+
+
+    <string name="select">Select</string>
+    <string name="camera_photos"><![CDATA[Camera & Photos]]></string>
 </resources>
