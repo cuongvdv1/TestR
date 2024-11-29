@@ -33,7 +33,7 @@ class BackGroundAdapter(
 //        holder.imageView.setBackgroundResource(background)
     }
     interface backGroundSelect {
-        fun backGrounSelected(position: Int)
+        fun backGroundSelected(position: Int)
     }
 
 }

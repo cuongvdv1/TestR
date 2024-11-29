@@ -10,4 +10,12 @@ public class Constants {
     //device anh home "3C12F94881F1A20124AA8BFE6F42097D"
     //device Ly store "5A02844AF6E68A5DC60270EAC73A22DD"
     public static final String UMP_TEST_DEVICE_ID = "5A02844AF6E68A5DC60270EAC73A22DD";
+    public static final String API_KEY ="apikey";
+    public static final String API_KEY_TOKEN ="AGW-JPE8pWgvxQomJRQXLcal7tn55jIM";
+    public static final String BASE_URL = "https://5qwjzr19pb.execute-api.ap-southeast-2.amazonaws.com";
+    public static final String ITEM_CODE = "rmbg";
+    public static final String TEXT_PLAIN = "text/plain";
+    public static final String CLIENT_CODE = "v1ih";
+    public static final String CLIENT_MEMO = "";
+
 }
