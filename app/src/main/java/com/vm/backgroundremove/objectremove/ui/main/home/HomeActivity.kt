@@ -48,7 +48,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, BaseViewModel>() {
             val intent = Intent(this, SettingActivity::class.java)
             startActivity(intent)
             finish()
-            finish()
         }
         binding.tvViewAll.tap {
             // Hiển thị dialog
