@@ -26,8 +26,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, BaseViewModel>() {
 
     override fun initView() {
         super.initView()
-        window.statusBarColor = ContextCompat.getColor(this, R.color.color_F0F8FF)
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 
         binding.ctlOptionRemoveBg.tap {
             val intent = Intent(this, RemoveBackgroundActivity::class.java)
@@ -49,6 +47,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, BaseViewModel>() {
         binding.ctlSetting.tap {
             val intent = Intent(this, SettingActivity::class.java)
             startActivity(intent)
+            finish()
             finish()
         }
         binding.tvViewAll.tap {
