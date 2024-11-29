@@ -28,6 +28,8 @@ import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.SharePrefUtils
 import com.vm.backgroundremove.objectremove.a8_app_utils.toDp
 import com.vm.backgroundremove.objectremove.databinding.ActivitySettingBinding
+import com.vm.backgroundremove.objectremove.dialog.RatingDialog
+import com.vm.backgroundremove.objectremove.dialog.ThankDialog
 import com.vm.backgroundremove.objectremove.ui.common.feedback.DialogFeedback
 import com.vm.backgroundremove.objectremove.ui.common.language.LanguageSettingActivity
 

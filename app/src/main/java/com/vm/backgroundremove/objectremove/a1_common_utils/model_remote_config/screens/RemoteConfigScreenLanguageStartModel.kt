@@ -12,6 +12,9 @@ data class RemoteConfigScreenLanguageStartModel (
     val ad_placement:String,
     val ad_type:String,
 
+    //anh add 20241117
+    val is_reload_after_select_language: Boolean,
+
     //language adjust position
     val lang_c_pos:Int,
     val lang_p_pos:Int

@@ -34,6 +34,7 @@ import com.vm.backgroundremove.objectremove.ui.main.permission.PermissionActivit
 
 class IntroActivity : BaseActivity<ActivityIntroBinding, BaseViewModel>() {
 
+    private val tag ="IntroActivity"
     //new param
     private var nativeAdvanceManager2: NativeAdvanceManager2? = null
     //native full
@@ -354,7 +355,7 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, BaseViewModel>() {
         val launchCount = SharePrefUtils.getAppLaunchCountPermisstion(this)
         // Kiểm tra lần đầu mở ứng dụng
         if (launchCount == 0) {
-//            // Chuyển đến màn Permission lần đầu tiên
+            // Chuyển đến màn Permission lần đầu tiên
             startActivity(Intent(this@IntroActivity, PermissionActivity::class.java))
             SharePrefUtils.increaseAppLaunchCountPermisstion(this) // Cập nhật lại launchCount
             finish()
@@ -363,11 +364,11 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, BaseViewModel>() {
             if ((AppUpdateManager.checkUpdate == 1 || AppUpdateManager.checkUpdate == 2) &&
                 remoteConfigAppAllModel?.app_update_diaglog_or_activity.equals("activity")
             ) {
-//                // Chuyển đến màn hình cập nhật
+                // Chuyển đến màn hình cập nhật
                 startActivity(Intent(this@IntroActivity, AppUpdateActivity::class.java))
                 finishAffinity()
             } else {
-//                // Chuyển đến màn hình kế tiếp
+                // Chuyển đến màn hình kế tiếp
                 startActivity(Intent(this@IntroActivity, nextScreen))
                 finishAffinity()
             }

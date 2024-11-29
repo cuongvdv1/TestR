@@ -1,4 +1,4 @@
-package com.vm.backgroundremove.objectremove.ui.common.setting
+package com.vm.backgroundremove.objectremove.dialog
 
 import android.annotation.SuppressLint
 import android.app.Dialog
@@ -7,20 +7,21 @@ import android.view.WindowManager
 import android.widget.TextView
 import com.vm.backgroundremove.objectremove.R
 
-class DiscardChangesDialog @SuppressLint("NonConstantResourceId") constructor(context2: Context) :
+
+class ThankDialog @SuppressLint("NonConstantResourceId") constructor(context2: Context) :
     Dialog(context2, R.style.CustomDialogTheme) {
 
     private var onPress: OnPress? = null
     private val tvTitle: TextView
     private val tvContent: TextView
     private val context: Context
-    private val tvCancel: TextView
-    private val tvYes: TextView
+    private val tvGot: TextView
+
 
     init {
 
         this.context = context2
-        setContentView(R.layout.dialog_discard_changes)
+        setContentView(R.layout.thank_you_dialog)
 
         val attributes = window!!.attributes
         attributes.height = WindowManager.LayoutParams.WRAP_CONTENT
@@ -30,15 +31,10 @@ class DiscardChangesDialog @SuppressLint("NonConstantResourceId") constructor(co
 
         tvTitle = findViewById<TextView>(R.id.tv_title_ty)
         tvContent = findViewById<TextView>(R.id.tv_content_01)
-        tvCancel = findViewById<TextView>(R.id.tv_cancel)
-        tvYes = findViewById<TextView>(R.id.tv_yes)
+        tvGot = findViewById<TextView>(R.id.tv_submit_got_it)
 
-        tvCancel.setOnClickListener {
-            onPress?.gotIt()
-            dismiss()
-        }
 
-        tvYes.setOnClickListener {
+        tvGot.setOnClickListener {
             onPress?.gotIt()
             dismiss()
         }
@@ -61,9 +57,6 @@ class DiscardChangesDialog @SuppressLint("NonConstantResourceId") constructor(co
     fun init(context: Context?, onPress: OnPress?) {
         this.onPress = onPress
     }
-
-
-
 
 
 }
