@@ -20,7 +20,6 @@
     <color name="color_2E3338">#2E3338</color>
     <color name="color_4DFB9A38">#4DFB9A38</color>
     <color name="color_F0F8FF">#F0F8FF</color>
-    <color name="color_B9C1CC">#B9C1CC</color>
     <!--    -->
     <color name="color_FF8A00">#FF8A00</color>
     <color name="color_FFE600">#FFE600</color>
@@ -58,4 +57,10 @@
     <color name="color_909090">#909090</color>
     <color name="color_66727E">#66727E</color>
     <color name="color_B9C1CC">#B9C1CC</color>
+
+
+
+    <color name="trackColor">#40CDA3B8</color>
+    <color name="startColor">#6AA3FC</color>
+    <color name="endColor">#17DFDC</color>
 </resources>
