@@ -19,9 +19,5 @@ class RemoveObjectActivity : BaseActivity<ActivityRemoveObjectBinding, BaseViewM
 
     override fun initView() {
         super.initView()
-
-
-
-
     }
 }
