@@ -136,6 +136,7 @@
     <string name="select">Select</string>
     <string name="camera_photos"><![CDATA[Camera & Photos]]></string>
     <string name="generate">Generate</string>
-
-
+    <string name="your_new_look_will_be_available_soon">Your new look will be available soon</string>
+    <string name="your_request_position_in_queue">Your request position in queue</string>
+    <string name="time_estimated_until_done">Time estimated until done</string>
 </resources>

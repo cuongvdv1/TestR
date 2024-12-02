@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomLinearProgressView">
+        <attr name="trackWidthProgress" format="dimension"/>
+        <attr name="indicatorWidthProgress" format="dimension"/>
+        <attr name="progressProgress" format="float"/>
+        <attr name="trackColorProgress" format="color"/>
+        <attr name="indicatorColorProgress" format="color"/>
+        <attr name="endColorProgress" format="color"/> <!-- Thêm thuộc tính endColor -->
+        <attr name="indicatorRadius" format="dimension"/> <!-- Thêm thuộc tính endColor -->
+    </declare-styleable>
+
+
+</resources>
