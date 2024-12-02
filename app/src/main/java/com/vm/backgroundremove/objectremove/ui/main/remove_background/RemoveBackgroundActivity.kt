@@ -22,12 +22,6 @@ import java.io.File
 
 class RemoveBackgroundActivity :
     BaseActivity<ActivityRemoveBackgroundBinding, RemoveBackGroundViewModel>() {
-
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var colorAdapter: ColorAdapter
-    private val modelGenerate = GenerateResponse()
-    private var payloadReplaceImgSrc = ""
-
     override fun createBinding(): ActivityRemoveBackgroundBinding {
         return ActivityRemoveBackgroundBinding.inflate(layoutInflater)
     }
@@ -64,7 +58,6 @@ class RemoveBackgroundActivity :
 
         val multipartFromCamera = createMultipartFromFile(imagePathCamera, "cameraImage")
         val multipartFromGallery = createMultipartFromFile(imgPathGallery, "galleryImage")
-        val multipartFromCategory = createMultipartFromFile(filePath, "categoryImage")
 
         multipartFromGallery?.let { multipart ->
             viewModel.upLoadImage(
@@ -75,6 +68,15 @@ class RemoveBackgroundActivity :
             )
         } ?: run {
             Log.e("UploadError", "File is invalid or missing")
+        }
+
+        multipartFromCamera?.let { multipart ->
+            viewModel.upLoadImage(
+                Constants.ITEM_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
+                Constants.CLIENT_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
+                Constants.CLIENT_MEMO.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
+                multipart
+            )
         }
 
         viewModel.upLoadImage.observe(this) { response ->
@@ -111,7 +113,7 @@ class RemoveBackgroundActivity :
                 partName,
                 file.name,
                 requestFile
-            ) // Tạo MultipartBody.Part
+            )
         } else {
             null
         }

@@ -23,5 +23,6 @@ public class Constants {
     public static final String DATA = "data";
     public static final String CACHE_PATH = "cache_images";
     public static final String CACHE_IMG_NAME = "temp_image.png";
+    public static final String INTENT_HISTORY_WORKER = "INTENT_HISTORY_WORKER";
 
 }

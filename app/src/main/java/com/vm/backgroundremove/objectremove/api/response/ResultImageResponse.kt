@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 import java.io.Serializable
 
 data class ResultImageResponse (
-    val img_url : ImgUrlResponse,
+    val img_url : List<ImgUrlResponse>,
     val other: List<String>,
     val success: Boolean,
     val status: String

@@ -1,4 +1,4 @@
-package com.vm.backgroundremove.objectremove.ui.main.SeekbarProgress
+package com.vm.backgroundremove.objectremove.ui.main.progress
 
 import android.annotation.SuppressLint
 import android.content.Context
