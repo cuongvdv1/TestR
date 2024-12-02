@@ -18,6 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
         <ImageView
+            android:id="@+id/iv_back"
             android:contentDescription="@string/ic_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -88,6 +89,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             />
         <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
+            android:id="@+id/tv_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/CustomText_color_37414B_16"

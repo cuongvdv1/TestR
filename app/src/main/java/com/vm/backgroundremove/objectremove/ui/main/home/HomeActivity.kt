@@ -13,6 +13,7 @@ import com.vm.backgroundremove.objectremove.dialog.ProcessingDialog
 import com.vm.backgroundremove.objectremove.ui.common.setting.SettingActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_object.RemoveObjectActivity
+import com.vm.backgroundremove.objectremove.ui.main.yourprojects.YourProjectsActivity
 
 class HomeActivity : BaseActivity<ActivityHomeBinding, BaseViewModel>() {
     override fun createBinding(): ActivityHomeBinding {
@@ -31,16 +32,24 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, BaseViewModel>() {
         binding.ctlOptionRemoveBg.tap {
             val intent = Intent(this, RemoveBackgroundActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         binding.ctlOptionRemoveObj.tap {
             val intent = Intent(this, RemoveObjectActivity::class.java)
             startActivity(intent)
+            finish()
+        }
+        binding.ctlYourProjects.tap {
+            val intent = Intent(this, YourProjectsActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
         binding.ctlSetting.tap {
             val intent = Intent(this, SettingActivity::class.java)
             startActivity(intent)
+            finish()
         }
         binding.tvViewAll.tap {
             // Hiển thị dialog
@@ -52,6 +61,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, BaseViewModel>() {
             // Hiển thị dialog
             val processingDialog = ProcessingDialog(this)
             processingDialog.showWithTimeout(5000) // Hiển thị dialog trong 5 giây
+            finish()
         }
     }
 }

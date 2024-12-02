@@ -102,7 +102,13 @@
 
 
 
-<!--    custom text view white-->
+    <!--    custom text view white-->
+
+    <!--    custom text view white-->
+    <style name="CustomText_White_14">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
     <style name="CustomText_White_16">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/white</item>
@@ -152,6 +158,13 @@
         <item name="android:textColor">@color/color_2E3338</item>
     </style>
 
+<!--    Custom text view #B9C1CC-->
+
+    <style name="CustomText_color_B9C1CC_16">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/color_B9C1CC</item>
+    </style>
+
     <!--Custom text view #787B82-->
     <style name="CustomText_color_787B82_16">
         <item name="android:textSize">16sp</item>
@@ -166,6 +179,9 @@
     <style name="CustomBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
+<!--    Custom text view #B9C1CC-->
+
+
 
 
 </resources>

@@ -57,6 +57,26 @@
     <string name="Grant_Permission">Grant Permission</string>
     <string name="Please_grant_all_permissions">Please grant all permissions</string>
     <string name="Go_to_setting">Go to setting</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
+    <string name="color_picker">Color Picker</string>
+    <string name="gradient">Gradient</string>
+    <string name="draw">Draw</string>
+    <string name="text">Text</string>
+    <string name="use_brush_to_manually_draw_over_objects">Use brush to manually draw over objects</string>
+    <string name="brush_size">Brush size</string>
+    <string name="remove">Remove</string>
+    <string name="enter_your_object_you_want_to_remove">Enter your object you want to remove</string>
+    <string name="ic_arrow_right_double">ic arrow right double</string>
+    <string name="iv_color_end">iv color end</string>
+    <string name="iv_color_start">iv color start</string>
+    <string name="iv_gradient_color">iv gradient color</string>
+    <string name="iv_item_background">iv item background</string>
+    <string name="iv_selected_background">iv selected background</string>
+    <string name="_20">20</string>
+    <string name="iv_bottomsheet_dialog">iv bottomsheet dialog</string>
+    <string name="iv_cancel">iv cancel</string>
+    <string name="iv_selected">iv selected</string>
 
 
     <string name="remove_nbackground">Remove\nBackground</string>
@@ -115,4 +135,5 @@
 
     <string name="select">Select</string>
     <string name="camera_photos"><![CDATA[Camera & Photos]]></string>
+    <string name="generate">Generate</string>
 </resources>

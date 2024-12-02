@@ -19,9 +19,10 @@ import android.view.MotionEvent
 import android.view.View
 import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.a8_app_utils.toDp
+import kotlin.math.min
 
 class HSView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
-    private val radius = 8f.toDp()
+    private var radius = 8f.toDp()
     private val strokeWidth = 2f.toDp()
     private val colorArray = floatArrayOf(180f, 0.5f, 1f)
 
@@ -53,6 +54,7 @@ class HSView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
+        radius = min(w / 2f, h / 2f)
         hsBound = RectF(
             0f,
             0f,
@@ -135,11 +137,9 @@ class HSView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
     }
 
     private fun setUpHSShader() {
-        val colorGradient = LinearGradient(
-            hsBound.left,
-            hsBound.top,
-            hsBound.right,
-            hsBound.top,
+        val colorGradient = SweepGradient(
+            (hsBound.left + hsBound.right) / 2, // cx: center x-coordinate
+            (hsBound.top + hsBound.bottom) / 2, // cy: center y-coordinate
             intArrayOf(
                 context.getColor(R.color.color_FF0000),
                 context.getColor(R.color.color_FF8A00),
@@ -150,40 +150,24 @@ class HSView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
                 context.getColor(R.color.color_AD00FF),
                 context.getColor(R.color.color_FF00C7),
                 context.getColor(R.color.color_FF0000),
-            ), null, TileMode.CLAMP
+            ),
+            null
         )
 
-        val lightnessGradient = LinearGradient(
-            hsBound.left,
-            hsBound.top,
-            hsBound.left,
-            hsBound.bottom,
-            Color.WHITE,
-            Color.TRANSPARENT,
-            TileMode.CLAMP
+        val lightnessGradient = RadialGradient(
+            (hsBound.left + hsBound.right) / 2,
+            (hsBound.top + hsBound.bottom) / 2,
+            radius,
+            intArrayOf(
+                Color.TRANSPARENT, Color.WHITE
+            ),
+            null, TileMode.CLAMP
         )
         shaderHSPaint.shader =
             ComposeShader(colorGradient, lightnessGradient, PorterDuff.Mode.MULTIPLY)
     }
     private fun drawHSView(canvas: Canvas) {
-        canvas.drawRoundRect(
-            0f,
-            0f,
-            measuredWidth.toFloat(),
-            measuredHeight.toFloat(),
-            radius,
-            radius,
-            backgroundPaint
-        )
-        canvas.drawRoundRect(
-            hsBound.left,
-            hsBound.top,
-            hsBound.right,
-            hsBound.bottom,
-            radius,
-            radius,
-            shaderHSPaint
-        )
+        canvas.drawCircle( measuredWidth / 2f, measuredHeight / 2f, radius, shaderHSPaint)
         drawHSController(canvas)
         canvas.drawRoundRect(
             0f,
