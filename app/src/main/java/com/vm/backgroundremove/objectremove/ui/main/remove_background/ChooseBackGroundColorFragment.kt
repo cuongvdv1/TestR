@@ -93,7 +93,6 @@ class ChooseBackGroundColorFragment : Fragment() {
 
         })
 
-
         return view
     }
     fun showColorList() {
