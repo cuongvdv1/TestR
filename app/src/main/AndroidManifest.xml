@@ -60,6 +60,10 @@
             android:name=".ui.main.home.HomeActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.main.remove_background.RemoveBackgroundActivity"
+            android:exported="false" />
+        <activity
+
             android:name=".ui.main.remove_object.RemoveObjectActivity"
             android:exported="false" />
         <activity
@@ -103,7 +107,7 @@
             android:value="true" />
 
         <activity
-            android:name=".ui.main.remove_background.RemoveBackgroundActivity"
+            android:name=".ui.main.choose_photo_rmv_bg.ChoosePhotoActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
