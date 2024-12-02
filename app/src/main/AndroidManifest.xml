@@ -107,7 +107,7 @@
             android:value="true" />
 
         <activity
-            android:name=".ui.main.remove_background.RemoveBackgroundActivity"
+            android:name=".ui.main.choose_photo_rmv_bg.ChoosePhotoActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>

@@ -1,4 +1,5 @@
 package com.vm.backgroundremove.objectremove.ui.main.remove_background
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.util.Log
@@ -23,12 +24,15 @@ import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.databinding.ActivityRemoveBackgroundBinding
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.ColorAdapter
+import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.ByteArrayOutputStream
+import java.io.File
 
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -49,6 +53,8 @@ class RemoveBackgroundActivity : BaseActivity<ActivityRemoveBackgroundBinding,Re
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var colorAdapter: ColorAdapter
+    private val modelGenerate = GenerateResponse()
+    private var payloadReplaceImgSrc = ""
 
     override fun createBinding(): ActivityRemoveBackgroundBinding {
         return ActivityRemoveBackgroundBinding.inflate(layoutInflater)
