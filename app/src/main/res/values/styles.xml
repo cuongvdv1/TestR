@@ -94,6 +94,11 @@
         <item name="android:textSize">24sp</item>
         <item name="android:textColor">@color/color_37414B</item>
     </style>
+    <style name="CustomText_color_37414B_26">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textColor">@color/color_37414B</item>
+    </style>
+
 
     <style name="CustomText_color_37414B_28">
         <item name="android:textSize">28sp</item>
@@ -170,6 +175,11 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/color_787B82</item>
     </style>
+    <!--    Custom text view #586674-->
+    <style name="CustomText_color_586674_14">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_586674</item>
+    </style>
 
 
 
@@ -179,7 +189,7 @@
     <style name="CustomBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
-<!--    Custom text view #B9C1CC-->
+
 
 
 

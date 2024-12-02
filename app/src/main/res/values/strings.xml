@@ -139,4 +139,6 @@
     <string name="your_new_look_will_be_available_soon">Your new look will be available soon</string>
     <string name="your_request_position_in_queue">Your request position in queue</string>
     <string name="time_estimated_until_done">Time estimated until done</string>
+    <string name="you_have_ran_out_of_your_free_generate_requests_today_come_back_tomorrow_for_more">You have ran out of your free generate requests today come back tomorrow.</string>
+    <string name="your_photo_is_nbeing_remove_bg">Your photo is \nbeing remove BG.</string>
 </resources>
