@@ -61,6 +61,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, BaseViewModel>() {
             // Hiển thị dialog
             val processingDialog = ProcessingDialog(this)
             processingDialog.showWithTimeout(5000) // Hiển thị dialog trong 5 giây
+            finish()
         }
     }
 }
