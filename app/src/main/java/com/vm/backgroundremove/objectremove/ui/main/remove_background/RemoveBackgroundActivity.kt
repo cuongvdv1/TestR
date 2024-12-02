@@ -1,4 +1,5 @@
 package com.vm.backgroundremove.objectremove.ui.main.remove_background
+
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -19,9 +20,8 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 
-class RemoveBackgroundActivity : BaseActivity<ActivityRemoveBackgroundBinding,RemoveBackGroundViewModel>() {
-
-class RemoveBackgroundActivity : BaseActivity<ActivityRemoveBackgroundBinding,RemoveBackGroundViewModel>() {
+class RemoveBackgroundActivity :
+    BaseActivity<ActivityRemoveBackgroundBinding, RemoveBackGroundViewModel>() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var colorAdapter: ColorAdapter
@@ -77,21 +77,28 @@ class RemoveBackgroundActivity : BaseActivity<ActivityRemoveBackgroundBinding,Re
             Log.e("UploadError", "File is invalid or missing")
         }
 
-        viewModel.upLoadImage.observe(this){response ->
-            Log.d("tag12340","response $response")
+        viewModel.upLoadImage.observe(this) { response ->
+            Log.d("tag12340", "response $response")
         }
         binding.tvChooseBgOp1.tap {
-            binding.tvChooseBgOp1.setTextColor(ContextCompat.getColor(this, R.color.color_FF0000))
-            binding.tvChooseBgOp2.setTextColor(ContextCompat.getColor(this, R.color.color_37414B))
+            binding.tvChooseBgOp1.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.color_FF0000
+                )
+            )
+            binding.tvChooseBgOp2.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.color_37414B
+                )
+            )
             binding.ivRedo.visibility = View.VISIBLE
             binding.ivUndo.setImageResource(R.drawable.ic_undo_off)
             binding.ivBeforeAfter.setImageResource(R.drawable.ic_before_after)
             binding.tvEdit.setText(R.string.edit)
             fragment.showColorList()
         }
-
-    override fun viewModel() {
-        super.viewModel()
     }
     fun createMultipartFromFile(filePath: String?, partName: String): MultipartBody.Part? {
         // Kiểm tra nếu filePath rỗng hoặc null
@@ -100,9 +107,19 @@ class RemoveBackgroundActivity : BaseActivity<ActivityRemoveBackgroundBinding,Re
         val file = File(filePath) // Tạo File từ đường dẫn
         return if (file.exists()) { // Kiểm tra nếu file tồn tại
             val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull()) // Định dạng loại file
-            MultipartBody.Part.createFormData(partName, file.name, requestFile) // Tạo MultipartBody.Part
+            MultipartBody.Part.createFormData(
+                partName,
+                file.name,
+                requestFile
+            ) // Tạo MultipartBody.Part
         } else {
             null
         }
     }
+    fun setNewImage(){
+        binding.ivBeforeAfter.setImageResource(R.drawable.ic_selected)
+        binding.ivRedo.visibility = View.GONE
+        binding.ivUndo.visibility = View.GONE
+    }
 }
+
