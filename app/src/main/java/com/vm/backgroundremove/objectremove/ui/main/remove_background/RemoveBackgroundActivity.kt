@@ -1,28 +1,36 @@
 package com.vm.backgroundremove.objectremove.ui.main.remove_background
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
 import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.databinding.ActivityRemoveBackgroundBinding
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.ColorAdapter
+import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.ByteArrayOutputStream
+import java.io.File
 
 
 class RemoveBackgroundActivity : BaseActivity<ActivityRemoveBackgroundBinding,RemoveBackGroundViewModel>() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var colorAdapter: ColorAdapter
+    private val modelGenerate = GenerateResponse()
+    private var payloadReplaceImgSrc = ""
 
     override fun createBinding(): ActivityRemoveBackgroundBinding {
         return ActivityRemoveBackgroundBinding.inflate(layoutInflater)
@@ -33,30 +41,45 @@ class RemoveBackgroundActivity : BaseActivity<ActivityRemoveBackgroundBinding,Re
 
     override fun initView() {
         super.initView()
+
+        val imgPathGallery = intent.getStringExtra(Constants.IMG_GALLERY_PATH)
+        val imagePathCamera = intent.getStringExtra(Constants.IMG_CAMERA_PATH)
+
+        val filePath = intent.getStringExtra(Constants.IMG_CATEGORY_PATH)
+        Log.d("TAG123", "filePath: $filePath")
+        if (!imagePathCamera.isNullOrEmpty()) {
+            Glide.with(this)
+                .load(File(imagePathCamera))
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(binding.ivRmvBg)
+
+        } else if (!imgPathGallery.isNullOrEmpty()) {
+            Glide.with(this)
+                .load(imgPathGallery)
+                .into(binding.ivRmvBg)
+        }
+
         val fragment = ChooseBackGroundColorFragment()
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frame_layout, fragment)
         transaction.commit()
-        // Chuyển đổi drawable sang MultipartBody.Part
-        val drawable = resources.getDrawable(R.drawable.img_intro_4)
-        val bitmap = (drawable as BitmapDrawable).bitmap
 
-        // Chuyển Bitmap thành mảng byte
-        val stream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-        val byteArray = stream.toByteArray()
 
-        // Tạo RequestBody từ mảng byte
-        val requestFile = RequestBody.create("image/png".toMediaTypeOrNull(), byteArray)
+        val multipartFromCamera = createMultipartFromFile(imagePathCamera, "cameraImage")
+        val multipartFromGallery = createMultipartFromFile(imgPathGallery, "galleryImage")
+        val multipartFromCategory = createMultipartFromFile(filePath, "categoryImage")
 
-        // Tạo MultipartBody.Part
-        val imagePart = MultipartBody.Part.createFormData("___payload_replace_img_src", "img_intro_4.png", requestFile)
-        viewModel.upLoadImage(
-            Constants.ITEM_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-            Constants.CLIENT_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-            Constants.CLIENT_MEMO.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-            imagePart
-        )
+        multipartFromGallery?.let { multipart ->
+            viewModel.upLoadImage(
+                Constants.ITEM_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
+                Constants.CLIENT_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
+                Constants.CLIENT_MEMO.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
+                multipart // Đảm bảo multipart không null ở đây
+            )
+        } ?: run {
+            Log.e("UploadError", "File is invalid or missing")
+        }
 
         viewModel.upLoadImage.observe(this){response ->
             Log.d("tag12340","response $response")
@@ -76,7 +99,9 @@ class RemoveBackgroundActivity : BaseActivity<ActivityRemoveBackgroundBinding,Re
             fragment.showBackgroundList()
 
         }
-    }
+        binding.ivBack.tap {
+            finish()
+        }}
     fun setNewImage(){
         binding.ivBeforeAfter.setImageResource(R.drawable.ic_selected)
         binding.ivRedo.visibility = View.GONE
@@ -88,5 +113,17 @@ class RemoveBackgroundActivity : BaseActivity<ActivityRemoveBackgroundBinding,Re
 
     override fun viewModel() {
         super.viewModel()
+    }
+    fun createMultipartFromFile(filePath: String?, partName: String): MultipartBody.Part? {
+        // Kiểm tra nếu filePath rỗng hoặc null
+        if (filePath.isNullOrEmpty()) return null
+
+        val file = File(filePath) // Tạo File từ đường dẫn
+        return if (file.exists()) { // Kiểm tra nếu file tồn tại
+            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull()) // Định dạng loại file
+            MultipartBody.Part.createFormData(partName, file.name, requestFile) // Tạo MultipartBody.Part
+        } else {
+            null
+        }
     }
 }

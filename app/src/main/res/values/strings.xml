@@ -124,4 +124,5 @@
     <string name="do_you_like_this_app">Do you like this app?</string>
     <string name="let_us_know_your_experience_5_stars_is_the_best_on_google_play">Let us know your experience 5 stars is the best on Google Play!</string>
     <string name="submit">Submit</string>
-   </resources>
+    <string name="generate">Generate</string>
+</resources>
