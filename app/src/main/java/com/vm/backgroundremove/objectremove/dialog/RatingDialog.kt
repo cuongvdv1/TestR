@@ -1,4 +1,4 @@
-package com.vm.backgroundremove.objectremove.ui.common.setting
+package com.vm.backgroundremove.objectremove.dialog
 
 import android.annotation.SuppressLint
 import android.app.Dialog

@@ -9,62 +9,51 @@
     tools:context=".ui.common.splash.SplashActivity">
 
 
+    <ImageView
+        android:id="@+id/img_logo"
+        android:layout_width="156dp"
+        android:layout_height="156dp"
+        android:layout_marginBottom="24dp"
+        android:src="@drawable/logo_app_demo"
+        app:layout_constraintBottom_toTopOf="@+id/tv_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont700
+        android:id="@+id/tv_name"
+        style="@style/CustomText_color_37414B_24"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="100dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:text="@string/remove_nbackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/img_logo"
-            android:layout_width="156dp"
-            android:layout_height="156dp"
-            android:src="@drawable/logo_app_demo"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints" />
-
-        <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont700
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/remove_nbackground"
-            style="@style/CustomText_color_37414B_24"
-            android:layout_marginTop="24dp"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/img_logo" />
-
-
-
-    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/pb"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="20dp"
-        android:layout_marginHorizontal="65dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="12dp"
         android:indeterminate="true"
         android:indeterminateTint="@color/color_FFA637"
         app:layout_constraintBottom_toTopOf="@+id/tv_bottom" />
 
     <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
         android:id="@+id/tv_bottom"
-        android:layout_width="wrap_content"
+        style="@style/CustomText_color_37414B_12"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="44dp"
+        android:layout_marginHorizontal="81dp"
+        android:layout_marginBottom="32dp"
         android:gravity="center"
         android:text="@string/this_action_may_contain_advertising"
-        style="@style/CustomText_color_37414B_12"
         app:layout_constraintBottom_toTopOf="@+id/fr_ad_bottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -76,8 +65,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-    </FrameLayout>
+        app:layout_constraintStart_toStartOf="parent"></FrameLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

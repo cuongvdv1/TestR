@@ -40,6 +40,7 @@ import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.a8_app_utils.SystemUtil
 import com.vm.backgroundremove.objectremove.databinding.ActivitySplashBinding
 import com.vm.backgroundremove.objectremove.ui.common.language.LanguageStartActivity
+import com.vm.backgroundremove.objectremove.ui.common.nointernet.NoInternetActivity
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
@@ -76,7 +77,7 @@ class SplashActivity : AppCompatActivity() {
 
         //Truong 20241008 add check internet vi check intenet o duoi khong chay duoc
         if (!CheckInternet.haveNetworkConnection(this@SplashActivity)) {
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, NoInternetActivity::class.java))
             finishAffinity()
         }
 
@@ -159,29 +160,31 @@ class SplashActivity : AppCompatActivity() {
 
             //load banner
             //confirm banner lib call callback
-            //loadAndShowBanner()
+            loadAndShowBanner()
 
 
             // update version
             setUpdateVersion()
 
             //init inter ad
-            //initInterAd()
+            initInterAd()
 
             //init open resume ad
-            //initOpenResumeAd()
+            initOpenResumeAd()
 
             //load and show splash
             //loadAndShowAdSplash()
             //delay 3s show ad splash
-            if (remoteConfigAdSplashBanner?.is_show == true) {
+            //anh 20241117 add condition and get remote config delay value
+            if ((remoteConfigAdSplashBanner?.is_show == true) and
+                (remoteConfigScreenSplashModel?.is_show_banner_splash == true) and
+                ((remoteConfigScreenSplashModel?.banner_splash_show_delay_time ?: 0L) > 0)) {
+                val delayTimeMiniSecond = remoteConfigScreenSplashModel?.banner_splash_show_delay_time!! * 1000
                 Handler(Looper.getMainLooper()).postDelayed({
-//                    loadAndShowAdSplash()
-                    nextActivity()
-                }, 3000)
-            } else
-//                loadAndShowAdSplash()
-                nextActivity()
+                    loadAndShowAdSplash()
+                }, delayTimeMiniSecond)
+            }else
+                loadAndShowAdSplash()
 
             //log event
             FirebaseLogEventUtils.logEventScreenView(this@SplashActivity, "onCreat")
@@ -196,14 +199,18 @@ class SplashActivity : AppCompatActivity() {
     }
 
 
-    private fun loadAndShowBanner() {
-        AdCommon.loadAndShowAdBannerAdaptive(
-            lifecycle,
-            RemoteConfigKey.ad_banner_splash,
-            binding.frAdBottom,
-            BannerGravity.BOTTOM,
-            null
-        )
+    private fun loadAndShowBanner(){
+        //anh 20241117 ad condition
+        if ((remoteConfigAdSplashBanner?.is_show == true) &&
+            (remoteConfigScreenSplashModel?.is_show_banner_splash == true) &&
+            ((remoteConfigScreenSplashModel?.banner_splash_show_delay_time ?: 0L) > 0)
+        ) {
+            AdCommon.loadAndShowAdBannerAdaptive(lifecycle,
+                RemoteConfigKey.ad_banner_splash,
+                binding.frAdBottom,
+                BannerGravity.BOTTOM,
+                null)
+        }
     }
 
     private fun loadAndShowAdSplash() {
@@ -289,9 +296,9 @@ class SplashActivity : AppCompatActivity() {
         )
 
         if (!CheckInternet.haveNetworkConnection(this@SplashActivity)) {
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, NoInternetActivity::class.java))
         } else {
-            startActivity(Intent(this, LanguageStartActivity::class.java))
+            startActivity(Intent(this, nextScreen))
             finishAffinity()
         }
 
@@ -303,7 +310,7 @@ class SplashActivity : AppCompatActivity() {
             RemoteConfigKey.version_update,
             RemoteConfigVersionUpdateModel::class.java
         )
-        if (remoteConfigScreenSplashModel != null) {
+        if (remoteConfigVersionUpdateModel != null) {
             AppUpdateManager.checkUpdate =
                 AppUpdateManager.checkUpdate(
                     BuildConfig.VERSION_NAME,

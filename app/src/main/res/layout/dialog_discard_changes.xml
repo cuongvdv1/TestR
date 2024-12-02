@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginHorizontal="33dp"
+    android:background="@drawable/bg_dialog_border_16">
+
+
+    <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
+        android:id="@+id/tv_title_ty"
+        style="@style/CustomText_color_37414B_16"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/discard_changes"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="16dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
+        android:id="@+id/tv_content_01"
+        style="@style/CustomText_color_37414B_12"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="16dp"
+        android:gravity="center"
+        android:text="@string/are_you_sure_you_want_to_go_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_ty" />
+
+
+    <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont500
+        android:id="@+id/tv_cancel"
+        style="@style/CustomText_color_2E3338_16"
+        android:layout_width="126dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_btn_submit"
+        android:backgroundTint="@color/white"
+        android:gravity="center"
+        android:text="@string/cancel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_yes"
+        app:layout_constraintTop_toBottomOf="@id/tv_content_01" />
+
+    <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont500
+        android:id="@+id/tv_yes"
+        style="@style/CustomText_White_16"
+        android:layout_width="126dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="13dp"
+        android:background="@drawable/bg_btn_submit"
+        android:gravity="center"
+        android:text="@string/yes"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_content_01" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:padding="8dp"
         android:text="@string/permission"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -79,10 +80,11 @@
 
         <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
             android:id="@+id/tv_permission_noti"
+            style="@style/CustomText_color_37414B_16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="6dp"
+            android:layout_marginStart="7dp"
             android:text="@string/notification"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_permission_camera"
@@ -116,18 +118,19 @@
             android:id="@+id/iv_books"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_books"
+            android:src="@drawable/ic_google_photos"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
             android:id="@+id/tv_camera"
+            style="@style/CustomText_color_37414B_16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="6dp"
-            android:text="@string/library"
+            android:layout_marginStart="7dp"
+            android:text="@string/camera_photos"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_books"
             app:layout_constraintTop_toTopOf="parent" />

@@ -30,4 +30,8 @@ interface NativeCallback {
 
     //custom event
     fun onShowNative(view: NativeAdView) {}
+
+    //ANH ad 20241125
+    //custom UI when FAN
+    fun onChangeCtrWhenFan(view: NativeAdView) {}
 }

@@ -12,13 +12,19 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.lib.admob.interstitialAds.base.InterCallback
 import com.lib.admob.nativeAds.advance.manager.NativeAdvanceManager2
+import com.util.RemoteConfig
 import com.util.appupdate.AppUpdateManager
 import com.vm.backgroundremove.objectremove.R
+import com.vm.backgroundremove.objectremove.a1_common_utils.RemoteConfigKey
+import com.vm.backgroundremove.objectremove.a1_common_utils.ad.AdCommon
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseViewModel
+import com.vm.backgroundremove.objectremove.a1_common_utils.model_remote_config.ads.RemoteConfigAdNativeModel
 import com.vm.backgroundremove.objectremove.a1_common_utils.model_remote_config.app.RemoteConfigAppAllModel
 import com.vm.backgroundremove.objectremove.a1_common_utils.model_remote_config.screens.RemoteConfigScreenIntroModel
+import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.SharePrefUtils
 import com.vm.backgroundremove.objectremove.a8_app_utils.SystemUtil
 import com.vm.backgroundremove.objectremove.databinding.ActivityIntroBinding
@@ -28,12 +34,13 @@ import com.vm.backgroundremove.objectremove.ui.main.permission.PermissionActivit
 
 class IntroActivity : BaseActivity<ActivityIntroBinding, BaseViewModel>() {
 
+    private val tag ="IntroActivity"
     //new param
     private var nativeAdvanceManager2: NativeAdvanceManager2? = null
     //native full
     private var nativeFullScreenManager2: NativeAdvanceManager2? = null
-
-    private var remoteConfigIntroModel: RemoteConfigScreenIntroModel? = null
+    private var remoteConfigNativeFull : RemoteConfigAdNativeModel? = null
+    private var remoteConfigScreenIntroModel: RemoteConfigScreenIntroModel? = null
     private var introAdapter: IntroAdapter? = null
 
     //remoteConfigAppAllModel
@@ -46,37 +53,66 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, BaseViewModel>() {
     override fun initView() {
         super.initView()
 
-        window.statusBarColor = ContextCompat.getColor(this, R.color.white)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.color_F0F8FF)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 
+
+        //lấy remote config AppAll
+        remoteConfigAppAllModel = RemoteConfig.getConfigObject(
+            this,
+            RemoteConfigKey.app_config,
+            RemoteConfigAppAllModel::class.java
+        )
+
+        remoteConfigScreenIntroModel = RemoteConfig.getConfigObject(
+            this,
+            RemoteConfigKey.screen_intro,
+            RemoteConfigScreenIntroModel::class.java
+        )
+
         //list slide
-        val list = mutableListOf<IntroModel>()
+        val listIntroSlide = mutableListOf<IntroModel>()
 
         //list ad show status
         val listAdShowStatus = mutableListOf<Boolean>()
 
-        if (true) {
-            list.add(IntroModel(R.drawable.img_intro_1))
-            listAdShowStatus.add(remoteConfigIntroModel?.is_slide1_ad_show ?: true)
+        //ad slide to manage list by show status
+        if (remoteConfigScreenIntroModel?.is_slide1_show == true) {
+            listIntroSlide.add(IntroModel(R.drawable.img_intro_1))
+            listAdShowStatus.add(remoteConfigScreenIntroModel?.is_slide1_ad_show ?: true)
         }
 
-        if (true) {
-            list.add(IntroModel(R.drawable.img_intro_2))
-            listAdShowStatus.add(remoteConfigIntroModel?.is_slide2_ad_show ?: true)
+        if (remoteConfigScreenIntroModel?.is_slide2_show == true) {
+            listIntroSlide.add(IntroModel(R.drawable.img_intro_2))
+            listAdShowStatus.add(remoteConfigScreenIntroModel?.is_slide2_ad_show ?: true)
         }
 
-        if (true) {
-            list.add(IntroModel(R.drawable.img_intro_3))
-            listAdShowStatus.add(remoteConfigIntroModel?.is_slide3_ad_show ?: true)
+        if (remoteConfigScreenIntroModel?.is_slide3_show == true) {
+            listIntroSlide.add(IntroModel(R.drawable.img_intro_3))
+            listAdShowStatus.add(remoteConfigScreenIntroModel?.is_slide3_ad_show ?: true)
         }
 
-        if (true) {
-            list.add(IntroModel(R.drawable.img_intro_4))
-            listAdShowStatus.add(remoteConfigIntroModel?.is_slide4_ad_show ?: true)
+        if (remoteConfigScreenIntroModel?.is_slide4_show == true) {
+            listIntroSlide.add(IntroModel(R.drawable.img_intro_4))
+            listAdShowStatus.add(remoteConfigScreenIntroModel?.is_slide4_ad_show ?: true)
         }
 
-        introAdapter = IntroAdapter(this@IntroActivity, list)
-        introAdapter?.list?.addAll(list)
+        //ad native full to list
+        val adNativeFullPos1 = (remoteConfigScreenIntroModel?.ad_native_full_pos1?:0)-1
+        if ((adNativeFullPos1>=0) and (adNativeFullPos1<=listIntroSlide.size)){
+            listIntroSlide.add(adNativeFullPos1, IntroModel(0))
+            listAdShowStatus.add(adNativeFullPos1, false)
+        }
+
+        val adNativeFullPos2 = (remoteConfigScreenIntroModel?.ad_native_full_pos2?:0)-1
+        if ((adNativeFullPos2 >=0) and (adNativeFullPos2<=listIntroSlide.size)){
+            listIntroSlide.add(adNativeFullPos2, IntroModel(0))
+            listAdShowStatus.add(adNativeFullPos2, false)
+        }
+
+        //continue processing
+        introAdapter = IntroAdapter(this@IntroActivity, listIntroSlide)
+        introAdapter?.list?.addAll(listIntroSlide)
         binding.vpIntro.adapter = introAdapter
 
         binding.indicator.attachTo(binding.vpIntro)
@@ -86,12 +122,42 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, BaseViewModel>() {
         binding.vpIntro.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
+
+                super.onPageSelected(position)
+
                 //ad processing
-                processAdInSlide(listAdShowStatus, position)
+                processAdInSlide(listIntroSlide, listAdShowStatus, position)
+
+                //get slide image position
+                var imageNumber = 0
+                if (remoteConfigNativeFull?.is_show == true){
+                    //ad processing
+                    processAdInSlide(listIntroSlide, listAdShowStatus, position)
+
+                    val pos1 = (remoteConfigScreenIntroModel?.ad_native_full_pos1 ?: 0) - 1
+                    val pos2 = (remoteConfigScreenIntroModel?.ad_native_full_pos2 ?: 0) - 1
+
+
+                    //if slide is showing ad native full
+                    if ((position == pos1) or (position == pos2))
+                        return
+
+                    //convert from slide index 0-5 to slide image only index 0-3
+
+                    if (position < pos1)
+                        imageNumber = position
+                    else if ((position > pos1) and (position < pos2))
+                        imageNumber = position - 1
+                    else if (position > pos2)
+                        imageNumber = position - 2
+                }
+                else{
+                    imageNumber = position
+                }
 
 
                 //other data
-                when (position) {
+                when (imageNumber) {
                     0 -> {
                         binding.tvTitle.text = getString(R.string.title_1)
                         binding.tvContent.text = getString(R.string.content_1)
@@ -113,50 +179,121 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, BaseViewModel>() {
                         binding.tvContent.text = getString(R.string.content_4)
                     }
                 }
-                super.onPageSelected(position)
+
             }
         })
 
         binding.tvNext.setOnClickListener {
             val currentPosition = binding.vpIntro.currentItem
             binding.vpIntro.setCurrentItem(currentPosition + 1, true)
-            //last slide
-            if (currentPosition + 1 == list.size) {
-                //show inter and next screen
-//                AdCommon.showInterAd(this,
-//                    RemoteConfigKey.ad_inter_intro,
-//                    object : InterCallback {
-//                        override fun onNextAction() {
-//                            nextAction()
-//                        }
-//                    }
-//                )
-                nextAction()
-            }
+            //last slide processing
+            lastSlideProcess(currentPosition, listIntroSlide)
+
         }
+
+        binding.ivCloseNativeFull.tap {
+            processShowIntroImage()
+            binding.vpIntro.currentItem += 1
+            lastSlideProcess(binding.vpIntro.currentItem, listIntroSlide)
+        }
+
     }
+
+    override fun initAd() {
+        //native
+        nativeAdvanceManager2 = AdCommon.loadAndShowAdNativeAdvance(
+            lifecycle,
+            RemoteConfigKey.ad_native_intro,
+            binding.frAdBottom,
+            null
+        )
+
+        //inter load
+        AdCommon.loadInterAd(
+            this,
+            RemoteConfigKey.ad_inter_intro,
+            null
+        )
+
+        //ad native fullscreen
+        nativeFullScreenManager2 = AdCommon.loadAndShowAdNativeAdvance(
+            lifecycle,
+            RemoteConfigKey.ad_native_fullscreen_intro,
+            binding.frAdFull,
+            null
+        )
+    }
+
+
     override fun hideNavigationBar() {
-        if (remoteConfigIntroModel?.is_hide_navi_menu == false)
+        if (remoteConfigScreenIntroModel?.is_hide_navi_menu == true)
             return super.hideNavigationBar()
         else
             return
     }
 
-    private fun processAdInSlide(listAdShowStatus: MutableList<Boolean>, position: Int) {
-        //show ad frame if show_ad = true
-        if (listAdShowStatus[position]) {
-            binding.frAdBottom.visibility = View.VISIBLE
-            //reload ad if not first slide because ad loaded
-            //if first slide no reload
+    //hidden native bottom and image, show native full
+    private fun processShowAdNativeFull(){
+        binding.frAdFull.visibility = View.VISIBLE
+        binding.ivCloseNativeFull.visibility = View.VISIBLE
+        binding.frAdBottom.visibility= View.GONE
+        binding.layoutIndicator.visibility= View.GONE
+        binding.nestedScrollView.visibility= View.GONE
+    }
+
+    //hidden native full, show image and native bottom
+    private fun processShowIntroImage(){
+        binding.frAdFull.visibility = View.GONE
+        binding.ivCloseNativeFull.visibility = View.GONE
+        binding.frAdBottom.visibility= View.VISIBLE
+        binding.layoutIndicator.visibility= View.VISIBLE
+        binding.nestedScrollView.visibility= View.VISIBLE
+    }
+
+    private fun processAdInSlide(listIntroSlide:MutableList<IntroModel>,
+                                 listAdShowStatus: MutableList<Boolean>,
+                                 position: Int) {
+
+        val isShowNativeFull = (listIntroSlide[position].image == 0)
+
+        //show native full
+        if (isShowNativeFull) {
+            processShowAdNativeFull()
+
+            //reload if not slide 0
             if (position != 0)
+                nativeFullScreenManager2?.reloadNow()
+        }
+        //show native bottom if show_ad = true
+        else if (listAdShowStatus[position]) {
+            processShowIntroImage()
+            binding.frAdBottom.visibility = View.VISIBLE
+
+            //reload ad if not first slide because ad loaded and reload ok in remote config
+            if ((position != 0) && (remoteConfigScreenIntroModel?.is_reload_ad_when_change_slide==true))
                 nativeAdvanceManager2?.reloadNow()
-        } else
+
+            //do not show native bottom
+        }else{
+            processShowIntroImage()
             binding.frAdBottom.visibility = View.GONE
+        }
+
+
+//        //show ad frame if show_ad = true
+//        if (listAdShowStatus[position]) {
+//            binding.frAdBottom.visibility = View.VISIBLE
+//            //reload ad if not first slide because ad loaded
+//            //if first slide no reload
+//            if (position != 0)
+//                nativeAdvanceManager2?.reloadNow()
+//        } else
+//            binding.frAdBottom.visibility = View.GONE
     }
 
     //adjust distance button vs ad by firebase config
     override fun adjustLayout() {
-        val bottomMargin: Int = remoteConfigIntroModel?.distance_button_next_vs_ad ?: 0
+        val bottomMargin: Int = remoteConfigScreenIntroModel?.distance_button_next_vs_ad ?: 0
 
         val paramsTextView = binding.tvNext.layoutParams as MarginLayoutParams
         val paramsDotsIndicator = binding.indicator.layoutParams as MarginLayoutParams
@@ -176,6 +313,27 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, BaseViewModel>() {
             paramsDotsIndicator.rightMargin,
             bottomMargin
         )
+
+        //font size
+        var textSize:Float = remoteConfigScreenIntroModel?.font_size ?: 20F
+        binding.tvNext.textSize =textSize
+    }
+
+
+    private fun lastSlideProcess(currentPosition: Int, listIntroSlide: MutableList<IntroModel>){
+        //last slide
+        if (currentPosition + 1 == listIntroSlide.size) {
+            //show inter and next screen
+            AdCommon.showInterAd(this,
+                RemoteConfigKey.ad_inter_intro,
+                object : InterCallback {
+                    override fun onNextAction() {
+                        nextAction()
+                    }
+                }
+            )
+        }
+
     }
 
 
@@ -184,15 +342,20 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, BaseViewModel>() {
         Log.d("aaabbb", AppUpdateManager.checkUpdate.toString())
         Log.d("aaabbb", remoteConfigAppAllModel?.app_update_diaglog_or_activity.toString())
 
+        //check version code va version newest firebase
+        // = 1 la need update, 2 la should update
+        //app_update_dialog_or_activity= activity la show screen activity
+
+        //check next screen
         val nextScreen = SystemUtil.getActivityClass(
-            remoteConfigIntroModel?.next_screen_default,
+            remoteConfigScreenIntroModel?.next_screen_default,
             PermissionActivity::class.java
         )
 
         val launchCount = SharePrefUtils.getAppLaunchCountPermisstion(this)
         // Kiểm tra lần đầu mở ứng dụng
         if (launchCount == 0) {
-//            // Chuyển đến màn Permission lần đầu tiên
+            // Chuyển đến màn Permission lần đầu tiên
             startActivity(Intent(this@IntroActivity, PermissionActivity::class.java))
             SharePrefUtils.increaseAppLaunchCountPermisstion(this) // Cập nhật lại launchCount
             finish()
@@ -201,20 +364,21 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, BaseViewModel>() {
             if ((AppUpdateManager.checkUpdate == 1 || AppUpdateManager.checkUpdate == 2) &&
                 remoteConfigAppAllModel?.app_update_diaglog_or_activity.equals("activity")
             ) {
-//                // Chuyển đến màn hình cập nhật
+                // Chuyển đến màn hình cập nhật
                 startActivity(Intent(this@IntroActivity, AppUpdateActivity::class.java))
                 finishAffinity()
             } else {
-//                // Chuyển đến màn hình kế tiếp
+                // Chuyển đến màn hình kế tiếp
                 startActivity(Intent(this@IntroActivity, nextScreen))
                 finishAffinity()
             }
         }
 
         val intent = Intent(this@IntroActivity, nextScreen)
-        intent.putExtra("from_intro_to_customization","from_intro_to_customization")
+        intent.putExtra("from_intro_to_customization", "from_intro_to_customization")
         startActivity(intent)
         finishAffinity()
     }
+
 
 }
