@@ -10,6 +10,7 @@ import com.vm.backgroundremove.objectremove.dialog.DetectingDialog
 import com.vm.backgroundremove.objectremove.dialog.ProcessingDialog
 import com.vm.backgroundremove.objectremove.ui.common.setting.SettingActivity
 import com.vm.backgroundremove.objectremove.ui.main.choose_photo_rmv_bg.ChoosePhotoActivity
+import com.vm.backgroundremove.objectremove.ui.main.your_projects.RemoveBackgroundSaveActivity
 import com.vm.backgroundremove.objectremove.ui.main.your_projects.YourProjectsActivity
 
 class HomeActivity : BaseActivity<ActivityHomeBinding, BaseViewModel>() {
@@ -28,25 +29,21 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, BaseViewModel>() {
             val intent = Intent(this, ChoosePhotoActivity::class.java)
             intent.putExtra(Constants.NAME_INTENT_FROM_HOME, Constants.INTENT_FROM_HOME_TO_BACKGROUND)
             startActivity(intent)
-            finish()
         }
 
         binding.ctlOptionRemoveObj.tap {
             val intent = Intent(this, ChoosePhotoActivity::class.java)
             intent.putExtra(Constants.NAME_INTENT_FROM_HOME, Constants.INTENT_FROM_HOME_TO_OBJECT)
             startActivity(intent)
-            finish()
         }
         binding.ctlYourProjects.tap {
-            val intent = Intent(this, YourProjectsActivity::class.java)
+            val intent = Intent(this, RemoveBackgroundSaveActivity::class.java)
             startActivity(intent)
-            finish()
         }
 
         binding.ctlSetting.tap {
             val intent = Intent(this, SettingActivity::class.java)
             startActivity(intent)
-            finish()
         }
         binding.tvViewAll.tap {
             // Hiển thị dialog

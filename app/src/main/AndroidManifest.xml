@@ -85,6 +85,9 @@
         <activity
             android:name=".ui.main.your_projects.YourProjectsResultActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.main.your_projects.RemoveBackgroundSaveActivity"
+            android:exported="false" />
         <property
             android:name="android.adservices.AD_SERVICES_CONFIG"
             android:resource="@xml/gma_ad_services_config"
