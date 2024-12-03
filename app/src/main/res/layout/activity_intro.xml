@@ -35,6 +35,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="7dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/title_1"
                 android:gravity="center"
                 android:maxLines="2"
                 android:minLines="2"
@@ -48,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:gravity="center"
+                android:text="@string/content_1"
                 android:maxLines="2"
                 android:minLines="2"
                 android:textAlignment="center"
@@ -88,13 +91,12 @@
             style="@style/CustomText_color_37414B_16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
             android:gravity="center"
             android:text="@string/next"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="TextSizeCheck" />
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -199,7 +199,7 @@ class LanguageStartActivity : BaseActivity<ActivityLanguageStartBinding, BaseVie
         //check next screen
         val nextScreen = SystemUtil.getActivityClass(
             remoteConfigScreenLanguageStartModel?.next_screen_default,
-            IntroActivity::class.java
+            UserPerposeActivity::class.java
         )
 
         val intent = Intent(this@LanguageStartActivity, nextScreen)

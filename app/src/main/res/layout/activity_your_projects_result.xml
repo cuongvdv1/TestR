@@ -16,6 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/iv_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/ic_back"
@@ -41,7 +42,7 @@
 
     <ImageView
         android:id="@+id/iv_history_result"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="470dp"
         android:layout_marginTop="8dp"
         android:contentDescription="@string/img_result"
@@ -92,6 +93,48 @@
             android:paddingStart="8dp"
             android:text="@string/export" />
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_successfully"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="27dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/ll_btn_export"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
+            android:id="@+id/tv_successfully"
+            style="@style/CustomText_color_FF6846_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="40dp"
+            android:paddingVertical="10dp"
+            android:text="Download Successfully"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ic_successfully"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:src="@drawable/ic_check"
+            app:layout_constraintBottom_toBottomOf="@id/tv_successfully"
+            app:layout_constraintStart_toStartOf="@id/tv_successfully"
+            app:layout_constraintTop_toTopOf="@id/tv_successfully" />
+
+        <ImageView
+            android:id="@+id/ic_cancel_successfully"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:src="@drawable/ic_menu"
+            app:layout_constraintBottom_toBottomOf="@id/tv_successfully"
+            app:layout_constraintEnd_toEndOf="@id/tv_successfully"
+            app:layout_constraintTop_toTopOf="@id/tv_successfully" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <LinearLayout

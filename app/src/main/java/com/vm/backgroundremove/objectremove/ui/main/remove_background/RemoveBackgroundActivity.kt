@@ -1,17 +1,4 @@
 package com.vm.backgroundremove.objectremove.ui.main.remove_background
-import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.util.Log
-import android.view.View
-import androidx.core.content.ContextCompat
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.util.Log
-import android.view.View
-import androidx.core.content.ContextCompat
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 
 import android.util.Log
 import android.view.View
@@ -28,29 +15,13 @@ import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.Co
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.io.ByteArrayOutputStream
-import java.io.File
-
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.io.ByteArrayOutputStream
-
-import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 
-class RemoveBackgroundActivity : BaseActivity<ActivityRemoveBackgroundBinding,RemoveBackGroundViewModel>() {
+class RemoveBackgroundActivity :
+    BaseActivity<ActivityRemoveBackgroundBinding, RemoveBackGroundViewModel>() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var colorAdapter: ColorAdapter
@@ -106,8 +77,8 @@ class RemoveBackgroundActivity : BaseActivity<ActivityRemoveBackgroundBinding,Re
             Log.e("UploadError", "File is invalid or missing")
         }
 
-        viewModel.upLoadImage.observe(this){response ->
-            Log.d("tag12340","response $response")
+        viewModel.upLoadImage.observe(this) { response ->
+            Log.d("tag12340", "response $response")
         }
         binding.tvChooseBgOp1.tap {
             binding.tvChooseBgOp1.setTextColor(ContextCompat.getColor(this, R.color.color_FF0000))
@@ -126,8 +97,10 @@ class RemoveBackgroundActivity : BaseActivity<ActivityRemoveBackgroundBinding,Re
         }
         binding.ivBack.tap {
             finish()
-        }}
-    fun setNewImage(){
+        }
+    }
+
+    fun setNewImage() {
         binding.ivBeforeAfter.setImageResource(R.drawable.ic_selected)
         binding.ivRedo.visibility = View.GONE
         binding.ivUndo.setImageResource(R.drawable.ic_back)
@@ -145,8 +118,13 @@ class RemoveBackgroundActivity : BaseActivity<ActivityRemoveBackgroundBinding,Re
 
         val file = File(filePath) // Tạo File từ đường dẫn
         return if (file.exists()) { // Kiểm tra nếu file tồn tại
-            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull()) // Định dạng loại file
-            MultipartBody.Part.createFormData(partName, file.name, requestFile) // Tạo MultipartBody.Part
+            val requestFile =
+                file.asRequestBody("image/*".toMediaTypeOrNull()) // Định dạng loại file
+            MultipartBody.Part.createFormData(
+                partName,
+                file.name,
+                requestFile
+            ) // Tạo MultipartBody.Part
         } else {
             null
         }

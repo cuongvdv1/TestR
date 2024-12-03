@@ -9,15 +9,6 @@
     tools:context=".ui.common.setting.SettingActivity">
 
 
-    <ImageView
-        android:id="@+id/ivBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="19dp"
-        android:background="@drawable/ic_back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont700
         android:id="@+id/tv_header"

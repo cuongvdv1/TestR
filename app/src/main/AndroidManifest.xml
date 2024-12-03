@@ -32,11 +32,11 @@
         <activity
             android:name=".ui.common.setting.SettingActivity"
             android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".ui.main.yourprojects.YourProjectsActivity"-->
+<!--            android:exported="false" />-->
         <activity
-            android:name=".ui.main.yourprojects.YourProjectsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.common.splash.SplashActivity"
+            android:name=".ui.main.choose_photo_rmv_bg.ChoosePhotoActivity"
             android:exported="false" />
         <activity
             android:name=".ui.common.welcomeback.WelcomeBackActivity"
@@ -78,7 +78,12 @@
         <activity
             android:name=".ui.main.user_perpose.UserPerposeActivity"
             android:exported="false" />
-
+        <activity
+            android:name=".ui.main.your_projects.YourProjectsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.your_projects.YourProjectsResultActivity"
+            android:exported="false" />
         <property
             android:name="android.adservices.AD_SERVICES_CONFIG"
             android:resource="@xml/gma_ad_services_config"
@@ -110,15 +115,28 @@
             android:value="true" />
 
         <activity
-            android:name=".ui.main.choose_photo_rmv_bg.ChoosePhotoActivity"
+            android:name=".ui.common.splash.SplashActivity"
             android:exported="true"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+
     </application>
 
 </manifest>
