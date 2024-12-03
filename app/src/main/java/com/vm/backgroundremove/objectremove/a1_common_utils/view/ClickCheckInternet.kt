@@ -6,14 +6,14 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.view.View
 import com.util.CheckInternet
-import com.vm.backgroundremove.objectremove.MainActivity
+import com.vm.backgroundremove.objectremove.ui.common.nointernet.NoInternetActivity
 
 fun View.tap(action: (view: View?) -> Unit) {
     setOnClickListener(object : TapListener() {
         override fun onTap(v: View?) {
             if (!CheckInternet.haveNetworkConnection(context)) {
                 context.findActivity()?.let {
-                    val intent = Intent(it, MainActivity::class.java)
+                    val intent = Intent(it, NoInternetActivity::class.java)
                     it.startActivity(intent)
                     it.overridePendingTransition(0, 0)
                 }

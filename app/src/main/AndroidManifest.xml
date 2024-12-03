@@ -67,6 +67,13 @@
             android:exported="false" />
         <activity
 
+            android:name=".ui.main.progress.ProcessActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.remove_background.RemoveBackgroundActivity"
+            android:exported="false" />
+        <activity
+
             android:name=".ui.main.remove_object.RemoveObjectActivity"
             android:exported="false" />
         <activity

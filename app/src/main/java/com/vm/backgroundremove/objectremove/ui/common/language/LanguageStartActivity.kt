@@ -192,7 +192,6 @@ class LanguageStartActivity : BaseActivity<ActivityLanguageStartBinding, BaseVie
         else
             return
     }
-
     private fun saveLanguageAndNextScreen(){
         SystemUtil.saveLocale(this, lang)
 
