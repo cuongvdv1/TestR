@@ -29,6 +29,7 @@ import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.databinding.ActivityHistoryBinding
 import com.vm.backgroundremove.objectremove.databinding.PopupOptionHistoryBinding
+import com.vm.backgroundremove.objectremove.ui.common.setting.SettingActivity
 import com.vm.backgroundremove.objectremove.ui.main.home.HomeActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -68,6 +69,18 @@ class YourProjectsActivity : BaseActivity<ActivityHistoryBinding, BaseViewModel>
         }
         binding.icMoreOptions.setOnClickListener {
             showCustomMenu(it)
+        }
+        binding.ctlHome.tap {
+            val intent = Intent(this,HomeActivity::class.java)
+            startActivity(intent)
+        }
+        binding.ctlSetting.tap {
+            val intent = Intent(this,SettingActivity::class.java)
+            startActivity(intent)
+        }
+        binding.ctlYourProjects.tap {
+            val intent = Intent(this,YourProjectsResultActivity::class.java)
+            startActivity(intent)
         }
 
 

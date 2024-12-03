@@ -3,7 +3,6 @@ package com.vm.backgroundremove.objectremove.ui.main.remove_background
 import android.content.Intent
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -13,17 +12,9 @@ import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
 import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.api.response.UpLoadImagesResponse
-import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.databinding.ActivityRemoveBackgroundBinding
 import com.vm.backgroundremove.objectremove.ui.main.progress.ProcessActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.ColorAdapter
-import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.io.File
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -121,13 +112,15 @@ class RemoveBackgroundActivity :
             fragment.showColorList()
         }
     }
+
     fun createMultipartFromFile(filePath: String?, partName: String): MultipartBody.Part? {
         // Kiểm tra nếu filePath rỗng hoặc null
         if (filePath.isNullOrEmpty()) return null
 
         val file = File(filePath) // Tạo File từ đường dẫn
         return if (file.exists()) { // Kiểm tra nếu file tồn tại
-            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull()) // Định dạng loại file
+            val requestFile =
+                file.asRequestBody("image/*".toMediaTypeOrNull()) // Định dạng loại file
             MultipartBody.Part.createFormData(
                 partName,
                 file.name,
@@ -137,17 +130,20 @@ class RemoveBackgroundActivity :
             null
         }
     }
-    fun setNewImage(){
+
+    fun setNewImage() {
         binding.ivBeforeAfter.setImageResource(R.drawable.ic_selected)
         binding.ivRedo.visibility = View.GONE
         binding.ivUndo.visibility = View.GONE
     }
+
     companion object {
         const val KEY_GENERATE = "KEY_GENERATE"
         const val LIMIT_NUMBER_ERROR = "LIMIT_NUMBER_ERROR"
         const val LIMIT_NUMBER_GENERATE = "LIMIT_NUMBER_GENERATE"
         const val KEY_REMOVE = "KEY_REMOVE"
     }
+
     private fun startDataGenerate(uploadResponse: UpLoadImagesResponse) {
         val modelGenerate = GenerateResponse()
         modelGenerate.cf_url = uploadResponse.cf_url.toString()
@@ -159,22 +155,22 @@ class RemoveBackgroundActivity :
                 ProcessActivity::class.java
             ).apply {
                 putExtra(KEY_GENERATE, modelGenerate)
-                putExtra(KEY_REMOVE,Constants.ITEM_CODE)
+                putExtra(KEY_REMOVE, Constants.ITEM_CODE)
 //                putExtra(LIMIT_NUMBER_GENERATE, numberGenerate)
             })
         finish()
     }
 
 
-    private fun startToProcess(){
-            startActivity(
-                Intent(
-                    this@RemoveBackgroundActivity,
-                    ProcessActivity::class.java
-                ).apply {
-                    putExtra(LIMIT_NUMBER_ERROR, LIMIT_NUMBER_ERROR)
-                })
-            finish()
+    private fun startToProcess() {
+        startActivity(
+            Intent(
+                this@RemoveBackgroundActivity,
+                ProcessActivity::class.java
+            ).apply {
+                putExtra(LIMIT_NUMBER_ERROR, LIMIT_NUMBER_ERROR)
+            })
+        finish()
     }
 }
 
