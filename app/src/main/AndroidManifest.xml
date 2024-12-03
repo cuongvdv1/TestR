@@ -45,9 +45,6 @@
             android:name=".ui.main.yourprojects.YourProjectsActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.common.splash.SplashActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.common.welcomeback.WelcomeBackActivity"
             android:exported="false" />
         <activity
@@ -70,6 +67,9 @@
             android:exported="false" />
         <activity
             android:name=".ui.main.home.HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.progress.ProcessActivity"
             android:exported="false" />
         <activity
             android:name=".ui.main.remove_background.RemoveBackgroundActivity"

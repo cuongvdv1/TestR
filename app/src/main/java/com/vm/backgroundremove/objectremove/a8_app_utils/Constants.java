@@ -29,6 +29,7 @@ public class Constants {
     public static final String NAME_INTENT_FROM_HOME = "from_home";
     public static final String INTENT_FROM_HOME_TO_BACKGROUND = "RemoveBackgroundActivity";
     public static final String INTENT_FROM_HOME_TO_OBJECT = "RemoveObjectActivity";
-
-
+    public static final String INTENT_RESULT = "INTENT_RESULT";
+    public static final String  WORK_UUID = "WORK_UUID";
+    public static final String KEY_PROCESS = "KEY_PROCESS";
 }
