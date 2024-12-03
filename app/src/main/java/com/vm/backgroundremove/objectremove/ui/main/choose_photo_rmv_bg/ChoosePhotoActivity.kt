@@ -21,6 +21,7 @@ import com.vm.backgroundremove.objectremove.databinding.ActivityChoosePhotoBindi
 import com.vm.backgroundremove.objectremove.inteface.OnClickChoosePhoto
 import com.vm.backgroundremove.objectremove.ui.main.choose_photo_rmv_bg.adapter.ChoosePhotoAdapter
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity
+import com.vm.backgroundremove.objectremove.ui.main.remove_object.RemoveObjectActivity
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -47,11 +48,20 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
         binding.ivBack.tap {
             finish()
         }
+        val checkRemove = intent.getStringExtra(Constants.NAME_INTENT_FROM_HOME).toString()
         binding.ivSelected.tap {
-            val intent = Intent(this@ChoosePhotoActivity, RemoveBackgroundActivity::class.java)
-            intent.putExtra(Constants.IMG_GALLERY_PATH, uriPhoto)
-            intent.putExtra(Constants.IMG_CATEGORY_PATH, filePath)
-            startActivity(intent)
+            if (checkRemove.equals(Constants.INTENT_FROM_HOME_TO_BACKGROUND)){
+                val intent = Intent(this@ChoosePhotoActivity, RemoveBackgroundActivity::class.java)
+                intent.putExtra(Constants.IMG_GALLERY_PATH, uriPhoto)
+                intent.putExtra(Constants.IMG_CATEGORY_PATH, filePath)
+                startActivity(intent)
+            }else{
+                val intent = Intent(this@ChoosePhotoActivity, RemoveObjectActivity::class.java)
+                intent.putExtra(Constants.IMG_GALLERY_PATH, uriPhoto)
+                intent.putExtra(Constants.IMG_CATEGORY_PATH, filePath)
+                startActivity(intent)
+            }
+
         }
     }
 

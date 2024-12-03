@@ -30,13 +30,19 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.common.splash.SplashActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".ui.common.setting.SettingActivity"
             android:exported="false" />
         <activity
             android:name=".ui.main.yourprojects.YourProjectsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.common.splash.SplashActivity"
             android:exported="false" />
         <activity
             android:name=".ui.common.welcomeback.WelcomeBackActivity"
@@ -61,6 +67,9 @@
             android:exported="false" />
         <activity
             android:name=".ui.main.home.HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.progress.ProcessActivity"
             android:exported="false" />
         <activity
             android:name=".ui.main.remove_background.RemoveBackgroundActivity"
@@ -113,11 +122,7 @@
             android:name=".ui.main.choose_photo_rmv_bg.ChoosePhotoActivity"
             android:exported="true"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

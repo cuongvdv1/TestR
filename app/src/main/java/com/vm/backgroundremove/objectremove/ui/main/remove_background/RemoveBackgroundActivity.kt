@@ -1,7 +1,9 @@
 package com.vm.backgroundremove.objectremove.ui.main.remove_background
 
+import android.content.Intent
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -10,7 +12,9 @@ import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
 import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
+import com.vm.backgroundremove.objectremove.api.response.UpLoadImagesResponse
 import com.vm.backgroundremove.objectremove.databinding.ActivityRemoveBackgroundBinding
+import com.vm.backgroundremove.objectremove.ui.main.progress.ProcessActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.ColorAdapter
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -64,7 +68,7 @@ class RemoveBackgroundActivity :
                 Constants.ITEM_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
                 Constants.CLIENT_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
                 Constants.CLIENT_MEMO.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-                multipart // Đảm bảo multipart không null ở đây
+                multipart
             )
         } ?: run {
             Log.e("UploadError", "File is invalid or missing")
@@ -81,6 +85,7 @@ class RemoveBackgroundActivity :
 
         viewModel.upLoadImage.observe(this) { response ->
             Log.d("tag12340", "response $response")
+            startDataGenerate(response)
         }
         binding.tvChooseBgOp1.tap {
             binding.tvChooseBgOp1.setTextColor(
@@ -122,6 +127,40 @@ class RemoveBackgroundActivity :
         binding.ivBeforeAfter.setImageResource(R.drawable.ic_selected)
         binding.ivRedo.visibility = View.GONE
         binding.ivUndo.visibility = View.GONE
+    }
+    companion object {
+        const val KEY_GENERATE = "KEY_GENERATE"
+        const val LIMIT_NUMBER_ERROR = "LIMIT_NUMBER_ERROR"
+        const val LIMIT_NUMBER_GENERATE = "LIMIT_NUMBER_GENERATE"
+        const val KEY_REMOVE = "KEY_REMOVE"
+    }
+    private fun startDataGenerate(uploadResponse: UpLoadImagesResponse) {
+        val modelGenerate = GenerateResponse()
+        modelGenerate.cf_url = uploadResponse.cf_url.toString()
+        modelGenerate.task_id = uploadResponse.task_id.toString()
+//        val numberGenerate = limitNumber.toInt() - isCountGenerate
+        startActivity(
+            Intent(
+                this@RemoveBackgroundActivity,
+                ProcessActivity::class.java
+            ).apply {
+                putExtra(KEY_GENERATE, modelGenerate)
+                putExtra(KEY_REMOVE,Constants.ITEM_CODE)
+//                putExtra(LIMIT_NUMBER_GENERATE, numberGenerate)
+            })
+        finish()
+    }
+
+
+    private fun startToProcess(){
+            startActivity(
+                Intent(
+                    this@RemoveBackgroundActivity,
+                    ProcessActivity::class.java
+                ).apply {
+                    putExtra(LIMIT_NUMBER_ERROR, LIMIT_NUMBER_ERROR)
+                })
+            finish()
     }
 }
 
