@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,7 @@ class ChooseBackGroundColorFragment : Fragment() {
     private lateinit var ctl_picker_color: ConstraintLayout
     private lateinit var colorList: List<Int>
     private lateinit var backGroundList: List<Int>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,7 +32,6 @@ class ChooseBackGroundColorFragment : Fragment() {
         rcvColor = view.findViewById(R.id.rv_list_color)
         rcvBackGround = view.findViewById(R.id.rv_list_background)
         ctl_picker_color = view.findViewById(R.id.ctl_picker_color)
-
 
         // hien thi list color
         colorList = listOf<Int>(
@@ -90,7 +91,6 @@ class ChooseBackGroundColorFragment : Fragment() {
                 (activity as RemoveBackgroundActivity)?.setNewImage()
 
             }
-
         })
 
         return view

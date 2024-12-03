@@ -3,6 +3,7 @@ package com.vm.backgroundremove.objectremove.ui.main.remove_background
 import android.content.Intent
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -35,7 +36,6 @@ class RemoveBackgroundActivity :
 
     override fun initView() {
         super.initView()
-
         val imgPathGallery = intent.getStringExtra(Constants.IMG_GALLERY_PATH)
         val imagePathCamera = intent.getStringExtra(Constants.IMG_CAMERA_PATH)
 
@@ -68,7 +68,7 @@ class RemoveBackgroundActivity :
                 Constants.ITEM_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
                 Constants.CLIENT_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
                 Constants.CLIENT_MEMO.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-                multipart
+                multipart // Đảm bảo multipart không null ở đây
             )
         } ?: run {
             Log.e("UploadError", "File is invalid or missing")
@@ -104,7 +104,29 @@ class RemoveBackgroundActivity :
             binding.ivUndo.setImageResource(R.drawable.ic_undo_off)
             binding.ivBeforeAfter.setImageResource(R.drawable.ic_before_after)
             binding.tvEdit.setText(R.string.edit)
+            binding.tvChooseBgOp2.setText(R.string.background)
             fragment.showColorList()
+        }
+
+        binding.tvChooseBgOp2.tap {
+            binding.tvChooseBgOp2.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.color_FF0000
+                )
+            )
+            binding.tvChooseBgOp1.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.color_37414B
+                )
+            )
+            binding.ivRedo.visibility = View.VISIBLE
+            binding.ivUndo.setImageResource(R.drawable.ic_undo_off)
+            binding.ivBeforeAfter.setImageResource(R.drawable.ic_before_after)
+            binding.tvEdit.setText(R.string.edit)
+            fragment.showBackgroundList()
+
         }
     }
     fun createMultipartFromFile(filePath: String?, partName: String): MultipartBody.Part? {
@@ -127,6 +149,7 @@ class RemoveBackgroundActivity :
         binding.ivBeforeAfter.setImageResource(R.drawable.ic_selected)
         binding.ivRedo.visibility = View.GONE
         binding.ivUndo.visibility = View.GONE
+        binding.tvChooseBgOp2.setText(R.string.gradient)
     }
     companion object {
         const val KEY_GENERATE = "KEY_GENERATE"
