@@ -41,7 +41,7 @@ class ColorAdapter(
         val color = colorList[position]
         holder.imgColor.setBackgroundResource(color)
         holder.imgColor.setOnClickListener {
-            actionListener?.onColorClicked(position)
+            actionListener?.onColorClicked(position   )
         }
     }
 }

@@ -27,8 +27,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, BaseViewModel>() {
 
         binding.ctlOptionRemoveBg.tap {
             val intent = Intent(this, ChoosePhotoActivity::class.java)
-            intent.putExtra(Constants.NAME_INTENT_FROM_HOME, Constants.INTENT_FROM_HOME_TO_BACKGROUND)
-            startActivity(intent)
+            intent.putExtra(
+                Constants.NAME_INTENT_FROM_HOME,
+                Constants.INTENT_FROM_HOME_TO_BACKGROUND
+            )
+            startActivity (intent)
         }
 
         binding.ctlOptionRemoveObj.tap {
