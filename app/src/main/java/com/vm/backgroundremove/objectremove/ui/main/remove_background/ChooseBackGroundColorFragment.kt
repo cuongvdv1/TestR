@@ -2,13 +2,19 @@ package com.vm.backgroundremove.objectremove.ui.main.remove_background
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract.CommonDataKinds.Im
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.vm.backgroundremove.objectremove.R
+import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.ui.main.dialog.DialogBottomSheetPickColor
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.BackGroundAdapter
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.ColorAdapter
@@ -19,17 +25,43 @@ class ChooseBackGroundColorFragment : Fragment() {
     private lateinit var rcvBackGround: RecyclerView
     private lateinit var colorAdapter: ColorAdapter
     private lateinit var backGroundAdapter: BackGroundAdapter
-    private lateinit var ctl_picker_color: ConstraintLayout
+    private lateinit var ll_choose_bg : LinearLayout
+    private lateinit var ctl_option_change_color_bg : ConstraintLayout
+    private lateinit var ctl_picker_color : ConstraintLayout
+    private lateinit var ctl_picker_color_gradient : ConstraintLayout
+    private lateinit var ctl_choose_bg : ConstraintLayout
+    private lateinit var ll_picker_color: LinearLayout
+    private lateinit var tv_picker_color_single: TextView
+    private lateinit var tv_picker_color_gradient: TextView
+    private lateinit var tv_choose_bg_color: TextView
+    private lateinit var tv_choose_bg_image: TextView
+    private lateinit var iv_color_start :ImageView
+    private lateinit var iv_color_end :ImageView
+
+
+
     private lateinit var colorList: List<Int>
     private lateinit var backGroundList: List<Int>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val view = inflater.inflate(R.layout.fragment_color_background, container, false)
         rcvColor = view.findViewById(R.id.rv_list_color)
         rcvBackGround = view.findViewById(R.id.rv_list_background)
         ctl_picker_color = view.findViewById(R.id.ctl_picker_color)
+        ctl_choose_bg = view.findViewById(R.id.ctl_choose_bg)
+        ctl_picker_color_gradient = view.findViewById(R.id.ctl_picker_color_gradient)
+        ll_choose_bg = view.findViewById(R.id.ll_choose_background)
+        ctl_option_change_color_bg = view.findViewById(R.id.ctl_option_change_color_bg)
+        ll_picker_color = view.findViewById(R.id.ll_picker_color)
+        tv_picker_color_single = view.findViewById(R.id.tv_picker_color_single)
+        tv_picker_color_gradient = view.findViewById(R.id.tv_picker_color_gradient)
+        tv_choose_bg_color = view.findViewById(R.id.tv_choose_bg_color)
+        tv_choose_bg_image = view.findViewById(R.id.tv_choose_bg_image)
+        iv_color_start = view.findViewById(R.id.iv_color_start)
+        iv_color_end = view.findViewById(R.id.iv_color_end)
 
 
         // hien thi list color
@@ -85,13 +117,31 @@ class ChooseBackGroundColorFragment : Fragment() {
             override fun onColorClicked(position: Int) {
 //                val bottomSheet = DialogBottomSheetPickColor()
 //               bottomSheet.show(childFragmentManager, bottomSheet.tag)
-                rcvColor.visibility = View.GONE
-                ctl_picker_color.visibility = View.VISIBLE
+                showPickerColor()
                 (activity as RemoveBackgroundActivity)?.setNewImage()
-
             }
-
         })
+
+        tv_choose_bg_color.tap {
+            showColorList()
+        }
+        tv_choose_bg_image.tap {
+            showBackgroundList()
+        }
+        tv_picker_color_gradient.tap {
+            showChooseColorGradient()
+        }
+        tv_picker_color_single.tap {
+            showPickerColor()
+        }
+        iv_color_start.tap {
+            val colorPickerDialog = DialogBottomSheetPickColor()
+            colorPickerDialog.show(parentFragmentManager, "ColorPickerBottomSheetDialog")
+        }
+        iv_color_end.tap {
+            val colorPickerDialog = DialogBottomSheetPickColor()
+            colorPickerDialog.show(parentFragmentManager, "ColorPickerBottomSheetDialog")
+        }
 
         return view
     }
@@ -99,16 +149,42 @@ class ChooseBackGroundColorFragment : Fragment() {
         rcvColor.visibility = View.VISIBLE
         rcvBackGround.visibility = View.GONE
         ctl_picker_color.visibility = View.GONE
+        ctl_picker_color_gradient.visibility = View.GONE
+        ctl_option_change_color_bg.visibility = View.GONE
+        tv_choose_bg_color.visibility = View.VISIBLE
+        tv_choose_bg_image.visibility = View.VISIBLE
+
+
     }
 
+    fun showPickerColor(){
+        rcvColor.visibility = View.GONE
+        ll_choose_bg.visibility = View.GONE
+        ctl_option_change_color_bg.visibility = View.VISIBLE
+        ctl_picker_color.visibility = View.VISIBLE
+        ctl_picker_color_gradient.visibility = View.GONE
+        tv_picker_color_gradient.setTextColor(ContextCompat.getColor(requireContext(),R.color.color_8F9DAA))
+        tv_picker_color_single.setTextColor(ContextCompat.getColor(requireContext(),R.color.color_FF6846))
+
+    }
     fun showBackgroundList() {
         rcvColor.visibility = View.GONE
         rcvBackGround.visibility = View.VISIBLE
         ctl_picker_color.visibility = View.GONE
+        ctl_picker_color_gradient.visibility = View.GONE
+        ctl_option_change_color_bg.visibility = View.GONE
+        tv_choose_bg_image.setTextColor(ContextCompat.getColor(requireContext(),R.color.color_8F9DAA))
+        tv_choose_bg_color.setTextColor(ContextCompat.getColor(requireContext(),R.color.color_FF6846))
+
     }
 
-    fun showGradientColorPicker(){
-        ctl_picker_color.visibility = View.VISIBLE
+    fun showChooseColorGradient(){
+        ctl_option_change_color_bg.visibility = View.VISIBLE
+        ctl_picker_color_gradient.visibility = View.VISIBLE
+        tv_picker_color_gradient.setTextColor(ContextCompat.getColor(requireContext(),R.color.color_FF6846))
+        tv_picker_color_single.setTextColor(ContextCompat.getColor(requireContext(),R.color.color_8F9DAA))
+        ctl_picker_color.visibility = View.GONE
     }
+
 
 }
