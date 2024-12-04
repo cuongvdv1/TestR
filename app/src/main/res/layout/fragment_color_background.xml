@@ -1,137 +1,214 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_bottom_sheet_dialog"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_list_color"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctl_choose_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/ll_choose_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="30dp"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        android:background="@color/white"
+        android:paddingVertical="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="horizontal"
-        app:spanCount="2" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
+            android:id="@+id/tv_choose_bg_color"
+            style="@style/CustomText_color_FF6846_16"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/color"
+            android:textAlignment="center" />
+
+        <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
+            android:id="@+id/tv_choose_bg_image"
+            style="@style/CustomText_color_8F9DAA_16"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/background"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_list_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_choose_background"
+            app:spanCount="2" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_list_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="30dp"
+        android:orientation="horizontal"
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:spanCount="2" />
-    
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/ctl_picker_color"
-        android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="wrap_content">
-        <com.vm.backgroundremove.objectremove.ui.main.color_picker.HSView
-            android:id="@+id/picker_color"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_gravity="center"
-            />
-
-        <com.vm.backgroundremove.objectremove.ui.main.color_picker.VView
-            android:layout_width="match_parent"
-            android:layout_height="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginHorizontal="25dp"
-            app:layout_constraintTop_toBottomOf="@+id/picker_color"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/ctl_picker_color_gradient"
+        android:id="@+id/ctl_option_change_color_bg"
         android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
-        <ImageView
-            android:contentDescription="@string/iv_gradient_color"
-            android:id="@+id/iv_gradient_color"
+        <LinearLayout
+            android:id="@+id/ll_picker_color"
             android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:layout_marginHorizontal="18dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/bg_border_circle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:contentDescription="@string/ic_arrow_right_double"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_arrow_right_double"
-            android:layout_marginTop="55dp"
-            app:layout_constraintEnd_toStartOf="@+id/iv_color_end"
-            app:layout_constraintStart_toEndOf="@+id/iv_color_start"
-            app:layout_constraintTop_toBottomOf="@+id/iv_gradient_color" />
-
-        <ImageView
-            android:contentDescription="@string/iv_color_start"
-            android:id="@+id/iv_color_start"
-            android:layout_width="48dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="44dp"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/bg_border_stroke_8"
-            android:backgroundTint="@color/color_FE23BE"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_gradient_color" />
-
-
-        <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
-            android:id="@+id/tv_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="54dp"
-            android:paddingVertical="4dp"
-            style="@style/CustomText_color_37414B_16"
-            android:text="@string/start"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_color_start" />
-
-        <ImageView
-            android:contentDescription="@string/iv_color_end"
-            android:id="@+id/iv_color_end"
-            android:layout_width="48dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="44dp"
-            android:background="@drawable/bg_border_stroke_8"
-            android:backgroundTint="@color/color_A69CFC"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_gradient_color" />
-
-        <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
-            android:id="@+id/tv_color_end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="54dp"
-            style="@style/CustomText_color_37414B_16"
-            android:text="@string/end"
+            android:background="@color/white"
             android:paddingVertical="4dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_color_end" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
+                android:id="@+id/tv_picker_color_single"
+                style="@style/CustomText_color_FF6846_16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/color"
+                android:textAlignment="center" />
+
+            <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
+                android:id="@+id/tv_picker_color_gradient"
+                style="@style/CustomText_color_8F9DAA_16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/gradient"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctl_picker_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_picker_color">
+
+            <com.vm.backgroundremove.objectremove.ui.main.color_picker.HSView
+                android:id="@+id/picker_color"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.vm.backgroundremove.objectremove.ui.main.color_picker.VView
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:layout_marginHorizontal="25dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/picker_color" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctl_picker_color_gradient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_picker_color">
+
+            <ImageView
+                android:id="@+id/iv_gradient_color"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_marginHorizontal="18dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/border_gradient_color"
+                android:contentDescription="@string/iv_gradient_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="55dp"
+                android:contentDescription="@string/ic_arrow_right_double"
+                android:src="@drawable/ic_arrow_right_double"
+                app:layout_constraintEnd_toStartOf="@+id/iv_color_end"
+                app:layout_constraintStart_toEndOf="@+id/iv_color_start"
+                app:layout_constraintTop_toBottomOf="@+id/iv_gradient_color" />
+
+            <ImageView
+                android:id="@+id/iv_color_start"
+                android:layout_width="48dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/bg_border_stroke_8"
+                android:backgroundTint="@color/color_FE23BE"
+                android:contentDescription="@string/iv_color_start"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_gradient_color" />
+
+
+            <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
+                android:id="@+id/tv_start"
+                style="@style/CustomText_color_37414B_16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="54dp"
+                android:paddingVertical="4dp"
+                android:text="@string/start"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_color_start" />
+
+            <ImageView
+                android:id="@+id/iv_color_end"
+                android:layout_width="48dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="44dp"
+                android:background="@drawable/bg_border_stroke_8"
+                android:backgroundTint="@color/color_A69CFC"
+                android:contentDescription="@string/iv_color_end"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_gradient_color" />
+
+            <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
+                android:id="@+id/tv_color_end"
+                style="@style/CustomText_color_37414B_16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="54dp"
+                android:paddingVertical="4dp"
+                android:text="@string/end"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_color_end" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 </LinearLayout>
