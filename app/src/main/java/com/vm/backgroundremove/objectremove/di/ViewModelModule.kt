@@ -9,7 +9,5 @@ import org.koin.dsl.module
 
 val viewModelModule = module {
     viewModel { RemoveBackGroundViewModel(get()) }
-    viewModel { (application: Application) ->
-        ProcessViewModel(application, get())
-    }
+    viewModel { ProcessViewModel(get<Application>(),get()) }
 }

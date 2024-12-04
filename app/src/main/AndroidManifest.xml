@@ -18,8 +18,8 @@
     <uses-feature android:name="android.hardware.camera" />
 
     <application
-        android:allowBackup="true"
         android:name=".a1_common_utils.application.DemoApplication"
+        android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -30,8 +30,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.main.progress.ProessingActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.common.splash.SplashActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -75,15 +78,13 @@
             android:name=".ui.main.remove_background.RemoveBackgroundActivity"
             android:exported="false" />
         <activity
-
             android:name=".ui.main.remove_object.RemoveObjectActivity"
             android:exported="false" />
         <activity
             android:name=".ui.main.permission.PermissionActivity"
-            android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".ui.main.remove_background.RemoveBackgroundActivity"-->
-<!--            android:exported="false" />-->
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".ui.main.remove_background.RemoveBackgroundActivity" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".ui.main.user_perpose.UserPerposeActivity"
             android:exported="false" />
@@ -121,9 +122,7 @@
         <activity
             android:name=".ui.main.choose_photo_rmv_bg.ChoosePhotoActivity"
             android:exported="true"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
