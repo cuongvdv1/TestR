@@ -19,6 +19,7 @@ import com.vm.backgroundremove.objectremove.ui.main.dialog.DialogBottomSheetPick
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.BackGroundAdapter
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.ColorAdapter
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.ColorSelectorListener
+import com.vm.backgroundremove.objectremove.ui.main.remove_background.model.ColorModel
 
 class ChooseBackGroundColorFragment : Fragment() {
     private lateinit var rcvColor: RecyclerView
@@ -37,10 +38,11 @@ class ChooseBackGroundColorFragment : Fragment() {
     private lateinit var tv_choose_bg_image: TextView
     private lateinit var iv_color_start :ImageView
     private lateinit var iv_color_end :ImageView
+    private lateinit var color_bg : String
 
 
 
-    private lateinit var colorList: List<Int>
+    private lateinit var colorList: List<ColorModel>
     private lateinit var backGroundList: List<Int>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,19 +67,19 @@ class ChooseBackGroundColorFragment : Fragment() {
 
 
         // hien thi list color
-        colorList = listOf<Int>(
-            R.drawable.ic_none_color,
-            R.drawable.ic_circle_color1,
-            R.drawable.ic_circle_color,
-            R.drawable.ic_circle_color2,
-            R.drawable.ic_circle_color3,
-            R.drawable.ic_circle_color4,
-            R.drawable.ic_circle_color5,
-            R.drawable.ic_circle_color6,
-            R.drawable.ic_circle_color7,
-            R.drawable.ic_circle_color8,
-            R.drawable.ic_circle_color9,
-            R.drawable.ic_circle_color10,
+        colorList = listOf<ColorModel>(
+            ColorModel(R.drawable.ic_none_color, "None"),
+            ColorModel(R.drawable.ic_circle_color1,"#5A9CFF"),
+            ColorModel( R.drawable.ic_circle_color,"None"),
+            ColorModel( R.drawable.ic_circle_color2,"#76FF94"),
+            ColorModel( R.drawable.ic_circle_color3,"#8ECE40"),
+            ColorModel( R.drawable.ic_circle_color4,"#FFBF49"),
+            ColorModel( R.drawable.ic_circle_color5,"#FF7755"),
+            ColorModel( R.drawable.ic_circle_color6,"#F578B9"),
+            ColorModel( R.drawable.ic_circle_color7,"#939393"),
+            ColorModel( R.drawable.ic_circle_color8,"#ADADAD"),
+            ColorModel( R.drawable.ic_circle_color9,"#FF7D7D"),
+            ColorModel( R.drawable.ic_circle_color10,"#EB67BF"),
         )
         colorAdapter = ColorAdapter(requireContext(), colorList)
         rcvColor.adapter = colorAdapter
@@ -114,11 +116,15 @@ class ChooseBackGroundColorFragment : Fragment() {
         rcvBackGround.adapter = backGroundAdapter
 
         colorAdapter.setActionListener(object : ColorSelectorListener {
-            override fun onColorClicked(position: Int) {
+            override fun onColorClicked(position: Int, color:String) {
 //                val bottomSheet = DialogBottomSheetPickColor()
 //               bottomSheet.show(childFragmentManager, bottomSheet.tag)
+                color_bg = color
+
+
                 showPickerColor()
                 (activity as RemoveBackgroundActivity)?.setNewImage()
+
             }
         })
 
@@ -142,7 +148,6 @@ class ChooseBackGroundColorFragment : Fragment() {
             val colorPickerDialog = DialogBottomSheetPickColor()
             colorPickerDialog.show(parentFragmentManager, "ColorPickerBottomSheetDialog")
         }
-
         return view
     }
     fun showColorList() {
@@ -153,8 +158,6 @@ class ChooseBackGroundColorFragment : Fragment() {
         ctl_option_change_color_bg.visibility = View.GONE
         tv_choose_bg_color.visibility = View.VISIBLE
         tv_choose_bg_image.visibility = View.VISIBLE
-
-
     }
 
     fun showPickerColor(){
