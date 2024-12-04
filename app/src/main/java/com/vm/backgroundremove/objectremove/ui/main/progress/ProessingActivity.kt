@@ -1,5 +1,8 @@
 package com.vm.backgroundremove.objectremove.ui.main.progress
 
+import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
+import com.vm.backgroundremove.objectremove.databinding.ActivityProessingBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -11,8 +14,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.work.WorkInfo
 import com.util.CheckInternet
+import com.vm.backgroundremove.objectremove.MainActivity
 import com.vm.backgroundremove.objectremove.R
-import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.a8_app_utils.ProcessState
 import com.vm.backgroundremove.objectremove.a8_app_utils.convertToObject
@@ -28,15 +31,15 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.UUID
 
-class ProcessActivity : BaseActivity<ActivityProcessBinding,ProcessViewModel>() {
+class ProessingActivity : BaseActivity<ActivityProessingBinding, ProcessViewModel>() {
     private var generateResponse: GenerateResponse? = null
     private var itemCode: String? = null
     private var taskId: String? = null
     private var cfUrl: String? = null
     private var uuid: String? = null
     private var categoryType: String? = null
-    override fun createBinding() : ActivityProcessBinding {
-        return ActivityProcessBinding.inflate(layoutInflater)
+    override fun createBinding(): ActivityProessingBinding {
+        return ActivityProessingBinding.inflate(layoutInflater)
     }
 
     override fun setViewModel(): ProcessViewModel = viewModel<ProcessViewModel>().value
@@ -53,22 +56,23 @@ class ProcessActivity : BaseActivity<ActivityProcessBinding,ProcessViewModel>() 
             Log.d("ProcessActivity","$cfUrl")
         }
 
-            uuid = intent.getStringExtra(Constants.WORK_UUID)
-            if (!uuid.isNullOrEmpty()) {
-                val uuid = UUID.fromString(uuid)
-                viewModel.trackProcessUUID.value = uuid
-                listenerWorker()
-                viewModel.getNumProgressing()
+        uuid = intent.getStringExtra(Constants.WORK_UUID)
+        if (!uuid.isNullOrEmpty()) {
+            val uuid = UUID.fromString(uuid)
+            viewModel.trackProcessUUID.value = uuid
+            listenerWorker()
+            viewModel.getNumProgressing()
 
 //                binding.tvNumberPosition.text = getString(
 //                    R.string.generate,
 //                    viewModel.historyModel?.process
 //                )
-            } else {
-                viewModel.newProcessItem(categoryType!!, itemCode!!, taskId!!, cfUrl!!)
-                viewModel.onNewID()
-                viewModel.getNumProgressing()
-            }
+        } else {
+
+            viewModel.newProcessItem("rmbg", "rmbg", taskId!!, cfUrl!!)
+            viewModel.onNewID()
+            viewModel.getNumProgressing()
+        }
 //        }
     }
 
@@ -134,7 +138,7 @@ class ProcessActivity : BaseActivity<ActivityProcessBinding,ProcessViewModel>() 
                                     viewModel.updateNumProcessing()
                                     viewModel.cancelProcessListener()
                                     val intent =
-                                        Intent(this@ProcessActivity, RemoveBackgroundActivity::class.java)
+                                        Intent(this@ProessingActivity, MainActivity::class.java)
                                     intent.putExtra(Constants.INTENT_RESULT, processModel)
                                     startActivity(intent)
                                     finish()
@@ -149,17 +153,17 @@ class ProcessActivity : BaseActivity<ActivityProcessBinding,ProcessViewModel>() 
 //                                        getString(R.string.)
                                     viewModel.updateNumProcessing()
                                     binding.prIndicator.indicatorColor = ContextCompat.getColor(
-                                        this@ProcessActivity,
+                                        this@ProessingActivity,
                                         R.color.endColor
                                     )
                                     binding.prIndicator.endColor = ContextCompat.getColor(
-                                        this@ProcessActivity,
+                                        this@ProessingActivity,
                                         R.color.color_000719
                                     )
                                     binding.txtProgress.text = "Error"
                                     binding.txtProgress.setTextColor(
                                         ContextCompat.getColor(
-                                            this@ProcessActivity,
+                                            this@ProessingActivity,
                                             R.color.color_00A3FF
                                         )
                                     )
@@ -167,13 +171,13 @@ class ProcessActivity : BaseActivity<ActivityProcessBinding,ProcessViewModel>() 
                                     viewModel.cancelProcessListener()
                                     binding.tvTimeEst.setTextColor(
                                         ContextCompat.getColor(
-                                            this@ProcessActivity,
+                                            this@ProessingActivity,
                                             R.color.endColor
                                         )
                                     )
                                     binding.tvNumberPosition.setTextColor(
                                         ContextCompat.getColor(
-                                            this@ProcessActivity,
+                                            this@ProessingActivity,
                                             R.color.color_00A3FF
                                         )
                                     )
@@ -186,10 +190,10 @@ class ProcessActivity : BaseActivity<ActivityProcessBinding,ProcessViewModel>() 
                                 WorkInfo.State.ENQUEUED -> Log.d("ProcessActivity", "ENQUEUED")
 
                                 WorkInfo.State.RUNNING -> {
-                                    if (!CheckInternet.haveNetworkConnection(this@ProcessActivity)) {
+                                    if (!CheckInternet.haveNetworkConnection(this@ProessingActivity)) {
                                         startActivity(
                                             Intent(
-                                                this@ProcessActivity,
+                                                this@ProessingActivity,
                                                 NoInternetActivity::class.java
                                             )
                                         )
@@ -250,4 +254,6 @@ class ProcessActivity : BaseActivity<ActivityProcessBinding,ProcessViewModel>() 
         super.onDestroy()
         viewModel.cancelProcessListener()
     }
+
+
 }

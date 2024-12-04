@@ -18,7 +18,7 @@ interface RemoveBackGroundApi {
         @Part("item_code") item_code: RequestBody,
         @Part("client_code") client_code: RequestBody,
         @Part("client_memo") client_memo: RequestBody,
-        @Part payload_replace_img_src: MultipartBody.Part
+        @Part ___payload_replace_img_src: MultipartBody.Part
     ):UpLoadImagesResponse
 
     @GET("/c/result/{task_id}")
