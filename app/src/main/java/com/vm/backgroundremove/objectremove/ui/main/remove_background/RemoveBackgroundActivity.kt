@@ -13,6 +13,7 @@ import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.api.response.UpLoadImagesResponse
 import com.vm.backgroundremove.objectremove.databinding.ActivityRemoveBackgroundBinding
 import com.vm.backgroundremove.objectremove.ui.main.progress.ProcessActivity
+import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
 import com.vm.backgroundremove.objectremove.util.getBitmapFrom
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -28,37 +29,24 @@ class RemoveBackgroundActivity :
     override fun createBinding(): ActivityRemoveBackgroundBinding {
         return ActivityRemoveBackgroundBinding.inflate(layoutInflater)
     }
-
     override fun setViewModel(): RemoveBackGroundViewModel =
         viewModel<RemoveBackGroundViewModel>().value
-
     override fun initView() {
         super.initView()
-
         val imgPathGallery = intent.getStringExtra(Constants.IMG_GALLERY_PATH)
         val imagePathCamera = intent.getStringExtra(Constants.IMG_CAMERA_PATH)
-
+        Log.d("imagePathCamera", "imagePathCamera $imagePathCamera\n $imgPathGallery")
         val filePath = intent.getStringExtra(Constants.IMG_CATEGORY_PATH)
         Log.d("TAG123", "filePath: $filePath")
         if (!imagePathCamera.isNullOrEmpty()) {
-//            Glide.with(this)
-//                .load(File(imagePathCamera))
-//                .skipMemoryCache(true)
-//                .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                .into(binding.ivRmvBg)
             getBitmapFrom(this, imagePathCamera) {
                 binding.ivRmvBg.setBitmap(it)
             }
-
         } else if (!imgPathGallery.isNullOrEmpty()) {
-//            Glide.with(this)
-//                .load(imgPathGallery)
-//                .into(binding.ivRmvBg)
             getBitmapFrom(this, imgPathGallery) {
                 binding.ivRmvBg.setBitmap(it)
             }
         }
-
         val fragment = ChooseBackGroundColorFragment()
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frame_layout, fragment)
@@ -66,16 +54,15 @@ class RemoveBackgroundActivity :
 
         val multipartFromCamera = createMultipartFromFile(imagePathCamera, "cameraImage")
         val multipartFromGallery = createMultipartFromFile(imgPathGallery, "galleryImage")
+        Log.d("hehehee", "createMultipartFromFile $multipartFromCamera\n $multipartFromGallery")
 
         multipartFromGallery?.let { multipart ->
             viewModel.upLoadImage(
                 Constants.ITEM_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
                 Constants.CLIENT_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
                 Constants.CLIENT_MEMO.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-                multipart // Đảm bảo multipart không null ở đây
+                multipart
             )
-        } ?: run {
-            Log.e("UploadError", "File is invalid or missing")
         }
 
         multipartFromCamera?.let { multipart ->
@@ -89,30 +76,29 @@ class RemoveBackgroundActivity :
 
         viewModel.upLoadImage.observe(this) { response ->
             Log.d("tag12340", "response $response")
-//            startDataGenerate(response)
+            startDataGenerate(response)
         }
 
-// Chon option thay mau cho background
 
 
     }
 
     fun createMultipartFromFile(filePath: String?, partName: String): MultipartBody.Part? {
-        // Kiểm tra nếu filePath rỗng hoặc null
-        if (filePath.isNullOrEmpty()) return null
-
-        val file = File(filePath) // Tạo File từ đường dẫn
-        return if (file.exists()) { // Kiểm tra nếu file tồn tại
-            val requestFile =
-                file.asRequestBody("image/*".toMediaTypeOrNull()) // Định dạng loại file
-            MultipartBody.Part.createFormData(
-                partName,
-                file.name,
-                requestFile
-            )
-        } else {
-            null
+        if (filePath.isNullOrEmpty()) {
+            Log.d("hehehee", "filePath is null or empty")
+            return null
         }
+
+        val file = File(filePath)
+        if (!file.exists()) {
+            Log.d("hehehee", "File does not exist: $filePath")
+            return null
+        }
+
+        Log.d("hehehee", "File exists: ${file.absolutePath}")
+
+        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+        return MultipartBody.Part.createFormData(partName, file.name, requestFile)
     }
 
     fun setNewImage() {
@@ -136,7 +122,7 @@ class RemoveBackgroundActivity :
         startActivity(
             Intent(
                 this@RemoveBackgroundActivity,
-                ProcessActivity::class.java
+                ProessingActivity::class.java
             ).apply {
                 putExtra(KEY_GENERATE, modelGenerate)
                 putExtra(KEY_REMOVE, Constants.ITEM_CODE)
@@ -150,7 +136,7 @@ class RemoveBackgroundActivity :
         startActivity(
             Intent(
                 this@RemoveBackgroundActivity,
-                ProcessActivity::class.java
+                ProessingActivity::class.java
             ).apply {
                 putExtra(LIMIT_NUMBER_ERROR, LIMIT_NUMBER_ERROR)
             })
@@ -161,7 +147,7 @@ class RemoveBackgroundActivity :
         // Xử lý giá trị bạn nhận được từ Fragment
         if (value) {
             check_clicked_color = true
-        }else{
+        } else {
             check_clicked_color = false
         }
     }

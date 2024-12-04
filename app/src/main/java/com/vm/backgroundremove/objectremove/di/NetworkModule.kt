@@ -5,6 +5,7 @@ import android.util.Log
 import com.vm.backgroundremove.objectremove.BuildConfig
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.api.RemoveBackGroundApi
+import com.vm.backgroundremove.objectremove.api.repository.ResultImageRepository
 import com.vm.backgroundremove.objectremove.api.repository.UpLoadImageRepository
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -51,6 +52,7 @@ val networkModule = module {
             .build()
     }
 
+    single { ResultImageRepository(get<RemoveBackGroundApi>()) }
     // retrofit call api
     single(named("Generate")) {
         Retrofit.Builder()

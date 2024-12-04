@@ -40,8 +40,9 @@ class GenerateImageWorker(
         processModel = inputData.getString(ITEM_GENERATE)?.convertToObject<HistoryModel>()
 
         val taskId = processModel?.taskId
+        Log.d("GenerateImageWorker", "Task ID: $taskId")
         val sdUrl = processModel?.sdUrl
-
+        Log.d("GenerateImageWorker", "sdUrl: $sdUrl")
         val row = dbHistoryRepository.getRowCount()
         val rowCount = if (row > 0) row + 1 else 1
 
@@ -62,8 +63,10 @@ class GenerateImageWorker(
             val finalResult = pollForImageResult(taskId!!, sdUrl!!)
 
             if (finalResult != null) {
+                Log.d("YEUBANTRINH",finalResult.toString())
                 return finalResult
             }
+
             return Result.failure()
         } finally {
 
