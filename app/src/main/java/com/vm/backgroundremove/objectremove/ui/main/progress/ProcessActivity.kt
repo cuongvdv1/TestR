@@ -23,7 +23,6 @@ import com.vm.backgroundremove.objectremove.database.HistoryModel
 import com.vm.backgroundremove.objectremove.databinding.ActivityProcessBinding
 import com.vm.backgroundremove.objectremove.ui.common.nointernet.NoInternetActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity
-import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.shareIn
@@ -42,16 +41,18 @@ class ProcessActivity : BaseActivity<ActivityProcessBinding,ProcessViewModel>() 
 
     override fun setViewModel(): ProcessViewModel = viewModel<ProcessViewModel>().value
 
-    @SuppressLint("StringFormatInvalid")
     override fun initView() {
         super.initView()
 //        categoryType = intent.getStringExtra(KEY_CATEGORY)
-        viewModel.historyModel = intent.getParcelable<HistoryModel>(Constants.KEY_PROCESS)
+//        viewModel.historyModel = intent.getParcelable<HistoryModel>(Constants.KEY_PROCESS)
         generateResponse = intent.getParcelable<GenerateResponse>(RemoveBackgroundActivity.KEY_GENERATE)
         itemCode = intent.getStringExtra(Constants.ITEM_CODE)
         generateResponse?.let {
             taskId = it.task_id
             cfUrl = it.cf_url
+
+            Log.d("ProcessActivity","$taskId")
+            Log.d("ProcessActivity","$cfUrl")
         }
 ////        val limitNumberGenerate = intent.getIntExtra(LIMIT_NUMBER_GENERATE, -1)
 ////        if (limitNumberGenerate >= 0) {
@@ -83,10 +84,10 @@ class ProcessActivity : BaseActivity<ActivityProcessBinding,ProcessViewModel>() 
                 listenerWorker()
                 viewModel.getNumProgressing()
 
-                binding.tvNumberPosition.text = getString(
-                    R.string.generate,
-                    viewModel.historyModel?.process
-                )
+//                binding.tvNumberPosition.text = getString(
+//                    R.string.generate,
+//                    viewModel.historyModel?.process
+//                )
             } else {
                 viewModel.newProcessItem(categoryType!!, itemCode!!, taskId!!, cfUrl!!)
                 viewModel.onNewID()
