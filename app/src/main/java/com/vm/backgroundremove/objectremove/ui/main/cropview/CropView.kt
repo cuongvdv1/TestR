@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.PointF
 import android.graphics.RectF
@@ -65,10 +66,31 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
             else -> false
         }
     }
+    fun createColorBitmap(color: Int, width: Int, height: Int): Bitmap {
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        canvas.drawColor(color) // Vẽ toàn bộ bitmap với màu được chỉ định
+        return bitmap
+    }
 
     fun setBackgroundBitmap(bitmap: Bitmap) {
         backgroundBitmap = bitmap
         invalidate() // Vẽ lại view khi có sự thay đổi
+    }
+
+    fun setBackgroundWithColor(hexColor: String) {
+        try {
+            // Chuyển đổi mã màu hex sang `Int`
+            val color = Color.parseColor(hexColor)
+
+            // Tạo bitmap màu
+            val bitmap = createColorBitmap(color, measuredWidth, measuredHeight)
+
+            // Cập nhật nền của `CropView`
+            setBackgroundBitmap(bitmap)
+        } catch (e: IllegalArgumentException) {
+            e.printStackTrace() // Xử lý lỗi nếu mã màu không hợp lệ
+        }
     }
 
     fun setBitmap(bitmap: Bitmap) {

@@ -53,8 +53,8 @@ class ProcessViewModel(
         historyModel = HistoryModel()
         historyModel?.imageCreate = imageCreate
         historyModel?.type = type
-        historyModel?.sdUrl = cfUrl
-        historyModel?.taskId = taskId
+        historyModel?.cf_url = cfUrl
+        historyModel?.task_id = taskId
         historyModel?.time = System.currentTimeMillis()
     }
 

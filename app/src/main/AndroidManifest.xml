@@ -35,11 +35,7 @@
         <activity
             android:name=".ui.common.splash.SplashActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.common.setting.SettingActivity"
@@ -70,9 +66,18 @@
             android:exported="false" />
         <activity
             android:name=".ui.main.home.HomeActivity"
-            android:exported="false" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.main.progress.ProcessActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.remove_background.ResultRemoveBackGroundActivity"
             android:exported="false" />
         <activity
             android:name=".ui.main.remove_background.RemoveBackgroundActivity"
