@@ -6,13 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.vm.backgroundremove.objectremove.R
+import com.vm.backgroundremove.objectremove.ui.main.remove_background.model.ColorModel
 
 interface ColorSelectorListener {
-    fun onColorClicked(position: Int)
+    fun onColorClicked(position: Int,color: String)
 }
 class ColorAdapter(
     private var context: Context,
-    private val colorList: List<Int>,
+    private val colorList: List<ColorModel>,
     private var actionListener: ColorSelectorListener? = null
 ) :RecyclerView.Adapter<ColorAdapter.ColorViewHolder>() {
 
@@ -39,9 +40,9 @@ class ColorAdapter(
 
     override fun onBindViewHolder(holder: ColorViewHolder, position: Int) {
         val color = colorList[position]
-        holder.imgColor.setBackgroundResource(color)
+        holder.imgColor.setBackgroundResource(color.img)
         holder.imgColor.setOnClickListener {
-            actionListener?.onColorClicked(position   )
+            actionListener?.onColorClicked(position,color.color)
         }
     }
 }

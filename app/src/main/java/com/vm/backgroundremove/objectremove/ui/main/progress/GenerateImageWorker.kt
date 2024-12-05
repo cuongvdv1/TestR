@@ -39,10 +39,10 @@ class GenerateImageWorker(
     override suspend fun doWork(): Result {
         processModel = inputData.getString(ITEM_GENERATE)?.convertToObject<HistoryModel>()
 
-        val taskId = processModel?.taskId
-        Log.d("GenerateImageWorker", "Task ID: $taskId")
-        val sdUrl = processModel?.sdUrl
-        Log.d("GenerateImageWorker", "sdUrl: $sdUrl")
+        val task_id = processModel?.task_id
+        Log.d("GenerateImageWorker", "Task ID: $task_id")
+        val cf_url = processModel?.cf_url
+        Log.d("GenerateImageWorker", "sdUrl: $cf_url")
         val row = dbHistoryRepository.getRowCount()
         val rowCount = if (row > 0) row + 1 else 1
 
@@ -60,7 +60,7 @@ class GenerateImageWorker(
         setProgressAsync(Data.Builder().putLong("processId", processId).build())
 
         try {
-            val finalResult = pollForImageResult(taskId!!, sdUrl!!)
+            val finalResult = pollForImageResult(task_id!!, cf_url!!)
 
             if (finalResult != null) {
                 Log.d("YEUBANTRINH",finalResult.toString())
@@ -73,11 +73,11 @@ class GenerateImageWorker(
         }
     }
 
-    private suspend fun pollForImageResult(taskId: String, sdUrl: String): Result? {
+    private suspend fun pollForImageResult(task_id: String, cf_url: String): Result? {
         var attempts = 0
         while (attempts < 10) { // Giới hạn số lần retry để tránh vòng lặp vô hạn
 
-            when (val result = remoteResultRepository.getImageResult(taskId, sdUrl)) {
+            when (val result = remoteResultRepository.getImageResult(task_id,cf_url )) {
                 is ApiResult.Success -> {
                     val data = result.data
                     Log.d("GenerateImageWorker", "Data $data")

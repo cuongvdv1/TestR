@@ -24,6 +24,7 @@ import com.vm.backgroundremove.objectremove.database.HistoryModel
 import com.vm.backgroundremove.objectremove.databinding.ActivityProcessBinding
 import com.vm.backgroundremove.objectremove.ui.common.nointernet.NoInternetActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity
+import com.vm.backgroundremove.objectremove.ui.main.remove_background.ResultRemoveBackGroundActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.shareIn
@@ -31,15 +32,14 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.UUID
 
-class ProessingActivity : BaseActivity<ActivityProessingBinding, ProcessViewModel>() {
+class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>() {
     private var generateResponse: GenerateResponse? = null
     private var itemCode: String? = null
     private var taskId: String? = null
     private var cfUrl: String? = null
     private var uuid: String? = null
-    private var categoryType: String? = null
-    override fun createBinding(): ActivityProessingBinding {
-        return ActivityProessingBinding.inflate(layoutInflater)
+    override fun createBinding(): ActivityProcessBinding {
+        return ActivityProcessBinding.inflate(layoutInflater)
     }
 
     override fun setViewModel(): ProcessViewModel = viewModel<ProcessViewModel>().value
@@ -138,7 +138,7 @@ class ProessingActivity : BaseActivity<ActivityProessingBinding, ProcessViewMode
                                     viewModel.updateNumProcessing()
                                     viewModel.cancelProcessListener()
                                     val intent =
-                                        Intent(this@ProessingActivity, MainActivity::class.java)
+                                        Intent(this@ProessingActivity, ResultRemoveBackGroundActivity::class.java)
                                     intent.putExtra(Constants.INTENT_RESULT, processModel)
                                     startActivity(intent)
                                     finish()

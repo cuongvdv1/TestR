@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -212,6 +213,7 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
 
             override fun onClickItemPhoto(data: ChoosePhotoModel) {
                 uriPhoto = data.path
+                Log.d("TAG_URL", "uriPhoto: $uriPhoto")
                 binding.ivSelected.visibility = View.VISIBLE
             }
 

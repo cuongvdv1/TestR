@@ -3,6 +3,7 @@ package com.vm.backgroundremove.objectremove.ui.main.remove_background
 import android.content.Intent
 import android.os.Bundle
 import android.provider.ContactsContract.CommonDataKinds.Im
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,13 +13,17 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
+import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.ui.main.dialog.DialogBottomSheetPickColor
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.BackGroundAdapter
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.ColorAdapter
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.ColorSelectorListener
+import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.backGroundSelectorListener
+import com.vm.backgroundremove.objectremove.ui.main.remove_background.model.ColorModel
 
 class ChooseBackGroundColorFragment : Fragment() {
     private lateinit var rcvColor: RecyclerView
@@ -37,10 +42,12 @@ class ChooseBackGroundColorFragment : Fragment() {
     private lateinit var tv_choose_bg_image: TextView
     private lateinit var iv_color_start :ImageView
     private lateinit var iv_color_end :ImageView
+    private lateinit var color_bg : String
+    private lateinit var viewModel: RemoveBackGroundViewModel
 
 
 
-    private lateinit var colorList: List<Int>
+    private lateinit var colorList: List<ColorModel>
     private lateinit var backGroundList: List<Int>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,21 +70,23 @@ class ChooseBackGroundColorFragment : Fragment() {
         iv_color_start = view.findViewById(R.id.iv_color_start)
         iv_color_end = view.findViewById(R.id.iv_color_end)
 
+        viewModel = ViewModelProvider(requireActivity()).get(RemoveBackGroundViewModel::class.java)
+
 
         // hien thi list color
-        colorList = listOf<Int>(
-            R.drawable.ic_none_color,
-            R.drawable.ic_circle_color1,
-            R.drawable.ic_circle_color,
-            R.drawable.ic_circle_color2,
-            R.drawable.ic_circle_color3,
-            R.drawable.ic_circle_color4,
-            R.drawable.ic_circle_color5,
-            R.drawable.ic_circle_color6,
-            R.drawable.ic_circle_color7,
-            R.drawable.ic_circle_color8,
-            R.drawable.ic_circle_color9,
-            R.drawable.ic_circle_color10,
+        colorList = listOf<ColorModel>(
+            ColorModel(R.drawable.ic_none_color, "None"),
+            ColorModel(R.drawable.ic_circle_color1,"#5A9CFF"),
+            ColorModel( R.drawable.ic_circle_color,"None"),
+            ColorModel( R.drawable.ic_circle_color2,"#76FF94"),
+            ColorModel( R.drawable.ic_circle_color3,"#8ECE40"),
+            ColorModel( R.drawable.ic_circle_color4,"#FFBF49"),
+            ColorModel( R.drawable.ic_circle_color5,"#FF7755"),
+            ColorModel( R.drawable.ic_circle_color6,"#F578B9"),
+            ColorModel( R.drawable.ic_circle_color7,"#939393"),
+            ColorModel( R.drawable.ic_circle_color8,"#ADADAD"),
+            ColorModel( R.drawable.ic_circle_color9,"#FF7D7D"),
+            ColorModel( R.drawable.ic_circle_color10,"#EB67BF"),
         )
         colorAdapter = ColorAdapter(requireContext(), colorList)
         rcvColor.adapter = colorAdapter
@@ -114,13 +123,23 @@ class ChooseBackGroundColorFragment : Fragment() {
         rcvBackGround.adapter = backGroundAdapter
 
         colorAdapter.setActionListener(object : ColorSelectorListener {
-            override fun onColorClicked(position: Int) {
-//                val bottomSheet = DialogBottomSheetPickColor()
-//               bottomSheet.show(childFragmentManager, bottomSheet.tag)
-                showPickerColor()
-                (activity as RemoveBackgroundActivity)?.setNewImage()
+            override fun onColorClicked(position: Int, color:String) {
+                if(position == 2){
+                    showPickerColor()
+                    (activity as ResultRemoveBackGroundActivity)?.setNewImage()
+                }else{
+                    viewModel.setColor(color)
+                    Log.d("TAG_COLOR", "onColorClicked: $color")
+                }
             }
         })
+        backGroundAdapter.setActionListener(object : backGroundSelectorListener{
+            override fun backGroundClicked(position: Int, background: String) {
+
+            }
+        })
+
+
 
         tv_choose_bg_color.tap {
             showColorList()
@@ -142,7 +161,6 @@ class ChooseBackGroundColorFragment : Fragment() {
             val colorPickerDialog = DialogBottomSheetPickColor()
             colorPickerDialog.show(parentFragmentManager, "ColorPickerBottomSheetDialog")
         }
-
         return view
     }
     fun showColorList() {
@@ -153,8 +171,6 @@ class ChooseBackGroundColorFragment : Fragment() {
         ctl_option_change_color_bg.visibility = View.GONE
         tv_choose_bg_color.visibility = View.VISIBLE
         tv_choose_bg_image.visibility = View.VISIBLE
-
-
     }
 
     fun showPickerColor(){

@@ -3,19 +3,18 @@ package com.vm.backgroundremove.objectremove.ui.main.remove_background
 import android.content.Intent
 import android.util.Log
 import android.view.View
-import androidx.core.content.ContextCompat
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
-import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.api.response.UpLoadImagesResponse
 import com.vm.backgroundremove.objectremove.databinding.ActivityRemoveBackgroundBinding
-import com.vm.backgroundremove.objectremove.ui.main.progress.ProcessActivity
 import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
+import com.vm.backgroundremove.objectremove.util.Utils
 import com.vm.backgroundremove.objectremove.util.getBitmapFrom
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -29,65 +28,40 @@ class RemoveBackgroundActivity :
     override fun createBinding(): ActivityRemoveBackgroundBinding {
         return ActivityRemoveBackgroundBinding.inflate(layoutInflater)
     }
+
     override fun setViewModel(): RemoveBackGroundViewModel =
         viewModel<RemoveBackGroundViewModel>().value
+
     override fun initView() {
         super.initView()
         val imgPathGallery = intent.getStringExtra(Constants.IMG_GALLERY_PATH)
         val imagePathCamera = intent.getStringExtra(Constants.IMG_CAMERA_PATH)
-        Log.d("imagePathCamera", "imagePathCamera $imagePathCamera\n $imgPathGallery")
-        val filePath = intent.getStringExtra(Constants.IMG_CATEGORY_PATH)
-        Log.d("TAG123", "filePath: $filePath")
         if (!imagePathCamera.isNullOrEmpty()) {
+            uploadImageRemoveBackground(imagePathCamera)
             getBitmapFrom(this, imagePathCamera) {
                 binding.ivRmvBg.setBitmap(it)
             }
         } else if (!imgPathGallery.isNullOrEmpty()) {
+            uploadImageRemoveBackground(imgPathGallery)
             getBitmapFrom(this, imgPathGallery) {
                 binding.ivRmvBg.setBitmap(it)
             }
         }
+
+        // Tạo fragment
         val fragment = ChooseBackGroundColorFragment()
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frame_layout, fragment)
         transaction.commit()
-
-        val multipartFromCamera = createMultipartFromFile(imagePathCamera, "cameraImage")
-        val multipartFromGallery = createMultipartFromFile(imgPathGallery, "galleryImage")
-        Log.d("hehehee", "createMultipartFromFile $multipartFromCamera\n $multipartFromGallery")
-
-        multipartFromGallery?.let { multipart ->
-            viewModel.upLoadImage(
-                Constants.ITEM_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-                Constants.CLIENT_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-                Constants.CLIENT_MEMO.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-                multipart
-            )
-        }
-
-        multipartFromCamera?.let { multipart ->
-            viewModel.upLoadImage(
-                Constants.ITEM_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-                Constants.CLIENT_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-                Constants.CLIENT_MEMO.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-                multipart
-            )
-        }
-
         viewModel.upLoadImage.observe(this) { response ->
-            Log.d("tag12340", "response $response")
             startDataGenerate(response)
         }
-
-
-
     }
 
     fun createMultipartFromFile(filePath: String?, partName: String): MultipartBody.Part? {
-        if (filePath.isNullOrEmpty()) {
-            Log.d("hehehee", "filePath is null or empty")
-            return null
-        }
+        Log.d("TAG_URL", "createMultipartFromFile: $filePath")
+        // Kiểm tra nếu filePath rỗng hoặc null
+        if (filePath.isNullOrEmpty()) return null
 
         val file = File(filePath)
         if (!file.exists()) {
@@ -98,7 +72,7 @@ class RemoveBackgroundActivity :
         Log.d("hehehee", "File exists: ${file.absolutePath}")
 
         val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-        return MultipartBody.Part.createFormData(partName, file.name, requestFile)
+        return MultipartBody.Part.createFormData(partName, file.name , requestFile)
     }
 
     fun setNewImage() {
@@ -116,8 +90,8 @@ class RemoveBackgroundActivity :
 
     private fun startDataGenerate(uploadResponse: UpLoadImagesResponse) {
         val modelGenerate = GenerateResponse()
-        modelGenerate.cf_url = uploadResponse.cf_url.toString()
-        modelGenerate.task_id = uploadResponse.task_id.toString()
+        modelGenerate.cf_url = uploadResponse.cf_url
+        modelGenerate.task_id = uploadResponse.task_id
 //        val numberGenerate = limitNumber.toInt() - isCountGenerate
         startActivity(
             Intent(
@@ -130,7 +104,6 @@ class RemoveBackgroundActivity :
             })
         finish()
     }
-
 
     private fun startToProcess() {
         startActivity(
@@ -151,5 +124,44 @@ class RemoveBackgroundActivity :
             check_clicked_color = false
         }
     }
+
+    private fun uploadImageRemoveBackground(path: String) {
+        // chuyen tu path sang bitmap
+        val bitMap = path?.let { Utils.getBitmapFromPath(it) }
+        CoroutineScope(Dispatchers.IO).launch {
+
+            // resize lai kich thuoc va luu anh vao cache
+            val resizedBitmap = bitMap?.let { Utils.scaleBitmap(it) }
+            val tempFile = resizedBitmap?.let {
+                Utils.getFileFromScaledBitmap(
+                    this@RemoveBackgroundActivity,
+                    it,
+                    Utils.NAME_IMAGE +"_"+ System.currentTimeMillis()
+                )
+            }
+
+            if (tempFile != null) {
+                val requestBody =
+                    tempFile.asRequestBody("image/*".toMediaTypeOrNull())
+                val multipart =
+                    MultipartBody.Part.createFormData(
+                        Constants.PAYLOAD_REPLACE_SRC,
+                        tempFile.name,
+                        requestBody
+                    )
+                viewModel.upLoadImage(
+                    Constants.ITEM_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
+                    Constants.CLIENT_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
+                    Constants.CLIENT_MEMO.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
+                    multipart
+                )
+            }
+        }
+    }
+
+    override fun viewModel() {
+        super.viewModel()
+    }
+
 }
 
