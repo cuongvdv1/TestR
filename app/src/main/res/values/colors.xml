@@ -65,4 +65,5 @@
     <color name="trackColor">#40CDA3B8</color>
     <color name="startColor">#6AA3FC</color>
     <color name="endColor">#17DFDC</color>
+    <color name="color_ff6846">#FF6846</color>
 </resources>

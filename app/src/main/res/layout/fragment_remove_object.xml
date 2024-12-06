@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.main.remove_object.RemoveObjectFragment">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ctl_rmv_obj"
@@ -33,7 +34,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
             />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ll_brush_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -50,24 +51,37 @@
                     android:layout_width="0dp"
                     style="@style/CustomText_color_37414B_14"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/brush_size" />
+                    android:text="@string/brush_size"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
-                <ProgressBar
+                <!-- SeekBar -->
+                <SeekBar
+                    android:id="@+id/seekBar"
                     android:layout_width="0dp"
-                    android:layout_height="5dp"
-                    android:layout_weight="7"
-                    android:indeterminate="false" />
+                    android:layout_height="wrap_content"
+                    android:max="100"
+                    android:progress="30"
+                    android:layout_marginHorizontal="12.5dp"
+                    android:thumb="@drawable/ic_icon_seekbar"
+                    android:progressDrawable="@drawable/seekbar_progress"
+                    app:layout_constraintStart_toEndOf="@+id/tv_brush"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_brush_size"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont500
                     android:id="@+id/tv_brush_size"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     style="@style/CustomText_color_FF6846_14"
                     android:textAlignment="textEnd"
-                    android:text="@string/_20" />
-            </LinearLayout>
+                    android:text="@string/_20"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
                 android:textAlignment="center"

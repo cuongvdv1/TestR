@@ -33,20 +33,15 @@
             android:name=".ui.main.progress.ProessingActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.common.splash.SplashActivity"
-            android:exported="true">
-
-        </activity>
-        <activity
             android:name=".ui.common.setting.SettingActivity"
             android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".ui.main.yourprojects.YourProjectsActivity"-->
-<!--            android:exported="false" />-->
+        <!--        <activity-->
+        <!--            android:name=".ui.main.yourprojects.YourProjectsActivity"-->
+        <!--            android:exported="false" />-->
         <activity
             android:name=".ui.main.choose_photo_rmv_bg.ChoosePhotoActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.common.welcomeback.WelcomeBackActivity"
             android:exported="false" />
@@ -70,7 +65,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.main.home.HomeActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -82,6 +77,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.main.remove_background.ResultRemoveBackGroundActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.main.remove_background.RemoveBackgroundActivity"
             android:exported="false" />
         <activity
@@ -89,10 +86,10 @@
             android:exported="false" />
         <activity
             android:name=".ui.main.permission.PermissionActivity"
-            android:exported="false" /> <!-- <activity -->
+            android:exported="false" />
+        <!-- <activity -->
         <!-- android:name=".ui.main.remove_background.RemoveBackgroundActivity" -->
         <!-- android:exported="false" /> -->
-            android:exported="false" />
         <activity
             android:name=".ui.main.user_perpose.UserPerposeActivity"
             android:exported="false" />
@@ -105,6 +102,7 @@
         <activity
             android:name=".ui.main.your_projects.RemoveBackgroundSaveActivity"
             android:exported="false" />
+
         <property
             android:name="android.adservices.AD_SERVICES_CONFIG"
             android:resource="@xml/gma_ad_services_config"
