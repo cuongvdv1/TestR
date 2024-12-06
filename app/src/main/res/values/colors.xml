@@ -55,6 +55,7 @@
     <color name="color_3B8562">#3B8562</color>
     <color name="color_787B82">#787B82</color>
     <color name="color_909090">#909090</color>
+    <color name="color_ffaa49">#FFAA49</color>
     <color name="color_66727E">#66727E</color>
     <color name="color_B9C1CC">#B9C1CC</color>
     <color name="color_586674">#586674</color>
@@ -64,5 +65,6 @@
     <color name="trackColor">#40CDA3B8</color>
     <color name="startColor">#6AA3FC</color>
     <color name="endColor">#17DFDC</color>
+    <color name="color_ff6846">#FF6846</color>
     <color name="color_ffede0">#FFEDE0</color>
 </resources>

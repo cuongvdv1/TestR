@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.PointF
 import android.graphics.RectF
+import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.FrameLayout
@@ -92,6 +93,35 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
             e.printStackTrace() // Xử lý lỗi nếu mã màu không hợp lệ
         }
     }
+
+    fun setBackgroundWithGradient(startColorHex: String, endColorHex: String) {
+        try {
+            // Chuyển đổi mã màu hex sang `Int`
+            val startColor = Color.parseColor(startColorHex)
+            val endColor = Color.parseColor(endColorHex)
+
+            // Tạo drawable gradient
+            val gradientDrawable = GradientDrawable(
+                GradientDrawable.Orientation.LEFT_RIGHT,
+                intArrayOf(startColor, endColor)
+            )
+
+            // Tạo bitmap mới với kích thước của CropView
+            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(bitmap)
+
+            // Vẽ gradient lên canvas
+            gradientDrawable.setBounds(0, 0, width, height)
+            gradientDrawable.draw(canvas)
+
+            // Cập nhật nền của `CropView` bằng bitmap đã tạo
+            setBackgroundBitmap(bitmap)
+        } catch (e: IllegalArgumentException) {
+            e.printStackTrace() // Xử lý lỗi nếu mã màu không hợp lệ
+        }
+    }
+
+
 
     fun setBitmap(bitmap: Bitmap) {
         this.bitmap = bitmap
