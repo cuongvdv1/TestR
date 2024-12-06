@@ -27,6 +27,9 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="35dp"
         android:gravity="center"
+        android:minLines="1"
+        android:maxLines="1"
+
         android:text="@string/no_internet_connection"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

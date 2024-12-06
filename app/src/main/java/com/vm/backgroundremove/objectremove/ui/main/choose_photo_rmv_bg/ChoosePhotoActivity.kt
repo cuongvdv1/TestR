@@ -147,7 +147,7 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
             MediaStore.Images.Media.DISPLAY_NAME,
             MediaStore.Images.Media.DATA
         )
-        val sortOrder = "${MediaStore.Images.Media.DATE_TAKEN} DESC"
+        val sortOrder = "${MediaStore.Images.Media.DATE_MODIFIED} DESC"
 
         val imageInfos = mutableListOf<ChoosePhotoModel>()
 

@@ -9,7 +9,7 @@ import com.vm.backgroundremove.objectremove.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
-class DemoApplication: B9AdApplication(){
+class DemoApplication : B9AdApplication() {
     override fun onCreate() {
         super.onCreate()
         startKoin {

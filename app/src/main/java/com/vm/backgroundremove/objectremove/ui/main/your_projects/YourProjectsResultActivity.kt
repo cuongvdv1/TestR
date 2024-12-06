@@ -1,29 +1,25 @@
-package com.vm.backgroundremove.objectremove.ui.main.remove_object
+package com.vm.backgroundremove.objectremove.ui.main.your_projects
 
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Build
-import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
-import com.vm.backgroundremove.objectremove.MainActivity
-import com.vm.backgroundremove.objectremove.R
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseViewModel
 import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
-import com.vm.backgroundremove.objectremove.databinding.ActivityRemoveObjectBinding
-import com.vm.backgroundremove.objectremove.ui.main.remove_background.ChooseBackGroundColorFragment
-import com.vm.backgroundremove.objectremove.util.getBitmapFrom
+import com.vm.backgroundremove.objectremove.databinding.ActivityYourProjectsResultBinding
+import com.vm.backgroundremove.objectremove.ui.main.home.HomeActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,62 +27,46 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 
-class RemoveObjectActivity : BaseActivity<ActivityRemoveObjectBinding, BaseViewModel>(){
-    override fun createBinding() = ActivityRemoveObjectBinding.inflate(layoutInflater)
-    override fun setViewModel() = BaseViewModel()
+class YourProjectsResultActivity :
+    BaseActivity<ActivityYourProjectsResultBinding, BaseViewModel>() {
+    private var imageUrl = ""
+    private var type = ""
 
+    override fun createBinding() = ActivityYourProjectsResultBinding.inflate(layoutInflater)
+    override fun setViewModel() = BaseViewModel()
 
     override fun initView() {
         super.initView()
+        try {
+            // Gắn link ảnh cố định
+            val fixedImageUrl =
+                "https://aphoto.vn/wp-content/uploads/2020/04/anh-dep-jpg-fujifilm-2.jpg" // Thay bằng URL ảnh cứng
+            Glide.with(this@YourProjectsResultActivity)
+                .load(fixedImageUrl)
+                .into(binding.ivHistoryResult)
 
-        val imgPathGallery = intent.getStringExtra(Constants.IMG_GALLERY_PATH)
-        val imagePathCamera = intent.getStringExtra(Constants.IMG_CAMERA_PATH)
+            imageUrl = fixedImageUrl // Gắn giá trị cho biến imageUrl
+        } catch (_: Exception) {
+        }
+    }
 
-        val filePath = intent.getStringExtra(Constants.IMG_CATEGORY_PATH)
-        Log.d("TAG123", "filePath: $filePath")
-        if (!imagePathCamera.isNullOrEmpty()) {
-//            Glide.with(this)
-//                .load(File(imagePathCamera))
-//                .skipMemoryCache(true)
-//                .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                .into(binding.ivRmvBg)
-            getBitmapFrom(this, imagePathCamera) {
-                binding.ivRmvBg.setBitmap(it)
-            }
 
-        } else if (!imgPathGallery.isNullOrEmpty()) {
-//            Glide.with(this)
-//                .load(imgPathGallery)
-//                .into(binding.ivRmvBg)
-            getBitmapFrom(this, imgPathGallery) {
-                binding.ivRmvBg.setBitmap(it)
-            }
+    override fun bindView() {
+        super.bindView()
+
+        binding.llBtnExport.setOnClickListener {
+            downloadImageFromUrl(this@YourProjectsResultActivity, imageUrl)
+
         }
 
-        val fragment = RemoveObjectFragment()
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.frame_layout, fragment)
-        transaction.commit()
-
-
-        binding.ivExport.tap {
-            val imageUrl = when {
-                !imagePathCamera.isNullOrEmpty() -> File(imagePathCamera).absolutePath
-                !imgPathGallery.isNullOrEmpty() -> imgPathGallery
-                else -> null
-            }
-
-            if (imageUrl != null) {
-                downloadImageFromUrl(this, imageUrl)
-            } else {
-                Toast.makeText(this, "Không có hình ảnh để tải xuống", Toast.LENGTH_SHORT).show()
-            }
+        binding.llBtnShare.setOnClickListener {
+            shareImage(imageUrl)
         }
 
         binding.ivBack.tap {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            finish()
         }
+
 
     }
 
@@ -170,4 +150,43 @@ class RemoveObjectActivity : BaseActivity<ActivityRemoveObjectBinding, BaseViewM
             }
         }
     }
+
+
+    private fun shareImage(url: String) {
+        // Tải hình ảnh từ URL và lưu tạm vào cache
+        Glide.with(this)
+            .asFile()
+            .load(url)
+            .into(object : CustomTarget<File>() {
+                override fun onResourceReady(resource: File, transition: Transition<in File>?) {
+                    // Chia sẻ file ảnh sau khi tải về thành công
+                    shareFile(resource)
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {
+                    // Xử lý nếu tải hình thất bại
+                }
+            })
+    }
+
+
+    private fun shareFile(imageFile: File) {
+        // Tạo URI từ File thông qua FileProvider
+        val uri = FileProvider.getUriForFile(
+            this,
+            "$packageName.provider", // Thay đổi theo package name
+            imageFile
+        )
+
+        // Tạo Intent chia sẻ
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "image/*"
+            putExtra(Intent.EXTRA_STREAM, uri)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION) // Cho phép quyền đọc file
+        }
+
+        // Hiển thị dialog chọn ứng dụng
+        startActivity(Intent.createChooser(shareIntent, "Share image via"))
+    }
+
 }

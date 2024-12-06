@@ -32,6 +32,8 @@ import com.vm.backgroundremove.objectremove.dialog.RatingDialog
 import com.vm.backgroundremove.objectremove.dialog.ThankDialog
 import com.vm.backgroundremove.objectremove.ui.common.feedback.DialogFeedback
 import com.vm.backgroundremove.objectremove.ui.common.language.LanguageSettingActivity
+import com.vm.backgroundremove.objectremove.ui.main.home.HomeActivity
+import com.vm.backgroundremove.objectremove.ui.main.your_projects.YourProjectsResultActivity
 
 
 class SettingActivity : BaseActivity<ActivitySettingBinding, BaseViewModel>() {
@@ -48,12 +50,10 @@ class SettingActivity : BaseActivity<ActivitySettingBinding, BaseViewModel>() {
 
     override fun initView() {
         super.initView()
-        window.statusBarColor = ContextCompat.getColor(this, R.color.color_F0F8FF)
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 
         binding.tvVersion.text = getString(R.string.version) + " " + BuildConfig.VERSION_NAME
 
-//home model
+        //home model
         remoteConfigHomeModel = RemoteConfig.getConfigObject(
             this,
             RemoteConfigKey.screen_home,
@@ -65,10 +65,17 @@ class SettingActivity : BaseActivity<ActivitySettingBinding, BaseViewModel>() {
             RemoteConfigKey.screen_feedback,
             RemoteConfigScreenFeedbackModel::class.java
         )
-        binding.ivBack.tap {
-            finish()
+
+        binding.ctlHome.tap {
+            val intent = Intent(this@SettingActivity, HomeActivity::class.java)
+            startActivity(intent)
         }
 
+
+        binding.ctlYourProjects.tap {
+            val intent = Intent(this, YourProjectsResultActivity::class.java)
+            startActivity(intent)
+        }
 
         binding.languageSetting.tap {
             val intent = Intent(this, LanguageSettingActivity::class.java)
@@ -77,11 +84,12 @@ class SettingActivity : BaseActivity<ActivitySettingBinding, BaseViewModel>() {
 
         binding.shareSettings.tap {
             if (!check) {
+                check = true
                 share()
             }
         }
 
-        binding.ratingSettings.setOnClickListener {
+        binding.ratingSettings.tap {
             if (!check) {
                 check = true
                 showRateDialog()
@@ -89,7 +97,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding, BaseViewModel>() {
         }
 
 
-        binding.feedbackSettings.setOnClickListener {
+        binding.feedbackSettings.tap {
             if (!check) {
                 check = true // Đánh dấu là nút đã được bấm
 
@@ -130,11 +138,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding, BaseViewModel>() {
         }
 
 
-
-
-
-
-        binding.privacyPolicySettings.setOnClickListener {
+        binding.privacyPolicySettings.tap {
             check = true
             val intent = Intent(
                 Intent.ACTION_VIEW,
@@ -170,25 +174,9 @@ class SettingActivity : BaseActivity<ActivitySettingBinding, BaseViewModel>() {
 
     private fun showRateDialog() {
         check = true
-
-        val cornerRadius = 24f.toDp()
-        val radii = floatArrayOf(
-            cornerRadius,
-            cornerRadius,
-            cornerRadius,
-            cornerRadius,
-            cornerRadius,
-            cornerRadius,
-            cornerRadius,
-            cornerRadius
-        )
-        val shape = RoundRectShape(radii, null, null)
-        val shapeDrawable = ShapeDrawable(shape)
-        shapeDrawable.paint.color = Color.WHITE
-        val ratingDialog = RatingDialog(this@SettingActivity)
-        ratingDialog.window!!.setBackgroundDrawable(shapeDrawable)
-        ratingDialog.setCanceledOnTouchOutside(false)
-        ratingDialog.init(this@SettingActivity, object : RatingDialog.OnPress {
+        val manager = ReviewManagerFactory.create(this)
+        val ratingDialog = RatingDialog(this)
+        ratingDialog.init(this, object : RatingDialog.OnPress {
             override fun send(s: Int) {
 //                Toast.makeText(
 //                    this@SettingActivity,
