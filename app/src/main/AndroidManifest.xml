@@ -73,11 +73,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.main.progress.ProcessActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.main.remove_background.ResultRemoveBackGroundActivity"
-            android:exported="false" />
+            android:exported="false"/>
+
         <activity
             android:name=".ui.main.remove_background.RemoveBackgroundActivity"
             android:exported="false" />

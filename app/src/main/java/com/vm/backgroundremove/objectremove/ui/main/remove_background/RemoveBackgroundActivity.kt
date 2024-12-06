@@ -36,7 +36,6 @@ import java.io.OutputStream
 
 class RemoveBackgroundActivity :
     BaseActivity<ActivityRemoveBackgroundBinding, RemoveBackGroundViewModel>() {
-    private var check_clicked_color: Boolean = false
     override fun createBinding(): ActivityRemoveBackgroundBinding {
         return ActivityRemoveBackgroundBinding.inflate(layoutInflater)
     }
@@ -137,26 +136,6 @@ class RemoveBackgroundActivity :
 //                putExtra(LIMIT_NUMBER_GENERATE, numberGenerate)
             })
         finish()
-    }
-
-    private fun startToProcess() {
-        startActivity(
-            Intent(
-                this@RemoveBackgroundActivity,
-                ProessingActivity::class.java
-            ).apply {
-                putExtra(LIMIT_NUMBER_ERROR, LIMIT_NUMBER_ERROR)
-            })
-        finish()
-    }
-
-    fun receiveDataFromFragment(value: Boolean) {
-        // Xử lý giá trị bạn nhận được từ Fragment
-        if (value) {
-            check_clicked_color = true
-        } else {
-            check_clicked_color = false
-        }
     }
 
     private fun uploadImageRemoveBackground(path: String) {
