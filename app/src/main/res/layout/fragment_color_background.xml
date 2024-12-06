@@ -11,16 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ll_choose_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:paddingVertical="4dp"
+            android:layout_marginHorizontal="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <!-- TextView for Color -->
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
                 android:id="@+id/tv_choose_bg_color"
                 style="@style/CustomText_color_FF6846_16"
@@ -28,8 +30,24 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/color"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                app:layout_constraintWidth_percent="0.5"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
 
+            <!-- View for Color Indicator -->
+            <View
+                android:id="@+id/view_color_indicator"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/color_ff6846"
+                app:layout_constraintTop_toBottomOf="@+id/tv_choose_bg_color"
+                app:layout_constraintStart_toStartOf="@id/tv_choose_bg_color"
+                app:layout_constraintEnd_toEndOf="@id/tv_choose_bg_color"
+                android:visibility="visible" />
+
+            <!-- TextView for Background -->
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
                 android:id="@+id/tv_choose_bg_image"
                 style="@style/CustomText_color_8F9DAA_16"
@@ -37,8 +55,25 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/background"
-                android:textAlignment="center" />
-        </LinearLayout>
+                android:textAlignment="center"
+                app:layout_constraintWidth_percent="0.5"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <!-- View for Background Indicator -->
+            <View
+                android:id="@+id/view_bg_indicator"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/color_8F9DAA"
+                app:layout_constraintWidth_percent="0.5"
+                app:layout_constraintTop_toBottomOf="@+id/tv_choose_bg_image"
+                app:layout_constraintStart_toStartOf="@id/tv_choose_bg_image"
+                app:layout_constraintEnd_toEndOf="@id/tv_choose_bg_image"
+                android:visibility="visible" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -53,19 +88,19 @@
             app:layout_constraintTop_toBottomOf="@+id/ll_choose_background"
             app:spanCount="2" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_list_background"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="30dp"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:spanCount="2" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_list_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_choose_background"
+        app:spanCount="2" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -74,16 +109,18 @@
         android:layout_height="wrap_content"
         android:visibility="gone">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ll_picker_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:paddingVertical="4dp"
+            android:layout_marginHorizontal="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <!-- TextView for Color -->
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
                 android:id="@+id/tv_picker_color_single"
                 style="@style/CustomText_color_FF6846_16"
@@ -91,7 +128,23 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/color"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                app:layout_constraintWidth_percent="0.5"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <!-- View for Color Indicator -->
+            <View
+                android:id="@+id/view_color"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/color_ff6846"
+                app:layout_constraintTop_toBottomOf="@+id/tv_picker_color_single"
+                app:layout_constraintStart_toStartOf="@id/tv_picker_color_single"
+                app:layout_constraintEnd_toEndOf="@id/tv_picker_color_single"
+                android:visibility="visible" />
+
 
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
                 android:id="@+id/tv_picker_color_gradient"
@@ -99,9 +152,25 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                app:layout_constraintWidth_percent="0.5"
                 android:text="@string/gradient"
-                android:textAlignment="center" />
-        </LinearLayout>
+                android:textAlignment="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <!-- View for Background Indicator -->
+            <View
+                android:id="@+id/view_bg_gradient"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/color_8F9DAA"
+                app:layout_constraintWidth_percent="0.5"
+                app:layout_constraintTop_toBottomOf="@+id/tv_picker_color_gradient"
+                app:layout_constraintStart_toStartOf="@id/tv_picker_color_gradient"
+                app:layout_constraintEnd_toEndOf="@id/tv_picker_color_gradient"
+                android:visibility="visible" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ctl_picker_color"

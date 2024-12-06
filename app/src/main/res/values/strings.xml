@@ -141,4 +141,6 @@
     <string name="time_estimated_until_done">Time estimated until done</string>
     <string name="you_have_ran_out_of_your_free_generate_requests_today_come_back_tomorrow_for_more">You have ran out of your free generate requests today come back tomorrow.</string>
     <string name="your_photo_is_nbeing_remove_bg">Your photo is \nbeing remove BG.</string>
+    <string name="saved">Saved</string>
+    <string name="download_successfully">Download Successfully</string>
 </resources>

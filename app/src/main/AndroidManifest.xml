@@ -33,16 +33,15 @@
             android:name=".ui.main.progress.ProessingActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.common.splash.SplashActivity"
-            android:exported="true">
-
-        </activity>
-        <activity
             android:name=".ui.common.setting.SettingActivity"
             android:exported="false" />
+        <!--        <activity-->
+        <!--            android:name=".ui.main.yourprojects.YourProjectsActivity"-->
+        <!--            android:exported="false" />-->
         <activity
-            android:name=".ui.main.yourprojects.YourProjectsActivity"
-            android:exported="false" />
+            android:name=".ui.main.choose_photo_rmv_bg.ChoosePhotoActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.common.welcomeback.WelcomeBackActivity"
             android:exported="false" />
@@ -85,11 +84,21 @@
             android:exported="false" />
         <activity
             android:name=".ui.main.permission.PermissionActivity"
-            android:exported="false" /> <!-- <activity -->
+            android:exported="false" />
+        <!-- <activity -->
         <!-- android:name=".ui.main.remove_background.RemoveBackgroundActivity" -->
         <!-- android:exported="false" /> -->
         <activity
             android:name=".ui.main.user_perpose.UserPerposeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.your_projects.YourProjectsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.your_projects.YourProjectsResultActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.your_projects.RemoveBackgroundSaveActivity"
             android:exported="false" />
 
         <property
@@ -123,9 +132,28 @@
             android:value="true" />
 
         <activity
-            android:name=".ui.main.choose_photo_rmv_bg.ChoosePhotoActivity"
+            android:name=".ui.common.splash.SplashActivity"
             android:exported="true"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.App.Starting">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+
     </application>
 
 </manifest>
