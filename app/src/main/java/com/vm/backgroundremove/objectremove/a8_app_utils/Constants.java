@@ -30,4 +30,9 @@ public class Constants {
     public static final String INTENT_RESULT = "INTENT_RESULT";
     public static final String  WORK_UUID = "WORK_UUID";
     public static final String KEY_PROCESS = "KEY_PROCESS";
+
+    public static final String PAYLOAD_REPLACE_SRC = "___payload_replace_img_src";
+    public static final String TYPE_HISTORY = "TYPE_HISTORY";
+    public static final String COLOR ="COLOR";
+
 }

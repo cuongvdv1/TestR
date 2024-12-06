@@ -55,8 +55,8 @@ abstract class BaseActivity<VB : ViewBinding, V: ViewModel> : AppCompatActivity(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.statusBarColor = ContextCompat.getColor(this, R.color.color_F0F8FF)
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+//        window.statusBarColor = ContextCompat.getColor(this, R.color.color_F0F8FF)
+//        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         SystemUtil.setLocale(this)
         binding = createBinding()
         setContentView(binding.root)

@@ -21,6 +21,13 @@ class RemoveBackGroundViewModel (private val upLoadImageRepository: UpLoadImageR
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading :  LiveData<Boolean> = _isLoading
 
+    private val _color = MutableLiveData<String>()
+    val color : LiveData<String> get() = _color
+
+    fun setColor(color: String) {
+        _color.value = color
+    }
+
     fun upLoadImage(
         item_code: RequestBody,
         client_code: RequestBody,

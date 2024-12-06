@@ -1,12 +1,10 @@
 package com.vm.backgroundremove.objectremove.ui.main.cropview
-
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
-import kotlin.math.min
 
 class CustomCropView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null

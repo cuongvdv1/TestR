@@ -4,19 +4,24 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.PointF
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.FrameLayout
+import androidx.appcompat.content.res.AppCompatResources
+import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.util.toDp
 import kotlin.math.sqrt
 
 class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
 
     private var bitmap: Bitmap? = null
+    private var backgroundBitmap: Bitmap? = null
     private val bound = RectF()
+    private val boundBg = RectF()
     private val boundPoint = FloatArray(4)
     private val mappedBoundPoint = FloatArray(4)
     private val matrixValues = FloatArray(9)
@@ -24,6 +29,7 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
     private val padding = 20f.toDp()
     private val minScaleFactor = 0.25f
     private val maxScaleFactor = 4f
+    private val bg_none = AppCompatResources.getDrawable(context, R.drawable.bg_none)
 
     private var actionType = ActionType.NONE
     private val oldTouchPoint = PointF()
@@ -37,9 +43,15 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         calculateBitmapBound(w.toFloat(), h.toFloat())
+        bg_none?.setBounds(0,0, w,h)
+        boundBg.set(0f,0f,w.toFloat(),h.toFloat())
     }
 
     override fun onDraw(canvas: Canvas) {
+        bg_none?.draw(canvas)
+        backgroundBitmap?.let {
+            canvas.drawBitmap(it, null, boundBg, null)
+        }
         drawBitmap(canvas)
     }
 
@@ -52,6 +64,32 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
             MotionEvent.ACTION_MOVE -> handleMove(event)
             MotionEvent.ACTION_UP -> handleUp()
             else -> false
+        }
+    }
+    fun createColorBitmap(color: Int, width: Int, height: Int): Bitmap {
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        canvas.drawColor(color) // Vẽ toàn bộ bitmap với màu được chỉ định
+        return bitmap
+    }
+
+    fun setBackgroundBitmap(bitmap: Bitmap) {
+        backgroundBitmap = bitmap
+        invalidate() // Vẽ lại view khi có sự thay đổi
+    }
+
+    fun setBackgroundWithColor(hexColor: String) {
+        try {
+            // Chuyển đổi mã màu hex sang `Int`
+            val color = Color.parseColor(hexColor)
+
+            // Tạo bitmap màu
+            val bitmap = createColorBitmap(color, measuredWidth, measuredHeight)
+
+            // Cập nhật nền của `CropView`
+            setBackgroundBitmap(bitmap)
+        } catch (e: IllegalArgumentException) {
+            e.printStackTrace() // Xử lý lỗi nếu mã màu không hợp lệ
         }
     }
 
