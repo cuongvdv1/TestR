@@ -1,5 +1,6 @@
 package com.vm.backgroundremove.objectremove.ui.main.remove_background
 
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -27,6 +28,25 @@ class RemoveBackGroundViewModel (private val upLoadImageRepository: UpLoadImageR
     fun setColor(color: String) {
         _color.value = color
     }
+
+    private val _backGround = MutableLiveData<Bitmap>()
+    val backGround : LiveData<Bitmap> get() = _backGround
+
+    fun setBackGround(backGround: Bitmap) {
+        _backGround.value = backGround
+    }
+
+    private val _startColor = MutableLiveData<String>()
+    val startColor : LiveData<String> get() = _startColor
+
+    private val _endColor = MutableLiveData<String>()
+    val endColor : LiveData<String> get() = _endColor
+
+    fun setGradientBackGroundColor(startColor: String, endColor: String) {
+        _startColor.value = startColor
+        _endColor.value = endColor
+    }
+
 
     fun upLoadImage(
         item_code: RequestBody,

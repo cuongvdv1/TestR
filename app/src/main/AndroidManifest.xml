@@ -66,7 +66,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.main.home.HomeActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -74,11 +74,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.main.progress.ProcessActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.main.remove_background.ResultRemoveBackGroundActivity"
-            android:exported="false" />
+            android:exported="false"/>
+
         <activity
             android:name=".ui.main.remove_background.RemoveBackgroundActivity"
             android:exported="false" />

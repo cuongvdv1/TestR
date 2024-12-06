@@ -22,6 +22,7 @@ import com.vm.backgroundremove.objectremove.databinding.ActivityChoosePhotoBindi
 import com.vm.backgroundremove.objectremove.inteface.OnClickChoosePhoto
 import com.vm.backgroundremove.objectremove.ui.main.choose_photo_rmv_bg.adapter.ChoosePhotoAdapter
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity
+import com.vm.backgroundremove.objectremove.ui.main.remove_background.ResultRemoveBackGroundActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_object.RemoveObjectActivity
 import java.io.File
 import java.io.FileOutputStream
@@ -50,17 +51,29 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
             finish()
         }
         val checkRemove = intent.getStringExtra(Constants.NAME_INTENT_FROM_HOME).toString()
+        val checkRemoveFragment = intent.getStringExtra(Constants.NAME_INTENT_FORM_FRAGMENT).toString()
         binding.ivSelected.tap {
+            Log.d("TAG_CHECK","TRUE")
             if (checkRemove.equals(Constants.INTENT_FROM_HOME_TO_BACKGROUND)){
                 val intent = Intent(this@ChoosePhotoActivity, RemoveBackgroundActivity::class.java)
                 intent.putExtra(Constants.IMG_GALLERY_PATH, uriPhoto)
                 intent.putExtra(Constants.IMG_CATEGORY_PATH, filePath)
                 startActivity(intent)
-            }else{
+            }else if(checkRemove.equals(Constants.INTENT_FROM_HOME_TO_OBJECT)){
                 val intent = Intent(this@ChoosePhotoActivity, RemoveObjectActivity::class.java)
                 intent.putExtra(Constants.IMG_GALLERY_PATH, uriPhoto)
                 intent.putExtra(Constants.IMG_CATEGORY_PATH, filePath)
                 startActivity(intent)
+            }else if(checkRemoveFragment.equals(Constants.INTENT_FROM_FRAGMENT_CHOOSE_BG)){
+//                val intent = Intent(this@ChoosePhotoActivity, ResultRemoveBackGroundActivity::class.java)
+//                intent.putExtra(Constants.IMG_GALLERY_PATH, uriPhoto)
+//                intent.putExtra(Constants.IMG_CATEGORY_PATH, filePath)
+//                startActivity(intent)
+                val intent=Intent()
+                intent.putExtra(Constants.IMG_GALLERY_PATH, uriPhoto)
+                intent.putExtra(Constants.IMG_CATEGORY_PATH, filePath)
+                setResult(RESULT_OK,intent)
+                finish()
             }
 
         }
@@ -147,7 +160,7 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
             MediaStore.Images.Media.DISPLAY_NAME,
             MediaStore.Images.Media.DATA
         )
-        val sortOrder = "${MediaStore.Images.Media.DATE_TAKEN} DESC"
+        val sortOrder = "${MediaStore.Images.Media.DATE_MODIFIED} DESC"
 
         val imageInfos = mutableListOf<ChoosePhotoModel>()
 
