@@ -39,12 +39,6 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
     private lateinit var rcvBackGround: RecyclerView
     private lateinit var colorAdapter: ColorAdapter
     private lateinit var backGroundAdapter: BackGroundAdapter
-    private lateinit var ll_choose_bg: LinearLayout
-    private lateinit var ctl_option_change_color_bg: ConstraintLayout
-    private lateinit var ctl_picker_color: ConstraintLayout
-    private lateinit var ctl_picker_color_gradient: ConstraintLayout
-    private lateinit var ctl_choose_bg: ConstraintLayout
-    private lateinit var ll_picker_color: LinearLayout
     private lateinit var ll_choose_bg : ConstraintLayout
     private lateinit var ctl_option_change_color_bg : ConstraintLayout
     private lateinit var ctl_picker_color : ConstraintLayout
