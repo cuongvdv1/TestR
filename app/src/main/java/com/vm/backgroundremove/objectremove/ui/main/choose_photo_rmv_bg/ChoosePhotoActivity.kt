@@ -225,7 +225,7 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
             }
 
             override fun onClickItemPhoto(data: ChoosePhotoModel) {
-                uriPhoto = data.path
+                uriPhoto = data.uri
                 Log.d("TAG_URL", "uriPhoto: $uriPhoto")
                 binding.ivSelected.visibility = View.VISIBLE
             }

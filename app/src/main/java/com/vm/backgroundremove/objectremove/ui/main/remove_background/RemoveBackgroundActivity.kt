@@ -48,13 +48,13 @@ class RemoveBackgroundActivity :
         val imgPathGallery = intent.getStringExtra(Constants.IMG_GALLERY_PATH)
         val imagePathCamera = intent.getStringExtra(Constants.IMG_CAMERA_PATH)
         if (!imagePathCamera.isNullOrEmpty()) {
-            uploadImageRemoveBackground(imagePathCamera)
             getBitmapFrom(this, imagePathCamera) {
+                uploadImageRemoveBackground(it)
                 binding.ivRmvBg.setBitmap(it)
             }
         } else if (!imgPathGallery.isNullOrEmpty()) {
-            uploadImageRemoveBackground(imgPathGallery)
             getBitmapFrom(this, imgPathGallery) {
+                uploadImageRemoveBackground(it)
                 binding.ivRmvBg.setBitmap(it)
             }
         }
@@ -125,6 +125,7 @@ class RemoveBackgroundActivity :
         val modelGenerate = GenerateResponse()
         modelGenerate.cf_url = uploadResponse.cf_url
         modelGenerate.task_id = uploadResponse.task_id
+        modelGenerate.imageCreate = Constants.ITEM_CODE
 //        val numberGenerate = limitNumber.toInt() - isCountGenerate
         startActivity(
             Intent(
@@ -138,9 +139,9 @@ class RemoveBackgroundActivity :
         finish()
     }
 
-    private fun uploadImageRemoveBackground(path: String) {
+    private fun uploadImageRemoveBackground(bitMap: Bitmap) {
         // chuyen tu path sang bitmap
-        val bitMap = path?.let { Utils.getBitmapFromPath(it) }
+//        val bitMap = path?.let { Utils.getBitmapFromPath(it) }
         CoroutineScope(Dispatchers.IO).launch {
 
             // resize lai kich thuoc va luu anh vao cache
@@ -166,7 +167,8 @@ class RemoveBackgroundActivity :
                     Constants.ITEM_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
                     Constants.CLIENT_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
                     Constants.CLIENT_MEMO.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-                    multipart
+                    multipart,
+                    "heart".toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull())
                 )
             }
         }
@@ -180,7 +182,6 @@ class RemoveBackgroundActivity :
     private fun downloadImageFromUrl(context: Context, imageUrl: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                // Tải bitmap từ URL
                 val bitmap = Glide.with(context)
                     .asBitmap()
                     .load(imageUrl)
@@ -189,11 +190,9 @@ class RemoveBackgroundActivity :
 
                 val outputStream: OutputStream?
 
-                // Tạo tên tệp ngẫu nhiên
                 val randomFileName = "Image_${System.currentTimeMillis()}.jpg"
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    // Android 10 trở lên: Lưu vào MediaStore
                     val contentValues = ContentValues().apply {
                         put(MediaStore.Images.Media.DISPLAY_NAME, randomFileName)
                         put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")

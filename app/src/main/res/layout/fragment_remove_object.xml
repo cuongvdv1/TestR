@@ -60,8 +60,8 @@
                 android:backgroundTint="@color/color_F2F2F2"
                 android:paddingVertical="8dp"
                 android:paddingStart="16dp"
-                android:text="@string/enter_your_object_you_want_to_remove"
-                android:textColor="@color/adb9c7"
+                android:hint="@string/enter_your_object_you_want_to_remove"
+                android:textColorHint="@color/adb9c7"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -122,6 +122,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/rl_other" />
 
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
+                android:id="@+id/btn_Remove_by_list"
                 style="@style/CustomText_White_16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

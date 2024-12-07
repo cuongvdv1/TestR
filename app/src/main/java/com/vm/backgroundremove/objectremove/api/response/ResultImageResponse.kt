@@ -7,7 +7,7 @@ import java.io.Serializable
 
 data class ResultImageResponse (
     val img_url : List<ImgUrlResponse>,
-    val other: List<String>,
+    val other: List<List<String>>,
     val success: Boolean,
     val status: String
 ): Serializable
