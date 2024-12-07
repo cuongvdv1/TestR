@@ -39,7 +39,6 @@ class BackGroundAdapter(
 
     override fun onBindViewHolder(holder: BackGroundViewHolder, position: Int) {
         val background = backGroundList[position]
-        Log.d("TAG_DEBUG", "Binding position: $position, Background: $background, ActionListener: $actionListener, Context: $context")
         Glide.with(holder.iv_backGround.context).load(background).into(holder.iv_backGround)
         holder.iv_backGround.setOnClickListener {
             if (context != null && actionListener != null) {

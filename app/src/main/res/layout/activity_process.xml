@@ -126,6 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/time_estimated_until_done"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -211,7 +212,7 @@
         android:layout_centerInParent="true"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="16dp"
-        app:indicatorColor="@color/startColor"
+        app:indicatorColor="@color/color_FFA637"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cnViewProcessGenerate"

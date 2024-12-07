@@ -40,14 +40,14 @@ class SeekbarProgress @JvmOverloads constructor(
             invalidate()
         }
 
-    var indicatorColor: Int = ContextCompat.getColor(context, R.color.startColor)
+    var indicatorColor: Int = ContextCompat.getColor(context, R.color.color_FFA637)
         set(value) {
             field = value
             invalidateShader()
             invalidate()
         }
 
-    var endColor: Int = ContextCompat.getColor(context, R.color.endColor)
+    var endColor: Int = ContextCompat.getColor(context, R.color.color_FFA637)
         set(value) {
             field = value
             invalidateShader()
