@@ -48,13 +48,15 @@ class RemoveBackgroundActivity :
         val imgPathGallery = intent.getStringExtra(Constants.IMG_GALLERY_PATH)
         val imagePathCamera = intent.getStringExtra(Constants.IMG_CAMERA_PATH)
         if (!imagePathCamera.isNullOrEmpty()) {
-            uploadImageRemoveBackground(imagePathCamera)
             getBitmapFrom(this, imagePathCamera) {
+                uploadImageRemoveBackground(it)
                 binding.ivRmvBg.setBitmap(it)
             }
         } else if (!imgPathGallery.isNullOrEmpty()) {
-            uploadImageRemoveBackground(imgPathGallery)
+//            uploadImageRemoveBackground(imgPathGallery)
+            Log.d("tag111","$imgPathGallery")
             getBitmapFrom(this, imgPathGallery) {
+                uploadImageRemoveBackground(it)
                 binding.ivRmvBg.setBitmap(it)
             }
         }
@@ -67,49 +69,18 @@ class RemoveBackgroundActivity :
         viewModel.upLoadImage.observe(this) { response ->
             startDataGenerate(response)
         }
-        binding.ivExport.tap {
-            val imageUrl = when {
-                !imagePathCamera.isNullOrEmpty() -> File(imagePathCamera).absolutePath
-                !imgPathGallery.isNullOrEmpty() -> imgPathGallery
-                else -> null
-            }
 
-            if (imageUrl != null) {
-                downloadImageFromUrl(this, imageUrl)
-            } else {
-                Toast.makeText(this, "Không có hình ảnh để tải xuống", Toast.LENGTH_SHORT).show()
-            }
-        }
 
 // Chon option thay mau cho background
-
         binding.ivBack.tap {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+          finish()
         }
-
-
-    }
-
-    fun createMultipartFromFile(filePath: String?, partName: String): MultipartBody.Part? {
-        Log.d("TAG_URL", "createMultipartFromFile: $filePath")
-        // Kiểm tra nếu filePath rỗng hoặc null
-        if (filePath.isNullOrEmpty()) return null
-
-        val file = File(filePath)
-        if (!file.exists()) {
-            Log.d("hehehee", "File does not exist: $filePath")
-            return null
+        binding.ivBeforeAfter.tap {
+            fragment.showColorList()
         }
-
-        Log.d("hehehee", "File exists: ${file.absolutePath}")
-
-        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-        return MultipartBody.Part.createFormData(partName, file.name, requestFile)
     }
 
     fun setNewImage() {
-        binding.ivBeforeAfter.setImageResource(R.drawable.ic_selected)
         binding.ivRedo.visibility = View.GONE
         binding.ivUndo.setImageResource(R.drawable.ic_cancel)
     }
@@ -138,9 +109,9 @@ class RemoveBackgroundActivity :
         finish()
     }
 
-    private fun uploadImageRemoveBackground(path: String) {
+    private fun uploadImageRemoveBackground(bitMap: Bitmap) {
         // chuyen tu path sang bitmap
-        val bitMap = path?.let { Utils.getBitmapFromPath(it) }
+//        val bitMap = path?.let { Utils.getBitmapFromPath(it) }
         CoroutineScope(Dispatchers.IO).launch {
 
             // resize lai kich thuoc va luu anh vao cache
@@ -174,87 +145,6 @@ class RemoveBackgroundActivity :
 
     override fun viewModel() {
         super.viewModel()
-    }
-
-
-    private fun downloadImageFromUrl(context: Context, imageUrl: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                // Tải bitmap từ URL
-                val bitmap = Glide.with(context)
-                    .asBitmap()
-                    .load(imageUrl)
-                    .submit()
-                    .get()
-
-                val outputStream: OutputStream?
-
-                // Tạo tên tệp ngẫu nhiên
-                val randomFileName = "Image_${System.currentTimeMillis()}.jpg"
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    // Android 10 trở lên: Lưu vào MediaStore
-                    val contentValues = ContentValues().apply {
-                        put(MediaStore.Images.Media.DISPLAY_NAME, randomFileName)
-                        put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-                        put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
-                    }
-                    val uri = context.contentResolver.insert(
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                        contentValues
-                    )
-
-                    if (uri == null) {
-                        throw Exception("Failed to create URI for saving the image")
-                    }
-                    outputStream = context.contentResolver.openOutputStream(uri)
-                } else {
-                    // Android 9 trở xuống: Lưu vào thư mục Pictures
-                    val downloadDir =
-                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                    if (!downloadDir.exists()) {
-                        downloadDir.mkdirs()
-                    }
-                    val file = File(downloadDir, randomFileName)
-                    outputStream = FileOutputStream(file)
-
-                    // Thêm vào MediaStore để hiển thị trong thư viện
-                    val values = ContentValues().apply {
-                        put(MediaStore.Images.Media.DISPLAY_NAME, randomFileName)
-                        put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-                        put(MediaStore.Images.Media.DATA, file.absolutePath)
-                    }
-                    context.contentResolver.insert(
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                        values
-                    )
-                }
-
-                // Lưu bitmap vào file
-                outputStream?.let {
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
-                    it.close()
-                }
-
-                // Hiển thị thông báo
-                CoroutineScope(Dispatchers.Main).launch {
-                    Toast.makeText(
-                        context,
-                        "Lưu hình ảnh thành công",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                CoroutineScope(Dispatchers.Main).launch {
-                    Toast.makeText(
-                        context,
-                        "Không thể lưu hình ảnh: ${e.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-        }
     }
 }
 

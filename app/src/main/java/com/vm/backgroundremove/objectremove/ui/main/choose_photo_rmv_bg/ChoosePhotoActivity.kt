@@ -12,7 +12,7 @@ import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
-import com.v1.photo.enhance.ui.main.ai_portraits.choose_photo.model.ChoosePhotoModel
+import com.vm.backgroundremove.objectremove.ui.main.choose_photo_rmv_bg.model.ChoosePhotoModel
 import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseViewModel
@@ -22,7 +22,6 @@ import com.vm.backgroundremove.objectremove.databinding.ActivityChoosePhotoBindi
 import com.vm.backgroundremove.objectremove.inteface.OnClickChoosePhoto
 import com.vm.backgroundremove.objectremove.ui.main.choose_photo_rmv_bg.adapter.ChoosePhotoAdapter
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity
-import com.vm.backgroundremove.objectremove.ui.main.remove_background.ResultRemoveBackGroundActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_object.RemoveObjectActivity
 import java.io.File
 import java.io.FileOutputStream
@@ -225,7 +224,7 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
             }
 
             override fun onClickItemPhoto(data: ChoosePhotoModel) {
-                uriPhoto = data.path
+                uriPhoto = data.uri
                 Log.d("TAG_URL", "uriPhoto: $uriPhoto")
                 binding.ivSelected.visibility = View.VISIBLE
             }

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.v1.photo.enhance.ui.main.ai_portraits.choose_photo.model.ChoosePhotoModel
+import com.vm.backgroundremove.objectremove.ui.main.choose_photo_rmv_bg.model.ChoosePhotoModel
 import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.databinding.ItemChoosePhotoBinding
 import com.vm.backgroundremove.objectremove.inteface.OnClickChoosePhoto
@@ -41,7 +41,6 @@ class ChoosePhotoAdapter(
                 .load(imageInfo.uri)
                 .placeholder(R.drawable.ic_loading_image)
                 .into(holder.binding.imgChoosePhoto)
-
 
         if (selectedPosition == position && position != 0) {
             holder.binding.bgItemSelected.visibility = View.VISIBLE
