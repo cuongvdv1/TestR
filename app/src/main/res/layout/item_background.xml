@@ -13,11 +13,12 @@
         app:cardCornerRadius="8dp"
         android:padding="2dp">
 
-        <ImageView
+        <View
             android:contentDescription="@string/iv_selected_background"
             android:id="@+id/iv_selected_background"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:visibility="gone"
             android:background="@drawable/bg_border_stroke_8"
             app:layout_constraintEnd_toEndOf="parent"
             />

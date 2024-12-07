@@ -27,7 +27,7 @@ class DialogBottomSheetPickColor: BottomSheetDialogFragment() {
 
         val view = inflater.inflate(R.layout.bottomsheet_dialog_pick_color, container, false)
         iv_cancel = view.findViewById(R.id.iv_cancel)
-        iv_selected = view.findViewById(R.id.iv_selected)
+        iv_selected = view.findViewById(R.id.iv_selected_dialog_color)
         iv_cancel.setOnClickListener {
             dismiss()
         }

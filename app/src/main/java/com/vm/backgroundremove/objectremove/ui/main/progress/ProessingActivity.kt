@@ -9,6 +9,7 @@ import android.content.Intent
 import android.util.Log
 import android.view.animation.DecelerateInterpolator
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -111,10 +112,10 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.numProcessStateFlow.collect { num ->
                     Log.d("TAG1234", "$num")
-//                    if (num > 0) {
-//                        binding.tvNumberProcess.isVisible = true
-//                        binding.tvNumberProcess.text = num.toString()
-//                    } else binding.tvNumberProcess.isVisible = false
+                    if (num > 0) {
+                        binding.tvTimeEst.isVisible = true
+                        binding.tvTimeEst.text = num.toString()
+                    } else binding.tvTimeEst.isVisible = false
                 }
             }
         }
@@ -152,25 +153,20 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
                                 }
 
                                 WorkInfo.State.FAILED -> {
-
-                                    binding.tvYourPhoto.text ="your_request_cannot_be_nprocessed_at_this_time"
-//                                        getString(R.string.)
-                                    binding.tvYourNewLook.text = "sorry_for_the_inconvenience_please_try_again_later"
-//                                        getString(R.string.)
                                     viewModel.updateNumProcessing()
                                     binding.prIndicator.indicatorColor = ContextCompat.getColor(
                                         this@ProessingActivity,
-                                        R.color.endColor
+                                        R.color.color_F64534
                                     )
                                     binding.prIndicator.endColor = ContextCompat.getColor(
                                         this@ProessingActivity,
-                                        R.color.color_000719
+                                        R.color.color_F64534
                                     )
                                     binding.txtProgress.text = "Error"
                                     binding.txtProgress.setTextColor(
                                         ContextCompat.getColor(
                                             this@ProessingActivity,
-                                            R.color.color_00A3FF
+                                            R.color.color_FFA637
                                         )
                                     )
                                     Log.d("ProcessActivity", "FAILED")
@@ -178,7 +174,7 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
                                     binding.tvTimeEst.setTextColor(
                                         ContextCompat.getColor(
                                             this@ProessingActivity,
-                                            R.color.endColor
+                                            R.color.color_FFA637
                                         )
                                     )
                                     binding.tvNumberPosition.setTextColor(

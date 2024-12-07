@@ -1,5 +1,5 @@
 package com.vm.backgroundremove.objectremove.inteface
-import com.v1.photo.enhance.ui.main.ai_portraits.choose_photo.model.ChoosePhotoModel
+import com.vm.backgroundremove.objectremove.ui.main.choose_photo_rmv_bg.model.ChoosePhotoModel
 
 interface OnClickChoosePhoto {
     fun onClickItemCamera()

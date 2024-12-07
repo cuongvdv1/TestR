@@ -16,6 +16,7 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -45,6 +46,7 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
     private lateinit var ctl_picker_color_gradient : ConstraintLayout
     private lateinit var ctl_choose_bg : ConstraintLayout
     private lateinit var ll_picker_color: ConstraintLayout
+    private lateinit var iv_selected : ImageView
     private lateinit var view_color_indicator: View
     private lateinit var view_bg_indicator: View
     private lateinit var view_color: View
@@ -192,6 +194,8 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
             }
         })
 
+
+
         tv_choose_bg_color.tap {
             showColorList()
         }
@@ -215,7 +219,6 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
         }
         return view
     }
-
     fun showColorList() {
         rcvColor.visibility = View.VISIBLE
         rcvBackGround.visibility = View.GONE
@@ -244,6 +247,7 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
     }
 
     fun showPickerColor() {
+        val typeface = ResourcesCompat.getFont(requireContext(), R.font.figtree_light)
         rcvColor.visibility = View.GONE
         ll_choose_bg.visibility = View.GONE
         ctl_option_change_color_bg.visibility = View.VISIBLE
@@ -262,14 +266,18 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
             )
         )
         tv_picker_color_gradient.setTextColor(ContextCompat.getColor(requireContext(),R.color.color_8F9DAA))
+        tv_picker_color_gradient.textSize = 14f
+        tv_picker_color_gradient.typeface = typeface
         tv_picker_color_single.setTextColor(ContextCompat.getColor(requireContext(),R.color.color_FF6846))
+        tv_picker_color_single.textSize = 14f
+        tv_picker_color_single.typeface = typeface
         // Thay đổi trạng thái View nếu cần
         view_color.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.color_FF6846))
         view_bg_gradient.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.color_8F9DAA))
 
     }
 
-    fun showBackgroundList() {
+    private fun showBackgroundList() {
         rcvColor.visibility = View.GONE
         rcvBackGround.visibility = View.VISIBLE
         ctl_picker_color.visibility = View.GONE
@@ -287,15 +295,15 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
                 R.color.color_8F9DAA
             )
         )
-        tv_choose_bg_image.setTextColor(ContextCompat.getColor(requireContext(),R.color.color_8F9DAA))
-        tv_choose_bg_color.setTextColor(ContextCompat.getColor(requireContext(),R.color.color_FF6846))
+        tv_choose_bg_image.setTextColor(ContextCompat.getColor(requireContext(),R.color.color_FF6846))
+        tv_choose_bg_color.setTextColor(ContextCompat.getColor(requireContext(),R.color.color_8F9DAA))
         // Thay đổi trạng thái View nếu cần
         view_color_indicator.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.color_8F9DAA))
         view_bg_indicator.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.color_FF6846))
 
     }
 
-    fun showChooseColorGradient() {
+    private fun showChooseColorGradient() {
         ctl_option_change_color_bg.visibility = View.VISIBLE
         ctl_picker_color_gradient.visibility = View.VISIBLE
         tv_picker_color_gradient.setTextColor(

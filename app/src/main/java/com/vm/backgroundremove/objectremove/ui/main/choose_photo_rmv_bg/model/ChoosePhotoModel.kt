@@ -1,4 +1,4 @@
-package com.v1.photo.enhance.ui.main.ai_portraits.choose_photo.model
+package com.vm.backgroundremove.objectremove.ui.main.choose_photo_rmv_bg.model
 
 data class ChoosePhotoModel(
     val uri: String,  // URI của ảnh
