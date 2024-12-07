@@ -13,11 +13,11 @@ class UpLoadImageRepository(private val api: RemoveBackGroundApi)  {
         itemCode: RequestBody,
         client_code: RequestBody,
         client_memo: RequestBody,
-        ___payload_replace_img_src: MultipartBody.Part
-
+        ___payload_replace_img_src: MultipartBody.Part,
+        ___payload_replace_text_obj : RequestBody
     ) : ApiResult<UpLoadImagesResponse> {
         return safeApiCall {
-            api.upLoadImage(itemCode,client_code, client_memo, ___payload_replace_img_src)
+            api.upLoadImage(itemCode,client_code, client_memo, ___payload_replace_img_src,___payload_replace_text_obj)
         }
     }
 

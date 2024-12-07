@@ -1,60 +1,74 @@
 package com.vm.backgroundremove.objectremove.ui.main.remove_object
 
+import android.graphics.Color
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SeekBar
-import android.widget.TextView
-import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.vm.backgroundremove.objectremove.R
+import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
+import com.vm.backgroundremove.objectremove.databinding.FragmentRemoveObjectBinding
+import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackGroundViewModel
 
 class RemoveObjectFragment : Fragment() {
-
-    private lateinit var seekBar: SeekBar
-    private lateinit var onSizeChangedListener: OnSizeChangedListener
-
-
-    // Define an interface to communicate with Activity
-    interface OnSizeChangedListener {
-        fun onSizeChanged(size: Int)
-    }
-
+    private lateinit var binding: FragmentRemoveObjectBinding
+    private lateinit var viewModel: RemoveBackGroundViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-// Inflate layout cho fragment
-        val view = inflater.inflate(R.layout.fragment_remove_object, container, false)
+    ): View {
+        binding = FragmentRemoveObjectBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(requireActivity())[RemoveBackGroundViewModel::class.java]
+        textClick()
+        listClick()
+        binding.btnRemove.tap {
+            val text = binding.edRmvObject.text.toString()
+            if (text.isEmpty()) {
+                return@tap
+            }
+            viewModel.setText(text.toString())
+            viewModel.triggerRemove()
+        }
 
-        // Tham chiếu đến các View trong layout
-        val seekBar = view.findViewById<SeekBar>(R.id.seekBar)
-        val textViewProgress = view.findViewById<TextView>(R.id.tv_brush_size)
-
-        // Thiết lập giá trị ban đầu
-        textViewProgress.text = seekBar.progress.toString()
-
-        // Xử lý sự kiện thay đổi giá trị SeekBar
-        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                textViewProgress.text = progress.toString()
-                // Gửi giá trị SeekBar về Activity
-//                onSizeChangedListener.onSizeChanged(progress)
+        binding.btnRemoveByList.tap {
+            val text = binding.edRmvList.text.toString()
+            if (text.isEmpty()) {
+                return@tap
             }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                // Có thể thêm logic khi bắt đầu kéo SeekBar
-            }
+            viewModel.setTextByList(text)
+            viewModel.triggerRemoveByList()
 
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                // Có thể thêm logic khi thả SeekBar
-            }
-        })
+
+        }
 
 
 
-        return view
+
+        return binding.root
     }
+
+
+    private fun textClick() {
+        binding.tvText.tap {
+            binding.tvText.setTextColor(Color.parseColor("#FF6846"))
+            binding.tvList.setTextColor(Color.parseColor("#8F9DAA"))
+            binding.ctlRmvObjText.visibility = View.VISIBLE
+            binding.ctlRmvObjList.visibility = View.GONE
+        }
+    }
+
+    private fun listClick() {
+        binding.tvList.tap {
+            binding.tvText.setTextColor(Color.parseColor("#8F9DAA"))
+            binding.tvList.setTextColor(Color.parseColor("#FF6846"))
+            binding.ctlRmvObjText.visibility = View.GONE
+            binding.ctlRmvObjList.visibility = View.VISIBLE
+        }
+    }
+
 
 }

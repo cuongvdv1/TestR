@@ -4,141 +4,74 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context=".ui.main.remove_object.RemoveObjectFragment">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ctl_rmv_obj"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/ctl_rmv_obj_draw"
+
+        <LinearLayout
+            android:id="@+id/ll_choose_object"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingVertical="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
-                android:id="@+id/tv_purpose"
-                android:layout_width="match_parent"
+            <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
+                android:id="@+id/tv_text"
+                style="@style/CustomText_color_FF6846_16"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="36dp"
-                android:layout_marginTop="20dp"
-                style="@style/CustomText_color_37414B_14"
-                android:background="@drawable/bg_border_white_16"
-                android:backgroundTint="@color/color_F2F2F2"
-                android:paddingVertical="10dp"
-                android:text="@string/use_brush_to_manually_draw_over_objects"
-                android:textAlignment="center"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-            />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/ll_brush_size"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingVertical="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginHorizontal="15dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_purpose">
-
-                <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont500
-                    android:id="@+id/tv_brush"
-                    android:layout_width="0dp"
-                    style="@style/CustomText_color_37414B_14"
-                    android:layout_height="wrap_content"
-                    android:text="@string/brush_size"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"/>
-
-                <!-- SeekBar -->
-                <SeekBar
-                    android:id="@+id/seekBar"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:max="100"
-                    android:progress="30"
-                    android:layout_marginHorizontal="12.5dp"
-                    android:thumb="@drawable/ic_icon_seekbar"
-                    android:progressDrawable="@drawable/seekbar_progress"
-                    app:layout_constraintStart_toEndOf="@+id/tv_brush"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_brush_size"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont500
-                    android:id="@+id/tv_brush_size"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    style="@style/CustomText_color_FF6846_14"
-                    android:textAlignment="textEnd"
-                    android:text="@string/_20"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_weight="1"
+                android:text="@string/text"
+                android:textAlignment="center" />
 
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
-                android:textAlignment="center"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_list"
+                style="@style/CustomText_color_8F9DAA_16"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/remove"
-                style="@style/CustomText_White_16"
-                android:paddingVertical="10dp"
-                android:layout_marginTop="16dp"
-                android:paddingHorizontal="34dp"
-                android:background="@drawable/bg_gradient_border_16"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ll_brush_size" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_weight="1"
+                android:text="List"
+                android:textAlignment="center" />
+        </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ctl_rmv_obj_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/ll_choose_object">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="wrap_content"
+
+            <EditText
+                android:id="@+id/ed_rmv_object"
+                style="@style/CustomText_color_37414B_14"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="18dp"
                 android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:background="@drawable/bg_border_white_16"
+                android:backgroundTint="@color/color_F2F2F2"
+                android:paddingVertical="8dp"
+                android:paddingStart="16dp"
+                android:hint="@string/enter_your_object_you_want_to_remove"
+                android:textColorHint="@color/adb9c7"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                style="@style/CustomText_color_37414B_14"
-                android:id="@+id/ed_rmv_object"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="18dp"
-                android:paddingVertical="8dp"
-                android:layout_marginTop="10dp"
-                android:paddingStart="16dp"
-                android:background="@drawable/bg_border_white_16"
-                android:backgroundTint="@color/color_F2F2F2"
-                android:text="@string/enter_your_object_you_want_to_remove"
-                android:textColor="@color/adb9c7"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
-
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
+                style="@style/CustomText_White_16"
+                android:id="@+id/btnRemove"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                style="@style/CustomText_White_16"
                 android:background="@drawable/bg_gradient_border_16"
                 android:paddingHorizontal="34dp"
                 android:paddingVertical="10dp"
@@ -150,9 +83,62 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctl_rmv_obj_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_choose_object">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rl_other"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/item_choose_object" />
+
+            <EditText
+                android:id="@+id/ed_rmv_list"
+                style="@style/CustomText_color_37414B_14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="18dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_border_white_16"
+                android:backgroundTint="@color/color_F2F2F2"
+                android:paddingVertical="8dp"
+                android:paddingStart="16dp"
+                android:text="@string/enter_your_object_you_want_to_remove"
+                android:textColor="@color/adb9c7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rl_other" />
+
+            <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
+                android:id="@+id/btn_Remove_by_list"
+                style="@style/CustomText_White_16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_gradient_border_16"
+                android:paddingHorizontal="34dp"
+                android:paddingVertical="10dp"
+                android:text="@string/remove"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ed_rmv_list" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 
 </LinearLayout>

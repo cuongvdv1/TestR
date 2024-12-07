@@ -14,6 +14,8 @@ public class Constants {
     public static final String API_KEY_TOKEN ="AGW-JPE8pWgvxQomJRQXLcal7tn55jIM";
     public static final String BASE_URL = "https://5qwjzr19pb.execute-api.ap-southeast-2.amazonaws.com";
     public static final String ITEM_CODE = "rmbg";
+    public static final String ITEM_CODE_RMOBJECT_REFINE_OBJ = "rmobject_refine_obj";
+    public static final String ITEM_CODE_RMOBJECT = "rmobject";
     public static final String IMG_CATEGORY_PATH = "filePath";
     public static final String IMG_GALLERY_PATH = "image_gallery_path";
     public static final String IMG_CAMERA_PATH = "image_camera_path";

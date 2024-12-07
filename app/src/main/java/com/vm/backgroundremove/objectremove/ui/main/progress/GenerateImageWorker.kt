@@ -202,7 +202,7 @@ class GenerateImageWorker(
             val progressData = Data.Builder()
                 .putString("status", status)
                 .putInt("positionProcessing", positionProcessing)
-                .putInt("timeProcessing", remainingTime.toInt())
+                .putString("timeProcessing", remainingTime.toString())
                 .putInt("progress", progressPercentage)
                 .build()
 
@@ -219,7 +219,7 @@ class GenerateImageWorker(
                         .putInt("progress", 100)
                         .putString("status", status)
                         .putInt("positionProcessing", positionProcessing)
-                        .putInt("timeProcessing", 0) // Khi hoàn thành, thời gian còn lại = 0
+                        .putString("timeProcessing", "0") // Khi hoàn thành, thời gian còn lại = 0
                         .build()
                 )
                 break
