@@ -201,13 +201,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_home_on" />
+                app:srcCompat="@drawable/ic_home_off" />
 
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/home"
-                style="@style/CustomText_color_FF6846_14"
+                style="@style/CustomText_color_8F9DAA_14"
                 android:textAlignment="center"
                 android:layout_marginTop="6dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -231,12 +231,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_history_off" />
+                app:srcCompat="@drawable/ic_history" />
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/your_projects"
-                style="@style/CustomText_color_8F9DAA_14"
+                style="@style/CustomText_color_FF6846_14"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="6dp"
                 app:layout_constraintStart_toStartOf="parent"
