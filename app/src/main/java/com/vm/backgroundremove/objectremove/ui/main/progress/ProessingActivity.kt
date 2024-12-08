@@ -17,6 +17,7 @@ import androidx.work.WorkInfo
 import com.util.CheckInternet
 import com.vm.backgroundremove.objectremove.MainActivity
 import com.vm.backgroundremove.objectremove.R
+import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.a8_app_utils.ProcessState
 import com.vm.backgroundremove.objectremove.a8_app_utils.convertToObject
@@ -24,9 +25,11 @@ import com.vm.backgroundremove.objectremove.a8_app_utils.getParcelable
 import com.vm.backgroundremove.objectremove.database.HistoryModel
 import com.vm.backgroundremove.objectremove.databinding.ActivityProcessBinding
 import com.vm.backgroundremove.objectremove.ui.common.nointernet.NoInternetActivity
+import com.vm.backgroundremove.objectremove.ui.main.home.HomeActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.ResultRemoveBackGroundActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
+import com.vm.backgroundremove.objectremove.ui.main.remove_object.RemoveObjectByListActivity
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
@@ -47,6 +50,10 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
 
     override fun initView() {
         super.initView()
+        binding.icHomeGenerate.tap {
+            startActivity(Intent(this@ProessingActivity,HomeActivity::class.java))
+            finish()
+        }
 
         Log.d("ProessingActivity","ProessingActivity")
         generateResponse = intent.getParcelable<GenerateResponse>(RemoveBackgroundActivity.KEY_GENERATE)
@@ -135,19 +142,52 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
                             }
                             when (workInfo.state) {
                                 WorkInfo.State.SUCCEEDED -> {
-//                                    when
-                                    val processModelJson =
-                                        workInfo.outputData.getString(Constants.INTENT_HISTORY_WORKER)
-                                    val processModel =
-                                        processModelJson?.convertToObject<HistoryModel>()
-                                    viewModel.updateNumProcessing()
-                                    viewModel.cancelProcessListener()
-                                    val intent =
-                                        Intent(this@ProessingActivity, ResultRemoveBackGroundActivity::class.java)
-                                    intent.putExtra(Constants.INTENT_RESULT, processModel)
-                                    startActivity(intent)
-                                    finish()
-                                    Log.d("ProcessActivity", "SUCCEEDED  $processModel")
+                                    when (generateResponse!!.imageCreate){
+                                        Constants.ITEM_CODE -> {
+                                            val processModelJson =
+                                                workInfo.outputData.getString(Constants.INTENT_HISTORY_WORKER)
+                                            val processModel =
+                                                processModelJson?.convertToObject<HistoryModel>()
+                                            viewModel.updateNumProcessing()
+                                            viewModel.cancelProcessListener()
+                                            val intent =
+                                                Intent(this@ProessingActivity, ResultRemoveBackGroundActivity::class.java)
+                                            intent.putExtra(Constants.INTENT_RESULT, processModel)
+                                            startActivity(intent)
+                                            finish()
+                                            Log.d("ProcessActivity", "SUCCEEDED  $processModel")
+                                        }
+                                        Constants.ITEM_CODE_RMOBJECT -> {
+                                            val processModelJson =
+                                                workInfo.outputData.getString(Constants.INTENT_HISTORY_WORKER)
+                                            val processModel =
+                                                processModelJson?.convertToObject<HistoryModel>()
+                                            viewModel.updateNumProcessing()
+                                            viewModel.cancelProcessListener()
+                                            val intent =
+                                                Intent(this@ProessingActivity, ResultRemoveBackGroundActivity::class.java)
+                                            intent.putExtra(Constants.INTENT_RESULT, processModel)
+                                            startActivity(intent)
+                                            finish()
+                                            Log.d("ProcessActivity", "SUCCEEDED  $processModel")
+                                        }
+                                        Constants.ITEM_CODE_RMOBJECT_REFINE_OBJ -> {
+                                            val processModelJson =
+                                                workInfo.outputData.getString(Constants.INTENT_HISTORY_WORKER)
+                                            val processModel =
+                                                processModelJson?.convertToObject<HistoryModel>()
+                                            viewModel.updateNumProcessing()
+                                            viewModel.cancelProcessListener()
+                                            val intent =
+                                                Intent(this@ProessingActivity, RemoveObjectByListActivity::class.java)
+                                            intent.putExtra(Constants.INTENT_RESULT, processModel)
+//                                            intent.putStringArrayListExtra("item_list", arrayListOf(processModel))
+                                            startActivity(intent)
+                                            finish()
+                                            Log.d("ProcessActivity", "SUCCEEDED  $processModel")
+                                        }
+                                    }
+
 
 
                                 }

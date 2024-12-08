@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.remove_object.RemoveObjectFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctl_rmv_obj"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/ll_choose_object"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingVertical="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
+                android:id="@+id/tv_text"
+                style="@style/CustomText_color_8F9DAA_16"
+                android:enabled="true"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/text"
+                android:textAlignment="center" />
+
+            <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
+                android:id="@+id/tv_list"
+                style="@style/CustomText_color_FF6846_16"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="List"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctl_rmv_obj_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_choose_object">
+
+
+            <EditText
+                android:id="@+id/ed_rmv_object"
+                style="@style/CustomText_color_37414B_14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="18dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_border_white_16"
+                android:backgroundTint="@color/color_F2F2F2"
+                android:paddingVertical="8dp"
+                android:paddingStart="16dp"
+                android:hint="@string/enter_your_object_you_want_to_remove"
+                android:textColorHint="@color/adb9c7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
+                style="@style/CustomText_White_16"
+                android:id="@+id/btnRemove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_gradient_border_16"
+                android:paddingHorizontal="34dp"
+                android:paddingVertical="10dp"
+                android:text="@string/remove"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ed_rmv_object" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctl_rmv_obj_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_choose_object">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rl_other"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/item_choose_object" />
+
+            <EditText
+                android:id="@+id/ed_rmv_list"
+                style="@style/CustomText_color_37414B_14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="18dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_border_white_16"
+                android:backgroundTint="@color/color_F2F2F2"
+                android:paddingVertical="8dp"
+                android:paddingStart="16dp"
+                android:text="@string/enter_your_object_you_want_to_remove"
+                android:textColor="@color/adb9c7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rl_other" />
+
+            <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
+                android:id="@+id/btn_Remove_by_list"
+                style="@style/CustomText_White_16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_gradient_border_16"
+                android:paddingHorizontal="34dp"
+                android:paddingVertical="10dp"
+                android:text="@string/remove"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ed_rmv_list" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>

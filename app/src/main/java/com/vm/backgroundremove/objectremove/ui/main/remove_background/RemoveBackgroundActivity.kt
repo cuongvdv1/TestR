@@ -69,9 +69,6 @@ class RemoveBackgroundActivity :
         viewModel.upLoadImage.observe(this) { response ->
             startDataGenerate(response)
         }
-
-
-// Chon option thay mau cho background
         binding.ivBack.tap {
           finish()
         }
@@ -137,7 +134,8 @@ class RemoveBackgroundActivity :
                     Constants.ITEM_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
                     Constants.CLIENT_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
                     Constants.CLIENT_MEMO.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-                    multipart
+                    multipart,
+                    "".toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull())
                 )
             }
         }

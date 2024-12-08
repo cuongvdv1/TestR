@@ -32,6 +32,9 @@ interface HistoryDao {
     @Query("UPDATE HistoryModel SET status = :status WHERE id = :id")
     suspend fun updateStatus(id: Long, status: String)
 
+    @Query("UPDATE HistoryModel SET other = :other WHERE id = :id")
+    suspend fun updateOther(id: Long, other: String)
+
     @Query("SELECT COUNT(name) FROM HistoryModel")
     fun getRowCount() : Int
 

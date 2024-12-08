@@ -34,12 +34,30 @@ class RemoveBackGroundViewModel(private val upLoadImageRepository: UpLoadImageRe
 
     private val _triggerRemoveByList = MutableLiveData<Unit>()
     val triggerRemoveByList: LiveData<Unit> get() = _triggerRemoveByList
+    private val _triggerRemoveByListSelected = MutableLiveData<Unit>()
+    val triggerRemoveByListSelected: LiveData<Unit> get() = _triggerRemoveByListSelected
 
     private val _textByList = MutableLiveData<String>()
     val textByList: LiveData<String> get() = _textByList
 
+    private val _textByListSelected = MutableLiveData<String>()
+    val textByListSelected: LiveData<String> get() = _textByListSelected
+
+
+    private val _itemListObject = MutableLiveData<List<String>>()
+    val itemListObject: LiveData<List<String>> get() = _itemListObject
+
+    fun setItemList(items: List<String>) {
+        _itemListObject.value = items
+    }
+
+
     fun setColor(color: String) {
         _color.value = color
+    }
+
+    fun triggerRemoveByListSelected() {
+        _triggerRemoveByListSelected.postValue(Unit)
     }
 
     fun triggerRemoveByList() {
@@ -48,6 +66,9 @@ class RemoveBackGroundViewModel(private val upLoadImageRepository: UpLoadImageRe
 
     fun setTextByList(text: String) {
         _textByList.value = text
+    }
+    fun setTextByListSelected(text: String) {
+        _textByListSelected.value = text
     }
 
     fun triggerRemove() {

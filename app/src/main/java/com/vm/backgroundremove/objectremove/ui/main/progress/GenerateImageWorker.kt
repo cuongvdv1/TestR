@@ -86,10 +86,15 @@ class GenerateImageWorker(
                             "done" -> {
                                 // Task hoàn thành
                                 val imageUrlResult = data.img_url[0].image_url
+                                val other = data.other
                                 CoroutineScope(Dispatchers.IO).launch {
                                     dbHistoryRepository.updateProcessWithImage(
                                         processId,
                                         imageUrlResult
+                                    )
+                                    dbHistoryRepository.updateOther(
+                                        processId,
+                                        other.toString()
                                     )
                                     dbHistoryRepository.updateStatus(processId, DONE_STATE)
                                     dbHistoryRepository.updateProcessProgress(processId, 100)
