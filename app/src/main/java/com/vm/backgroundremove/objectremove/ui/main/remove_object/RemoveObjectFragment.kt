@@ -33,12 +33,7 @@ class RemoveObjectFragment : Fragment() {
             viewModel.triggerRemove()
         }
 
-        binding.btnRemoveByList.tap {
-            val text = binding.edRmvList.text.toString()
-            if (text.isEmpty()) {
-                return@tap
-            }
-            viewModel.setTextByList(text)
+        binding.clDetecting.tap {
             viewModel.triggerRemoveByList()
         }
         return binding.root

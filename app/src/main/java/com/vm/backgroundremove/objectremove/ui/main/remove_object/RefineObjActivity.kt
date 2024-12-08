@@ -8,6 +8,7 @@ import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseViewModel
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.api.response.UpLoadImagesResponse
 import com.vm.backgroundremove.objectremove.databinding.ActivityRemoveObjectBinding
+import com.vm.backgroundremove.objectremove.dialog.ProcessingDialog
 import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackGroundViewModel
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity.Companion.KEY_GENERATE
@@ -26,6 +27,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RefineObjActivity :
     BaseActivity<ActivityRemoveObjectBinding, RemoveBackGroundViewModel>() {
+    private lateinit var processingDialog: ProcessingDialog
     override fun createBinding() = ActivityRemoveObjectBinding.inflate(layoutInflater)
 
 
@@ -39,7 +41,7 @@ class RefineObjActivity :
 
     override fun initView() {
         super.initView()
-
+        processingDialog = ProcessingDialog(this@RefineObjActivity)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fl_rm_object, RemoveObjectFragment()).commit()
         val imgPathGallery = intent.getStringExtra(Constants.IMG_GALLERY_PATH)
@@ -90,6 +92,7 @@ class RefineObjActivity :
     }
 
     private fun startDataGenerate(uploadResponse: UpLoadImagesResponse) {
+        processingDialog.dismiss()
         val modelGenerate = GenerateResponse()
         modelGenerate.cf_url = uploadResponse.cf_url
         modelGenerate.task_id = uploadResponse.task_id
@@ -109,6 +112,7 @@ class RefineObjActivity :
     }
 
     private fun startDataGenerateByList(uploadResponse: UpLoadImagesResponse) {
+        processingDialog.dismiss()
         val modelGenerate = GenerateResponse()
         modelGenerate.cf_url = uploadResponse.cf_url
         modelGenerate.task_id = uploadResponse.task_id
@@ -127,6 +131,7 @@ class RefineObjActivity :
     }
 
     private fun uploadImageRemoveBackground(bitMap: Bitmap, objectRemovelist: String) {
+        processingDialog.show()
         CoroutineScope(Dispatchers.IO).launch {
             // resize lai kich thuoc va luu anh vao cache
             val resizedBitmap = bitMap?.let { Utils.scaleBitmap(it) }
