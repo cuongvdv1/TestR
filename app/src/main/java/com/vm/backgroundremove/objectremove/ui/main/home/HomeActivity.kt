@@ -10,6 +10,7 @@ import com.vm.backgroundremove.objectremove.dialog.DetectingDialog
 import com.vm.backgroundremove.objectremove.dialog.ProcessingDialog
 import com.vm.backgroundremove.objectremove.ui.common.setting.SettingActivity
 import com.vm.backgroundremove.objectremove.ui.main.choose_photo_rmv_bg.ChoosePhotoActivity
+import com.vm.backgroundremove.objectremove.ui.main.your_projects.ProjectsActivity
 import com.vm.backgroundremove.objectremove.ui.main.your_projects.RemoveBackgroundSaveActivity
 import com.vm.backgroundremove.objectremove.ui.main.your_projects.YourProjectsActivity
 
@@ -37,7 +38,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, BaseViewModel>() {
             startActivity(intent)
         }
         binding.ctlYourProjects.tap {
-            val intent = Intent(this, RemoveBackgroundSaveActivity::class.java)
+            val intent = Intent(this, ProjectsActivity::class.java)
             startActivity(intent)
         }
 
