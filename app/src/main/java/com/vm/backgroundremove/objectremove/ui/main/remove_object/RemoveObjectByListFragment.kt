@@ -2,6 +2,7 @@ package com.vm.backgroundremove.objectremove.ui.main.remove_object
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,40 +11,45 @@ import androidx.lifecycle.ViewModelProvider
 import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.databinding.FragmentRemoveObjectBinding
+import com.vm.backgroundremove.objectremove.databinding.FragmentRemoveObjectByListBinding
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackGroundViewModel
 
-class RemoveObjectFragment : Fragment() {
-    private lateinit var binding: FragmentRemoveObjectBinding
+class RemoveObjectByListFragment : Fragment() {
+    private lateinit var binding: FragmentRemoveObjectByListBinding
     private lateinit var viewModel: RemoveBackGroundViewModel
+    private lateinit var adapter: RemoveObjectAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentRemoveObjectBinding.inflate(inflater, container, false)
+        binding = FragmentRemoveObjectByListBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(requireActivity())[RemoveBackGroundViewModel::class.java]
+
+        setupRecyclerView()
         textClick()
         listClick()
-        binding.btnRemove.tap {
-            val text = binding.edRmvObject.text.toString()
-            if (text.isEmpty()) {
-                return@tap
-            }
-            viewModel.setText(text.toString())
-            viewModel.triggerRemove()
-        }
-
         binding.btnRemoveByList.tap {
             val text = binding.edRmvList.text.toString()
-            if (text.isEmpty()) {
+            val textList = adapter.getSelectedItems().toString()
+            val textData = text + textList
+            if (textData.isEmpty()) {
                 return@tap
             }
-            viewModel.setTextByList(text)
-            viewModel.triggerRemoveByList()
+            viewModel.setTextByListSelected(textData)
+            viewModel.triggerRemoveByListSelected()
         }
         return binding.root
     }
 
+    private fun setupRecyclerView() {
+        viewModel.itemListObject.observe(requireActivity()) { listObject ->
+            Log.d("RemoveObjectByListFragment", "$listObject")
+            adapter = RemoveObjectAdapter(listObject)
+            binding.rlOther.adapter = adapter
+
+        }
+    }
 
     private fun textClick() {
         binding.tvText.tap {

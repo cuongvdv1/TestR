@@ -30,6 +30,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.main.remove_object.ResultRemoveObjectActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.remove_object.RemoveObjectByListActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.main.progress.ProessingActivity"
             android:exported="false" />
         <activity
@@ -41,7 +47,6 @@
         <activity
             android:name=".ui.common.setting.SettingActivity"
             android:exported="false" />
-
         <activity
             android:name=".ui.main.choose_photo_rmv_bg.ChoosePhotoActivity"
             android:exported="false"
@@ -78,8 +83,7 @@
         </activity>
         <activity
             android:name=".ui.main.remove_background.ResultRemoveBackGroundActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".ui.main.remove_background.RemoveBackgroundActivity"
             android:exported="false" />
@@ -88,8 +92,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.main.permission.PermissionActivity"
-            android:exported="false" />
-        <!-- <activity -->
+            android:exported="false" /> <!-- <activity -->
         <!-- android:name=".ui.main.remove_background.RemoveBackgroundActivity" -->
         <!-- android:exported="false" /> -->
         <activity
@@ -139,8 +142,7 @@
             android:name=".ui.common.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.App.Starting">
-        </activity>
+            android:theme="@style/Theme.App.Starting" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -151,8 +153,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
-
     </application>
 
 </manifest>
