@@ -78,9 +78,6 @@ class RemoveBackgroundActivity :
         binding.ivBack.tap {
           finish()
         }
-        binding.ivBeforeAfter.tap {
-            fragment.showColorList()
-        }
     }
 
     fun setNewImage() {

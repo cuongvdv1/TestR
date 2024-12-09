@@ -67,7 +67,7 @@ class VView(context: Context, attrs: AttributeSet?) : View(context, attrs), HSVi
             w - controllerSize / 2,
             h - strokeWidth - verticalSpacing
         )
-        controllerPosition = (1f - currentColorArray[2]) * bound.width() + bound.left
+        controllerPosition = (currentColorArray[2]) * bound.width() + bound.left
         setBoundPolygon()
         setupShader(bound)
     }
@@ -102,7 +102,7 @@ class VView(context: Context, attrs: AttributeSet?) : View(context, attrs), HSVi
 
     override fun setValue(value: Float) {
         currentColorArray[2] = value
-        controllerPosition = (1f - currentColorArray[2]) * bound.width() + bound.left
+        controllerPosition = (currentColorArray[2]) * bound.width() + bound.left
         setBoundPolygon()
     }
 
@@ -113,14 +113,14 @@ class VView(context: Context, attrs: AttributeSet?) : View(context, attrs), HSVi
     private fun setupShader(bound: RectF) {
         val color = Color.HSVToColor(colorArray)
         shaderPaint.shader = LinearGradient(
-            bound.left, bound.top, bound.right, bound.top, color, Color.BLACK, Shader.TileMode.CLAMP
+            bound.left, bound.top, bound.right, bound.top,Color.BLACK,color,Shader.TileMode.CLAMP
         )
     }
 
     private fun changePosition(newPosition: Float) {
         controllerPosition = newPosition
         setBoundPolygon()
-        currentColorArray[2] = 1f - (newPosition / bound.width())
+        currentColorArray[2] = (newPosition / bound.width())
         onValueChange(currentColorArray[2])
     }
 

@@ -78,14 +78,15 @@
 
         <com.vm.backgroundremove.objectremove.ui.main.color_picker.HSView
             android:id="@+id/picker_color"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
             android:layout_gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.vm.backgroundremove.objectremove.ui.main.color_picker.VView
+            android:id="@+id/vView_dialog"
             android:layout_width="match_parent"
             android:layout_height="16dp"
             android:layout_marginTop="16dp"

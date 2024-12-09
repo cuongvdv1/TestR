@@ -23,8 +23,8 @@ class RemoveBackGroundViewModel(private val upLoadImageRepository: UpLoadImageRe
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    private val _color = MutableLiveData<String>()
-    val color: LiveData<String> get() = _color
+    private val _color = MutableLiveData<Int>()
+    val color: LiveData<Int> get() = _color
 
     private val _triggerRemove = MutableLiveData<Unit>()
     val triggerRemove: LiveData<Unit> get() = _triggerRemove
@@ -52,7 +52,7 @@ class RemoveBackGroundViewModel(private val upLoadImageRepository: UpLoadImageRe
     }
 
 
-    fun setColor(color: String) {
+    fun setColor(color: Int) {
         _color.value = color
     }
 
@@ -87,16 +87,23 @@ class RemoveBackGroundViewModel(private val upLoadImageRepository: UpLoadImageRe
         _backGround.value = backGround
     }
 
-    private val _startColor = MutableLiveData<String>()
-    val startColor: LiveData<String> get() = _startColor
+    private val _startColor = MutableLiveData<Int>()
+    val startColor: LiveData<Int> get() = _startColor
 
-    private val _endColor = MutableLiveData<String>()
-    val endColor: LiveData<String> get() = _endColor
+    private val _endColor = MutableLiveData<Int>()
+    val endColor: LiveData<Int> get() = _endColor
 
-    fun setGradientBackGroundColor(startColor: String, endColor: String) {
+    fun setStartColor(startColor: Int) {
         _startColor.value = startColor
+    }
+    fun setEndColor(endColor: Int) {
         _endColor.value = endColor
     }
+
+//    fun setGradientBackGroundColor(startColor: Int, endColor: Int) {
+//        _startColor.value = startColor
+//        _endColor.value = endColor
+//    }
 
 
     fun upLoadImage(
