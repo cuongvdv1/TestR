@@ -57,7 +57,7 @@
 
 
         <ImageView
-            android:id="@+id/ic_home"
+            android:id="@+id/iv_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -143,6 +143,7 @@
         app:layout_constraintTop_toBottomOf="@+id/iv_history_result">
 
         <ImageView
+            android:id="@+id/iv_share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/ic_download"
@@ -150,6 +151,7 @@
             app:tint="@color/white" />
 
         <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont500
+            android:id="@+id/tv_share"
             style="@style/CustomText_White_16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.vm.backgroundremove.objectremove.R
+import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.HOUR_FORMAT
 import com.vm.backgroundremove.objectremove.a8_app_utils.convertTime
 import com.vm.backgroundremove.objectremove.database.HistoryModel
@@ -19,6 +20,7 @@ class ProjectAdapter : ListAdapter<HistoryModel, ProjectAdapter.ProjectViewHolde
         .setBackgroundThreadExecutor(Executors.newSingleThreadExecutor())
         .build()
 ) {
+    private var onViewMoreClick: (HistoryModel) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProjectViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -29,10 +31,23 @@ class ProjectAdapter : ListAdapter<HistoryModel, ProjectAdapter.ProjectViewHolde
         holder.bindData(getItem(position))
     }
 
+    fun setOnViewMoreClick(onViewMoreClick: (HistoryModel) -> Unit) {
+        this.onViewMoreClick = onViewMoreClick
+    }
+
+
     inner class ProjectViewHolder(private val binding: ItemProjectBinding) :
         RecyclerView.ViewHolder(binding.root) {
+            private var data: HistoryModel? = null
+
+        init {
+            binding.root.tap {
+                data?.let(onViewMoreClick)
+            }
+        }
 
         fun bindData(data: HistoryModel) {
+            this.data = data
             binding.tvItemName.text = data.name
             binding.tvTimeProcess.text = data.time.convertTime(HOUR_FORMAT)
             binding.tvDayProcess.text = data.time.convertTime()

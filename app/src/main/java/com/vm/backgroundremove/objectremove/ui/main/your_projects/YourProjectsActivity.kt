@@ -28,6 +28,7 @@ import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseViewModel
 import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.databinding.ActivityHistoryBinding
+import com.vm.backgroundremove.objectremove.databinding.ActivityYourProjectsResultBinding
 import com.vm.backgroundremove.objectremove.databinding.PopupOptionHistoryBinding
 import com.vm.backgroundremove.objectremove.ui.common.setting.SettingActivity
 import com.vm.backgroundremove.objectremove.ui.main.home.HomeActivity
@@ -38,25 +39,24 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 
-class YourProjectsActivity : BaseActivity<ActivityHistoryBinding, BaseViewModel>() {
-    private var imageUrl = ""
-    private var type = ""
+class YourProjectsActivity : BaseActivity<ActivityYourProjectsResultBinding, BaseViewModel>() {
+    private var imagePath: String? = null
 
-    override fun createBinding() = ActivityHistoryBinding.inflate(layoutInflater)
+    override fun createBinding() = ActivityYourProjectsResultBinding.inflate(layoutInflater)
 
     override fun setViewModel() = BaseViewModel()
 
     override fun initView() {
         super.initView()
+
+        imagePath = intent.getStringExtra(Constants.IMG_CAMERA_PATH)
         try {
             // Gắn link ảnh cố định
-            val fixedImageUrl =
-                "https://aphoto.vn/wp-content/uploads/2020/04/anh-dep-jpg-fujifilm-2.jpg" // Thay bằng URL ảnh cứng
-            Glide.with(this@YourProjectsActivity)
-                .load(fixedImageUrl)
-                .into(binding.imgResult)
 
-            imageUrl = fixedImageUrl // Gắn giá trị cho biến imageUrl
+            Glide.with(this@YourProjectsActivity)
+                .load(imagePath)
+                .into(binding.ivHistoryResult)
+
         } catch (_: Exception) {
         }
     }
@@ -67,20 +67,26 @@ class YourProjectsActivity : BaseActivity<ActivityHistoryBinding, BaseViewModel>
         binding.clSuccessfully.tap {
             binding.clSuccessfully.visibility = View.GONE
         }
-        binding.icMoreOptions.setOnClickListener {
-            showCustomMenu(it)
+//        binding.icMoreOptions.setOnClickListener {
+//            showCustomMenu(it)
+//        }
+//        binding.ctlHome.tap {
+//            val intent = Intent(this,HomeActivity::class.java)
+//            startActivity(intent)
+//        }
+//        binding.ctlSetting.tap {
+//            val intent = Intent(this,SettingActivity::class.java)
+//            startActivity(intent)
+//        }
+//        binding.ctlYourProjects.tap {
+//            val intent = Intent(this,YourProjectsResultActivity::class.java)
+//            startActivity(intent)
+//        }
+        binding.llBtnShare.tap {
+            shareImage(imagePath.toString())
         }
-        binding.ctlHome.tap {
-            val intent = Intent(this,HomeActivity::class.java)
-            startActivity(intent)
-        }
-        binding.ctlSetting.tap {
-            val intent = Intent(this,SettingActivity::class.java)
-            startActivity(intent)
-        }
-        binding.ctlYourProjects.tap {
-            val intent = Intent(this,YourProjectsResultActivity::class.java)
-            startActivity(intent)
+        binding.ivBack.tap {
+            finish()
         }
 
 
@@ -102,7 +108,7 @@ class YourProjectsActivity : BaseActivity<ActivityHistoryBinding, BaseViewModel>
         // Thiết lập sự kiện cho từng item
         bindingPopup.clDownload.tap {
 
-            downloadImageFromUrl(this@YourProjectsActivity, imageUrl)
+            downloadImageFromUrl(this@YourProjectsActivity, imagePath.toString())
             Toast.makeText(
                 this@YourProjectsActivity,
                 getString(R.string.home), Toast.LENGTH_SHORT
@@ -115,7 +121,7 @@ class YourProjectsActivity : BaseActivity<ActivityHistoryBinding, BaseViewModel>
         }
 
         bindingPopup.clShare.tap {
-            shareImage(imageUrl)
+
             popupWindow.dismiss()
         }
 

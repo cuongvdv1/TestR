@@ -56,6 +56,7 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
         drawBitmap(canvas)
     }
 
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event == null) return false
@@ -73,16 +74,13 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
         canvas.drawColor(color) // Vẽ toàn bộ bitmap với màu được chỉ định
         return bitmap
     }
-
     fun setBackgroundBitmap(bitmap: Bitmap) {
         backgroundBitmap = bitmap
         invalidate() // Vẽ lại view khi có sự thay đổi
     }
 
-    fun setBackgroundWithColor(hexColor: String) {
+    fun setBackgroundWithColor(color: Int) {
         try {
-            // Chuyển đổi mã màu hex sang `Int`
-            val color = Color.parseColor(hexColor)
 
             // Tạo bitmap màu
             val bitmap = createColorBitmap(color, measuredWidth, measuredHeight)
@@ -94,11 +92,8 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
         }
     }
 
-    fun setBackgroundWithGradient(startColorHex: String, endColorHex: String) {
+    fun setBackgroundWithGradient(startColor: Int, endColor: Int) {
         try {
-            // Chuyển đổi mã màu hex sang `Int`
-            val startColor = Color.parseColor(startColorHex)
-            val endColor = Color.parseColor(endColorHex)
 
             // Tạo drawable gradient
             val gradientDrawable = GradientDrawable(

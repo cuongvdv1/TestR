@@ -33,6 +33,7 @@ import com.vm.backgroundremove.objectremove.dialog.ThankDialog
 import com.vm.backgroundremove.objectremove.ui.common.feedback.DialogFeedback
 import com.vm.backgroundremove.objectremove.ui.common.language.LanguageSettingActivity
 import com.vm.backgroundremove.objectremove.ui.main.home.HomeActivity
+import com.vm.backgroundremove.objectremove.ui.main.your_projects.ProjectsActivity
 import com.vm.backgroundremove.objectremove.ui.main.your_projects.YourProjectsResultActivity
 
 
@@ -73,7 +74,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding, BaseViewModel>() {
 
 
         binding.ctlYourProjects.tap {
-            val intent = Intent(this, YourProjectsResultActivity::class.java)
+            val intent = Intent(this, ProjectsActivity::class.java)
             startActivity(intent)
         }
 

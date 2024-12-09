@@ -47,6 +47,10 @@
         <activity
             android:name=".ui.main.remove_object.RefineObjActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".ui.main.remove_background.DownloadRemoveBackgroundActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.main.progress.ProessingRefineActivity"
             android:exported="false" />
@@ -87,6 +91,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.main.remove_background.ResultRemoveBackGroundActivity"
             android:exported="false" />

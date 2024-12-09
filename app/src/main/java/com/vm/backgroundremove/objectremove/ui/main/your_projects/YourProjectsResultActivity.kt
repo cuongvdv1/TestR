@@ -30,7 +30,6 @@ import java.io.OutputStream
 class YourProjectsResultActivity :
     BaseActivity<ActivityYourProjectsResultBinding, BaseViewModel>() {
     private var imageUrl = ""
-    private var type = ""
 
     override fun createBinding() = ActivityYourProjectsResultBinding.inflate(layoutInflater)
     override fun setViewModel() = BaseViewModel()
@@ -60,7 +59,6 @@ class YourProjectsResultActivity :
         }
 
         binding.llBtnShare.setOnClickListener {
-            shareImage(imageUrl)
         }
 
         binding.ivBack.tap {
@@ -152,41 +150,5 @@ class YourProjectsResultActivity :
     }
 
 
-    private fun shareImage(url: String) {
-        // Tải hình ảnh từ URL và lưu tạm vào cache
-        Glide.with(this)
-            .asFile()
-            .load(url)
-            .into(object : CustomTarget<File>() {
-                override fun onResourceReady(resource: File, transition: Transition<in File>?) {
-                    // Chia sẻ file ảnh sau khi tải về thành công
-                    shareFile(resource)
-                }
-
-                override fun onLoadCleared(placeholder: Drawable?) {
-                    // Xử lý nếu tải hình thất bại
-                }
-            })
-    }
-
-
-    private fun shareFile(imageFile: File) {
-        // Tạo URI từ File thông qua FileProvider
-        val uri = FileProvider.getUriForFile(
-            this,
-            "$packageName.provider", // Thay đổi theo package name
-            imageFile
-        )
-
-        // Tạo Intent chia sẻ
-        val shareIntent = Intent(Intent.ACTION_SEND).apply {
-            type = "image/*"
-            putExtra(Intent.EXTRA_STREAM, uri)
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION) // Cho phép quyền đọc file
-        }
-
-        // Hiển thị dialog chọn ứng dụng
-        startActivity(Intent.createChooser(shareIntent, "Share image via"))
-    }
 
 }

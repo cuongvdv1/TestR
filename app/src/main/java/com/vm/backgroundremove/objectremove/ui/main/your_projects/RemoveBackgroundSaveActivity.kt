@@ -43,14 +43,14 @@ class RemoveBackgroundSaveActivity :
         binding.llBtnShare.visibility = View.GONE
         binding.tvTitleName.visibility =View.GONE
         binding.tvSaved.visibility = View.VISIBLE
-        binding.icHome.visibility = View.VISIBLE
+        binding.ivHome.visibility = View.VISIBLE
         binding.tvTitle.visibility = View.VISIBLE
         binding.llBtnShareWith.visibility = View.VISIBLE
         binding.llBtnShareWith.setOnClickListener {
             shareImage(imageUrl)
         }
 
-        binding.icHome.tap {
+        binding.ivHome.tap {
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
             finishAffinity()

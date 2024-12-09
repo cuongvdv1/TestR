@@ -1,52 +1,56 @@
 package com.vm.backgroundremove.objectremove.ui.main.remove_background
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
+import android.net.Uri
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Im
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.crashlytics.internal.model.CrashlyticsReport
-import com.google.firebase.crashlytics.internal.model.CrashlyticsReport.Session.User
 import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseFragment
 import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.databinding.FragmentColorBackgroundBinding
 import com.vm.backgroundremove.objectremove.ui.main.choose_photo_rmv_bg.ChoosePhotoActivity
+import com.vm.backgroundremove.objectremove.ui.main.color_picker.HSView
+import com.vm.backgroundremove.objectremove.ui.main.color_picker.VView
 import com.vm.backgroundremove.objectremove.ui.main.dialog.DialogBottomSheetPickColor
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.BackGroundAdapter
+import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.BackGroundSelectorListener
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.ColorAdapter
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.ColorSelectorListener
-import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.BackGroundSelectorListener
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.model.ColorModel
+import com.vm.backgroundremove.objectremove.util.Utils
+import com.vm.backgroundremove.objectremove.util.getBitmapFrom
+import org.koin.android.ext.android.get
 
 class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBinding>() {
     private lateinit var rcvColor: RecyclerView
     private lateinit var rcvBackGround: RecyclerView
     private lateinit var colorAdapter: ColorAdapter
     private lateinit var backGroundAdapter: BackGroundAdapter
-    private lateinit var ll_choose_bg : ConstraintLayout
-    private lateinit var ctl_option_change_color_bg : ConstraintLayout
-    private lateinit var ctl_picker_color : ConstraintLayout
-    private lateinit var ctl_picker_color_gradient : ConstraintLayout
-    private lateinit var ctl_choose_bg : ConstraintLayout
+    private lateinit var ll_choose_bg: ConstraintLayout
+    private lateinit var ctl_option_change_color_bg: ConstraintLayout
+    private lateinit var ctl_picker_color: ConstraintLayout
+    private lateinit var ctl_picker_color_gradient: ConstraintLayout
+    private lateinit var ctl_choose_bg: ConstraintLayout
     private lateinit var ll_picker_color: ConstraintLayout
-    private lateinit var iv_selected : ImageView
     private lateinit var view_color_indicator: View
     private lateinit var view_bg_indicator: View
     private lateinit var view_color: View
@@ -60,19 +64,42 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
     private lateinit var viewModel: RemoveBackGroundViewModel
     private lateinit var colorList: List<ColorModel>
     private lateinit var backGroundList: List<Int>
+    private lateinit var pickColor : HSView
+    private lateinit var vView : VView
+    private lateinit var iv_gradient_color :ImageView
+
+
+    var customColor: Int? = null
 
     private val register =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val path_gallery = result.data?.getStringExtra(Constants.IMG_GALLERY_PATH)
-                viewModel.setBackGround(BitmapFactory.decodeFile(path_gallery))
+                Log.d("TAG_URL", "path_gallery: $path_gallery")
+                try {
+                    if (path_gallery != null) {
+                        val bitmap = getBitmapFromUri(requireActivity(), Uri.parse(path_gallery))
+                        if (bitmap != null) {
+                            viewModel.setBackGround(bitmap)
+                            Log.e("TAG_URL", "bitmap: $bitmap")
+                        }else {
+                            Log.e("TAG_URL", "bitmap is null")
+
+                        }
+                    } else {
+                        Log.e("TAG_URL", "path_gallery is null")
+                    }
+                } catch (e: Exception) {
+                    Log.e("TAG_URL", "path_gallery  $e")
+                    e.printStackTrace()
+                }
             }
+
         }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
     }
 
     override fun inflateViewBinding(): FragmentColorBackgroundBinding {
@@ -103,8 +130,11 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
         view_bg_indicator = view.findViewById(R.id.view_bg_indicator)
         view_color = view.findViewById(R.id.view_color)
         view_bg_gradient = view.findViewById(R.id.view_bg_gradient)
+        pickColor = view.findViewById(R.id.picker_color_fragment)
+        vView = view.findViewById(R.id.vView)
+        iv_gradient_color = view.findViewById(R.id.iv_gradient_color)
 
-        viewModel = ViewModelProvider(requireActivity()).get(RemoveBackGroundViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity())[RemoveBackGroundViewModel::class.java]
 
         // hien thi list color
         colorList = listOf<ColorModel>(
@@ -156,7 +186,6 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
         backGroundAdapter = BackGroundAdapter(requireContext(), backGroundList)
         rcvBackGround.adapter = backGroundAdapter
 
-
         // Chon mau cho BackGround
         colorAdapter.setActionListener(object : ColorSelectorListener {
             override fun onColorClicked(position: Int, color: String) {
@@ -166,10 +195,13 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
                     if (activity is ResultRemoveBackGroundActivity) {
                         (activity as ResultRemoveBackGroundActivity).setNewImage()
                     } else {
-                        Log.e("ChooseBackGroundColorFragment", "Activity is not of type ResultRemoveBackGroundActivity")
+                        Log.e(
+                            "ChooseBackGroundColorFragment",
+                            "Activity is not of type ResultRemoveBackGroundActivity"
+                        )
                     }
                 } else {
-                    viewModel.setColor(color)
+                    viewModel.setColor(Color.parseColor(color))
                     Log.d("TAG_COLOR", "onColorClicked: $color")
                 }
             }
@@ -194,7 +226,15 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
             }
         })
 
+        pickColor.setOnColorChange {
+            Log.v("tag111", "color change: $it")
+            customColor = it
+        }
 
+        pickColor.setupWith(vView)
+        vView.setOnValueChange {
+            pickColor.setValue(it)
+        }
 
         tv_choose_bg_color.tap {
             showColorList()
@@ -203,7 +243,8 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
             showBackgroundList()
         }
         tv_picker_color_gradient.tap {
-            viewModel.setGradientBackGroundColor("#FE23BE","#A69CFC")
+            viewModel.setStartColor(Color.parseColor("#FE23BE"))
+            viewModel.setEndColor(Color.parseColor("#A69CFC"))
             showChooseColorGradient()
         }
         tv_picker_color_single.tap {
@@ -211,16 +252,39 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
         }
         iv_color_start.tap {
             val colorPickerDialog = DialogBottomSheetPickColor()
+            colorPickerDialog.setOnDone {
+                iv_color_start.backgroundTintList= ColorStateList.valueOf(it)
+                Log.d("TAG_COLOR", "onColorClicked: $it")
+                viewModel.setStartColor(it)
+                viewModel.endColor.value?.let { endColor ->
+                    var gradient =  GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, intArrayOf(it,endColor))
+                    iv_gradient_color.setImageDrawable(gradient)
+                }
+
+
+            }
             colorPickerDialog.show(parentFragmentManager, "ColorPickerBottomSheetDialog")
         }
         iv_color_end.tap {
             val colorPickerDialog = DialogBottomSheetPickColor()
+            colorPickerDialog.setOnDone {
+                iv_color_end.backgroundTintList= ColorStateList.valueOf(it)
+                viewModel.setEndColor(it)
+                viewModel.startColor.value?.let { startColor ->
+                    var gradient =  GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, intArrayOf(startColor,it))
+                    iv_gradient_color.setImageDrawable(gradient)
+                }
+            }
             colorPickerDialog.show(parentFragmentManager, "ColorPickerBottomSheetDialog")
         }
         return view
     }
+
     fun showColorList() {
         rcvColor.visibility = View.VISIBLE
+        ll_choose_bg.visibility = View.VISIBLE
+        tv_choose_bg_color.visibility = View.VISIBLE
+        tv_choose_bg_image.visibility = View.VISIBLE
         rcvBackGround.visibility = View.GONE
         ctl_picker_color.visibility = View.GONE
         ctl_picker_color_gradient.visibility = View.GONE
@@ -240,8 +304,18 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
         tv_choose_bg_color.visibility = View.VISIBLE
         tv_choose_bg_image.visibility = View.VISIBLE
         // Thay đổi trạng thái View nếu cần
-        view_color_indicator.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.color_FF6846))
-        view_bg_indicator.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.color_8F9DAA))
+        view_color_indicator.setBackgroundColor(
+            ContextCompat.getColor(
+                requireActivity(),
+                R.color.color_FF6846
+            )
+        )
+        view_bg_indicator.setBackgroundColor(
+            ContextCompat.getColor(
+                requireActivity(),
+                R.color.color_8F9DAA
+            )
+        )
 
 
     }
@@ -265,15 +339,35 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
                 R.color.color_FF6846
             )
         )
-        tv_picker_color_gradient.setTextColor(ContextCompat.getColor(requireContext(),R.color.color_8F9DAA))
+        tv_picker_color_gradient.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.color_8F9DAA
+            )
+        )
         tv_picker_color_gradient.textSize = 14f
         tv_picker_color_gradient.typeface = typeface
-        tv_picker_color_single.setTextColor(ContextCompat.getColor(requireContext(),R.color.color_FF6846))
+        tv_picker_color_single.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.color_FF6846
+            )
+        )
         tv_picker_color_single.textSize = 14f
         tv_picker_color_single.typeface = typeface
         // Thay đổi trạng thái View nếu cần
-        view_color.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.color_FF6846))
-        view_bg_gradient.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.color_8F9DAA))
+        view_color.setBackgroundColor(
+            ContextCompat.getColor(
+                requireActivity(),
+                R.color.color_FF6846
+            )
+        )
+        view_bg_gradient.setBackgroundColor(
+            ContextCompat.getColor(
+                requireActivity(),
+                R.color.color_8F9DAA
+            )
+        )
 
     }
 
@@ -295,11 +389,31 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
                 R.color.color_8F9DAA
             )
         )
-        tv_choose_bg_image.setTextColor(ContextCompat.getColor(requireContext(),R.color.color_FF6846))
-        tv_choose_bg_color.setTextColor(ContextCompat.getColor(requireContext(),R.color.color_8F9DAA))
+        tv_choose_bg_image.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.color_FF6846
+            )
+        )
+        tv_choose_bg_color.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.color_8F9DAA
+            )
+        )
         // Thay đổi trạng thái View nếu cần
-        view_color_indicator.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.color_8F9DAA))
-        view_bg_indicator.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.color_FF6846))
+        view_color_indicator.setBackgroundColor(
+            ContextCompat.getColor(
+                requireActivity(),
+                R.color.color_8F9DAA
+            )
+        )
+        view_bg_indicator.setBackgroundColor(
+            ContextCompat.getColor(
+                requireActivity(),
+                R.color.color_FF6846
+            )
+        )
 
     }
 
@@ -320,8 +434,27 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
         )
         ctl_picker_color.visibility = View.GONE
         // Thay đổi trạng thái View nếu cần
-        view_color.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.color_8F9DAA))
-        view_bg_gradient.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.color_FF6846))
+        view_color.setBackgroundColor(
+            ContextCompat.getColor(
+                requireActivity(),
+                R.color.color_8F9DAA
+            )
+        )
+        view_bg_gradient.setBackgroundColor(
+            ContextCompat.getColor(
+                requireActivity(),
+                R.color.color_FF6846
+            )
+        )
+    }
+    fun getBitmapFromUri(context: Context, uri: Uri): Bitmap? {
+        return try {
+            val inputStream = context.contentResolver.openInputStream(uri)
+            BitmapFactory.decodeStream(inputStream)
+        } catch (e: Exception) {
+            Log.e("TAG_URL", "Error decoding URI: $e")
+            null
+        }
     }
 
 }

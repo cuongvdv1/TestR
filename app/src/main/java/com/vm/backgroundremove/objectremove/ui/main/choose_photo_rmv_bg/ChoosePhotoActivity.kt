@@ -43,7 +43,6 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
 
     override fun initView() {
         super.initView()
-        val filePath = intent.getStringExtra(Constants.IMG_CATEGORY_PATH)
         checkPermission()
 
         binding.ivBack.tap {
@@ -53,26 +52,24 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
         val checkRemoveFragment = intent.getStringExtra(Constants.NAME_INTENT_FORM_FRAGMENT).toString()
         binding.ivSelected.tap {
             Log.d("TAG_CHECK","TRUE")
-            if (checkRemove.equals(Constants.INTENT_FROM_HOME_TO_BACKGROUND)){
-                val intent = Intent(this@ChoosePhotoActivity, RemoveBackgroundActivity::class.java)
-                intent.putExtra(Constants.IMG_GALLERY_PATH, uriPhoto)
-                intent.putExtra(Constants.IMG_CATEGORY_PATH, filePath)
-                startActivity(intent)
-            }else if(checkRemove.equals(Constants.INTENT_FROM_HOME_TO_OBJECT)){
-                val intent = Intent(this@ChoosePhotoActivity, RemoveObjectActivity::class.java)
-                intent.putExtra(Constants.IMG_GALLERY_PATH, uriPhoto)
-                intent.putExtra(Constants.IMG_CATEGORY_PATH, filePath)
-                startActivity(intent)
-            }else if(checkRemoveFragment.equals(Constants.INTENT_FROM_FRAGMENT_CHOOSE_BG)){
-//                val intent = Intent(this@ChoosePhotoActivity, ResultRemoveBackGroundActivity::class.java)
-//                intent.putExtra(Constants.IMG_GALLERY_PATH, uriPhoto)
-//                intent.putExtra(Constants.IMG_CATEGORY_PATH, filePath)
-//                startActivity(intent)
-                val intent=Intent()
-                intent.putExtra(Constants.IMG_GALLERY_PATH, uriPhoto)
-                intent.putExtra(Constants.IMG_CATEGORY_PATH, filePath)
-                setResult(RESULT_OK,intent)
-                finish()
+            when {
+                checkRemove == Constants.INTENT_FROM_HOME_TO_BACKGROUND -> {
+                    val intent = Intent(this@ChoosePhotoActivity, RemoveBackgroundActivity::class.java)
+                    intent.putExtra(Constants.IMG_GALLERY_PATH, uriPhoto)
+                    startActivity(intent)
+                }
+                checkRemove == Constants.INTENT_FROM_HOME_TO_OBJECT -> {
+                    val intent = Intent(this@ChoosePhotoActivity, RemoveObjectActivity::class.java)
+                    intent.putExtra(Constants.IMG_GALLERY_PATH, uriPhoto)
+                    startActivity(intent)
+                }
+                checkRemoveFragment == Constants.INTENT_FROM_FRAGMENT_CHOOSE_BG -> {
+                    val intent = Intent()
+                    intent.putExtra(Constants.IMG_GALLERY_PATH, uriPhoto)
+                    Log.d("TAG_URL", "${uriPhoto}")
+                    setResult(RESULT_OK, intent)
+                    finish()
+                }
             }
 
         }

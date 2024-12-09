@@ -28,6 +28,11 @@ fun getBitmapFrom(context: Context, url: String?, onLoaded: (Bitmap) -> Unit) {
                 Log.v("tag111", "bitmap fail")
             }
 
+            override fun onLoadFailed(errorDrawable: Drawable?) {
+                super.onLoadFailed(errorDrawable)
+                Log.v("tag111", "bitmap fail $errorDrawable")
+            }
+
 
         })
 }

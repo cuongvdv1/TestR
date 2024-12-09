@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_bottom_sheet_dialog"
@@ -15,9 +16,9 @@
             android:id="@+id/ll_choose_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
             android:background="@color/white"
             android:paddingVertical="4dp"
-            android:layout_marginHorizontal="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -31,9 +32,9 @@
                 android:layout_weight="1"
                 android:text="@string/color"
                 android:textAlignment="center"
-                app:layout_constraintWidth_percent="0.5"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintWidth_percent="0.5" />
 
             <!-- View for Color Indicator -->
             <View
@@ -42,10 +43,10 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/color_ff6846"
-                app:layout_constraintTop_toBottomOf="@+id/tv_choose_bg_color"
-                app:layout_constraintStart_toStartOf="@id/tv_choose_bg_color"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="@id/tv_choose_bg_color"
-                android:visibility="visible" />
+                app:layout_constraintStart_toStartOf="@id/tv_choose_bg_color"
+                app:layout_constraintTop_toBottomOf="@+id/tv_choose_bg_color" />
 
             <!-- TextView for Background -->
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
@@ -56,9 +57,9 @@
                 android:layout_weight="1"
                 android:text="@string/background"
                 android:textAlignment="center"
-                app:layout_constraintWidth_percent="0.5"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintWidth_percent="0.5" />
 
             <!-- View for Background Indicator -->
             <View
@@ -67,13 +68,12 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/color_8F9DAA"
-                app:layout_constraintWidth_percent="0.5"
-                app:layout_constraintTop_toBottomOf="@+id/tv_choose_bg_image"
-                app:layout_constraintStart_toStartOf="@id/tv_choose_bg_image"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="@id/tv_choose_bg_image"
-                android:visibility="visible" />
+                app:layout_constraintStart_toStartOf="@id/tv_choose_bg_image"
+                app:layout_constraintTop_toBottomOf="@+id/tv_choose_bg_image"
+                app:layout_constraintWidth_percent="0.5" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -84,23 +84,24 @@
             android:layout_marginTop="30dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ll_choose_background"
             app:spanCount="2" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_list_background"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_choose_background"
-        app:spanCount="2" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_list_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_choose_background"
+            app:spanCount="2" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -113,9 +114,9 @@
             android:id="@+id/ll_picker_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
             android:background="@color/white"
             android:paddingVertical="4dp"
-            android:layout_marginHorizontal="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -129,9 +130,9 @@
                 android:layout_weight="1"
                 android:text="@string/color"
                 android:textAlignment="center"
-                app:layout_constraintWidth_percent="0.5"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintWidth_percent="0.5" />
 
             <!-- View for Color Indicator -->
             <View
@@ -140,10 +141,10 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/color_ff6846"
-                app:layout_constraintTop_toBottomOf="@+id/tv_picker_color_single"
-                app:layout_constraintStart_toStartOf="@id/tv_picker_color_single"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="@id/tv_picker_color_single"
-                android:visibility="visible" />
+                app:layout_constraintStart_toStartOf="@id/tv_picker_color_single"
+                app:layout_constraintTop_toBottomOf="@+id/tv_picker_color_single" />
 
 
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
@@ -152,11 +153,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:layout_constraintWidth_percent="0.5"
                 android:text="@string/gradient"
                 android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintWidth_percent="0.5" />
 
             <!-- View for Background Indicator -->
             <View
@@ -165,11 +166,11 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/color_8F9DAA"
-                app:layout_constraintWidth_percent="0.5"
-                app:layout_constraintTop_toBottomOf="@+id/tv_picker_color_gradient"
-                app:layout_constraintStart_toStartOf="@id/tv_picker_color_gradient"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="@id/tv_picker_color_gradient"
-                android:visibility="visible" />
+                app:layout_constraintStart_toStartOf="@id/tv_picker_color_gradient"
+                app:layout_constraintTop_toBottomOf="@+id/tv_picker_color_gradient"
+                app:layout_constraintWidth_percent="0.5" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -177,14 +178,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ll_picker_color">
 
             <com.vm.backgroundremove.objectremove.ui.main.color_picker.HSView
-                android:id="@+id/picker_color"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:id="@+id/picker_color_fragment"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -192,35 +194,43 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.vm.backgroundremove.objectremove.ui.main.color_picker.VView
+                android:id="@+id/vView"
                 android:layout_width="match_parent"
                 android:layout_height="16dp"
                 android:layout_marginHorizontal="25dp"
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/picker_color" />
+                app:layout_constraintTop_toBottomOf="@+id/picker_color_fragment" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ctl_picker_color_gradient"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ll_picker_color">
 
-            <ImageView
-                android:id="@+id/iv_gradient_color"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_gradient_color"
                 android:layout_width="match_parent"
                 android:layout_height="24dp"
-                android:layout_marginHorizontal="18dp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/border_gradient_color"
-                android:contentDescription="@string/iv_gradient_color"
+                app:cardCornerRadius="100dp"
+                android:layout_marginHorizontal="18dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" >
+
+                <ImageView
+                    android:id="@+id/iv_gradient_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:background="@drawable/border_gradient_color"
+                    android:contentDescription="@string/iv_gradient_color" />
+            </androidx.cardview.widget.CardView>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -230,7 +240,7 @@
                 android:src="@drawable/ic_arrow_right_double"
                 app:layout_constraintEnd_toStartOf="@+id/iv_color_end"
                 app:layout_constraintStart_toEndOf="@+id/iv_color_start"
-                app:layout_constraintTop_toBottomOf="@+id/iv_gradient_color" />
+                app:layout_constraintTop_toBottomOf="@+id/cv_gradient_color" />
 
             <ImageView
                 android:id="@+id/iv_color_start"
@@ -242,7 +252,7 @@
                 android:backgroundTint="@color/color_FE23BE"
                 android:contentDescription="@string/iv_color_start"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_gradient_color" />
+                app:layout_constraintTop_toBottomOf="@id/cv_gradient_color" />
 
 
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
@@ -250,10 +260,10 @@
                 style="@style/CustomText_color_37414B_16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="54dp"
                 android:paddingVertical="4dp"
                 android:text="@string/start"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/iv_color_start"
+                app:layout_constraintStart_toStartOf="@+id/iv_color_start"
                 app:layout_constraintTop_toBottomOf="@id/iv_color_start" />
 
             <ImageView
@@ -266,18 +276,18 @@
                 android:backgroundTint="@color/color_A69CFC"
                 android:contentDescription="@string/iv_color_end"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_gradient_color" />
+                app:layout_constraintTop_toBottomOf="@id/cv_gradient_color" />
 
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
                 android:id="@+id/tv_color_end"
                 style="@style/CustomText_color_37414B_16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="54dp"
                 android:paddingVertical="4dp"
                 android:text="@string/end"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_color_end" />
+                app:layout_constraintEnd_toEndOf="@+id/iv_color_end"
+                app:layout_constraintStart_toStartOf="@+id/iv_color_end"
+                app:layout_constraintTop_toBottomOf="@+id/iv_color_end" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
