@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
@@ -46,6 +47,8 @@ class RemoveObjectFragment : Fragment() {
             binding.tvList.setTextColor(Color.parseColor("#8F9DAA"))
             binding.ctlRmvObjText.visibility = View.VISIBLE
             binding.ctlRmvObjList.visibility = View.GONE
+            binding.viewColorIndicator.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.color_FF6846))
+            binding.viewBgIndicator.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.color_8F9DAA))
         }
     }
 
@@ -55,6 +58,8 @@ class RemoveObjectFragment : Fragment() {
             binding.tvList.setTextColor(Color.parseColor("#FF6846"))
             binding.ctlRmvObjText.visibility = View.GONE
             binding.ctlRmvObjList.visibility = View.VISIBLE
+            binding.viewBgIndicator.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.color_FF6846))
+            binding.viewColorIndicator.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.color_8F9DAA))
         }
     }
 

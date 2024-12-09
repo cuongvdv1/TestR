@@ -29,6 +29,21 @@ class BrushView @JvmOverloads constructor(
     private var canvasBitmap: Bitmap? = null
     private var canvasImage: Bitmap? = null
     private var canvas: Canvas? = null
+
+    private var bitmap1: Bitmap? = null
+    private var bitmap2: Bitmap? = null
+    private var isShowingBitmap1 = true
+    fun setImages(bitmap1: Bitmap, bitmap2: Bitmap) {
+        this.bitmap1 = bitmap1
+        this.bitmap2 = bitmap2
+        canvasImage = bitmap1
+        invalidate()
+    }
+    fun toggleImage() {
+        isShowingBitmap1 = !isShowingBitmap1
+        canvasImage = if (isShowingBitmap1) bitmap1 else bitmap2
+        invalidate()
+    }
     fun setImageFromPath(path: String) {
         val bitmap = BitmapFactory.decodeFile(path)
         canvasImage = bitmap
@@ -114,7 +129,6 @@ class BrushView @JvmOverloads constructor(
             val scaledWidth = imageWidth * scale
             val scaledHeight = imageHeight * scale
 
-            // Căn giữa ảnh trong View
             val left = (viewWidth - scaledWidth) / 2
             val top = (viewHeight - scaledHeight) / 2
             val right = left + scaledWidth
@@ -126,37 +140,15 @@ class BrushView @JvmOverloads constructor(
             canvas.drawBitmap(it, srcRect, destRect, null)
         }
 
-        // Vẽ lại tất cả các nét vẽ trên canvasBitmap
+
         canvasBitmap?.let { canvas.drawBitmap(it, 0f, 0f, null) }
 
-        // Vẽ các đường đã lưu và đường hiện tại
         for (path in paths) {
             canvas.drawPath(path, drawPaint)
         }
         canvas.drawPath(drawPath, drawPaint)
     }
 
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (!isDrawingEnabled) return false
 
-        val touchX = event.x
-        val touchY = event.y
-
-        when (event.action) {
-            MotionEvent.ACTION_DOWN -> {
-                drawPath.moveTo(touchX, touchY)
-            }
-            MotionEvent.ACTION_MOVE -> {
-                drawPath.lineTo(touchX, touchY)
-                invalidate()
-            }
-            MotionEvent.ACTION_UP -> {
-                paths.add(Path(drawPath))
-                drawPath.reset()
-            }
-            else -> return false
-        }
-        return true
-    }
 
 }

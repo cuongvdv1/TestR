@@ -4,28 +4,25 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
-import android.os.Build
-import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
+import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.a8_app_utils.parcelable
 import com.vm.backgroundremove.objectremove.api.response.UpLoadImagesResponse
 import com.vm.backgroundremove.objectremove.database.HistoryModel
 import com.vm.backgroundremove.objectremove.databinding.ActivityRemoveObjectByListBinding
+import com.vm.backgroundremove.objectremove.dialog.ProcessingDialog
 import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackGroundViewModel
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity.Companion.KEY_GENERATE
@@ -50,7 +47,8 @@ class RemoveObjectByListActivity :
     private var historyModel: HistoryModel? = null
     private var type = ""
     private var bitmap: Bitmap? = null
-
+    private var filePath = ""
+    private lateinit var processingDialog: ProcessingDialog
     override fun createBinding(): ActivityRemoveObjectByListBinding {
         return ActivityRemoveObjectByListBinding.inflate(layoutInflater)
     }
@@ -61,7 +59,10 @@ class RemoveObjectByListActivity :
 
     override fun initView() {
         super.initView()
-
+        binding.ivBack.tap {
+            finish()
+        }
+        processingDialog = ProcessingDialog(this@RemoveObjectByListActivity)
         type = intent.getStringExtra(Constants.TYPE_HISTORY).toString()
         try {
             historyModel = intent.parcelable<HistoryModel>(Constants.INTENT_RESULT)
@@ -84,6 +85,9 @@ class RemoveObjectByListActivity :
                             ) {
                                 bitmap = resource
                                 binding.ivRmvObject.setImageFromBitmap(bitmap!!)
+                                val fileName = "image_${System.currentTimeMillis()}.png"
+                                filePath = filesDir.absolutePath + "/images/$fileName"
+                                saveBitmapToPath(bitmap!!, filePath)
                             }
 
                             override fun onLoadCleared(placeholder: Drawable?) {
@@ -99,13 +103,15 @@ class RemoveObjectByListActivity :
                             }
                         }
                         viewModel.upLoadImage.observe(this) { response ->
-                            startDataGenerate(response)
+                            startDataGenerate(response, filePath)
                         }
                     }
                 }
             }
 
-
+            binding.ivExport.tap {
+                downloadImageToGallery()
+            }
         } catch (_: Exception) {
         }
     }
@@ -116,7 +122,7 @@ class RemoveObjectByListActivity :
     }
 
     private fun uploadImageRemoveObjectByList(bitMap: Bitmap, objectRemovelist: String) {
-
+        processingDialog.show()
         CoroutineScope(Dispatchers.IO).launch {
             // resize lai kich thuoc va luu anh vao cache
             val resizedBitmap = bitMap?.let { Utils.scaleBitmap(it) }
@@ -148,11 +154,13 @@ class RemoveObjectByListActivity :
         }
     }
 
-    private fun startDataGenerate(uploadResponse: UpLoadImagesResponse) {
+    private fun startDataGenerate(uploadResponse: UpLoadImagesResponse, imageCreate: String) {
+        processingDialog.dismiss()
         val modelGenerate = GenerateResponse()
         modelGenerate.cf_url = uploadResponse.cf_url
         modelGenerate.task_id = uploadResponse.task_id
         modelGenerate.imageCreate = Constants.ITEM_CODE_RMOBJECT
+
 //        val numberGenerate = limitNumber.toInt() - isCountGenerate
         startActivity(
             Intent(
@@ -161,8 +169,90 @@ class RemoveObjectByListActivity :
             ).apply {
                 putExtra(KEY_GENERATE, modelGenerate)
                 putExtra(KEY_REMOVE, Constants.ITEM_CODE_RMOBJECT)
+                putExtra("imageCreate", imageCreate)
 //                putExtra(LIMIT_NUMBER_GENERATE, numberGenerate)
             })
         finish()
     }
+
+    fun saveBitmapToPath(bitmap: Bitmap, filePath: String) {
+        try {
+            val file = File(filePath)
+            file.parentFile?.mkdirs() // Tạo thư mục nếu chưa tồn tại
+            val outputStream = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream) // Lưu ảnh dưới dạng PNG
+            outputStream.flush()
+            outputStream.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+    fun getBitmapFromPath(path: String): Bitmap? {
+        return try {
+            val file = File(path)
+            if (file.exists()) {
+                BitmapFactory.decodeFile(path) // Trả về Bitmap từ file
+            } else {
+                null // Trả về null nếu file không tồn tại
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null // Trả về null nếu có lỗi
+        }
+    }
+
+    private fun downloadImageToGallery() {
+        try {
+            val imageUrl = historyModel?.imageResult
+            imageUrl?.let { url ->
+                Glide.with(this)
+                    .asBitmap()
+                    .load(url)
+                    .into(object : com.bumptech.glide.request.target.CustomTarget<Bitmap>() {
+                        override fun onResourceReady(
+                            resource: Bitmap,
+                            transition: com.bumptech.glide.request.transition.Transition<in Bitmap>?
+                        ) {
+                            val filename = "IMG_${System.currentTimeMillis()}.jpg"
+                            val fos: OutputStream?
+                            val contentResolver = contentResolver
+
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                                val contentValues = ContentValues().apply {
+                                    put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
+                                    put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+                                    put(
+                                        MediaStore.MediaColumns.RELATIVE_PATH,
+                                        Environment.DIRECTORY_PICTURES
+                                    )
+                                }
+                                val imageUri = contentResolver.insert(
+                                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                    contentValues
+                                )
+                                fos = imageUri?.let { contentResolver.openOutputStream(it) }
+                            } else {
+                                val imagesDir =
+                                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                                val image = File(imagesDir, filename)
+                                fos = FileOutputStream(image)
+                            }
+
+                            fos?.use {
+                                resource.compress(Bitmap.CompressFormat.JPEG, 100, it)
+                            }
+                            Toast.makeText(
+                                this@RemoveObjectByListActivity,
+                                "Download Success", Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
+                        override fun onLoadCleared(placeholder: android.graphics.drawable.Drawable?) {
+                            // Handle placeholder if needed
+                        }
+                    })
+            }
+        }catch (_:Exception){}
+    }
+
 }

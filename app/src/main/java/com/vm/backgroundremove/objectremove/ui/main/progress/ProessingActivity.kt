@@ -30,6 +30,9 @@ import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBack
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.ResultRemoveBackGroundActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
 import com.vm.backgroundremove.objectremove.ui.main.remove_object.RemoveObjectByListActivity
+import com.vm.backgroundremove.objectremove.ui.main.remove_object.ResultRemoveObjectActivity
+import com.vm.backgroundremove.objectremove.ui.main.remove_object.ResultRemoveObjectAndDowLoadActivity
+import com.vm.backgroundremove.objectremove.ui.main.your_projects.YourProjectsActivity
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
@@ -42,6 +45,8 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
     private var taskId: String? = null
     private var cfUrl: String? = null
     private var uuid: String? = null
+    private var imageCreate: String? = null
+    private var type_process : String? = null
     override fun createBinding(): ActivityProcessBinding {
         return ActivityProcessBinding.inflate(layoutInflater)
     }
@@ -54,9 +59,15 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
             startActivity(Intent(this@ProessingActivity,HomeActivity::class.java))
             finish()
         }
-
+        binding.icHistory.tap {
+            startActivity(Intent(this@ProessingActivity,YourProjectsActivity::class.java))
+            finish()
+        }
+        type_process = intent.getStringExtra("type_process")
         Log.d("ProessingActivity","ProessingActivity")
         generateResponse = intent.getParcelable<GenerateResponse>(RemoveBackgroundActivity.KEY_GENERATE)
+
+        imageCreate = intent.getStringExtra("imageCreate")
 //        itemCode = intent.getStringExtra(Constants.ITEM_CODE)
         generateResponse?.let {
             taskId = it.task_id
@@ -80,7 +91,7 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
 //                )
         } else {
 
-            viewModel.newProcessItem("", itemCode!!, taskId!!, cfUrl!!)
+             viewModel.newProcessItem(itemCode!!, imageCreate!!, taskId!!, cfUrl!!)
             viewModel.onNewID()
             viewModel.getNumProgressing()
         }
@@ -142,8 +153,8 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
                             }
                             when (workInfo.state) {
                                 WorkInfo.State.SUCCEEDED -> {
-                                    when (generateResponse!!.imageCreate){
-                                        Constants.ITEM_CODE -> {
+                                    when (type_process){
+                                        "remove_background" -> {
                                             val processModelJson =
                                                 workInfo.outputData.getString(Constants.INTENT_HISTORY_WORKER)
                                             val processModel =
@@ -157,7 +168,7 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
                                             finish()
                                             Log.d("ProcessActivity", "SUCCEEDED  $processModel")
                                         }
-                                        Constants.ITEM_CODE_RMOBJECT -> {
+                                        "remove_obj_by_text"-> {
                                             val processModelJson =
                                                 workInfo.outputData.getString(Constants.INTENT_HISTORY_WORKER)
                                             val processModel =
@@ -165,13 +176,13 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
                                             viewModel.updateNumProcessing()
                                             viewModel.cancelProcessListener()
                                             val intent =
-                                                Intent(this@ProessingActivity, ResultRemoveBackGroundActivity::class.java)
+                                                Intent(this@ProessingActivity, ResultRemoveObjectAndDowLoadActivity::class.java)
                                             intent.putExtra(Constants.INTENT_RESULT, processModel)
                                             startActivity(intent)
                                             finish()
                                             Log.d("ProcessActivity", "SUCCEEDED  $processModel")
                                         }
-                                        Constants.ITEM_CODE_RMOBJECT_REFINE_OBJ -> {
+                                        "remove_obj_by_list" -> {
                                             val processModelJson =
                                                 workInfo.outputData.getString(Constants.INTENT_HISTORY_WORKER)
                                             val processModel =

@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ll_choose_object"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,11 +24,14 @@
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
                 android:id="@+id/tv_text"
                 style="@style/CustomText_color_FF6846_16"
-                android:layout_width="0dp"
+                android:text="@string/text"  android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/text"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                app:layout_constraintWidth_percent="0.5"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                />
 
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
                 android:id="@+id/tv_list"
@@ -36,10 +39,32 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="List"
-                android:textAlignment="center" />
-        </LinearLayout>
-
+                android:text="DNObject"
+                android:textAlignment="center"
+                app:layout_constraintWidth_percent="0.5"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+            <View
+                android:id="@+id/view_color_indicator"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/color_ff6846"
+                app:layout_constraintTop_toBottomOf="@+id/tv_text"
+                app:layout_constraintStart_toStartOf="@id/tv_text"
+                app:layout_constraintEnd_toEndOf="@id/tv_text"
+                android:visibility="visible" />
+            <View
+                android:id="@+id/view_bg_indicator"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/color_8F9DAA"
+                app:layout_constraintTop_toBottomOf="@+id/tv_list"
+                app:layout_constraintStart_toStartOf="@id/tv_list"
+                app:layout_constraintEnd_toEndOf="@id/tv_list"
+                android:visibility="visible" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ctl_rmv_obj_text"
             android:layout_width="match_parent"

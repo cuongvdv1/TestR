@@ -8,6 +8,7 @@ import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseViewModel
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.api.response.UpLoadImagesResponse
 import com.vm.backgroundremove.objectremove.databinding.ActivityRemoveObjectBinding
+import com.vm.backgroundremove.objectremove.dialog.DetectingDialog
 import com.vm.backgroundremove.objectremove.dialog.ProcessingDialog
 import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingActivity
 import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingRefineActivity
@@ -28,7 +29,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RemoveObjectActivity :
     BaseActivity<ActivityRemoveObjectBinding, RemoveBackGroundViewModel>() {
-    private lateinit var processingDialog: ProcessingDialog
+    private lateinit var processingDialog: DetectingDialog
+    private lateinit var processingDialog1: ProcessingDialog
     override fun createBinding() = ActivityRemoveObjectBinding.inflate(layoutInflater)
 
 
@@ -42,7 +44,8 @@ class RemoveObjectActivity :
 
     override fun initView() {
         super.initView()
-        processingDialog = ProcessingDialog(this@RemoveObjectActivity)
+        processingDialog = DetectingDialog(this@RemoveObjectActivity)
+        processingDialog1 = ProcessingDialog(this@RemoveObjectActivity)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fl_rm_object, RemoveObjectFragment()).commit()
         val imgPathGallery = intent.getStringExtra(Constants.IMG_GALLERY_PATH)
@@ -70,7 +73,11 @@ class RemoveObjectActivity :
                 }
             }
             viewModel.upLoadImage.observe(this) { response ->
-                startDataGenerate(response)
+                if (imgPathGallery != null) {
+                    startDataGenerate(response,imgPathGallery)
+                } else if (imagePathCamera != null) {
+                    startDataGenerate(response,imagePathCamera)
+                }
             }
         }
         viewModel.triggerRemoveByList.observe(this) {
@@ -85,14 +92,19 @@ class RemoveObjectActivity :
                 }
 
             viewModel.upLoadImage.observe(this) { response ->
-                startDataGenerateByList(response)
+                if (imgPathGallery != null) {
+                    startDataGenerateByList(response,imgPathGallery)
+                } else if (imagePathCamera != null) {
+                    startDataGenerateByList(response,imagePathCamera)
+                }
+
             }
         }
 
     }
 
-    private fun startDataGenerate(uploadResponse: UpLoadImagesResponse) {
-        processingDialog.dismiss()
+    private fun startDataGenerate(uploadResponse: UpLoadImagesResponse, imageCreate : String) {
+        processingDialog1.dismiss()
         val modelGenerate = GenerateResponse()
         modelGenerate.cf_url = uploadResponse.cf_url
         modelGenerate.task_id = uploadResponse.task_id
@@ -105,12 +117,14 @@ class RemoveObjectActivity :
             ).apply {
                 putExtra(KEY_GENERATE, modelGenerate)
                 putExtra(KEY_REMOVE, Constants.ITEM_CODE_RMOBJECT)
+                putExtra("imageCreate",imageCreate)
+                putExtra("type_process","remove_obj_by_text")
 //                putExtra(LIMIT_NUMBER_GENERATE, numberGenerate)
             })
         finish()
     }
 
-    private fun startDataGenerateByList(uploadResponse: UpLoadImagesResponse) {
+    private fun startDataGenerateByList(uploadResponse: UpLoadImagesResponse, imageCreate : String) {
         processingDialog.dismiss()
         val modelGenerate = GenerateResponse()
         modelGenerate.cf_url = uploadResponse.cf_url
@@ -124,6 +138,8 @@ class RemoveObjectActivity :
             ).apply {
                 putExtra(KEY_GENERATE, modelGenerate)
                 putExtra(KEY_REMOVE, Constants.ITEM_CODE_RMOBJECT_REFINE_OBJ)
+                putExtra("imageCreate",imageCreate)
+                putExtra("type_process","remove_obj_by_list")
 //                putExtra(LIMIT_NUMBER_GENERATE, numberGenerate)
             })
         finish()
@@ -164,7 +180,7 @@ class RemoveObjectActivity :
     }
 
     private fun uploadImageRemoveBackground(bitMap: Bitmap, objectRemovelist: String) {
-        processingDialog.show()
+        processingDialog1.show()
         // chuyen tu path sang bitmap
 //        val bitMap = path.let { Utils.getBitmapFromPath(it) }
         CoroutineScope(Dispatchers.IO).launch {

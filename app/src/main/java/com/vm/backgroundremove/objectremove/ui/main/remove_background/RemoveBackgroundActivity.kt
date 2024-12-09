@@ -18,6 +18,7 @@ import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.api.response.UpLoadImagesResponse
 import com.vm.backgroundremove.objectremove.databinding.ActivityRemoveBackgroundBinding
+import com.vm.backgroundremove.objectremove.dialog.ProcessingDialog
 import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
 import com.vm.backgroundremove.objectremove.util.Utils
@@ -39,12 +40,13 @@ class RemoveBackgroundActivity :
     override fun createBinding(): ActivityRemoveBackgroundBinding {
         return ActivityRemoveBackgroundBinding.inflate(layoutInflater)
     }
-
+    private lateinit var processingDialog: ProcessingDialog
     override fun setViewModel(): RemoveBackGroundViewModel =
         viewModel<RemoveBackGroundViewModel>().value
 
     override fun initView() {
         super.initView()
+        processingDialog = ProcessingDialog(this@RemoveBackgroundActivity)
         val imgPathGallery = intent.getStringExtra(Constants.IMG_GALLERY_PATH)
         val imagePathCamera = intent.getStringExtra(Constants.IMG_CAMERA_PATH)
         if (!imagePathCamera.isNullOrEmpty()) {
@@ -67,7 +69,11 @@ class RemoveBackgroundActivity :
         transaction.replace(R.id.frame_layout, fragment)
         transaction.commit()
         viewModel.upLoadImage.observe(this) { response ->
-            startDataGenerate(response)
+            if (imgPathGallery != null) {
+                startDataGenerate(response,imgPathGallery)
+            } else if (imagePathCamera != null) {
+                startDataGenerate(response,imagePathCamera)
+            }
         }
         binding.ivBack.tap {
           finish()
@@ -89,7 +95,8 @@ class RemoveBackgroundActivity :
         const val KEY_REMOVE = "KEY_REMOVE"
     }
 
-    private fun startDataGenerate(uploadResponse: UpLoadImagesResponse) {
+    private fun startDataGenerate(uploadResponse: UpLoadImagesResponse, imageCreate : String) {
+        processingDialog.dismiss()
         val modelGenerate = GenerateResponse()
         modelGenerate.cf_url = uploadResponse.cf_url
         modelGenerate.task_id = uploadResponse.task_id
@@ -101,6 +108,8 @@ class RemoveBackgroundActivity :
             ).apply {
                 putExtra(KEY_GENERATE, modelGenerate)
                 putExtra(KEY_REMOVE, Constants.ITEM_CODE)
+                putExtra("imageCreate",imageCreate)
+                putExtra("type_process","remove_background")
 //                putExtra(LIMIT_NUMBER_GENERATE, numberGenerate)
             })
         finish()
@@ -109,6 +118,7 @@ class RemoveBackgroundActivity :
     private fun uploadImageRemoveBackground(bitMap: Bitmap) {
         // chuyen tu path sang bitmap
 //        val bitMap = path?.let { Utils.getBitmapFromPath(it) }
+        processingDialog.show()
         CoroutineScope(Dispatchers.IO).launch {
 
             // resize lai kich thuoc va luu anh vao cache

@@ -29,8 +29,12 @@
         android:theme="@style/Theme.RemoveBackground"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <activity android:name=".ui.main.your_projects.ProjectsActivity"
-            android:exported="false"/>
+        <activity
+            android:name=".ui.main.remove_object.ResultRemoveObjectAndDowLoadActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.your_projects.ProjectsActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.main.remove_object.ResultRemoveObjectActivity"
             android:exported="false" />

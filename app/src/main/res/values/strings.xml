@@ -145,4 +145,6 @@
     <string name="saved">Saved</string>
     <string name="download_successfully">Download Successfully</string>
     <string name="share_with_friends">Share with friends</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
