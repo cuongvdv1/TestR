@@ -11,28 +11,29 @@ import android.graphics.Shader
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import androidx.appcompat.content.res.AppCompatResources
+import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.a8_app_utils.toDp
 
 class VView(context: Context, attrs: AttributeSet?) : View(context, attrs), HSView.OnHSChange {
     private val strokeWidth = 1f.toDp()
     private val cornerRadius = 8f.toDp()
-    private var controllerRadius = 10f.toDp() // Bán kính của chấm tròn
+    private var controllerSize = 0f
+    private var verticalSpacing = 0f
     private var controllerPosition = 20f.toDp()
+    private var polygonTop = AppCompatResources.getDrawable(context, R.drawable.ic_circle_color8)
+    private var polygonBottom =
+        AppCompatResources.getDrawable(context, R.drawable.ic_circle_color8)
 
     private var bound = RectF()
     private val backgroundPaint = Paint().apply {
         color = Color.WHITE
     }
+    private val controllerPaint = Paint().apply {
+        color = Color.WHITE
+    }
+
     private val shaderPaint = Paint()
-    private val circlePaint = Paint().apply {
-        isAntiAlias = true
-    }
-    private val circleStrokePaint = Paint().apply {
-        isAntiAlias = true
-        style = Paint.Style.STROKE // Vẽ chỉ đường viền
-        strokeWidth = 3f.toDp() // Độ dày của đường viền
-        color = Color.WHITE // Màu viền, bạn có thể thay đổi
-    }
 
     private val currentColorArray = floatArrayOf(200f, 1f, 1f)
     private val colorArray = floatArrayOf(200f, 1f, 1f)
@@ -41,57 +42,35 @@ class VView(context: Context, attrs: AttributeSet?) : View(context, attrs), HSVi
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-
-        // Vẽ thanh màu
         canvas.drawRoundRect(
-            bound.left,
-            bound.top,
-            bound.right,
-            bound.bottom,
+            bound.left - strokeWidth,
+            bound.top - strokeWidth,
+            bound.right + strokeWidth,
+            bound.bottom + strokeWidth,
             cornerRadius,
             cornerRadius,
-            shaderPaint
+            backgroundPaint
         )
-
-        // Vẽ viền chấm tròn
-        canvas.drawCircle(
-            controllerPosition,
-            bound.centerY(),
-            controllerRadius - circleStrokePaint.strokeWidth / 2, // Tránh viền bị cắt
-            circleStrokePaint
-        )
-
-        // Vẽ chấm tròn
-        canvas.drawCircle(
-            controllerPosition,
-            bound.centerY(),
-            controllerRadius - circleStrokePaint.strokeWidth, // Chừa không gian cho viền
-            circlePaint
-        )
+        canvas.drawRoundRect(bound, cornerRadius, cornerRadius, shaderPaint)
+        canvas.drawCircle(controllerPosition, measuredHeight / 2f, bound.height() / 2f, controllerPaint)
+//        polygonTop?.draw(canvas)
+//        polygonBottom?.draw(canvas)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-
-        // Thiết lập chiều rộng đầy đủ cho thanh màu
+        controllerSize = h * 0.3125f
+        verticalSpacing = controllerSize * 0.4f
         bound = RectF(
-            strokeWidth,
-            strokeWidth,
-            w - strokeWidth,
-            h - strokeWidth
+            controllerSize / 2,
+            strokeWidth + verticalSpacing,
+            w - controllerSize / 2,
+            h - strokeWidth - verticalSpacing
         )
-
-        // Điều chỉnh bán kính chấm tròn sao cho bằng một nửa chiều cao của thanh
-        controllerRadius = bound.height() / 2f
-
-        // Tính toán vị trí ban đầu của chấm tròn (giới hạn trong thanh)
-        controllerPosition = (1f - currentColorArray[2]) * (bound.width() - 2 * controllerRadius) + bound.left + controllerRadius
-
+        controllerPosition = (1f - currentColorArray[2]) * bound.width() + bound.left
+        setBoundPolygon()
         setupShader(bound)
-        updateCircleColor()
     }
-
-
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -118,15 +97,13 @@ class VView(context: Context, attrs: AttributeSet?) : View(context, attrs), HSVi
         colorArray[0] = hue
         colorArray[1] = saturation
         setupShader(bound)
-        updateCircleColor()
         invalidate()
     }
 
     override fun setValue(value: Float) {
         currentColorArray[2] = value
         controllerPosition = (1f - currentColorArray[2]) * bound.width() + bound.left
-        updateCircleColor()
-        invalidate()
+        setBoundPolygon()
     }
 
     fun setOnValueChange(onValueChange: (Float) -> Unit = {}) {
@@ -141,16 +118,24 @@ class VView(context: Context, attrs: AttributeSet?) : View(context, attrs), HSVi
     }
 
     private fun changePosition(newPosition: Float) {
-        controllerPosition = newPosition.coerceIn(bound.left + controllerRadius, bound.right - controllerRadius)
-        currentColorArray[2] = 1f - ((controllerPosition - bound.left - controllerRadius) / (bound.width() - 2 * controllerRadius))
-        updateCircleColor()
+        controllerPosition = newPosition
+        setBoundPolygon()
+        currentColorArray[2] = 1f - (newPosition / bound.width())
         onValueChange(currentColorArray[2])
     }
 
-
-
-    private fun updateCircleColor() {
-        val color = Color.HSVToColor(currentColorArray)
-        circlePaint.color = color
+    private fun setBoundPolygon() {
+        polygonTop?.setBounds(
+            (controllerPosition - controllerSize / 2).toInt(),
+            0,
+            (controllerPosition + controllerSize / 2).toInt(),
+            controllerSize.toInt()
+        )
+        polygonBottom?.setBounds(
+            (controllerPosition - controllerSize / 2).toInt(),
+            (measuredHeight - controllerSize).toInt(),
+            (controllerPosition + controllerSize / 2).toInt(),
+            measuredHeight
+        )
     }
 }

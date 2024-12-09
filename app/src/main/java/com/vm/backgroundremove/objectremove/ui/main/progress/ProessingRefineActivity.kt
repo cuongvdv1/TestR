@@ -26,6 +26,7 @@ import com.vm.backgroundremove.objectremove.ui.common.nointernet.NoInternetActiv
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.ResultRemoveBackGroundActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
+import com.vm.backgroundremove.objectremove.ui.main.remove_object.ResultRemoveObjectActivity
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
@@ -38,6 +39,7 @@ class ProessingRefineActivity : BaseActivity<ActivityProcessBinding, ProcessView
     private var taskId: String? = null
     private var cfUrl: String? = null
     private var uuid: String? = null
+    private var imageCreate: String? = null
     override fun createBinding(): ActivityProcessBinding {
         return ActivityProcessBinding.inflate(layoutInflater)
     }
@@ -48,6 +50,7 @@ class ProessingRefineActivity : BaseActivity<ActivityProcessBinding, ProcessView
         super.initView()
         Log.d("ProessingRefineActivity","ProessingRefineActivity")
         generateResponse = intent.getParcelable<GenerateResponse>(RemoveBackgroundActivity.KEY_GENERATE)
+        imageCreate = intent.getStringExtra("imageCreate")
 //        itemCode = intent.getStringExtra(Constants.ITEM_CODE)
         generateResponse?.let {
             taskId = it.task_id
@@ -71,7 +74,7 @@ class ProessingRefineActivity : BaseActivity<ActivityProcessBinding, ProcessView
 //                )
         } else {
 
-            viewModel.newProcessItem("", Constants.ITEM_CODE_RMOBJECT_REFINE_OBJ, taskId!!, cfUrl!!)
+            viewModel.newProcessItem(Constants.ITEM_CODE_RMOBJECT_REFINE_OBJ, imageCreate!!, taskId!!, cfUrl!!)
             viewModel.onNewID()
             viewModel.getNumProgressing()
         }
@@ -140,7 +143,7 @@ class ProessingRefineActivity : BaseActivity<ActivityProcessBinding, ProcessView
                                     viewModel.updateNumProcessing()
                                     viewModel.cancelProcessListener()
                                     val intent =
-                                        Intent(this@ProessingRefineActivity, ResultRemoveBackGroundActivity::class.java)
+                                        Intent(this@ProessingRefineActivity, ResultRemoveObjectActivity::class.java)
                                     intent.putExtra(Constants.INTENT_RESULT, processModel)
                                     startActivity(intent)
                                     finish()
