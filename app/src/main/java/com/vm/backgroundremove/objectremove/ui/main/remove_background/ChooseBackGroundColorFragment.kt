@@ -68,6 +68,7 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
     private lateinit var pickColor : HSView
     private lateinit var vView : VView
     private lateinit var iv_gradient_color :ImageView
+    private lateinit var iv_color_picker:ImageView
     var color_start : Int? = Color.parseColor("#FE23BE")
     var color_end : Int? = Color.parseColor("#A69CFC")
     var check_gradient : Boolean = false
@@ -138,6 +139,7 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
         pickColor = view.findViewById(R.id.picker_color_fragment)
         vView = view.findViewById(R.id.vView)
         iv_gradient_color = view.findViewById(R.id.iv_gradient_color)
+        iv_color_picker = view.findViewById(R.id.iv_color_picker)
 
         viewModel = ViewModelProvider(requireActivity())[RemoveBackGroundViewModel::class.java]
 
@@ -241,6 +243,7 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
         pickColor.setOnColorChange {
             Log.v("tag111", "color change: $it")
             customColor = it
+            iv_color_picker.backgroundTintList = ColorStateList.valueOf(it)
         }
 
         pickColor.setupWith(vView)
@@ -266,6 +269,7 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
             check_single_color = true
             showPickerColor()
         }
+
         iv_color_start.tap {
             val colorPickerDialog = DialogBottomSheetPickColor()
             colorPickerDialog.setOnDone {

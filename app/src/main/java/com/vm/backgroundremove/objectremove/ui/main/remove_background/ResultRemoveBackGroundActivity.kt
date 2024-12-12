@@ -97,9 +97,11 @@ class ResultRemoveBackGroundActivity :
         binding.ivExport.tap {
             val imageUrl = historyModel?.imageResult?.takeIf { it.isNotEmpty() }
             if (imageUrl != null) {
-                dialog.show()
+//                dialog.show()
+                dialog.setOnDismissListener {
+                    saveImageWithBackground()
+                }
                 dialog.showWithTimeout(3000)
-                saveImageWithBackground()
             } else {
                 Log.d("TAG_IMAGE", "Image URL is null or empty")
             }
@@ -131,7 +133,6 @@ class ResultRemoveBackGroundActivity :
             }
         }
 
-
         binding.ivCancel.tap {
             supportFragmentManager.fragments.forEach {
                 if (it is ChooseBackGroundColorFragment && it.isVisible) {
@@ -140,10 +141,6 @@ class ResultRemoveBackGroundActivity :
                 }
             }
         }
-    }
-
-    private fun setBackgroundColor(fragment: ChooseBackGroundColorFragment) {
-        fragment.customColor?.let { viewModel.setColor(it) }
     }
 
     fun setNewImage() {
@@ -224,9 +221,9 @@ class ResultRemoveBackGroundActivity :
 
 
     private fun saveImageWithBackground() {
-        binding.ivRmvBg.isDrawingCacheEnabled = true
-        val bitmapWithBackground = Bitmap.createBitmap(binding.ivRmvBg.drawingCache)
-        binding.ivRmvBg.isDrawingCacheEnabled = false // Tắt chế độ vẽ để giải phóng bộ nhớ
+        binding.cvRmvBg.isDrawingCacheEnabled = true
+        val bitmapWithBackground = Bitmap.createBitmap(binding.cvRmvBg.drawingCache)
+        binding.cvRmvBg.isDrawingCacheEnabled = false // Tắt chế độ vẽ để giải phóng bộ nhớ
 
         // Lưu bitmap này vào thư viện như đã làm trước đó
         downloadImage(bitmapWithBackground)

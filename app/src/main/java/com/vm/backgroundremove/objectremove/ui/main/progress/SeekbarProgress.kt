@@ -54,7 +54,7 @@ class SeekbarProgress @JvmOverloads constructor(
             invalidate()
         }
 
-    var cornerRadius: Float = 30f // Bo góc mặc định
+    var cornerRadius: Float = 100f // Bo góc mặc định
         set(value) {
             field = value
             invalidate()
@@ -73,7 +73,7 @@ class SeekbarProgress @JvmOverloads constructor(
             indicatorColor =
                 a.getColor(R.styleable.CustomLinearProgressView_indicatorColorProgress, indicatorColor)
             endColor = a.getColor(R.styleable.CustomLinearProgressView_endColorProgress, endColor)
-            cornerRadius = a.getDimension(R.styleable.CustomLinearProgressView_indicatorRadius, 20f)
+            cornerRadius = a.getDimension(R.styleable.CustomLinearProgressView_indicatorRadius, 100f)
         } finally {
             a.recycle()
         }

@@ -48,17 +48,19 @@ class DownloadRemoveBackgroundActivity:BaseActivity<ActivityYourProjectsResultBi
 
         if (imageUrl.isEmpty().not()) {
             binding.tvTitleName.visibility = View.GONE
+            binding.tvTitle.visibility = View.VISIBLE
             binding.tvSaved.visibility = View.VISIBLE
             binding.ivHome.visibility = View.VISIBLE
             binding.llBtnShare.visibility = View.GONE
             binding.llBtnExport.visibility = View.GONE
-            Log.d("TAG_IMAGE", "imageUrl: $imageUrl")
+            binding.llShareWithFriend.visibility = View.VISIBLE
+            Log.d("TAG_IMAGE111", "imageUrl: $imageUrl")
             Glide.with(this)
                 .load(imageUrl)
                 .into(binding.ivHistoryResult) // Assume you have an ImageView in your layout
         }else{
-            Log.d("TAG_IMAGE", "imageUrl1111: $imageUrl")
-            Log.d("TAG_IMAGE", "historyModel: ${historyModel?.imageResult}")
+            Log.d("TAG_IMAGE222", "imageUrl1111: $imageUrl")
+            Log.d("TAG_IMAGE222", "historyModel: ${historyModel?.imageResult}")
             Glide.with(this)
                 .load(historyModel?.imageResult)
                 .into(binding.ivHistoryResult) // Assume you have an ImageView in your layout

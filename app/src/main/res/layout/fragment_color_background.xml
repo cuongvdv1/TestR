@@ -17,10 +17,10 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:background="@color/white"
-            android:paddingVertical="4dp"
+            android:layout_marginBottom="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintBottom_toTopOf="@id/barrier">
 
             <!-- TextView for Color -->
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
@@ -29,8 +29,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:paddingVertical="9dp"
                 android:text="@string/color"
                 android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.5" />
@@ -54,8 +56,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:paddingVertical="9dp"
                 android:text="@string/background"
                 android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.5" />
@@ -71,9 +75,15 @@
                 app:layout_constraintEnd_toEndOf="@id/tv_choose_bg_image"
                 app:layout_constraintStart_toStartOf="@id/tv_choose_bg_image"
                 app:layout_constraintTop_toBottomOf="@+id/tv_choose_bg_image"
-                app:layout_constraintWidth_percent="0.5" />
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="rv_list_color, rv_list_background"
+            app:barrierDirection="top"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_list_color"
@@ -87,7 +97,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ll_choose_background"
             app:spanCount="2" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -95,8 +104,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="12dp"
             android:orientation="horizontal"
             android:visibility="gone"
@@ -104,7 +113,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ll_choose_background"
             app:spanCount="2" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -118,9 +126,8 @@
             android:id="@+id/ll_picker_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+
             android:background="@color/white"
-            android:paddingVertical="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -132,8 +139,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:paddingVertical="9dp"
                 android:text="@string/color"
                 android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.5" />
@@ -147,7 +156,7 @@
                 android:background="@color/color_ff6846"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="@id/tv_picker_color_single"
-                app:layout_constraintStart_toStartOf="@id/tv_picker_color_single"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_picker_color_single" />
 
 
@@ -157,8 +166,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:paddingVertical="9dp"
                 android:text="@string/gradient"
                 android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.5" />
@@ -184,8 +195,10 @@
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ll_picker_color">
+            app:layout_constraintTop_toBottomOf="@id/ll_picker_color"
+            app:layout_constraintVertical_bias="1.0">
 
             <com.vm.backgroundremove.objectremove.ui.main.color_picker.HSView
                 android:id="@+id/picker_color_fragment"
@@ -199,24 +212,29 @@
 
             <com.vm.backgroundremove.objectremove.ui.main.color_picker.VView
                 android:id="@+id/vView"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="16dp"
-                android:layout_marginHorizontal="25dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="23dp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/picker_color_fragment" />
+                app:layout_constraintEnd_toStartOf="@+id/iv_color_picker"
+                app:layout_constraintHorizontal_bias="0.32"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/picker_color_fragment"
+                app:layout_constraintVertical_bias="1.0" />
 
             <ImageView
                 android:id="@+id/iv_color_picker"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:layout_marginTop="16dp"
                 android:layout_marginStart="8dp"
-                android:background="@drawable/bg_border_stroke_27"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/ic_circle_color_picker"
+                android:backgroundTint="#E4A5C6"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/vView"
                 app:layout_constraintTop_toBottomOf="@+id/picker_color_fragment"
                 app:tint="@color/color_FF6846" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -227,7 +245,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
             android:paddingBottom="23dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

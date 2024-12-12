@@ -11,7 +11,7 @@ import android.view.WindowInsets
 import android.view.WindowInsetsController
 import com.vm.backgroundremove.objectremove.R
 
-class LoadingDialog(context: Context) : Dialog(context, R.style.CustomDialogTheme) {
+class LoadingDialog(context: Context) : Dialog(context, R.style.full_screen_dialog) {
 
     init {
         // Gắn layout vào dialog
