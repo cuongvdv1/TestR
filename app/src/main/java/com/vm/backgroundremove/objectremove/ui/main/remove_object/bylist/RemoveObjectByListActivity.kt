@@ -10,6 +10,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.CustomTarget
@@ -29,6 +30,7 @@ import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBack
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity.Companion.KEY_GENERATE
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity.Companion.KEY_REMOVE
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
+import com.vm.backgroundremove.objectremove.ui.main.your_projects.viewModel.ProjectViewModel
 import com.vm.backgroundremove.objectremove.util.Utils
 import com.vm.backgroundremove.objectremove.util.getBitmapFrom
 import kotlinx.coroutines.CoroutineScope
@@ -49,6 +51,7 @@ class RemoveObjectByListActivity :
     private var type = ""
     private var bitmap: Bitmap? = null
     private lateinit var processingDialog: ProcessingDialog
+//    private lateinit var projectViewModel: ProjectViewModel
     override fun createBinding(): ActivityRemoveObjectByListBinding {
         return ActivityRemoveObjectByListBinding.inflate(layoutInflater)
     }
@@ -59,6 +62,7 @@ class RemoveObjectByListActivity :
 
     override fun initView() {
         super.initView()
+//        projectViewModel = viewModel<ProjectViewModel>().value
         binding.ivBack.tap {
             finish()
         }
@@ -102,12 +106,12 @@ class RemoveObjectByListActivity :
                         }
                         viewModel.upLoadImage.observe(this) { response ->
                             startDataGenerate(response, historyModel?.other.toString())
+//                            projectViewModel.deleteHistory(historyModel)
                         }
                     }
                 }
             }
             binding.ivBeforeAfter.tap {
-                Log.d("YEUTRINHLAMLUON",  historyModel?.imageCreate.toString())
                 val uriImage = Uri.parse( historyModel?.imageCreate.toString())
                 binding.ivRmvObject.toggleImage(bitmap!!, uriImage)
             }

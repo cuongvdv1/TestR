@@ -39,7 +39,7 @@ class ChoosePhotoAdapter(
         val imageInfo = listPhoto[position]
         Glide.with(context)
             .load(imageInfo.uri)
-            .placeholder(R.drawable.ads_bg_icon)
+            .placeholder(R.drawable.img_camera)
             .into(holder.binding.ivChoosePhoto)
 
         if (selectedPosition == position && position != 0) {

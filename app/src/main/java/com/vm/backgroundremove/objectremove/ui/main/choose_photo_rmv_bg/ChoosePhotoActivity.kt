@@ -1,18 +1,23 @@
 package com.vm.backgroundremove.objectremove.ui.main.choose_photo_rmv_bg
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.hardware.camera2.CameraCharacteristics
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.vm.backgroundremove.objectremove.ui.main.choose_photo_rmv_bg.model.ChoosePhotoModel
+import com.vm.backgroundremove.objectremove.BuildConfig
 import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseViewModel
@@ -21,6 +26,7 @@ import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.databinding.ActivityChoosePhotoBinding
 import com.vm.backgroundremove.objectremove.inteface.OnClickChoosePhoto
 import com.vm.backgroundremove.objectremove.ui.main.choose_photo_rmv_bg.adapter.ChoosePhotoAdapter
+import com.vm.backgroundremove.objectremove.ui.main.choose_photo_rmv_bg.model.ChoosePhotoModel
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_object.RemoveObjectActivity
 import java.io.File
@@ -33,6 +39,9 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
     private val REQUEST_CAMERA_PERMISSION = 100
     private val REQUEST_IMAGE_CAPTURE = 101
     private var imageFile: File? = null
+    private var selectedOutputPath: String? = null
+    private var selectedImagePath: String? = null
+    private var checkRemove: String? = null
     override fun createBinding(): ActivityChoosePhotoBinding {
         return ActivityChoosePhotoBinding.inflate(layoutInflater)
     }
@@ -48,23 +57,27 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
         binding.ivBack.tap {
             finish()
         }
-        val checkRemove = intent.getStringExtra(Constants.NAME_INTENT_FROM_HOME).toString()
-        val checkRemoveFragment = intent.getStringExtra(Constants.NAME_INTENT_FORM_FRAGMENT).toString()
+        checkRemove = intent.getStringExtra(Constants.NAME_INTENT_FROM_HOME).toString()
+        val checkRemoveFragment =
+            intent.getStringExtra(Constants.NAME_INTENT_FORM_FRAGMENT).toString()
         binding.ivSelected.tap {
-            Log.d("TAG_CHECK","TRUE")
+            Log.d("TAG_CHECK", "TRUE")
             when {
                 checkRemove == Constants.INTENT_FROM_HOME_TO_BACKGROUND -> {
-                    val intent = Intent(this@ChoosePhotoActivity, RemoveBackgroundActivity::class.java)
+                    val intent =
+                        Intent(this@ChoosePhotoActivity, RemoveBackgroundActivity::class.java)
                     intent.putExtra(Constants.IMG_GALLERY_PATH, uriPhoto)
                     startActivity(intent)
                     finish()
                 }
+
                 checkRemove == Constants.INTENT_FROM_HOME_TO_OBJECT -> {
                     val intent = Intent(this@ChoosePhotoActivity, RemoveObjectActivity::class.java)
                     intent.putExtra(Constants.IMG_GALLERY_PATH, uriPhoto)
                     startActivity(intent)
                     finish()
                 }
+
                 checkRemoveFragment == Constants.INTENT_FROM_FRAGMENT_CHOOSE_BG -> {
                     val intent = Intent()
                     intent.putExtra(Constants.IMG_GALLERY_PATH, uriPhoto)
@@ -142,10 +155,9 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
                 getAllImageInfos()
             }
         }
-
         if (requestCode == REQUEST_CAMERA_PERMISSION) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                openCamera()
+                toOpenCameraNew()
             }
         }
     }
@@ -211,7 +223,7 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
                     ) == PackageManager.PERMISSION_GRANTED
                 ) {
                     // Nếu đã có quyền, mở camera
-                    openCamera()
+                    toOpenCameraNew()
                 } else {
                     // Nếu chưa có quyền, yêu cầu quyền
                     ActivityCompat.requestPermissions(
@@ -234,11 +246,64 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
         binding.rvChoosePhoto.itemAnimator = null
     }
 
-    private fun openCamera() {
+
+    @SuppressLint("QueryPermissionsNeeded")
+    private fun toOpenCameraNew() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        if (intent.resolveActivity(packageManager) != null) {
-            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
+        intent.putExtra(
+            "android.intent.extras.CAMERA_FACING",
+            CameraCharacteristics.LENS_FACING_FRONT
+        )
+        val photoURI: Uri = FileProvider.getUriForFile(
+            applicationContext,
+            "${BuildConfig.APPLICATION_ID}.provider",
+            createImageFile()
+        )
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        try {
+            cameraResultLauncher.launch(intent)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+    }
+
+    private val cameraResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK && !selectedOutputPath.isNullOrEmpty()) {
+
+                when {
+                    checkRemove == Constants.INTENT_FROM_HOME_TO_BACKGROUND -> {
+                        selectedImagePath = selectedOutputPath
+                        val intent =
+                            Intent(this@ChoosePhotoActivity, RemoveBackgroundActivity::class.java)
+                        intent.putExtra(Constants.IMG_CAMERA_PATH, selectedImagePath)
+                        startActivity(intent)
+                        finish()
+                    }
+
+                    checkRemove == Constants.INTENT_FROM_HOME_TO_OBJECT -> {
+                        selectedImagePath = selectedOutputPath
+                        val intent =
+                            Intent(this@ChoosePhotoActivity, RemoveObjectActivity::class.java)
+                        intent.putExtra(Constants.IMG_CAMERA_PATH, selectedImagePath)
+                        startActivity(intent)
+                        finish()
+                    }
+                }
+            }
+        }
+
+    private fun createImageFile(): File {
+        val storageDir = File(
+            getExternalFilesDir(null),
+            "CamPic/"
+        )
+        storageDir.mkdirs()
+        val image = File(storageDir, "Temp${System.currentTimeMillis()}.jpg")
+        image.createNewFile()
+        selectedOutputPath = image.absolutePath
+        return image
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -277,5 +342,6 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
             return null
         }
     }
+
 
 }
