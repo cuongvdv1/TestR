@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">RemoveBackground</string>
+    <string name="app_name" translatable="false">Remove Background</string>
     <string name="img_project_empty">img_project_empty</string>
     <string name="there_are_no_projects_yet">There are no projects yet</string>
     <string name="home">Home</string>
@@ -152,4 +152,5 @@
     <string name="no">No</string>
     <string name="are_you_sure_you_want_to_exit">Are you sure you want to exit?</string>
     <string name="exit_app">Exit App?</string>
+    <string name="your_photos">Your Photos</string>
 </resources>

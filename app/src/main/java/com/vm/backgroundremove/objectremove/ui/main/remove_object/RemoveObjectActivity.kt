@@ -91,15 +91,19 @@ class RemoveObjectActivity :
                 }
             }
             viewModel.upLoadImage.observe(this) { response ->
-                if (response.success == false){
+                if (response.task_id.isNotBlank() && response.cf_url.isNotBlank() && response.success) {
+                    if (imgPathGallery != null) {
+                        startDataGenerate(response, imgPathGallery)
+                    } else if (imagePathCamera != null) {
+                        startDataGenerate(response, imagePathCamera)
+                    }
+                }else{
+                    processingDialog1.dismiss()
+                    processingDialog.dismiss()
                     Toast.makeText(this, "Failed to process the image. Please try again.", Toast.LENGTH_SHORT).show()
                     return@observe
                 }
-                if (imgPathGallery != null) {
-                    startDataGenerate(response, imgPathGallery)
-                } else if (imagePathCamera != null) {
-                    startDataGenerate(response, imagePathCamera)
-                }
+
             }
         }
         viewModel.triggerRemoveByList.observe(this) {
@@ -114,15 +118,18 @@ class RemoveObjectActivity :
             }
 
             viewModel.upLoadImage.observe(this) { response ->
-                if (response.success == false){
+                if (response.task_id.isNotBlank() && response.cf_url.isNotBlank() && response.success) {
+                    if (imgPathGallery != null) {
+                        startDataGenerateByList(response, imgPathGallery)
+                    } else if (imagePathCamera != null) {
+                        startDataGenerateByList(response, imagePathCamera)
+                    }
+                }else{
+                    processingDialog.dismiss()
                     Toast.makeText(this, "Failed to process the image. Please try again.", Toast.LENGTH_SHORT).show()
                     return@observe
                 }
-                if (imgPathGallery != null) {
-                    startDataGenerateByList(response, imgPathGallery)
-                } else if (imagePathCamera != null) {
-                    startDataGenerateByList(response, imagePathCamera)
-                }
+
 
             }
         }
@@ -159,6 +166,7 @@ class RemoveObjectActivity :
         modelGenerate.cf_url = uploadResponse.cf_url
         modelGenerate.task_id = uploadResponse.task_id
         modelGenerate.imageCreate = Constants.ITEM_CODE_RMOBJECT_REFINE_OBJ
+
 //        val numberGenerate = limitNumber.toInt() - isCountGenerate
         startActivity(
             Intent(
@@ -174,7 +182,7 @@ class RemoveObjectActivity :
         finish()
     }
     private fun uploadImageRemoveBackgroundByList(bitMap: Bitmap, objectRemovelist: String) {
-        processingDialog1.show()
+        processingDialog.show()
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 // Giới hạn thời gian tải lên là 30 giây
@@ -206,7 +214,7 @@ class RemoveObjectActivity :
                 }
             } catch (e: TimeoutCancellationException) {
                 // Đóng dialog và hiển thị thông báo nếu quá 30 giây
-                processingDialog1.dismiss()
+                processingDialog.dismiss()
                 CoroutineScope(Dispatchers.Main).launch {
                     Toast.makeText(
                         this@RemoveObjectActivity,
@@ -216,7 +224,7 @@ class RemoveObjectActivity :
                 }
             } catch (e: Exception) {
                 // Xử lý các ngoại lệ khác
-                processingDialog1.dismiss()
+                processingDialog.dismiss()
                 CoroutineScope(Dispatchers.Main).launch {
                     Toast.makeText(
                         this@RemoveObjectActivity,

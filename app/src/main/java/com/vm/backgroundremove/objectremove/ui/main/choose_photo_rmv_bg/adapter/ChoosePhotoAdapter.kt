@@ -11,6 +11,7 @@ import com.vm.backgroundremove.objectremove.ui.main.choose_photo_rmv_bg.model.Ch
 import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.databinding.ItemChoosePhotoBinding
 import com.vm.backgroundremove.objectremove.inteface.OnClickChoosePhoto
+import com.vm.backgroundremove.objectremove.util.dpToPx
 
 class ChoosePhotoAdapter(
     private val context: Context,
@@ -46,10 +47,12 @@ class ChoosePhotoAdapter(
             holder.binding.bgItemSelected.visibility = View.VISIBLE
             holder.binding.icPhotoSelected.visibility = View.VISIBLE
             holder.itemView.setBackgroundResource(R.drawable.bg_border_8_item_photo)
+            holder.itemView.setPadding(2.dpToPx(), 2.dpToPx(), 2.dpToPx(), 2.dpToPx())
         } else {
             holder.binding.bgItemSelected.visibility = View.GONE
             holder.binding.icPhotoSelected.visibility = View.GONE
             holder.itemView.background = null
+            holder.itemView.setPadding(0, 0, 0, 0)
         }
 
         holder.itemView.setOnClickListener {

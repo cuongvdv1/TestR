@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp">
+    android:layout_margin="6dp">
 
 
     <com.vm.backgroundremove.objectremove.a8_app_utils.SquareImageView
@@ -11,14 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
-        android:padding="1dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/bg_border_8"
+        android:src="@drawable/bg_border_8_item_photo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:riv_corner_radius="10dp" />
+        app:riv_corner_radius="8dp" />
 
     <com.vm.backgroundremove.objectremove.a8_app_utils.SquareImageView
         android:id="@+id/bg_item_selected"
@@ -26,13 +25,12 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:src="#4DFB9A38"
-        android:padding="1dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:riv_corner_radius="10dp" />
+        app:riv_corner_radius="8dp" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ic_photo_selected"

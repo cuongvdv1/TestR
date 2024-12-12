@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/ic_undo"
             android:src="@drawable/ic_undo_off"
-
+            android:alpha="0.3"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -97,6 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/ic_redo"
+            android:alpha="0.3"
             android:src="@drawable/ic_redo_off"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_undo"

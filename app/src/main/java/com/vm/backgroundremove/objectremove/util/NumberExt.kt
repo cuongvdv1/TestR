@@ -8,3 +8,7 @@ fun Float.toDp(): Float {
         TypedValue.COMPLEX_UNIT_DIP, this, Resources.getSystem().displayMetrics
     )
 }
+fun Int.dpToPx(): Int {
+    val density = Resources.getSystem().displayMetrics.density
+    return (this * density).toInt()
+}
