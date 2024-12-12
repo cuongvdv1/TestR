@@ -145,17 +145,17 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
 
         // hien thi list color
         colorList = listOf<ColorModel>(
-            ColorModel(R.drawable.ic_none_color, "#FFFFFF"),
-            ColorModel(R.drawable.ic_circle_color1, "#5A9CFF"),
-            ColorModel(R.drawable.ic_circle_color, ""),
-            ColorModel(R.drawable.ic_circle_color2, "#76FF94"),
-            ColorModel(R.drawable.ic_circle_color3, "#8ECE40"),
-            ColorModel(R.drawable.ic_circle_color4, "#FFBF49"),
+            ColorModel(R.drawable.ic_none_color, "#FFFFFF",true),
             ColorModel(R.drawable.ic_circle_color5, "#FF7755"),
+            ColorModel(R.drawable.ic_circle_color, ""),
             ColorModel(R.drawable.ic_circle_color6, "#F578B9"),
+            ColorModel(R.drawable.ic_circle_color1, "#5A9CFF"),
             ColorModel(R.drawable.ic_circle_color7, "#939393"),
+            ColorModel(R.drawable.ic_circle_color2, "#76FF94"),
             ColorModel(R.drawable.ic_circle_color8, "#ADADAD"),
+            ColorModel(R.drawable.ic_circle_color3, "#8ECE40"),
             ColorModel(R.drawable.ic_circle_color9, "#FF7D7D"),
+            ColorModel(R.drawable.ic_circle_color4, "#FFBF49"),
             ColorModel(R.drawable.ic_circle_color10, "#EB67BF"),
         )
         colorAdapter = ColorAdapter(requireContext(), colorList, object : ColorSelectorListener {
@@ -168,15 +168,15 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
 
         // hien thi list background
         backGroundList = listOf<BackGroundModel>(
-            BackGroundModel(R.drawable.ic_choose_bg,),
-            BackGroundModel(R.drawable.bg1,false),
-            BackGroundModel(R.drawable.bg2,false),
-            BackGroundModel(R.drawable.bg3,false),
-            BackGroundModel(R.drawable.bg4,false),
+            BackGroundModel(R.drawable.ic_choose_bg),
             BackGroundModel(R.drawable.bg5,false),
+            BackGroundModel(R.drawable.bg1,false),
             BackGroundModel(R.drawable.bg6,false),
+            BackGroundModel(R.drawable.bg2,false),
             BackGroundModel(R.drawable.bg7,false),
+            BackGroundModel(R.drawable.bg3,false),
             BackGroundModel(R.drawable.bg8,false),
+            BackGroundModel(R.drawable.bg4,false),
             BackGroundModel(R.drawable.bg9,false),
             BackGroundModel(R.drawable.bg10,false),
             BackGroundModel(R.drawable.bg11,false),

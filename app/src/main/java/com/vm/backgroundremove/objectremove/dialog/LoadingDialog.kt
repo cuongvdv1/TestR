@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
+import android.view.WindowManager
 import com.vm.backgroundremove.objectremove.R
 
 class LoadingDialog(context: Context) : Dialog(context, R.style.full_screen_dialog) {
@@ -18,6 +19,10 @@ class LoadingDialog(context: Context) : Dialog(context, R.style.full_screen_dial
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_loading, null)
         setContentView(dialogView)
         hideNavigationBar()
+        val attributes = window!!.attributes
+        attributes.height = WindowManager.LayoutParams.WRAP_CONTENT
+        attributes.width = (context.resources.displayMetrics.widthPixels * 0.8).toInt()
+        window!!.attributes = attributes
         // Không cho phép đóng dialog khi nhấn bên ngoài
         setCancelable(false)
     }
