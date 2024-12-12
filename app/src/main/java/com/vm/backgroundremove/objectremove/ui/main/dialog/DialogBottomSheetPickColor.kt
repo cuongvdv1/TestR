@@ -1,5 +1,6 @@
 package com.vm.backgroundremove.objectremove.ui.main.dialog
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,9 +20,15 @@ class DialogBottomSheetPickColor: BottomSheetDialogFragment() {
     private lateinit var iv_selected: ImageView
     private lateinit var pickColor: HSView
     private lateinit var vView: VView
+    private lateinit var iv_picker_color: ImageView
     var customColor: Int? = null
 
     private var onDone: (Int) -> Unit = {}
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(BottomSheetDialogFragment.STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +46,7 @@ class DialogBottomSheetPickColor: BottomSheetDialogFragment() {
         iv_selected = view.findViewById(R.id.iv_selected_dialog_color)
         pickColor = view.findViewById(R.id.picker_color)
         vView = view.findViewById(R.id.vView_dialog)
+        iv_picker_color = view.findViewById(R.id.iv_color_picker_dialog)
         iv_cancel.setOnClickListener {
             dismiss()
         }
@@ -47,6 +55,7 @@ class DialogBottomSheetPickColor: BottomSheetDialogFragment() {
         }
         pickColor.setOnColorChange {
             customColor = it
+            iv_picker_color.backgroundTintList = ColorStateList.valueOf(it)
         }
 
         pickColor.setupWith(vView)
