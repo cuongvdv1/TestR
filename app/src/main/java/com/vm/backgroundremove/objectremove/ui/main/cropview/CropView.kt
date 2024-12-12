@@ -16,6 +16,7 @@ import android.view.MotionEvent
 import android.widget.FrameLayout
 import androidx.appcompat.content.res.AppCompatResources
 import com.vm.backgroundremove.objectremove.R
+import com.vm.backgroundremove.objectremove.ui.main.remove_background.ResultRemoveBackGroundActivity
 import com.vm.backgroundremove.objectremove.util.toDp
 import java.io.IOException
 import kotlin.math.sqrt
@@ -88,12 +89,14 @@ fun setBackgroundBitmap(bitmap: Bitmap) {
     redoStack.clear() // Xóa redo stack vì đây là một thay đổi mới
     backgroundBitmap = bitmap
     invalidate() // Vẽ lại view khi có sự thay đổi
+    (context as? ResultRemoveBackGroundActivity)?.updateButtonStates()
 }
     fun undo() {
         if (undoStack.isNotEmpty()) {
             redoStack.add(backgroundBitmap) // Lưu trạng thái hiện tại vào redo stack
             backgroundBitmap = undoStack.removeLast() // Lấy trạng thái cuối cùng từ undo stack
             invalidate() // Vẽ lại view
+            (context as? ResultRemoveBackGroundActivity)?.updateButtonStates()
         }
     }
     fun redo() {
@@ -101,12 +104,14 @@ fun setBackgroundBitmap(bitmap: Bitmap) {
             undoStack.add(backgroundBitmap) // Lưu trạng thái hiện tại vào undo stack
             backgroundBitmap = redoStack.removeLast() // Lấy trạng thái cuối cùng từ redo stack
             invalidate() // Vẽ lại view
+            (context as? ResultRemoveBackGroundActivity)?.updateButtonStates()
         }
     }
 
     fun setBackgroundWithColor(color: Int) {
         val bitmap = createColorBitmap(color, measuredWidth, measuredHeight)
         setBackgroundBitmap(bitmap)
+        (context as? ResultRemoveBackGroundActivity)?.updateButtonStates()
     }
 
     fun setBackgroundWithGradient(startColor: Int, endColor: Int) {
@@ -119,11 +124,19 @@ fun setBackgroundBitmap(bitmap: Bitmap) {
         gradientDrawable.setBounds(0, 0, width, height)
         gradientDrawable.draw(canvas)
         setBackgroundBitmap(bitmap)
+        (context as? ResultRemoveBackGroundActivity)?.updateButtonStates()
     }
 
     fun clearBackGround() {
         backgroundBitmap = null
         invalidate()
+    }
+    fun canUndo(): Boolean {
+        return undoStack.isNotEmpty()
+    }
+
+    fun canRedo(): Boolean {
+        return redoStack.isNotEmpty()
     }
 
 

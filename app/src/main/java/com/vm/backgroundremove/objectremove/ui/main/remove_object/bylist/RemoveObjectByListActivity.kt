@@ -105,7 +105,15 @@ class RemoveObjectByListActivity :
                             }
                         }
                         viewModel.upLoadImage.observe(this) { response ->
-                            startDataGenerate(response, historyModel?.other.toString())
+
+                            if (response.task_id.isNotBlank() && response.cf_url.isNotBlank() && response.success) {
+                                startDataGenerate(response, historyModel?.other.toString())
+                            }else{
+                                processingDialog.dismiss()
+                                Toast.makeText(this, "Failed to process the image. Please try again.", Toast.LENGTH_SHORT).show()
+                                return@observe
+                            }
+
 //                            projectViewModel.deleteHistory(historyModel)
                         }
                     }

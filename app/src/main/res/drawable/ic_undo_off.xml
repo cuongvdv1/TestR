@@ -5,16 +5,12 @@
     android:viewportWidth="24"
     android:viewportHeight="24">
     <path
-        android:fillAlpha="0.3"
         android:strokeColor="#FF37414B"
-        android:strokeAlpha="0.3"
         android:strokeWidth="1.5"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"
         android:pathData="M11 18h4.5c2.49 0 4.5-2.01 4.5-4.5S17.99 9 15.5 9H4"/>
     <path
-        android:fillAlpha="0.3"
-        android:strokeAlpha="0.3"
         android:strokeColor="#FF37414B"
         android:strokeWidth="1.5"
         android:strokeLineCap="round"

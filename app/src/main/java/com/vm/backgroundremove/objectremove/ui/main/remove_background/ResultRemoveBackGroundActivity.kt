@@ -100,7 +100,7 @@ class ResultRemoveBackGroundActivity :
         binding.ivBack.tap {
             finish()
         }
-
+        updateButtonStates()
         binding.ivExport.tap {
             val imageUrl = historyModel?.imageResult?.takeIf { it.isNotEmpty() }
             if (imageUrl != null) {
@@ -173,6 +173,13 @@ class ResultRemoveBackGroundActivity :
         binding.ivCancel.visibility = View.GONE
         binding.ivUndo.visibility = View.VISIBLE
         binding.tvEdit.text = getString(R.string.edit)
+    }
+     fun updateButtonStates() {
+        binding.ivUndo.alpha = if (binding.cvRmvBg.canUndo()) 1.0f else 0.3f
+        binding.ivRedo.alpha = if (binding.cvRmvBg.canRedo()) 1.0f else 0.3f
+
+        binding.ivUndo.isEnabled = binding.cvRmvBg.canUndo()
+        binding.ivRedo.isEnabled = binding.cvRmvBg.canRedo()
     }
 
     private fun downloadImage(bitmap: Bitmap) {
