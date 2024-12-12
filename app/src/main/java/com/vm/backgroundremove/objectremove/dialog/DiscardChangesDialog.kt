@@ -26,7 +26,7 @@ class DiscardChangesDialog(context2: Context) :
 
         val attributes = window!!.attributes
         attributes.height = WindowManager.LayoutParams.WRAP_CONTENT
-        attributes.width = (context.resources.displayMetrics.widthPixels * 0.9).toInt()
+        attributes.width = (context.resources.displayMetrics.widthPixels * 0.8).toInt()
         window!!.attributes = attributes
         window!!.setSoftInputMode(16)
 

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
@@ -40,6 +41,7 @@ class ResultRemoveBackGroundActivity :
     private var type = ""
 
     private lateinit var dialog: LoadingDialog
+    private var bitmap: Bitmap? = null
     override fun createBinding(): ActivityRemoveBackgroundBinding {
         return ActivityRemoveBackgroundBinding.inflate(layoutInflater)
     }
@@ -76,8 +78,8 @@ class ResultRemoveBackGroundActivity :
                                 resource: Bitmap, transition: Transition<in Bitmap>?
                             ) {
                                 // Đây là nơi bạn nhận được Bitmap
-                                val bitmap: Bitmap = resource
-                                binding.cvRmvBg.setBitmap(bitmap)
+                                bitmap = resource
+                                binding.cvRmvBg.setBitmap(bitmap!!)
                             }
 
                             override fun onLoadCleared(placeholder: Drawable?) {
@@ -85,6 +87,11 @@ class ResultRemoveBackGroundActivity :
                             }
                         })
                 }
+            }
+            binding.ivBeforeAfter.tap {
+                Log.d("YEUTRINHLAMLUON", historyModel?.imageCreate.toString())
+                val uriImage = Uri.parse(historyModel?.imageCreate.toString())
+                binding.cvRmvBg.toggleImage(bitmap!!, uriImage)
             }
         } catch (_: Exception) {
         }
@@ -133,6 +140,14 @@ class ResultRemoveBackGroundActivity :
             }
         }
 
+        binding.ivUndo.tap {
+
+            binding.cvRmvBg.undo()
+        }
+        binding.ivRedo.tap {
+
+            binding.cvRmvBg.redo()
+        }
         binding.ivCancel.tap {
             supportFragmentManager.fragments.forEach {
                 if (it is ChooseBackGroundColorFragment && it.isVisible) {
@@ -223,9 +238,7 @@ class ResultRemoveBackGroundActivity :
     private fun saveImageWithBackground() {
         binding.cvRmvBg.isDrawingCacheEnabled = true
         val bitmapWithBackground = Bitmap.createBitmap(binding.cvRmvBg.drawingCache)
-        binding.cvRmvBg.isDrawingCacheEnabled = false // Tắt chế độ vẽ để giải phóng bộ nhớ
-
-        // Lưu bitmap này vào thư viện như đã làm trước đó
+        binding.cvRmvBg.isDrawingCacheEnabled = false
         downloadImage(bitmapWithBackground)
     }
     fun clearBackground() {

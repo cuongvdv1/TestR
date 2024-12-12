@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
@@ -38,6 +39,7 @@ class ResultRemoveObjectAndDowLoadActivity :
     }
 
     private var historyModel: HistoryModel? = null
+    private var bitmap: Bitmap? = null
     private var type = ""
     private lateinit var dialog: LoadingDialog
     override fun setViewModel(): BaseViewModel {
@@ -67,16 +69,21 @@ class ResultRemoveObjectAndDowLoadActivity :
                             override fun onResourceReady(
                                 resource: Bitmap, transition: Transition<in Bitmap>?
                             ) {
-                                // Đây là nơi bạn nhận được Bitmap
-                                val bitmap: Bitmap = resource
-                                binding.ivRmvObject.setImageFromBitmap(bitmap)
+
+                                bitmap = resource
+                                binding.ivRmvObject.setImageFromBitmap(bitmap!!)
 
                             }
 
                             override fun onLoadCleared(placeholder: Drawable?) {
-                                // Xử lý khi cần thiết, không có gì đặc biệt trong trường hợp này
+
                             }
                         })
+                }
+                binding.ivBeforeAfter.tap {
+                    Log.d("YEUTRINHLAMLUON", historyModel?.imageCreate.toString())
+                    val uriImage = Uri.parse(historyModel?.imageCreate.toString())
+                    binding.ivRmvObject.toggleImage(bitmap!!, uriImage)
                 }
             }
         } catch (_: Exception) {
@@ -86,15 +93,14 @@ class ResultRemoveObjectAndDowLoadActivity :
             val imageUrl = historyModel?.imageResult?.takeIf { it.isNotEmpty() }
 
             if (imageUrl != null) {
-                downloadImageFromUrl(this, imageUrl)
-                val intent = Intent(this, ResultRemoveObjectActivity::class.java)
-                intent.putExtra(Constants.INTENT_RESULT,historyModel)
-                dialog.show()
+                dialog.setOnDismissListener {
+                    downloadImageFromUrl(this, imageUrl)
+                }
                 dialog.showWithTimeout(3000)
-                dialog.dismiss()
-                startActivity(intent)
-                finish()
+            } else {
+                Log.d("TAG_IMAGE", "Image URL is null or empty")
             }
+
         }
     }
 
@@ -158,7 +164,15 @@ class ResultRemoveObjectAndDowLoadActivity :
                 }
 
                 CoroutineScope(Dispatchers.Main).launch {
-                Toast.makeText(context, "Image downloaded successfully", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(
+                        this@ResultRemoveObjectAndDowLoadActivity,
+                        ResultRemoveObjectActivity::class.java
+                    )
+                    intent.putExtra(Constants.INTENT_RESULT, historyModel)
+                    startActivity(intent)
+                    finish()
+                    Toast.makeText(context, "Image downloaded successfully", Toast.LENGTH_SHORT)
+                        .show()
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
