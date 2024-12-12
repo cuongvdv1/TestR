@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
@@ -40,6 +41,7 @@ class ResultRemoveBackGroundActivity :
     private var type = ""
 
     private lateinit var dialog: LoadingDialog
+    private var bitmap: Bitmap? = null
     override fun createBinding(): ActivityRemoveBackgroundBinding {
         return ActivityRemoveBackgroundBinding.inflate(layoutInflater)
     }
@@ -49,7 +51,7 @@ class ResultRemoveBackGroundActivity :
 
     override fun initView() {
         super.initView()
-        dialog= LoadingDialog(this)
+        dialog = LoadingDialog(this)
         type = intent.getStringExtra(Constants.TYPE_HISTORY).toString()
         viewModel.color.observe(this) { color ->
             binding.cvRmvBg.setBackgroundWithColor(color)
@@ -76,8 +78,8 @@ class ResultRemoveBackGroundActivity :
                                 resource: Bitmap, transition: Transition<in Bitmap>?
                             ) {
                                 // Đây là nơi bạn nhận được Bitmap
-                                val bitmap: Bitmap = resource
-                                binding.cvRmvBg.setBitmap(bitmap)
+                                bitmap = resource
+                                binding.cvRmvBg.setBitmap(bitmap!!)
                             }
 
                             override fun onLoadCleared(placeholder: Drawable?) {
@@ -85,6 +87,11 @@ class ResultRemoveBackGroundActivity :
                             }
                         })
                 }
+            }
+            binding.ivBeforeAfter.tap {
+                Log.d("YEUTRINHLAMLUON", historyModel?.imageCreate.toString())
+                val uriImage = Uri.parse(historyModel?.imageCreate.toString())
+                binding.cvRmvBg.toggleImage(bitmap!!, uriImage)
             }
         } catch (_: Exception) {
         }
@@ -131,7 +138,14 @@ class ResultRemoveBackGroundActivity :
             }
         }
 
+        binding.ivUndo.tap {
 
+            binding.cvRmvBg.undo()
+        }
+        binding.ivRedo.tap {
+
+            binding.cvRmvBg.redo()
+        }
         binding.ivCancel.tap {
             supportFragmentManager.fragments.forEach {
                 if (it is ChooseBackGroundColorFragment && it.isVisible) {
@@ -154,6 +168,7 @@ class ResultRemoveBackGroundActivity :
         binding.ivCancel.visibility = View.VISIBLE
         binding.tvEdit.text = getString(R.string.color_ppicker)
     }
+
     fun setBeforeImage() {
         binding.ivBeforeAfter.visibility = View.VISIBLE
         binding.ivDone.visibility = View.GONE
@@ -189,7 +204,8 @@ class ResultRemoveBackGroundActivity :
                     savedImagePath = uri.toString() // Lưu đường dẫn ảnh
                 } else {
                     // Android 9 trở xuống: Lưu vào thư mục Pictures
-                    val downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                    val downloadDir =
+                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
                     if (!downloadDir.exists()) {
                         downloadDir.mkdirs()
                     }
@@ -206,9 +222,16 @@ class ResultRemoveBackGroundActivity :
 
                 // Notify user and start DownloadRemoveBackgroundActivity
                 CoroutineScope(Dispatchers.Main).launch {
-                    Toast.makeText(this@ResultRemoveBackGroundActivity, "Image saved successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@ResultRemoveBackGroundActivity,
+                        "Image saved successfully",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     savedImagePath?.let { path ->
-                        val intent = Intent(this@ResultRemoveBackGroundActivity, DownloadRemoveBackgroundActivity::class.java)
+                        val intent = Intent(
+                            this@ResultRemoveBackGroundActivity,
+                            DownloadRemoveBackgroundActivity::class.java
+                        )
                         intent.putExtra(Constants.IMG_CAMERA_PATH, path) // Truyền đường dẫn ảnh
                         startActivity(intent)
                     }
@@ -216,7 +239,11 @@ class ResultRemoveBackGroundActivity :
             } catch (e: Exception) {
                 e.printStackTrace()
                 CoroutineScope(Dispatchers.Main).launch {
-                    Toast.makeText(this@ResultRemoveBackGroundActivity, "Failed to save image: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@ResultRemoveBackGroundActivity,
+                        "Failed to save image: ${e.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
@@ -231,6 +258,7 @@ class ResultRemoveBackGroundActivity :
         // Lưu bitmap này vào thư viện như đã làm trước đó
         downloadImage(bitmapWithBackground)
     }
+
     fun clearBackground() {
         binding.cvRmvBg.clearBackGround() // Gọi hàm clearBackground trong CropView
     }

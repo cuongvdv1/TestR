@@ -25,6 +25,7 @@ import com.vm.backgroundremove.objectremove.databinding.ActivityProcessBinding
 import com.vm.backgroundremove.objectremove.ui.common.nointernet.NoInternetActivity
 import com.vm.backgroundremove.objectremove.ui.main.home.HomeActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity
+import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity.Companion.KEY_REMOVE
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.ResultRemoveBackGroundActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
 import com.vm.backgroundremove.objectremove.ui.main.remove_object.bylist.RemoveObjectByListActivity
@@ -46,6 +47,8 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
     private var imageCreate: String? = null
     private var type_process : String? = null
     private var listOther : String? =null
+    private var keyRemove : String? =null
+
     override fun createBinding(): ActivityProcessBinding {
         return ActivityProcessBinding.inflate(layoutInflater)
     }
@@ -77,7 +80,8 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
         generateResponse = intent.getParcelable<GenerateResponse>(RemoveBackgroundActivity.KEY_GENERATE)
 
         imageCreate = intent.getStringExtra("imageCreate")
-//        itemCode = intent.getStringExtra(Constants.ITEM_CODE)
+        listOther = intent.getStringExtra("listOther")
+        keyRemove = intent.getStringExtra(KEY_REMOVE)
         generateResponse?.let {
             taskId = it.task_id
             cfUrl = it.cf_url
@@ -289,13 +293,17 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
                                     val status = workInfo.progress.getString("status")
                                     when (status) {
                                         "todo" -> {
-                                            binding.tvTimeEst.text = "${timeProcess}s"
-                                            binding.tvNumberPosition.text = "$positionProcess"
+                                            if (binding.tvTimeEst.text != "${timeProcess}s" || binding.tvNumberPosition.text != "$positionProcess") {
+                                                binding.tvTimeEst.text = "${timeProcess}s"
+                                                binding.tvNumberPosition.text = "$positionProcess"
+                                            }
                                         }
 
                                         "doing" -> {
-                                            binding.tvTimeEst.text = "${timeProcess}s"
-                                            binding.tvNumberPosition.text = "$positionProcess"
+                                            if (binding.tvTimeEst.text != "${timeProcess}s" || binding.tvNumberPosition.text != "$positionProcess") {
+                                                binding.tvTimeEst.text = "${timeProcess}s"
+                                                binding.tvNumberPosition.text = "$positionProcess"
+                                            }
                                         }
                                     }
 

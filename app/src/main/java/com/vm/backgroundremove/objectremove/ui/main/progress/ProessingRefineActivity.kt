@@ -223,13 +223,17 @@ class ProessingRefineActivity : BaseActivity<ActivityProcessBinding, ProcessView
                                     val status = workInfo.progress.getString("status")
                                     when (status) {
                                         "todo" -> {
-                                            binding.tvTimeEst.text = "${timeProcess}s"
-                                            binding.tvNumberPosition.text = "$positionProcess"
+                                            if (binding.tvTimeEst.text != "${timeProcess}s" || binding.tvNumberPosition.text != "$positionProcess") {
+                                                binding.tvTimeEst.text = "${timeProcess}s"
+                                                binding.tvNumberPosition.text = "$positionProcess"
+                                            }
                                         }
 
                                         "doing" -> {
-                                            binding.tvTimeEst.text = "${timeProcess}s"
-                                            binding.tvNumberPosition.text = "$positionProcess"
+                                            if (binding.tvTimeEst.text != "${timeProcess}s" || binding.tvNumberPosition.text != "$positionProcess") {
+                                                binding.tvTimeEst.text = "${timeProcess}s"
+                                                binding.tvNumberPosition.text = "$positionProcess"
+                                            }
                                         }
                                     }
 

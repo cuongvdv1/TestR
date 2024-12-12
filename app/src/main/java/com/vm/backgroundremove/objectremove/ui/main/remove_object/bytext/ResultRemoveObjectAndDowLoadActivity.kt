@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
@@ -38,6 +39,7 @@ class ResultRemoveObjectAndDowLoadActivity :
     }
 
     private var historyModel: HistoryModel? = null
+    private var bitmap: Bitmap? = null
     private var type = ""
     private lateinit var dialog: LoadingDialog
     override fun setViewModel(): BaseViewModel {
@@ -67,16 +69,21 @@ class ResultRemoveObjectAndDowLoadActivity :
                             override fun onResourceReady(
                                 resource: Bitmap, transition: Transition<in Bitmap>?
                             ) {
-                                // Đây là nơi bạn nhận được Bitmap
-                                val bitmap: Bitmap = resource
-                                binding.ivRmvObject.setImageFromBitmap(bitmap)
+
+                                 bitmap = resource
+                                binding.ivRmvObject.setImageFromBitmap(bitmap!!)
 
                             }
 
                             override fun onLoadCleared(placeholder: Drawable?) {
-                                // Xử lý khi cần thiết, không có gì đặc biệt trong trường hợp này
+
                             }
                         })
+                }
+                binding.ivBeforeAfter.tap {
+                    Log.d("YEUTRINHLAMLUON",  historyModel?.imageCreate.toString())
+                    val uriImage = Uri.parse( historyModel?.imageCreate.toString())
+                    binding.ivRmvObject.toggleImage(bitmap!!, uriImage)
                 }
             }
         } catch (_: Exception) {

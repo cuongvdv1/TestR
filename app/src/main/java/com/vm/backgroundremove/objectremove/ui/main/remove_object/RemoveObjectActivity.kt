@@ -28,7 +28,9 @@ import com.vm.backgroundremove.objectremove.util.Utils
 import com.vm.backgroundremove.objectremove.util.getBitmapFrom
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -51,6 +53,8 @@ class RemoveObjectActivity :
     override fun onDestroy() {
         super.onDestroy()
         intent = null
+        processingDialog?.dismiss()
+        processingDialog1?.dismiss()
     }
 
     override fun initView() {
@@ -170,73 +174,113 @@ class RemoveObjectActivity :
         finish()
     }
     private fun uploadImageRemoveBackgroundByList(bitMap: Bitmap, objectRemovelist: String) {
-        processingDialog.show()
-        // chuyen tu path sang bitmap
-//        val bitMap = path.let { Utils.getBitmapFromPath(it) }
+        processingDialog1.show()
         CoroutineScope(Dispatchers.IO).launch {
-            // resize lai kich thuoc va luu anh vao cache
-            val resizedBitmap = bitMap?.let { Utils.scaleBitmap(it) }
-            val tempFile = resizedBitmap?.let {
-                Utils.getFileFromScaledBitmap(
-                    this@RemoveObjectActivity,
-                    it,
-                    Utils.NAME_IMAGE + "_" + System.currentTimeMillis()
-                )
-            }
+            try {
+                // Giới hạn thời gian tải lên là 30 giây
+                withTimeout(30000) {
+                    val resizedBitmap = bitMap.let { Utils.scaleBitmap(it) }
+                    val tempFile = resizedBitmap?.let {
+                        Utils.getFileFromScaledBitmap(
+                            this@RemoveObjectActivity,
+                            it,
+                            Utils.NAME_IMAGE + "_" + System.currentTimeMillis()
+                        )
+                    }
 
-            if (tempFile != null) {
-                val requestBody =
-                    tempFile.asRequestBody("image/*".toMediaTypeOrNull())
-                val multipart =
-                    MultipartBody.Part.createFormData(
-                        Constants.PAYLOAD_REPLACE_SRC,
-                        tempFile.name,
-                        requestBody
-                    )
-                viewModel.upLoadImage(
-                    Constants.ITEM_CODE_RMOBJECT_REFINE_OBJ.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-                    Constants.CLIENT_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-                    Constants.CLIENT_MEMO.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-                    multipart,
-                    objectRemovelist.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull())
-                )
+                    if (tempFile != null) {
+                        val requestBody = tempFile.asRequestBody("image/*".toMediaTypeOrNull())
+                        val multipart = MultipartBody.Part.createFormData(
+                            Constants.PAYLOAD_REPLACE_SRC,
+                            tempFile.name,
+                            requestBody
+                        )
+                        viewModel.upLoadImage(
+                            Constants.ITEM_CODE_RMOBJECT_REFINE_OBJ.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
+                            Constants.CLIENT_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
+                            Constants.CLIENT_MEMO.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
+                            multipart,
+                            objectRemovelist.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull())
+                        )
+                    }
+                }
+            } catch (e: TimeoutCancellationException) {
+                // Đóng dialog và hiển thị thông báo nếu quá 30 giây
+                processingDialog1.dismiss()
+                CoroutineScope(Dispatchers.Main).launch {
+                    Toast.makeText(
+                        this@RemoveObjectActivity,
+                        "Upload timeout. Please try again.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } catch (e: Exception) {
+                // Xử lý các ngoại lệ khác
+                processingDialog1.dismiss()
+                CoroutineScope(Dispatchers.Main).launch {
+                    Toast.makeText(
+                        this@RemoveObjectActivity,
+                        "An error occurred: ${e.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }
-
     private fun uploadImageRemoveBackground(bitMap: Bitmap, objectRemovelist: String) {
         processingDialog1.show()
-        // chuyen tu path sang bitmap
-//        val bitMap = path.let { Utils.getBitmapFromPath(it) }
         CoroutineScope(Dispatchers.IO).launch {
-            // resize lai kich thuoc va luu anh vao cache
-            val resizedBitmap = bitMap?.let { Utils.scaleBitmap(it) }
-            val tempFile = resizedBitmap?.let {
-                Utils.getFileFromScaledBitmap(
-                    this@RemoveObjectActivity,
-                    it,
-                    Utils.NAME_IMAGE + "_" + System.currentTimeMillis()
-                )
-            }
+            try {
+                // Giới hạn thời gian tải lên là 30 giây
+                withTimeout(30000) {
+                    val resizedBitmap = bitMap.let { Utils.scaleBitmap(it) }
+                    val tempFile = resizedBitmap?.let {
+                        Utils.getFileFromScaledBitmap(
+                            this@RemoveObjectActivity,
+                            it,
+                            Utils.NAME_IMAGE + "_" + System.currentTimeMillis()
+                        )
+                    }
 
-            if (tempFile != null) {
-                val requestBody =
-                    tempFile.asRequestBody("image/*".toMediaTypeOrNull())
-                val multipart =
-                    MultipartBody.Part.createFormData(
-                        Constants.PAYLOAD_REPLACE_SRC,
-                        tempFile.name,
-                        requestBody
-                    )
-                viewModel.upLoadImage(
-                    Constants.ITEM_CODE_RMOBJECT.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-                    Constants.CLIENT_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-                    Constants.CLIENT_MEMO.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-                    multipart,
-                    objectRemovelist.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull())
-                )
+                    if (tempFile != null) {
+                        val requestBody = tempFile.asRequestBody("image/*".toMediaTypeOrNull())
+                        val multipart = MultipartBody.Part.createFormData(
+                            Constants.PAYLOAD_REPLACE_SRC,
+                            tempFile.name,
+                            requestBody
+                        )
+                        viewModel.upLoadImage(
+                            Constants.ITEM_CODE_RMOBJECT.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
+                            Constants.CLIENT_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
+                            Constants.CLIENT_MEMO.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
+                            multipart,
+                            objectRemovelist.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull())
+                        )
+                    }
+                }
+            } catch (e: TimeoutCancellationException) {
+                // Đóng dialog và hiển thị thông báo nếu quá 30 giây
+                processingDialog1.dismiss()
+                CoroutineScope(Dispatchers.Main).launch {
+                    Toast.makeText(
+                        this@RemoveObjectActivity,
+                        "Upload timeout. Please try again.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } catch (e: Exception) {
+                // Xử lý các ngoại lệ khác
+                processingDialog1.dismiss()
+                CoroutineScope(Dispatchers.Main).launch {
+                    Toast.makeText(
+                        this@RemoveObjectActivity,
+                        "An error occurred: ${e.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }
+
 
 }

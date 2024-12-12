@@ -96,7 +96,7 @@ class RemoveObjectByListActivity :
                     viewModel.textByListSelected.observe(this) { text ->
 
                         if (bitmap != null) {
-                            getBitmapFrom(this, historyModel.imageResult) {
+                            getBitmapFrom(this, historyModel.imageCreate) {
                                 uploadImageRemoveObjectByList(it, text.toString())
                             }
                         }

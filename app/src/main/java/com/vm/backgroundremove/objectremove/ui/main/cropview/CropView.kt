@@ -3,21 +3,26 @@ package com.vm.backgroundremove.objectremove.ui.main.cropview
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.PointF
 import android.graphics.RectF
 import android.graphics.drawable.GradientDrawable
+import android.net.Uri
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.FrameLayout
 import androidx.appcompat.content.res.AppCompatResources
 import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.util.toDp
+import java.io.IOException
 import kotlin.math.sqrt
 
 class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
+    private val undoStack: MutableList<Bitmap?> = mutableListOf()
+    private val redoStack: MutableList<Bitmap?> = mutableListOf()
 
     private var bitmap: Bitmap? = null
     private var backgroundBitmap: Bitmap? = null
@@ -35,7 +40,7 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
     private var actionType = ActionType.NONE
     private val oldTouchPoint = PointF()
     private var oldDistance = 0f
-
+    private var isShowingBitmap = true
     init {
         setLayerType(LAYER_TYPE_SOFTWARE, null)
         setWillNotDraw(false)
@@ -74,51 +79,51 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
         canvas.drawColor(color) // Vẽ toàn bộ bitmap với màu được chỉ định
         return bitmap
     }
-    fun setBackgroundBitmap(bitmap: Bitmap) {
-        backgroundBitmap = bitmap
-        invalidate() // Vẽ lại view khi có sự thay đổi
+//    fun setBackgroundBitmap(bitmap: Bitmap) {
+//        backgroundBitmap = bitmap
+//        invalidate() // Vẽ lại view khi có sự thay đổi
+//    }
+fun setBackgroundBitmap(bitmap: Bitmap) {
+    undoStack.add(backgroundBitmap) // Lưu trạng thái hiện tại vào undo stack
+    redoStack.clear() // Xóa redo stack vì đây là một thay đổi mới
+    backgroundBitmap = bitmap
+    invalidate() // Vẽ lại view khi có sự thay đổi
+}
+    fun undo() {
+        if (undoStack.isNotEmpty()) {
+            redoStack.add(backgroundBitmap) // Lưu trạng thái hiện tại vào redo stack
+            backgroundBitmap = undoStack.removeLast() // Lấy trạng thái cuối cùng từ undo stack
+            invalidate() // Vẽ lại view
+        }
+    }
+    fun redo() {
+        if (redoStack.isNotEmpty()) {
+            undoStack.add(backgroundBitmap) // Lưu trạng thái hiện tại vào undo stack
+            backgroundBitmap = redoStack.removeLast() // Lấy trạng thái cuối cùng từ redo stack
+            invalidate() // Vẽ lại view
+        }
     }
 
     fun setBackgroundWithColor(color: Int) {
-        try {
-
-            // Tạo bitmap màu
-            val bitmap = createColorBitmap(color, measuredWidth, measuredHeight)
-
-            // Cập nhật nền của `CropView`
-            setBackgroundBitmap(bitmap)
-        } catch (e: IllegalArgumentException) {
-            e.printStackTrace() // Xử lý lỗi nếu mã màu không hợp lệ
-        }
+        val bitmap = createColorBitmap(color, measuredWidth, measuredHeight)
+        setBackgroundBitmap(bitmap)
     }
 
     fun setBackgroundWithGradient(startColor: Int, endColor: Int) {
-        try {
-
-            // Tạo drawable gradient
-            val gradientDrawable = GradientDrawable(
-                GradientDrawable.Orientation.LEFT_RIGHT,
-                intArrayOf(startColor, endColor)
-            )
-
-            // Tạo bitmap mới với kích thước của CropView
-            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-            val canvas = Canvas(bitmap)
-
-            // Vẽ gradient lên canvas
-            gradientDrawable.setBounds(0, 0, width, height)
-            gradientDrawable.draw(canvas)
-
-            // Cập nhật nền của `CropView` bằng bitmap đã tạo
-            setBackgroundBitmap(bitmap)
-        } catch (e: IllegalArgumentException) {
-            e.printStackTrace() // Xử lý lỗi nếu mã màu không hợp lệ
-        }
+        val gradientDrawable = GradientDrawable(
+            GradientDrawable.Orientation.LEFT_RIGHT,
+            intArrayOf(startColor, endColor)
+        )
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        gradientDrawable.setBounds(0, 0, width, height)
+        gradientDrawable.draw(canvas)
+        setBackgroundBitmap(bitmap)
     }
 
-    fun clearBackGround(){
+    fun clearBackGround() {
         backgroundBitmap = null
-        invalidate()
+        setBackgroundBitmap(backgroundBitmap!!)
     }
 
 
@@ -136,7 +141,28 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
         }
         canvas.restore()
     }
-
+    fun toggleImage(bitmap: Bitmap, uri: Uri) {
+        if (isShowingBitmap) {
+            // Hiển thị ảnh từ URI
+            setUri(uri)
+        } else {
+            // Hiển thị ảnh từ bitmap
+            setBitmap(bitmap)
+        }
+        // Đảo trạng thái
+        isShowingBitmap = !isShowingBitmap
+    }
+    fun setUri(uri: Uri) {
+        try {
+            // Chuyển đổi URI thành Bitmap
+            val bitmap = BitmapFactory.decodeStream(context.contentResolver.openInputStream(uri))
+            bitmap?.let {
+                setBitmap(it) // Gọi hàm setBitmap để thiết lập bitmap cho CropView
+            }
+        } catch (e: IOException) {
+            e.printStackTrace() // Xử lý lỗi nếu có
+        }
+    }
     private fun calculateBitmapBound(parentWidth: Float, parentHeight: Float) {
         bitmap?.let {
             val maxWidth = parentWidth - padding * 2f

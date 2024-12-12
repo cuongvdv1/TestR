@@ -1,6 +1,7 @@
 package com.vm.backgroundremove.objectremove.ui.main.your_projects
 
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import androidx.activity.addCallback
 import androidx.lifecycle.Lifecycle
@@ -21,6 +22,7 @@ import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingActivity
 import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingRefineActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.DownloadRemoveBackgroundActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.ResultRemoveBackGroundActivity
+import com.vm.backgroundremove.objectremove.ui.main.remove_object.bylist.RemoveObjectByListActivity
 import com.vm.backgroundremove.objectremove.ui.main.your_projects.adapter.ProjectAdapter
 import com.vm.backgroundremove.objectremove.ui.main.your_projects.viewModel.ProjectViewModel
 import kotlinx.coroutines.Job
@@ -61,11 +63,17 @@ class ProjectsActivity : BaseActivity<ActivityYourProjectsBinding, ProjectViewMo
         super.bindView()
         projectAdapter.setOnViewMoreClick {
             if (it.isSuccess()) {
-                val intent =
-                    Intent(this@ProjectsActivity,DownloadRemoveBackgroundActivity::class.java)
-                intent.putExtra(Constants.INTENT_RESULT, it)
-                startActivity(intent)
-
+                Log.d("YEUTRINHLAMLUON",it.type)
+                if (it.type.equals("remove_obj_by_list")){
+                    val intent = Intent(this, RemoveObjectByListActivity::class.java)
+                    intent.putExtra(Constants.INTENT_RESULT, it)
+                    startActivity(intent)
+                }else {
+                    val intent =
+                        Intent(this@ProjectsActivity, DownloadRemoveBackgroundActivity::class.java)
+                    intent.putExtra(Constants.INTENT_RESULT, it)
+                    startActivity(intent)
+                }
 
             } else {
                 if (it.type.equals("rmobject_refine_obj")){

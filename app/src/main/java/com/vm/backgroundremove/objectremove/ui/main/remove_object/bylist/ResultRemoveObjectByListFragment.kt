@@ -30,6 +30,8 @@ class ResultRemoveObjectByListFragment : Fragment() {
         setupRecyclerView()
         binding.rlOther.alpha = 0.5f
         binding.btnRemoveByList.alpha = 0.5f
+        binding.edRmvList.alpha = 0.5f
+        binding.edRmvList.isEnabled = false
 
         return binding.root
     }
