@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RemoveBackground</string>
+    <string name="app_name" translatable="false">RemoveBackground</string>
     <string name="img_project_empty">img_project_empty</string>
     <string name="there_are_no_projects_yet">There are no projects yet</string>
     <string name="home">Home</string>

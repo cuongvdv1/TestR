@@ -87,11 +87,7 @@
         <activity
             android:name=".ui.main.home.HomeActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.main.remove_background.ResultRemoveBackGroundActivity"
@@ -155,7 +151,11 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.App.Starting" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <provider
