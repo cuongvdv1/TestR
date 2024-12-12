@@ -75,10 +75,6 @@ class RemoveBackgroundActivity :
         }
     }
 
-    fun setNewImage() {
-        binding.ivRedo.visibility = View.GONE
-        binding.ivUndo.setImageResource(R.drawable.ic_cancel)
-    }
 
     companion object {
         const val KEY_GENERATE = "KEY_GENERATE"

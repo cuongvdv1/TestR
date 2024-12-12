@@ -76,11 +76,6 @@ class ProjectAdapter : ListAdapter<HistoryModel, ProjectAdapter.ProjectViewHolde
         this.onViewMoreClick = onViewMoreClick
     }
 
-    fun onViewMoreShareClick(onViewMoreClickShare: (HistoryModel) -> Unit) {
-        this.onViewMoreShareClick = onViewMoreClickShare
-    }
-
-
     inner class ProjectViewHolder(private val binding: ItemProjectBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private var data: HistoryModel? = null
@@ -105,15 +100,14 @@ class ProjectAdapter : ListAdapter<HistoryModel, ProjectAdapter.ProjectViewHolde
                 binding.ivMenuPopup.setImageResource(R.drawable.ic_menu_on)
                 binding.ivMenuPopup.tap {
                     showCustomMenu(binding.root, data)
-
                 }
-
 
             } else if (data.isProcessing()) {
                 Glide.with(binding.root.context).load(R.drawable.ic_image_processing)
                     .into(binding.imgProcess)
                 binding.ivMenuPopup.setImageResource(R.drawable.ic_menu)
-            } else if (data.isFailed()) {
+            }
+            else if (data.isFailed()) {
                 Glide.with(binding.root.context).load(R.drawable.ic_image_failed)
                     .into(binding.imgProcess)
                 binding.progress.setIndicatorColor(

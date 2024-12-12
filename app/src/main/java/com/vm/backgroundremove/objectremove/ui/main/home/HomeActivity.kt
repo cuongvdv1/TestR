@@ -53,8 +53,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, ProjectViewModel>(), Dial
                             binding.tvEmpty.visibility = View.GONE
                             binding.rcvRecentProjects.visibility = View.VISIBLE
                         }
-                        Log.d("HomeActivity", "Data size: ${arrProcess.size}")
+
                         if(arrProcess.size > 3){
+                            Log.d("HomeActivity", "Data sizeeeeee: ${arrProcess}")
                             projectAdapter.submitList(arrProcess.subList(0,3))
                         }else{
                             projectAdapter.submitList(arrProcess)
@@ -162,9 +163,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, ProjectViewModel>(), Dial
                         binding.tvEmpty.visibility = View.GONE
                         binding.rcvRecentProjects.visibility = View.VISIBLE
                     }
-                    Log.d("HomeActivity", "Data size: ${arrProcess.size}")
+
                     if(arrProcess.size > 3){
                         projectAdapter.submitList(arrProcess.subList(0,3))
+                        Log.d("HomeActivity", "Data size1111: ${arrProcess}")
                     }else{
                         projectAdapter.submitList(arrProcess)
                     }

@@ -123,7 +123,7 @@ fun setBackgroundBitmap(bitmap: Bitmap) {
 
     fun clearBackGround() {
         backgroundBitmap = null
-        setBackgroundBitmap(backgroundBitmap!!)
+        invalidate()
     }
 
 
