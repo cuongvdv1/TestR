@@ -146,16 +146,16 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
         // hien thi list color
         colorList = listOf<ColorModel>(
             ColorModel(R.drawable.ic_none_color, "#FFFFFF",true),
-            ColorModel(R.drawable.ic_circle_color5, "#FF7755"),
             ColorModel(R.drawable.ic_circle_color, ""),
-            ColorModel(R.drawable.ic_circle_color6, "#F578B9"),
             ColorModel(R.drawable.ic_circle_color1, "#5A9CFF"),
-            ColorModel(R.drawable.ic_circle_color7, "#939393"),
             ColorModel(R.drawable.ic_circle_color2, "#76FF94"),
-            ColorModel(R.drawable.ic_circle_color8, "#ADADAD"),
             ColorModel(R.drawable.ic_circle_color3, "#8ECE40"),
-            ColorModel(R.drawable.ic_circle_color9, "#FF7D7D"),
             ColorModel(R.drawable.ic_circle_color4, "#FFBF49"),
+            ColorModel(R.drawable.ic_circle_color5, "#FF7755"),
+            ColorModel(R.drawable.ic_circle_color6, "#F578B9"),
+            ColorModel(R.drawable.ic_circle_color7, "#939393"),
+            ColorModel(R.drawable.ic_circle_color8, "#ADADAD"),
+            ColorModel(R.drawable.ic_circle_color9, "#FF7D7D"),
             ColorModel(R.drawable.ic_circle_color10, "#EB67BF"),
         )
         colorAdapter = ColorAdapter(requireContext(), colorList, object : ColorSelectorListener {
@@ -201,7 +201,7 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
         // Chon mau cho BackGround
         colorAdapter.setActionListener(object : ColorSelectorListener {
             override fun onColorClicked(position: Int, color: String) {
-                if (position == 2) {
+                if (position == 1) {
                     showPickerColor()
                     check_single_color = true
                     check_gradient = false

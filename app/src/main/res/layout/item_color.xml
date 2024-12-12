@@ -8,10 +8,9 @@
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/iv_color_selected"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         app:riv_corner_radius="180dp"
-        android:padding="2dp"
         android:background="@drawable/bg_border_circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,8 +19,8 @@
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/iv_color"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:visibility="visible"
         app:riv_corner_radius="360dp"
         app:layout_constraintBottom_toBottomOf="parent"
