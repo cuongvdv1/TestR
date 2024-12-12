@@ -97,11 +97,7 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
             viewModel.trackProcessUUID.value = uuid
             listenerWorker()
             viewModel.getNumProgressing()
-
-//                binding.tvNumberPosition.text = getString(
-//                    R.string.generate,
-//                    viewModel.historyModel?.process
-//                )
+                binding.tvNumberPosition.text = viewModel.historyModel?.process?.toString() ?: ""
         } else {
             if (type_process == "remove_obj_by_list_text"){
                 viewModel.newProcessItem(type_process!!, imageCreate!!, taskId!!, cfUrl!!)
@@ -232,17 +228,18 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
                                             Log.d("ProcessActivity", "SUCCEEDED  $processModel")
                                         }
                                     }
-
-
-
                                 }
 
                                 WorkInfo.State.FAILED -> {
+                                    val positionProcess =
+                                        workInfo.progress.getInt("positionProcessing", 0)
+                                    binding.prIndicator.progress = 100f
                                     viewModel.updateNumProcessing()
                                     binding.prIndicator.indicatorColor = ContextCompat.getColor(
                                         this@ProessingActivity,
                                         R.color.color_F64534
                                     )
+
                                     binding.prIndicator.endColor = ContextCompat.getColor(
                                         this@ProessingActivity,
                                         R.color.color_F64534
@@ -251,7 +248,7 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
                                     binding.txtProgress.setTextColor(
                                         ContextCompat.getColor(
                                             this@ProessingActivity,
-                                            R.color.color_FFA637
+                                            R.color.color_353B40
                                         )
                                     )
                                     Log.d("ProcessActivity", "FAILED")
@@ -259,15 +256,16 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
                                     binding.tvTimeEst.setTextColor(
                                         ContextCompat.getColor(
                                             this@ProessingActivity,
-                                            R.color.color_FFA637
+                                            R.color.color_353B40
                                         )
                                     )
                                     binding.tvNumberPosition.setTextColor(
                                         ContextCompat.getColor(
                                             this@ProessingActivity,
-                                            R.color.color_00A3FF
+                                            R.color.color_353B40
                                         )
                                     )
+                                    binding.tvNumberPosition.text = "$positionProcess"
                                     binding.animationBird.pauseAnimation()
                                     binding.animationClock.pauseAnimation()
                                 }
