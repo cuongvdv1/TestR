@@ -30,7 +30,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ui.main.remove_object.ResultRemoveObjectAndDowLoadActivity"
+            android:name=".ui.main.remove_object.bylist.ResultRemoveObjectByList"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.remove_object.bytext.ResultRemoveObjectAndDowLoadActivity"
             android:exported="false" />
         <activity
             android:name=".ui.main.your_projects.ProjectsActivity"
@@ -39,7 +42,7 @@
             android:name=".ui.main.remove_object.ResultRemoveObjectActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.main.remove_object.RemoveObjectByListActivity"
+            android:name=".ui.main.remove_object.bylist.RemoveObjectByListActivity"
             android:exported="false" />
         <activity
             android:name=".ui.main.progress.ProessingActivity"
@@ -47,7 +50,6 @@
         <activity
             android:name=".ui.main.remove_object.RefineObjActivity"
             android:exported="false" />
-
         <activity
             android:name=".ui.main.remove_background.DownloadRemoveBackgroundActivity"
             android:exported="false" />
@@ -91,7 +93,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.main.remove_background.ResultRemoveBackGroundActivity"
             android:exported="false" />
@@ -153,7 +154,9 @@
             android:name=".ui.common.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.App.Starting" />
+            android:theme="@style/Theme.App.Starting" >
+
+        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"

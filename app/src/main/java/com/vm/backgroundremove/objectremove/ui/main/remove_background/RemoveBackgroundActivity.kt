@@ -1,17 +1,10 @@
 package com.vm.backgroundremove.objectremove.ui.main.remove_background
 
-import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.os.Build
-import android.os.Environment
-import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import android.widget.Toast
-import com.bumptech.glide.Glide
-import com.vm.backgroundremove.objectremove.MainActivity
+import androidx.core.content.ContextCompat
 import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
 import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
@@ -31,35 +24,37 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
 
 class RemoveBackgroundActivity :
     BaseActivity<ActivityRemoveBackgroundBinding, RemoveBackGroundViewModel>() {
     override fun createBinding(): ActivityRemoveBackgroundBinding {
         return ActivityRemoveBackgroundBinding.inflate(layoutInflater)
     }
+
     private lateinit var processingDialog: ProcessingDialog
     override fun setViewModel(): RemoveBackGroundViewModel =
         viewModel<RemoveBackGroundViewModel>().value
 
     override fun initView() {
         super.initView()
+        window.statusBarColor = ContextCompat.getColor(this, R.color.color_F0F8FF)
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        binding.cvRmvBg.visibility = View.GONE
+        binding.ivBeforeAfter.setImageResource(R.drawable.ic_before_after_20)
         processingDialog = ProcessingDialog(this@RemoveBackgroundActivity)
         val imgPathGallery = intent.getStringExtra(Constants.IMG_GALLERY_PATH)
         val imagePathCamera = intent.getStringExtra(Constants.IMG_CAMERA_PATH)
         if (!imagePathCamera.isNullOrEmpty()) {
             getBitmapFrom(this, imagePathCamera) {
                 uploadImageRemoveBackground(it)
-                binding.ivRmvBg.setBitmap(it)
+                binding.ivRmvBg.setImageFromBitmap(it)
             }
         } else if (!imgPathGallery.isNullOrEmpty()) {
 //            uploadImageRemoveBackground(imgPathGallery)
-            Log.d("tag111","$imgPathGallery")
+            Log.d("tag111", "$imgPathGallery")
             getBitmapFrom(this, imgPathGallery) {
                 uploadImageRemoveBackground(it)
-                binding.ivRmvBg.setBitmap(it)
+                binding.ivRmvBg.setImageFromBitmap(it)
             }
         }
 
@@ -70,13 +65,13 @@ class RemoveBackgroundActivity :
         transaction.commit()
         viewModel.upLoadImage.observe(this) { response ->
             if (imgPathGallery != null) {
-                startDataGenerate(response,imgPathGallery)
+                startDataGenerate(response, imgPathGallery)
             } else if (imagePathCamera != null) {
-                startDataGenerate(response,imagePathCamera)
+                startDataGenerate(response, imagePathCamera)
             }
         }
         binding.ivBack.tap {
-          finish()
+            finish()
         }
     }
 
@@ -92,7 +87,7 @@ class RemoveBackgroundActivity :
         const val KEY_REMOVE = "KEY_REMOVE"
     }
 
-    private fun startDataGenerate(uploadResponse: UpLoadImagesResponse, imageCreate : String) {
+    private fun startDataGenerate(uploadResponse: UpLoadImagesResponse, imageCreate: String) {
         processingDialog.dismiss()
         val modelGenerate = GenerateResponse()
         modelGenerate.cf_url = uploadResponse.cf_url
@@ -105,8 +100,8 @@ class RemoveBackgroundActivity :
             ).apply {
                 putExtra(KEY_GENERATE, modelGenerate)
                 putExtra(KEY_REMOVE, Constants.ITEM_CODE)
-                putExtra("imageCreate",imageCreate)
-                putExtra("type_process","remove_background")
+                putExtra("imageCreate", imageCreate)
+                putExtra("type_process", "remove_background")
 //                putExtra(LIMIT_NUMBER_GENERATE, numberGenerate)
             })
         finish()

@@ -46,14 +46,14 @@
     <string name="remove_background_requires_these_permissions_to_function_properly">Remove background requires these permissions to function properly</string>
     <string name="notification">Notification</string>
     <string name="library">Library</string>
-    <string name="countinue_without_permissions">Countinue without permissions</string>
+    <string name="countinue_without_permissions">Countinue without permission</string>
     <string name="remove_BG">Remove BG</string>
     <string name="ic_export">ic_export</string>
     <string name="ic_undo">ic_undo</string>
     <string name="ic_redo">ic_redo</string>
     <string name="edit">Edit</string>
     <string name="ic_before_after">ic_before_after</string>
-    <string name="background">Back Ground</string>
+    <string name="background">Background</string>
     <string name="Grant_Permission">Grant Permission</string>
     <string name="Please_grant_all_permissions">Please grant all permissions</string>
     <string name="Go_to_setting">Go to setting</string>
@@ -142,9 +142,14 @@
     <string name="time_estimated_until_done">Time estimated until done</string>
     <string name="you_have_ran_out_of_your_free_generate_requests_today_come_back_tomorrow_for_more">You have ran out of your free generate requests today come back tomorrow.</string>
     <string name="your_photo_is_nbeing_remove_bg">Your photo is \nbeing remove BG.</string>
+    <string name="your_photo_is_being_remove_object">Your photo is \nbeing Remove Object.</string>
     <string name="saved">Saved</string>
     <string name="download_successfully">Download Successfully</string>
     <string name="share_with_friends">Share with friends</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="object_list">Object list</string>
+    <string name="no">No</string>
+    <string name="are_you_sure_you_want_to_exit">Are you sure you want to exit?</string>
+    <string name="exit_app">Exit App?</string>
 </resources>

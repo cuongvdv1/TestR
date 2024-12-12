@@ -35,6 +35,7 @@ import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.Ba
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.BackGroundSelectorListener
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.ColorAdapter
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.adapter.ColorSelectorListener
+import com.vm.backgroundremove.objectremove.ui.main.remove_background.model.BackGroundModel
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.model.ColorModel
 import com.vm.backgroundremove.objectremove.util.Utils
 import com.vm.backgroundremove.objectremove.util.getBitmapFrom
@@ -63,10 +64,14 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
     private lateinit var iv_color_end: ImageView
     private lateinit var viewModel: RemoveBackGroundViewModel
     private lateinit var colorList: List<ColorModel>
-    private lateinit var backGroundList: List<Int>
+    private lateinit var backGroundList: List<BackGroundModel>
     private lateinit var pickColor : HSView
     private lateinit var vView : VView
     private lateinit var iv_gradient_color :ImageView
+    var color_start : Int? = Color.parseColor("#FE23BE")
+    var color_end : Int? = Color.parseColor("#A69CFC")
+    var check_gradient : Boolean = false
+    var check_single_color :Boolean = false
 
 
     var customColor: Int? = null
@@ -82,7 +87,7 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
                         if (bitmap != null) {
                             viewModel.setBackGround(bitmap)
                             Log.e("TAG_URL", "bitmap: $bitmap")
-                        }else {
+                        } else {
                             Log.e("TAG_URL", "bitmap is null")
 
                         }
@@ -138,9 +143,9 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
 
         // hien thi list color
         colorList = listOf<ColorModel>(
-            ColorModel(R.drawable.ic_none_color, "None"),
+            ColorModel(R.drawable.ic_none_color, "#FFFFFF"),
             ColorModel(R.drawable.ic_circle_color1, "#5A9CFF"),
-            ColorModel(R.drawable.ic_circle_color, "None"),
+            ColorModel(R.drawable.ic_circle_color, ""),
             ColorModel(R.drawable.ic_circle_color2, "#76FF94"),
             ColorModel(R.drawable.ic_circle_color3, "#8ECE40"),
             ColorModel(R.drawable.ic_circle_color4, "#FFBF49"),
@@ -151,37 +156,42 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
             ColorModel(R.drawable.ic_circle_color9, "#FF7D7D"),
             ColorModel(R.drawable.ic_circle_color10, "#EB67BF"),
         )
-        colorAdapter = ColorAdapter(requireContext(), colorList)
+        colorAdapter = ColorAdapter(requireContext(), colorList, object : ColorSelectorListener {
+            override fun onColorClicked(position: Int, color: String) {
+                viewModel.setColor(Color.parseColor(color))
+                Log.d("TAG_COLOR", "onColorClicked: $color")
+            }
+        })
         rcvColor.adapter = colorAdapter
 
         // hien thi list background
-        backGroundList = listOf<Int>(
-            R.drawable.ic_choose_bg,
-            R.drawable.bg1,
-            R.drawable.bg2,
-            R.drawable.bg3,
-            R.drawable.bg4,
-            R.drawable.bg5,
-            R.drawable.bg6,
-            R.drawable.bg7,
-            R.drawable.bg8,
-            R.drawable.bg9,
-            R.drawable.bg10,
-            R.drawable.bg11,
-            R.drawable.bg12,
-            R.drawable.bg13,
-            R.drawable.bg14,
-            R.drawable.bg15,
-            R.drawable.bg16,
-            R.drawable.bg17,
-            R.drawable.bg18,
-            R.drawable.bg19,
-            R.drawable.bg20,
-            R.drawable.bg21,
-            R.drawable.bg22,
-            R.drawable.bg23,
-            R.drawable.bg24,
-            R.drawable.bg25,
+        backGroundList = listOf<BackGroundModel>(
+            BackGroundModel(R.drawable.ic_choose_bg,),
+            BackGroundModel(R.drawable.bg1,false),
+            BackGroundModel(R.drawable.bg2,false),
+            BackGroundModel(R.drawable.bg3,false),
+            BackGroundModel(R.drawable.bg4,false),
+            BackGroundModel(R.drawable.bg5,false),
+            BackGroundModel(R.drawable.bg6,false),
+            BackGroundModel(R.drawable.bg7,false),
+            BackGroundModel(R.drawable.bg8,false),
+            BackGroundModel(R.drawable.bg9,false),
+            BackGroundModel(R.drawable.bg10,false),
+            BackGroundModel(R.drawable.bg11,false),
+            BackGroundModel(R.drawable.bg12,false),
+            BackGroundModel(R.drawable.bg13,false),
+            BackGroundModel(R.drawable.bg14,false),
+            BackGroundModel(R.drawable.bg15,false),
+            BackGroundModel(R.drawable.bg16,false),
+            BackGroundModel(R.drawable.bg17,false),
+            BackGroundModel(R.drawable.bg18,false),
+            BackGroundModel(R.drawable.bg19,false),
+            BackGroundModel(R.drawable.bg20,false),
+            BackGroundModel(R.drawable.bg21,false),
+            BackGroundModel(R.drawable.bg22,false),
+            BackGroundModel(R.drawable.bg23,false),
+            BackGroundModel(R.drawable.bg24,false),
+            BackGroundModel(R.drawable.bg25,false)
         )
         backGroundAdapter = BackGroundAdapter(requireContext(), backGroundList)
         rcvBackGround.adapter = backGroundAdapter
@@ -191,16 +201,18 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
             override fun onColorClicked(position: Int, color: String) {
                 if (position == 2) {
                     showPickerColor()
-                    // Kiểm tra xem activity có phải là ResultRemoveBackGroundActivity không
+                    check_single_color = true
+                    check_gradient = false
                     if (activity is ResultRemoveBackGroundActivity) {
                         (activity as ResultRemoveBackGroundActivity).setNewImage()
-                    } else {
-                        Log.e(
-                            "ChooseBackGroundColorFragment",
-                            "Activity is not of type ResultRemoveBackGroundActivity"
-                        )
+                    }
+                } else if (position == 0) {
+                    if (activity is ResultRemoveBackGroundActivity) {
+                        (activity as ResultRemoveBackGroundActivity).clearBackground()
                     }
                 } else {
+                    check_single_color = false
+                    check_gradient = true
                     viewModel.setColor(Color.parseColor(color))
                     Log.d("TAG_COLOR", "onColorClicked: $color")
                 }
@@ -220,7 +232,7 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
                     register.launch(intent)
                 } else {
                     val bitmap =
-                        BitmapFactory.decodeResource(context?.resources, backGroundList[position])
+                        BitmapFactory.decodeResource(context?.resources, backGroundList[position].image)
                     viewModel.setBackGround(bitmap)
                 }
             }
@@ -243,35 +255,45 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
             showBackgroundList()
         }
         tv_picker_color_gradient.tap {
-            viewModel.setStartColor(Color.parseColor("#FE23BE"))
-            viewModel.setEndColor(Color.parseColor("#A69CFC"))
+            check_gradient = true
+            check_single_color = false
+            color_start?.let { it1 -> viewModel.setStartColor(it1) }
+            color_end?.let { it1 -> viewModel.setEndColor(it1) }
             showChooseColorGradient()
         }
         tv_picker_color_single.tap {
+            check_gradient = false
+            check_single_color = true
             showPickerColor()
         }
         iv_color_start.tap {
             val colorPickerDialog = DialogBottomSheetPickColor()
             colorPickerDialog.setOnDone {
-                iv_color_start.backgroundTintList= ColorStateList.valueOf(it)
+                color_start = it
+                iv_color_start.backgroundTintList = ColorStateList.valueOf(it)
                 Log.d("TAG_COLOR", "onColorClicked: $it")
                 viewModel.setStartColor(it)
                 viewModel.endColor.value?.let { endColor ->
-                    var gradient =  GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, intArrayOf(it,endColor))
+                    var gradient = GradientDrawable(
+                        GradientDrawable.Orientation.LEFT_RIGHT,
+                        intArrayOf(it, endColor)
+                    )
                     iv_gradient_color.setImageDrawable(gradient)
                 }
-
-
             }
             colorPickerDialog.show(parentFragmentManager, "ColorPickerBottomSheetDialog")
         }
         iv_color_end.tap {
             val colorPickerDialog = DialogBottomSheetPickColor()
             colorPickerDialog.setOnDone {
-                iv_color_end.backgroundTintList= ColorStateList.valueOf(it)
+                color_end = it
+                iv_color_end.backgroundTintList = ColorStateList.valueOf(it)
                 viewModel.setEndColor(it)
                 viewModel.startColor.value?.let { startColor ->
-                    var gradient =  GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, intArrayOf(startColor,it))
+                    var gradient = GradientDrawable(
+                        GradientDrawable.Orientation.LEFT_RIGHT,
+                        intArrayOf(startColor, it)
+                    )
                     iv_gradient_color.setImageDrawable(gradient)
                 }
             }
@@ -447,6 +469,7 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
             )
         )
     }
+
     fun getBitmapFromUri(context: Context, uri: Uri): Bitmap? {
         return try {
             val inputStream = context.contentResolver.openInputStream(uri)

@@ -11,6 +11,7 @@ import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.HOUR_FORMAT
 import com.vm.backgroundremove.objectremove.a8_app_utils.convertTime
+import com.vm.backgroundremove.objectremove.a8_app_utils.toDp
 import com.vm.backgroundremove.objectremove.database.HistoryModel
 import com.vm.backgroundremove.objectremove.databinding.ItemProjectBinding
 import java.util.concurrent.Executors
@@ -29,6 +30,7 @@ class ProjectAdapter : ListAdapter<HistoryModel, ProjectAdapter.ProjectViewHolde
 
     override fun onBindViewHolder(holder: ProjectViewHolder, position: Int) {
         holder.bindData(getItem(position))
+
     }
 
     fun setOnViewMoreClick(onViewMoreClick: (HistoryModel) -> Unit) {
@@ -38,7 +40,7 @@ class ProjectAdapter : ListAdapter<HistoryModel, ProjectAdapter.ProjectViewHolde
 
     inner class ProjectViewHolder(private val binding: ItemProjectBinding) :
         RecyclerView.ViewHolder(binding.root) {
-            private var data: HistoryModel? = null
+        private var data: HistoryModel? = null
 
         init {
             binding.root.tap {
@@ -56,7 +58,10 @@ class ProjectAdapter : ListAdapter<HistoryModel, ProjectAdapter.ProjectViewHolde
 
             if (data.isSuccess()) {
                 Glide.with(binding.root.context).load(data.imageResult)
-                    .placeholder(R.drawable.img_project_empty).into(binding.imgProcess)
+                    .placeholder(R.drawable.ic_image_processing).into(binding.imgProcess)
+            }else if(data.isProcessing()){
+                Glide.with(binding.root.context).load(R.drawable.ic_image_processing)
+                    .into(binding.imgProcess)
             }
         }
     }

@@ -116,6 +116,10 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
         }
     }
 
+    fun clearBackGround(){
+        backgroundBitmap = null
+        invalidate()
+    }
 
 
     fun setBitmap(bitmap: Bitmap) {

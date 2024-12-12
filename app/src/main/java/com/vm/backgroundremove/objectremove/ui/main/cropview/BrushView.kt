@@ -1,10 +1,13 @@
 package com.vm.backgroundremove.objectremove.ui.main.cropview
 import android.content.Context
 import android.graphics.*
+import android.net.Uri
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.graphics.withSave
+import com.vm.backgroundremove.objectremove.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,25 +33,8 @@ class BrushView @JvmOverloads constructor(
     private var canvasImage: Bitmap? = null
     private var canvas: Canvas? = null
 
-    private var bitmap1: Bitmap? = null
-    private var bitmap2: Bitmap? = null
     private var isShowingBitmap1 = true
-    fun setImages(bitmap1: Bitmap, bitmap2: Bitmap) {
-        this.bitmap1 = bitmap1
-        this.bitmap2 = bitmap2
-        canvasImage = bitmap1
-        invalidate()
-    }
-    fun toggleImage() {
-        isShowingBitmap1 = !isShowingBitmap1
-        canvasImage = if (isShowingBitmap1) bitmap1 else bitmap2
-        invalidate()
-    }
-    fun setImageFromPath(path: String) {
-        val bitmap = BitmapFactory.decodeFile(path)
-        canvasImage = bitmap
-        invalidate()
-    }
+
 
     private var isDrawingEnabled = true
 
@@ -110,7 +96,7 @@ class BrushView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-
+        canvas.drawColor(Color.parseColor("#DFDFDF"))
         canvasImage?.let {
             // Tính toán tỷ lệ để đảm bảo ảnh vừa với View theo chiều dọc
             val viewWidth = width.toFloat()
@@ -147,6 +133,42 @@ class BrushView @JvmOverloads constructor(
             canvas.drawPath(path, drawPaint)
         }
         canvas.drawPath(drawPath, drawPaint)
+    }
+    fun setImageFromPath(path: String) {
+        val bitmap = BitmapFactory.decodeFile(path)
+        canvasImage = bitmap
+        invalidate()
+    }
+
+
+
+    fun toggleImage(bitmap: Bitmap, uri: Uri) {
+        if (isShowingBitmap1) {
+            // Hiển thị ảnh từ URI
+            setImageFromUri(uri)
+        } else {
+            // Hiển thị ảnh từ bitmap
+            setImageFromBitmap(bitmap)
+        }
+        // Đảo trạng thái
+        isShowingBitmap1 = !isShowingBitmap1
+    }
+
+    fun setImageFromUri(uri: Uri) {
+        try {
+            val inputStream = context.contentResolver.openInputStream(uri)
+            val bitmap = BitmapFactory.decodeStream(inputStream)
+            inputStream?.close()
+
+            if (bitmap != null) {
+                canvasImage = bitmap
+                invalidate()
+            } else {
+                Log.e("setImageFromUri", "Bitmap is null for URI: $uri")
+            }
+        } catch (e: Exception) {
+            Log.e("setImageFromUri", "Error loading image from URI: $uri", e)
+        }
     }
 
 

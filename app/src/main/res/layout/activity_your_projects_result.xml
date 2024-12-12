@@ -76,8 +76,7 @@
         android:layout_height="470dp"
         android:layout_marginTop="8dp"
         android:contentDescription="@string/img_result"
-        android:scaleType="fitXY"
-        android:src="@drawable/img_result"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
@@ -157,6 +156,37 @@
             android:layout_height="wrap_content"
             android:paddingStart="8dp"
             android:text="@string/export" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_share_with_friend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="41dp"
+        android:background="@drawable/bg_gradient_border_27"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="17dp"
+        android:paddingVertical="12dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_history_result">
+
+        <ImageView
+            android:id="@+id/iv_share_with_friend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/ic_download"
+            android:src="@drawable/ic_share_with_friend"
+            app:tint="@color/white" />
+
+        <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont500
+            android:id="@+id/tv_share_with_friend"
+            style="@style/CustomText_White_16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:text="@string/share_with_friends" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

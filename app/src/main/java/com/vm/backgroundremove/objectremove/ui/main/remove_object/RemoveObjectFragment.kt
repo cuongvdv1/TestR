@@ -2,6 +2,8 @@ package com.vm.backgroundremove.objectremove.ui.main.remove_object
 
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +27,28 @@ class RemoveObjectFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity())[RemoveBackGroundViewModel::class.java]
         textClick()
         listClick()
+
+        binding.edRmvObject.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s.isNullOrEmpty()) {
+                    binding.btnRemove.alpha = 0.5f
+                    binding.btnRemove.isEnabled = false
+                    binding.edRmvObject.setBackgroundResource(R.drawable.bg_editext_selected)
+                } else {
+                    binding.btnRemove.alpha = 1f
+                    binding.btnRemove.isEnabled = true
+                    binding.edRmvObject.setBackgroundResource(R.drawable.bg_border_white_16)
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                binding.edRmvObject.setBackgroundResource(R.drawable.bg_editext_selected)
+            }
+        })
         binding.btnRemove.tap {
             val text = binding.edRmvObject.text.toString()
             if (text.isEmpty()) {
@@ -47,8 +71,18 @@ class RemoveObjectFragment : Fragment() {
             binding.tvList.setTextColor(Color.parseColor("#8F9DAA"))
             binding.ctlRmvObjText.visibility = View.VISIBLE
             binding.ctlRmvObjList.visibility = View.GONE
-            binding.viewColorIndicator.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.color_FF6846))
-            binding.viewBgIndicator.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.color_8F9DAA))
+            binding.viewColorIndicator.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireActivity(),
+                    R.color.color_FF6846
+                )
+            )
+            binding.viewBgIndicator.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireActivity(),
+                    R.color.color_8F9DAA
+                )
+            )
         }
     }
 
@@ -58,8 +92,18 @@ class RemoveObjectFragment : Fragment() {
             binding.tvList.setTextColor(Color.parseColor("#FF6846"))
             binding.ctlRmvObjText.visibility = View.GONE
             binding.ctlRmvObjList.visibility = View.VISIBLE
-            binding.viewBgIndicator.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.color_FF6846))
-            binding.viewColorIndicator.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.color_8F9DAA))
+            binding.viewBgIndicator.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireActivity(),
+                    R.color.color_FF6846
+                )
+            )
+            binding.viewColorIndicator.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireActivity(),
+                    R.color.color_8F9DAA
+                )
+            )
         }
     }
 

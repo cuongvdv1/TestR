@@ -109,7 +109,8 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
     implementation(libs.room.ktx)
-
+// round image
+    implementation ("com.makeramen:roundedimageview:2.3.0")
     //lib
     implementation(project(":B9Ads"))
     implementation(project(":B9Util"))

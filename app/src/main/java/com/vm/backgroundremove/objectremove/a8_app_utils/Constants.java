@@ -21,7 +21,7 @@ public class Constants {
     public static final String IMG_CAMERA_PATH = "image_camera_path";
     public static final String TEXT_PLAIN = "text/plain";
     public static final String CLIENT_CODE = "v1ih";
-    public static final String CLIENT_MEMO = "";
+    public static final String CLIENT_MEMO = "remove_object1";
     public static final String DATA = "data";
     public static final String CACHE_PATH = "cache_images";
     public static final String CACHE_IMG_NAME = "temp_image.png";

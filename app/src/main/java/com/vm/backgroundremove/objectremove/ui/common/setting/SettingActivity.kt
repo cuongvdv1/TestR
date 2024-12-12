@@ -10,6 +10,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewInfo
@@ -28,6 +29,7 @@ import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.SharePrefUtils
 import com.vm.backgroundremove.objectremove.a8_app_utils.toDp
 import com.vm.backgroundremove.objectremove.databinding.ActivitySettingBinding
+import com.vm.backgroundremove.objectremove.dialog.DialogExit
 import com.vm.backgroundremove.objectremove.dialog.RatingDialog
 import com.vm.backgroundremove.objectremove.dialog.ThankDialog
 import com.vm.backgroundremove.objectremove.ui.common.feedback.DialogFeedback
@@ -37,13 +39,13 @@ import com.vm.backgroundremove.objectremove.ui.main.your_projects.ProjectsActivi
 import com.vm.backgroundremove.objectremove.ui.main.your_projects.YourProjectsResultActivity
 
 
-class SettingActivity : BaseActivity<ActivitySettingBinding, BaseViewModel>() {
+class SettingActivity : BaseActivity<ActivitySettingBinding, BaseViewModel>(), DialogExit.OnPress  {
 
     private var check = false
 
     private var remoteConfigHomeModel: RemoteConfigScreenHomeModel? = null
     private var remoteConfigScreenFeedbackModel: RemoteConfigScreenFeedbackModel? = null
-
+    private lateinit var dialogExit : DialogExit
 
     override fun createBinding() = ActivitySettingBinding.inflate(layoutInflater)
 
@@ -51,7 +53,10 @@ class SettingActivity : BaseActivity<ActivitySettingBinding, BaseViewModel>() {
 
     override fun initView() {
         super.initView()
-
+        dialogExit = DialogExit(this@SettingActivity)
+        onBackPressedDispatcher.addCallback(this) {
+            dialogExit.show()
+        }
         binding.tvVersion.text = getString(R.string.version) + " " + BuildConfig.VERSION_NAME
 
         //home model
@@ -76,11 +81,13 @@ class SettingActivity : BaseActivity<ActivitySettingBinding, BaseViewModel>() {
         binding.ctlYourProjects.tap {
             val intent = Intent(this, ProjectsActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         binding.languageSetting.tap {
             val intent = Intent(this, LanguageSettingActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         binding.shareSettings.tap {
@@ -322,6 +329,8 @@ class SettingActivity : BaseActivity<ActivitySettingBinding, BaseViewModel>() {
         super.onResume()
         check = false
     }
-
+    override fun send(s: Int) {
+        finishAffinity()
+    }
 
 }

@@ -5,43 +5,46 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.remove_object.RemoveObjectByListActivity">
+    tools:context=".ui.main.remove_object.bylist.RemoveObjectByListActivity">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ctl_remove_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="11dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <ImageView
             android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:contentDescription="@string/ic_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:src="@drawable/ic_back"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont700
+            style="@style/CustomText_color_37414B_20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/CustomText_color_37414B_20"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:text="@string/object_remove"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:id="@+id/iv_export"
-            android:contentDescription="@string/ic_export"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/ic_export"
             android:src="@drawable/ic_export"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -61,50 +64,47 @@
         android:id="@+id/ctl_function"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="6dp"
-        android:background="@color/white"
+        android:background="@color/color_dfdfdf"
         android:paddingHorizontal="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/iv_rmv_object"
+        android:paddingVertical="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/iv_rmv_object">
 
-        <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
-            android:id="@+id/tv_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/CustomText_color_37414B_16"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="@string/edit"/>
+
         <ImageView
-            android:contentDescription="@string/ic_before_after"
             android:id="@+id/iv_before_after"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:alpha="0.5"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_gravity=""
+            android:contentDescription="@string/ic_before_after"
+            android:src="@drawable/ic_before_after_rm_obj"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/ic_before_after"
-            android:layout_gravity=""/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="#E7ECF2"
-        app:layout_constraintTop_toBottomOf="@id/ctl_function"
-        />
-    <FrameLayout
-        android:id="@+id/fl_rm_object_by_list"
+        app:layout_constraintTop_toBottomOf="@id/ctl_function" />
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/white"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ctl_function">
-    </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_rm_object_by_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"></FrameLayout>
+    </androidx.core.widget.NestedScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

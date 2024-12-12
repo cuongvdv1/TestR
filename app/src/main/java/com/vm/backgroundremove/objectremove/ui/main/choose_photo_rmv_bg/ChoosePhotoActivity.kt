@@ -57,11 +57,13 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
                     val intent = Intent(this@ChoosePhotoActivity, RemoveBackgroundActivity::class.java)
                     intent.putExtra(Constants.IMG_GALLERY_PATH, uriPhoto)
                     startActivity(intent)
+                    finish()
                 }
                 checkRemove == Constants.INTENT_FROM_HOME_TO_OBJECT -> {
                     val intent = Intent(this@ChoosePhotoActivity, RemoveObjectActivity::class.java)
                     intent.putExtra(Constants.IMG_GALLERY_PATH, uriPhoto)
                     startActivity(intent)
+                    finish()
                 }
                 checkRemoveFragment == Constants.INTENT_FROM_FRAGMENT_CHOOSE_BG -> {
                     val intent = Intent()

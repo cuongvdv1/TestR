@@ -39,6 +39,7 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding, BaseViewModel
 
         SharePrefUtils.setFristTimePermission(this)
         SharePrefUtils.countPermission(this)
+        SharePrefUtils.increaseAppLaunchCountPermisstion(this) // Cập nhật lại launchCount
         setStatusPermissionPhoto()
         setStatusPermissionNoti()
         checkAllPermissions()
