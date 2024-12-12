@@ -85,11 +85,12 @@ class DownloadRemoveBackgroundActivity:BaseActivity<ActivityYourProjectsResultBi
 
         }
         binding.llBtnShare.tap {
-            shareImageFromCache()
+            shareImageFromCache(historyModel?.imageResult.toString())
             Log.d("TAG_IMAGE", "shareImage: shared")
         }
         binding.llShareWithFriend.tap {
-            shareImageFromCache()
+            Log.d("TAG_IMAGE111","shareImage: shared")
+           shareImageFromCache(imageUrl)
         }
 
         binding.ivBack.tap {
@@ -104,44 +105,44 @@ class DownloadRemoveBackgroundActivity:BaseActivity<ActivityYourProjectsResultBi
     }
 
 
-    //    private fun shareImage(url: String) {
-//        // Tải hình ảnh từ URL và lưu tạm vào cache
-//        Glide.with(this)
-//            .asFile()
-//            .load(url)
-//            .into(object : CustomTarget<File>() {
-//                override fun onResourceReady(resource: File, transition: Transition<in File>?) {
-//                    // Chia sẻ file ảnh sau khi tải về thành công
-//                    shareFile(resource)
-//                }
-//
-//                override fun onLoadCleared(placeholder: Drawable?) {
-//                   Log.d("TAG_IMAGE", "onLoadCleared: ")
-//                }
-//            })
-//    }
-//
-//    private fun shareFile(imageFile: File) {
-//        // Tạo URI từ File thông qua FileProvider
-//        val uri = FileProvider.getUriForFile(
-//            this,
-//            "$packageName.provider", // Thay đổi theo package name
-//            imageFile
-//        )
-//
-//        // Tạo Intent chia sẻ
-//        val shareIntent = Intent(Intent.ACTION_SEND).apply {
-//            type = "image/*"
-//            putExtra(Intent.EXTRA_STREAM, uri)
-//            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION) // Cho phép quyền đọc file
-//        }
-//
-//        // Hiển thị dialog chọn ứng dụng
-//        startActivity(Intent.createChooser(shareIntent, "Share image via"))
-//    }
-    private fun shareImageFromCache() {
+        private fun shareImage(url: String) {
+        // Tải hình ảnh từ URL và lưu tạm vào cache
+        Glide.with(this)
+            .asFile()
+            .load(url)
+            .into(object : CustomTarget<File>() {
+                override fun onResourceReady(resource: File, transition: Transition<in File>?) {
+                    // Chia sẻ file ảnh sau khi tải về thành công
+                    shareFile(resource)
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {
+                   Log.d("TAG_IMAGE", "onLoadCleared: ")
+                }
+            })
+    }
+
+    private fun shareFile(imageFile: File) {
+        // Tạo URI từ File thông qua FileProvider
+        val uri = FileProvider.getUriForFile(
+            this,
+            "$packageName.provider", // Thay đổi theo package name
+            imageFile
+        )
+
+        // Tạo Intent chia sẻ
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "image/*"
+            putExtra(Intent.EXTRA_STREAM, uri)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION) // Cho phép quyền đọc file
+        }
+
+        // Hiển thị dialog chọn ứng dụng
+        startActivity(Intent.createChooser(shareIntent, "Share image via"))
+    }
+    private fun shareImageFromCache(imageUrl: String) {
         try {
-            val imageUrl = historyModel?.imageResult
+//            val imageUrl = historyModel?.imageResult
             imageUrl?.let { url ->
                 Glide.with(this)
                     .asBitmap()
