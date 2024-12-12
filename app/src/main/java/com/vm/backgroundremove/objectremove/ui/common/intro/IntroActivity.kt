@@ -350,7 +350,6 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, BaseViewModel>() {
         if (launchCount == 0) {
             // Chuyển đến màn Permission lần đầu tiên
             startActivity(Intent(this@IntroActivity, PermissionActivity::class.java))
-            SharePrefUtils.increaseAppLaunchCountPermisstion(this) // Cập nhật lại launchCount
             finish()
         } else {
             // Kiểm tra cập nhật trong các lần tiếp theo
@@ -368,7 +367,6 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, BaseViewModel>() {
         }
 
         val intent = Intent(this@IntroActivity, nextScreen)
-        intent.putExtra("from_intro_to_customization", "from_intro_to_customization")
         startActivity(intent)
         finishAffinity()
     }

@@ -1,4 +1,4 @@
-package com.vm.backgroundremove.objectremove.ui.main.remove_object
+package com.vm.backgroundremove.objectremove.ui.main.remove_object.bytext
 
 import android.content.ContentValues
 import android.content.Context
@@ -23,7 +23,7 @@ import com.vm.backgroundremove.objectremove.a8_app_utils.parcelable
 import com.vm.backgroundremove.objectremove.database.HistoryModel
 import com.vm.backgroundremove.objectremove.databinding.ActivityResultRemoveObjectAndDowLoadBinding
 import com.vm.backgroundremove.objectremove.dialog.LoadingDialog
-import com.vm.backgroundremove.objectremove.dialog.ProcessingDialog
+import com.vm.backgroundremove.objectremove.ui.main.remove_object.ResultRemoveObjectActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -157,9 +157,8 @@ class ResultRemoveObjectAndDowLoadActivity :
                     it.close()
                 }
 
-                // Hiển thị thông báo
                 CoroutineScope(Dispatchers.Main).launch {
-
+                Toast.makeText(context, "Image downloaded successfully", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

@@ -23,6 +23,7 @@ import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.a8_app_utils.parcelable
 import com.vm.backgroundremove.objectremove.database.HistoryModel
 import com.vm.backgroundremove.objectremove.databinding.ActivityRemoveBackgroundBinding
+import com.vm.backgroundremove.objectremove.dialog.LoadingDialog
 import com.vm.backgroundremove.objectremove.ui.main.cropview.CropView
 import com.vm.backgroundremove.objectremove.ui.main.your_projects.YourProjectsActivity
 import kotlinx.coroutines.CoroutineScope
@@ -37,6 +38,8 @@ class ResultRemoveBackGroundActivity :
     BaseActivity<ActivityRemoveBackgroundBinding, RemoveBackGroundViewModel>() {
     private var historyModel: HistoryModel? = null
     private var type = ""
+
+    private lateinit var dialog: LoadingDialog
     override fun createBinding(): ActivityRemoveBackgroundBinding {
         return ActivityRemoveBackgroundBinding.inflate(layoutInflater)
     }
@@ -46,17 +49,17 @@ class ResultRemoveBackGroundActivity :
 
     override fun initView() {
         super.initView()
+        dialog= LoadingDialog(this)
         type = intent.getStringExtra(Constants.TYPE_HISTORY).toString()
-        val imagePathCamera = intent.getStringExtra(Constants.IMG_CAMERA_PATH)
         viewModel.color.observe(this) { color ->
-            binding.ivRmvBg.setBackgroundWithColor(color)
+            binding.cvRmvBg.setBackgroundWithColor(color)
         }
         viewModel.backGround.observe(this) { backGround ->
-            binding.ivRmvBg.setBackgroundBitmap(backGround)
+            binding.cvRmvBg.setBackgroundBitmap(backGround)
         }
         viewModel.startColor.observe(this) { startColor ->
             viewModel.endColor.observe(this) { endColor ->
-                binding.ivRmvBg.setBackgroundWithGradient(startColor, endColor)
+                binding.cvRmvBg.setBackgroundWithGradient(startColor, endColor)
             }
         }
 
@@ -74,7 +77,7 @@ class ResultRemoveBackGroundActivity :
                             ) {
                                 // Đây là nơi bạn nhận được Bitmap
                                 val bitmap: Bitmap = resource
-                                binding.ivRmvBg.setBitmap(bitmap)
+                                binding.cvRmvBg.setBitmap(bitmap)
                             }
 
                             override fun onLoadCleared(placeholder: Drawable?) {
@@ -94,10 +97,9 @@ class ResultRemoveBackGroundActivity :
         binding.ivExport.tap {
             val imageUrl = historyModel?.imageResult?.takeIf { it.isNotEmpty() }
             if (imageUrl != null) {
+                dialog.show()
+                dialog.showWithTimeout(3000)
                 saveImageWithBackground()
-//                val intent = Intent(this@ResultRemoveBackGroundActivity, DownloadRemoveBackgroundActivity::class.java)
-////                intent.putExtra(Constants.IMG_CAMERA_PATH, imageUrl) // Truyền đường dẫn ảnh
-//                startActivity(intent)
             } else {
                 Log.d("TAG_IMAGE", "Image URL is null or empty")
             }
@@ -110,11 +112,31 @@ class ResultRemoveBackGroundActivity :
     }
 
     override fun bindView() {
-        binding.ivBeforeAfter.tap {
+        binding.ivDone.tap {
+            supportFragmentManager.fragments.forEach { fragment ->
+                if (fragment is ChooseBackGroundColorFragment && fragment.isVisible) {
+                    if (fragment.check_gradient) {
+                        val startColor = fragment.color_start ?: Color.TRANSPARENT
+                        val endColor = fragment.color_end ?: Color.TRANSPARENT
+                        binding.cvRmvBg.setBackgroundWithGradient(startColor, endColor)
+                    } else if (fragment.check_single_color) {
+                        fragment.customColor?.let { color ->
+                            viewModel.setColor(color)
+                            binding.cvRmvBg.setBackgroundWithColor(color)
+                        }
+                    }
+                    fragment.showColorList()
+                    setBeforeImage() // Cập nhật giao diện từng bước
+                }
+            }
+        }
+
+
+        binding.ivCancel.tap {
             supportFragmentManager.fragments.forEach {
                 if (it is ChooseBackGroundColorFragment && it.isVisible) {
-                    setBackgroundColor(it)
                     it.showColorList()
+                    setBeforeImage()
                 }
             }
         }
@@ -125,10 +147,20 @@ class ResultRemoveBackGroundActivity :
     }
 
     fun setNewImage() {
-        binding.ivBeforeAfter.setImageResource(R.drawable.ic_selected_color)
+        binding.ivBeforeAfter.visibility = View.GONE
+        binding.ivDone.visibility = View.VISIBLE
         binding.ivRedo.visibility = View.GONE
-        binding.ivUndo.setImageResource(R.drawable.ic_cancel)
+        binding.ivUndo.visibility = View.GONE
+        binding.ivCancel.visibility = View.VISIBLE
         binding.tvEdit.text = getString(R.string.color_ppicker)
+    }
+    fun setBeforeImage() {
+        binding.ivBeforeAfter.visibility = View.VISIBLE
+        binding.ivDone.visibility = View.GONE
+        binding.ivRedo.visibility = View.VISIBLE
+        binding.ivCancel.visibility = View.GONE
+        binding.ivUndo.visibility = View.VISIBLE
+        binding.tvEdit.text = getString(R.string.edit)
     }
 
     private fun downloadImage(bitmap: Bitmap) {
@@ -199,6 +231,8 @@ class ResultRemoveBackGroundActivity :
         // Lưu bitmap này vào thư viện như đã làm trước đó
         downloadImage(bitmapWithBackground)
     }
-
+    fun clearBackground() {
+        binding.cvRmvBg.clearBackGround() // Gọi hàm clearBackground trong CropView
+    }
 
 }

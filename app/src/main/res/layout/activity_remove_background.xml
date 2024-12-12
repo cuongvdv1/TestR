@@ -46,14 +46,26 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.vm.backgroundremove.objectremove.ui.main.cropview.CropView
+    <com.vm.backgroundremove.objectremove.ui.main.cropview.BrushView
         android:id="@+id/iv_rmv_bg"
         android:layout_width="match_parent"
-        android:layout_height="470dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/iv_choose_rmv_bg"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/ctl_function"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ctl_remove_bg" />
+    <com.vm.backgroundremove.objectremove.ui.main.cropview.CropView
+        android:id="@+id/cv_rmv_bg"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:contentDescription="@string/iv_choose_rmv_bg"
         android:scaleType="centerCrop"
         android:src="@drawable/img_result"
+        app:layout_constraintBottom_toTopOf="@+id/ctl_function"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ctl_remove_bg" />
@@ -62,51 +74,77 @@
         android:id="@+id/ctl_function"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="6dp"
         android:background="@color/white"
         android:paddingHorizontal="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/iv_rmv_bg"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:paddingVertical="6dp"
+        app:layout_constraintBottom_toTopOf="@+id/frame_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
         <ImageView
-            android:contentDescription="@string/ic_undo"
             android:id="@+id/iv_undo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/ic_undo"
             android:src="@drawable/ic_undo_off"
-            app:layout_constraintTop_toTopOf="parent"
+
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
-            android:contentDescription="@string/ic_redo"
             android:id="@+id/iv_redo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/ic_redo"
             android:src="@drawable/ic_redo_off"
-            app:layout_constraintStart_toEndOf="@+id/iv_undo"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            />
-        <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
-            android:id="@+id/tv_edit"
+            app:layout_constraintStart_toEndOf="@+id/iv_undo"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/CustomText_color_37414B_16"
-            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/ic_undo"
+            android:src="@drawable/ic_cancel"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_redo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
+            android:id="@+id/tv_edit"
+            style="@style/CustomText_color_37414B_16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/edit"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/iv_before_after"
-            android:text="@string/edit"/>
+            app:layout_constraintStart_toEndOf="@+id/iv_redo"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
-            android:contentDescription="@string/ic_before_after"
             android:id="@+id/iv_before_after"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_gravity=""
+            android:contentDescription="@string/ic_before_after"
             android:src="@drawable/ic_before_after"
-            android:layout_gravity=""/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/ic_before_after"
+            android:src="@drawable/ic_selected_color"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
     <View
         android:id="@+id/view"
@@ -118,12 +156,11 @@
     <FrameLayout
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ctl_function">
+        app:layout_constraintStart_toStartOf="parent">
 
     </FrameLayout>
 

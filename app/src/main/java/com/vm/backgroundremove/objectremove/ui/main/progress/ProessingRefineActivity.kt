@@ -16,6 +16,7 @@ import androidx.work.WorkInfo
 import com.util.CheckInternet
 import com.vm.backgroundremove.objectremove.MainActivity
 import com.vm.backgroundremove.objectremove.R
+import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.a8_app_utils.ProcessState
 import com.vm.backgroundremove.objectremove.a8_app_utils.convertToObject
@@ -27,6 +28,9 @@ import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBack
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.ResultRemoveBackGroundActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
 import com.vm.backgroundremove.objectremove.ui.main.remove_object.ResultRemoveObjectActivity
+import com.vm.backgroundremove.objectremove.ui.main.remove_object.bylist.ResultRemoveObjectByList
+import com.vm.backgroundremove.objectremove.ui.main.your_projects.ProjectsActivity
+import com.vm.backgroundremove.objectremove.ui.main.your_projects.YourProjectsActivity
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
@@ -40,6 +44,8 @@ class ProessingRefineActivity : BaseActivity<ActivityProcessBinding, ProcessView
     private var cfUrl: String? = null
     private var uuid: String? = null
     private var imageCreate: String? = null
+    private var listOther: String? = null
+
     override fun createBinding(): ActivityProcessBinding {
         return ActivityProcessBinding.inflate(layoutInflater)
     }
@@ -51,6 +57,7 @@ class ProessingRefineActivity : BaseActivity<ActivityProcessBinding, ProcessView
         Log.d("ProessingRefineActivity","ProessingRefineActivity")
         generateResponse = intent.getParcelable<GenerateResponse>(RemoveBackgroundActivity.KEY_GENERATE)
         imageCreate = intent.getStringExtra("imageCreate")
+        listOther = intent.getStringExtra("item_delete")
 //        itemCode = intent.getStringExtra(Constants.ITEM_CODE)
         generateResponse?.let {
             taskId = it.task_id
@@ -83,6 +90,10 @@ class ProessingRefineActivity : BaseActivity<ActivityProcessBinding, ProcessView
 
     override fun bindView() {
         super.bindView()
+        binding.icHistory.tap {
+            startActivity(Intent(this@ProessingRefineActivity, ProjectsActivity::class.java))
+            finish()
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -143,8 +154,9 @@ class ProessingRefineActivity : BaseActivity<ActivityProcessBinding, ProcessView
                                     viewModel.updateNumProcessing()
                                     viewModel.cancelProcessListener()
                                     val intent =
-                                        Intent(this@ProessingRefineActivity, ResultRemoveObjectActivity::class.java)
+                                        Intent(this@ProessingRefineActivity, ResultRemoveObjectByList::class.java)
                                     intent.putExtra(Constants.INTENT_RESULT, processModel)
+                                    intent.putExtra("item_delete",listOther)
                                     startActivity(intent)
                                     finish()
                                     Log.d("ProcessActivity", "SUCCEEDED  $processModel")

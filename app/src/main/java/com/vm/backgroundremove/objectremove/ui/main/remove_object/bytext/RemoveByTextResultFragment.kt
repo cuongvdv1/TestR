@@ -1,4 +1,4 @@
-package com.vm.backgroundremove.objectremove.ui.main.remove_object
+package com.vm.backgroundremove.objectremove.ui.main.remove_object.bytext
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

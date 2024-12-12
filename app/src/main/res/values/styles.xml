@@ -64,6 +64,10 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/color_37414B</item>
     </style>
+    <style name="CustomText_color_878D93_12">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/color_878D93</item>
+    </style>
 
     <style name="CustomText_color_37414B_13">
         <item name="android:textSize">13sp</item>
@@ -78,6 +82,10 @@
     <style name="CustomText_color_37414B_16">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/color_37414B</item>
+    </style>
+    <style name="CustomText_color_66727E_12">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/color_66727E</item>
     </style>
 
     <style name="CustomText_color_37414B_18">

@@ -6,6 +6,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
+import com.vm.backgroundremove.objectremove.ui.common.intro.IntroActivity
+import com.vm.backgroundremove.objectremove.ui.common.language.LanguageStartActivity
+import com.vm.backgroundremove.objectremove.ui.common.update.AppUpdateActivity
+import com.vm.backgroundremove.objectremove.ui.main.home.HomeActivity
+import com.vm.backgroundremove.objectremove.ui.main.user_perpose.UserPerposeActivity
 import java.util.Locale
 
 object SystemUtil {
@@ -108,30 +113,18 @@ object SystemUtil {
 
     fun getActivityClass(name: String?, defaultClass: Class<*>): Class<*>? {
 
-//        if (name.equals("language"))
-//            return LanguageStartActivity::class.java
-//        if (name.equals( "intro"))
-//            return IntroActivity::class.java
-//        if (name.equals("app_update"))
-//            return AppUpdateActivity::class.java
-//        //home activity- old version - using fragment
-//        if (name.equals("home"))
-//            return MainActivity::class.java
-//
-//        //using activity
-//        if (name.equals("home_activity_opt1"))
-//            return HomeActivityOp1::class.java
-//
-//
-//        if (name.equals("customization_activity"))
-//            return CustomzationActivity::class.java
+        if (name.equals("language"))
+            return LanguageStartActivity::class.java
+        if (name.equals( "intro"))
+            return IntroActivity::class.java
+        if (name.equals("app_update"))
+            return AppUpdateActivity::class.java
+        //home activity- old version - using fragment
+        if (name.equals("home"))
+            return HomeActivity::class.java
+        if (name.equals("user_purpose"))
+            return UserPerposeActivity::class.java
 
-        //if (name == "permission")
-        //return AppUpdateActivity::class.java
-        //if (name == "bot_setting")
-        //return SettingActivity::class.java
-//        if (name == "test_native")
-//            return TestNativeLayoutActivity::class.java
         return defaultClass
     }
 

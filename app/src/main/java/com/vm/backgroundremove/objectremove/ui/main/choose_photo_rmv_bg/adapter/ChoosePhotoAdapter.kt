@@ -37,10 +37,10 @@ class ChoosePhotoAdapter(
     @SuppressLint("SuspiciousIndentation")
     override fun onBindViewHolder(holder: ChoosePhotoHolder, @SuppressLint("RecyclerView") position: Int) {
         val imageInfo = listPhoto[position]
-            Glide.with(context)
-                .load(imageInfo.uri)
-                .placeholder(R.drawable.ads_bg_icon)
-                .into(holder.binding.imgChoosePhoto)
+        Glide.with(context)
+            .load(imageInfo.uri)
+            .placeholder(R.drawable.ads_bg_icon)
+            .into(holder.binding.ivChoosePhoto)
 
         if (selectedPosition == position && position != 0) {
             holder.binding.bgItemSelected.visibility = View.VISIBLE

@@ -5,15 +5,21 @@
     android:viewportWidth="24"
     android:viewportHeight="24">
     <path
+        android:fillAlpha="0.3"
         android:strokeColor="#FF141B34"
+        android:strokeAlpha="0.3"
         android:strokeWidth="1.5"
         android:pathData="M12.5 3h-1c-0.55 0-1 0.45-1 1v1c0 0.55 0.45 1 1 1h1c0.55 0 1-0.45 1-1V4c0-0.55-0.45-1-1-1Z"/>
     <path
+        android:fillAlpha="0.3"
         android:strokeColor="#FF141B34"
+        android:strokeAlpha="0.3"
         android:strokeWidth="1.5"
         android:pathData="M12.5 10.5h-1c-0.55 0-1 0.45-1 1v1c0 0.55 0.45 1 1 1h1c0.55 0 1-0.45 1-1v-1c0-0.55-0.45-1-1-1Z"/>
     <path
+        android:fillAlpha="0.3"
         android:strokeColor="#FF141B34"
+        android:strokeAlpha="0.3"
         android:strokeWidth="1.5"
         android:pathData="M12.5 18h-1c-0.55 0-1 0.45-1 1v1c0 0.55 0.45 1 1 1h1c0.55 0 1-0.45 1-1v-1c0-0.55-0.45-1-1-1Z"/>
 </vector>

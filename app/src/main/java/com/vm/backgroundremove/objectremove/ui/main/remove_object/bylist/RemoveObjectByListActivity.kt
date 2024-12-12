@@ -1,11 +1,11 @@
-package com.vm.backgroundremove.objectremove.ui.main.remove_object
+package com.vm.backgroundremove.objectremove.ui.main.remove_object.bylist
 
 import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
@@ -24,6 +24,7 @@ import com.vm.backgroundremove.objectremove.database.HistoryModel
 import com.vm.backgroundremove.objectremove.databinding.ActivityRemoveObjectByListBinding
 import com.vm.backgroundremove.objectremove.dialog.ProcessingDialog
 import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingActivity
+import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingRefineActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackGroundViewModel
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity.Companion.KEY_GENERATE
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity.Companion.KEY_REMOVE
@@ -47,7 +48,6 @@ class RemoveObjectByListActivity :
     private var historyModel: HistoryModel? = null
     private var type = ""
     private var bitmap: Bitmap? = null
-    private var filePath = ""
     private lateinit var processingDialog: ProcessingDialog
     override fun createBinding(): ActivityRemoveObjectByListBinding {
         return ActivityRemoveObjectByListBinding.inflate(layoutInflater)
@@ -85,9 +85,7 @@ class RemoveObjectByListActivity :
                             ) {
                                 bitmap = resource
                                 binding.ivRmvObject.setImageFromBitmap(bitmap!!)
-                                val fileName = "image_${System.currentTimeMillis()}.png"
-                                filePath = filesDir.absolutePath + "/images/$fileName"
-                                saveBitmapToPath(bitmap!!, filePath)
+
                             }
 
                             override fun onLoadCleared(placeholder: Drawable?) {
@@ -103,12 +101,16 @@ class RemoveObjectByListActivity :
                             }
                         }
                         viewModel.upLoadImage.observe(this) { response ->
-                            startDataGenerate(response, filePath)
+                            startDataGenerate(response, historyModel?.other.toString())
                         }
                     }
                 }
             }
-
+            binding.ivBeforeAfter.tap {
+                Log.d("YEUTRINHLAMLUON",  historyModel?.imageCreate.toString())
+                val uriImage = Uri.parse( historyModel?.imageCreate.toString())
+                binding.ivRmvObject.toggleImage(bitmap!!, uriImage)
+            }
             binding.ivExport.tap {
                 downloadImageToGallery()
             }
@@ -154,25 +156,30 @@ class RemoveObjectByListActivity :
         }
     }
 
-    private fun startDataGenerate(uploadResponse: UpLoadImagesResponse, imageCreate: String) {
+    private fun startDataGenerate(
+        uploadResponse: UpLoadImagesResponse,
+        listOther: String
+    ) {
         processingDialog.dismiss()
         val modelGenerate = GenerateResponse()
         modelGenerate.cf_url = uploadResponse.cf_url
         modelGenerate.task_id = uploadResponse.task_id
         modelGenerate.imageCreate = Constants.ITEM_CODE_RMOBJECT
-
-//        val numberGenerate = limitNumber.toInt() - isCountGenerate
-        startActivity(
-            Intent(
-                this@RemoveObjectByListActivity,
-                ProessingActivity::class.java
-            ).apply {
-                putExtra(KEY_GENERATE, modelGenerate)
-                putExtra(KEY_REMOVE, Constants.ITEM_CODE_RMOBJECT)
-                putExtra("imageCreate", imageCreate)
+        if (modelGenerate.cf_url != null){
+            startActivity(
+                Intent(
+                    this@RemoveObjectByListActivity,
+                    ProessingActivity::class.java
+                ).apply {
+                    putExtra(KEY_GENERATE, modelGenerate)
+                    putExtra(KEY_REMOVE, Constants.ITEM_CODE_RMOBJECT)
+                    putExtra("imageCreate", historyModel?.imageCreate)
+                    putExtra("type_process", "remove_obj_by_list_text")
+                    putExtra("listOther",listOther)
 //                putExtra(LIMIT_NUMBER_GENERATE, numberGenerate)
-            })
-        finish()
+                })
+            finish()
+        }
     }
 
     fun saveBitmapToPath(bitmap: Bitmap, filePath: String) {
@@ -187,19 +194,8 @@ class RemoveObjectByListActivity :
             e.printStackTrace()
         }
     }
-    fun getBitmapFromPath(path: String): Bitmap? {
-        return try {
-            val file = File(path)
-            if (file.exists()) {
-                BitmapFactory.decodeFile(path) // Trả về Bitmap từ file
-            } else {
-                null // Trả về null nếu file không tồn tại
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null // Trả về null nếu có lỗi
-        }
-    }
+
+
 
     private fun downloadImageToGallery() {
         try {
@@ -252,7 +248,8 @@ class RemoveObjectByListActivity :
                         }
                     })
             }
-        }catch (_:Exception){}
+        } catch (_: Exception) {
+        }
     }
 
 }

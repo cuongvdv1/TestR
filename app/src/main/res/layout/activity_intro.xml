@@ -8,128 +8,131 @@
     android:background="@color/color_F0F8FF"
     tools:context=".ui.common.intro.IntroActivity">
 
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nested_scroll_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/layout_indicator"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/vpIntro"
-                android:layout_width="match_parent"
-                android:layout_height="428dp"
-                android:layout_marginBottom="28dp"
-                app:layout_constraintBottom_toTopOf="@id/tv_title"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont700
-                android:id="@+id/tv_title"
-                style="@style/CustomText_color_37414B_20"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="7dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/title_1"
-                android:gravity="center"
-                android:maxLines="2"
-                android:minLines="2"
-                android:textAlignment="center"
-                app:layout_constraintTop_toBottomOf="@id/vpIntro" />
-
-            <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
-                android:id="@+id/tvContent"
-                style="@style/CustomText_color_37414B_16"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:gravity="center"
-                android:text="@string/content_1"
-                android:maxLines="2"
-                android:minLines="2"
-                android:textAlignment="center"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_indicator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/fr_ad_bottom">
-
-        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-            android:id="@+id/indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
-            app:dotsColor="@color/color_909090"
-            app:dotsSize="8dp"
-            app:dotsSpacing="4dp"
-            app:dotsWidthFactor="4"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:selectedDotColor="@color/color_FF6846">
-
-        </com.tbuonomo.viewpagerdotsindicator.DotsIndicator>
-
-        <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont700
-            android:id="@+id/tv_next"
-            style="@style/CustomText_color_37414B_16"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
-            android:gravity="center"
-            android:text="@string/next"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <FrameLayout
-        android:id="@+id/fr_ad_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <FrameLayout
-        android:id="@+id/fr_ad_full"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@color/color_F0F8FF"
+        android:backgroundTint="@color/color_F0F8FF">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nested_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/layout_indicator"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/vpIntro"
+                    android:layout_width="match_parent"
+                    android:layout_height="428dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginBottom="28dp"
+                    app:layout_constraintBottom_toTopOf="@id/tv_title"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont700
+                    android:id="@+id/tv_title"
+                    style="@style/CustomText_color_37414B_20"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="7dp"
+                    android:gravity="center"
+                    android:text="@string/title_1"
+                    android:textAlignment="center"
+                    app:layout_constraintTop_toBottomOf="@id/vpIntro" />
+
+                <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
+                    android:id="@+id/tvContent"
+                    style="@style/CustomText_color_37414B_16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="7dp"
+                    android:gravity="center"
+                    android:text="@string/content_1"
+                    android:textAlignment="center"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:visibility="gone"
-        android:id="@+id/ivCloseNativeFull"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:padding="6dp"
-        android:src="@drawable/ic_ads_close"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/fr_ad_bottom">
+
+            <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                android:id="@+id/indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                app:dotsColor="@color/color_909090"
+                app:dotsSize="8dp"
+                app:dotsSpacing="4dp"
+                app:dotsWidthFactor="4"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:selectedDotColor="@color/color_FF6846">
+
+            </com.tbuonomo.viewpagerdotsindicator.DotsIndicator>
+
+            <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont700
+                android:id="@+id/tv_next"
+                style="@style/CustomText_color_37414B_16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:gravity="center"
+                android:text="@string/next"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:id="@+id/fr_ad_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <FrameLayout
+            android:id="@+id/fr_ad_full"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivCloseNativeFull"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:padding="6dp"
+            android:src="@drawable/ic_ads_close"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,162 +1,162 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <defaults>
-  <entry>
-    <key>ad_native_intro</key>
-    <value>{"ad_name":"native_intro","ad_id":"ca-app-pub-5922524692564542/1944245557","is_show":true,"max_preload":2,"is_auto_reload_timer":true,"ad_reload_timer_interval":60,"is_change_button_click_only_when_fan":true,"ad_layout_file":"ads_native_1_button_2_info_3_media"}</value>
-  </entry>
-  <entry>
-    <key>ad_native_language_bottom</key>
-    <value>{"ad_name":"native_language_bottom","ad_id":"ca-app-pub-5922524692564542/1837100624","is_show":true,"max_preload":2,"is_auto_reload_timer":true,"ad_reload_timer_interval":60,"is_change_button_click_only_when_fan":true,"ad_layout_file":"ads_native_1_button_2_info_3_media"}</value>
-  </entry>
-  <entry>
-    <key>ad_native_language_top</key>
-    <value>{"ad_name":"native_language_top","ad_id":"ca-app-pub-3940256099942544/2247696110","is_show":false,"max_preload":2,"is_auto_reload_timer":false,"ad_reload_timer_interval":60,"is_change_button_click_only_when_fan":true,"ad_layout_file":"ads_native_1_media_2xxxinfovsbutton"}</value>
-  </entry>
-  <entry>
-    <key>ad_native_home_app_setting</key>
-    <value>{"ad_name":"ad_native_app_setting","ad_id":"ca-app-pub-5922524692564542/4378837208","is_show":true,"max_preload":1,"is_auto_reload_timer":true,"ad_reload_timer_interval":30,"is_change_button_click_only_when_fan":true,"ad_layout_file":"ads_native_1_media_2xxxinfovsbutton"}</value>
-  </entry>
-  <entry>
-    <key>ad_native_home_bot_setting</key>
-    <value>{"ad_name":"native_customization","ad_id":"ca-app-pub-5922524692564542/8600282078","is_show":true,"max_preload":3,"is_auto_reload_timer":true,"ad_reload_timer_interval":60,"is_change_button_click_only_when_fan":true,"ad_layout_file":"ads_native_1_info_2_button"}</value>
-  </entry>
-  <entry>
-    <key>ad_native_home_history</key>
-    <value>{"ad_name":"native_history","ad_id":"ca-app-pub-5922524692564542/3981448003","is_show":true,"max_preload":2,"is_auto_reload_timer":false,"ad_reload_timer_interval":30,"is_change_button_click_only_when_fan":true,"ad_layout_file":"ads_native_xxxinfo_button"}</value>
-  </entry>
-  <entry>
-    <key>ad_native_welcomeback</key>
-    <value>{"ad_name":"ad_native_welcomeback","ad_id":"","is_show":false,"max_preload":1,"is_auto_reload_timer":false,"ad_reload_timer_interval":60,"is_change_button_click_only_when_fan":true,"ad_layout_file":"ads_native_1_media_2xxxinfovsbutton"}</value>
-  </entry>
-  <entry>
-    <key>ad_native_app_update</key>
-    <value>{"ad_name":"ad_native_app_update","ad_id":"","is_show":false,"max_preload":1,"is_auto_reload_timer":false,"ad_reload_timer_interval":60,"is_change_button_click_only_when_fan":true,"ad_layout_file":"ads_native_1_media_2xxxinfovsbutton"}</value>
-  </entry>
-  <entry>
-    <key>ad_native_feedback</key>
-    <value>{
-  "ad_name": "ad_native_feedback",
-  "ad_id": "ca-app-pub-3940256099942544/2247696110",
-  "is_show": true,
-  "max_preload": 1,
-  "is_auto_reload_timer": false,
-  "ad_reload_timer_interval": 60,
-  "is_change_button_click_only_when_fan": true,
-  "ad_layout_file": "ads_native_1_media_2xxxinfovsbutton"
-}</value>
-  </entry>
-  <entry>
-    <key>ad_native_exit</key>
-    <value>{"ad_name":"ad_native_exit","ad_id":"ca-app-pub-3940256099942544/2247696110","is_show":true,"max_preload":1,"is_auto_reload_timer":false,"ad_reload_timer_interval":60,"is_change_button_click_only_when_fan":true,"ad_layout_file":"ads_native_1_media_2xxxinfovsbutton"}</value>
-  </entry>
-  <entry>
-    <key>screen_language_start</key>
-    <value>{"screen_name":"language_start","is_show_012":0,"is_hide_navi_menu":false,"layout_name":"activity_language_start","next_screen_default":"intro","ad_placement":"bottom","ad_type":"native_advance","lang_c_pos":1,"lang_p_pos":7}</value>
-  </entry>
-  <entry>
-    <key>screen_intro</key>
-    <value>{"screen_name":"intro","is_show_012":2,"is_hide_navi_menu":true,"layout_name":"not_implement_yet","next_screen_default":"home","is_slide1_show":true,"is_slide1_ad_show":true,"is_slide2_show":true,"is_slide2_ad_show":true,"is_slide3_show":false,"is_slide3_ad_show":false,"is_slide4_show":false,"is_slide4_ad_show":false,"distance_button_next_vs_ad":10,"font_size":20}</value>
-  </entry>
-  <entry>
-    <key>screen_app_update</key>
-    <value>{"screen_name":"app_update_activity or dialog","is_show_012":2,"is_hide_navi_menu":true,"layout_name":"not implement yet","next_screen_default":"home"}</value>
-  </entry>
-  <entry>
-    <key>screen_splash</key>
-    <value>{"screen_name":"splash","is_show_012":2,"is_hide_navi_menu":true,"layout_name":"not implement yet","next_screen_default":"language"}</value>
-  </entry>
-  <entry>
-    <key>screen_welcomeback</key>
-    <value>{
-  "screen_name": "screen_welcomeback dialog or activity",
-  "is_show_012": 2,
-  "is_hide_navi_menu": false,
-  "layout_name": "not implement yet",
-  "next_screen_default": "home"
-}</value>
-  </entry>
-  <entry>
-    <key>screen_home</key>
-    <value>{"screen_name":"home","is_hide_navi_menu":false,"ad_placement":"bottom","ad_type":"banner_adaptive"}</value>
-  </entry>
-  <entry>
-    <key>screen_feedback</key>
-    <value>{"screen_name":"feedback","type":"bottom_sheet","fb_email":"","fb_tittle":"Comment feedback app AMA Assistant."}</value>
-  </entry>
-  <entry>
-    <key>appopen_resume</key>
-    <value>true</value>
-  </entry>
-  <entry>
-    <key>collap_home</key>
-    <value>true</value>
-  </entry>
-  <entry>
-    <key>inter_splash</key>
-    <value>true</value>
-  </entry>
-  <entry>
-    <key>interstitial_from_start</key>
-    <value>15</value>
-  </entry>
-  <entry>
-    <key>interval_between_interstitial</key>
-    <value>20</value>
-  </entry>
-  <entry>
-    <key>native_home</key>
-    <value>false</value>
-  </entry>
-  <entry>
-    <key>native_intro</key>
-    <value>true</value>
-  </entry>
-  <entry>
-    <key>native_language</key>
-    <value>true</value>
-  </entry>
-  <entry>
-    <key>native_settings</key>
-    <value>true</value>
-  </entry>
-  <entry>
-    <key>open_splash</key>
-    <value>true</value>
-  </entry>
-  <entry>
-    <key>rate_aoa_inter_splash</key>
-    <value>10_90</value>
-  </entry>
-  <entry>
-    <key>app_config</key>
-    <value>{"is_show_wellcomeback_screen":false,"welcomeback_tittle":"Hello!!!\nwelcome back to AMA Assistant\nplease setting in remote config!","app_update_diaglog_or_activity":"activity","api_url":"https://hghpq6wzrd.c1.hn.apigw.bfcplatform.vn/v1/","api_token":"Bearer app-jpPzQrhLjwmPMuoRHRO5k7Ws"}</value>
-  </entry>
-  <entry>
-    <key>version_update</key>
-    <value>{"lastest_version":"1.1.1","lastest_update_content":"\nFix minor bugs to improve users' experience.","must_update":[],"should_update":["1.1.0"],"no_update":[]}</value>
-  </entry>
-  <entry>
-    <key>ad_banner_adaptive_test</key>
-    <value>{"ad_name":"ad_banner_adaptive_home_chat(top)","ad_id":"ca-app-pub-3940256099942544/9214589741","is_show":false,"is_auto_reload_timer":true,"ad_reload_timer_interval":30}</value>
-  </entry>
-  <entry>
-    <key>ad_banner_collapsible_home</key>
-    <value>{"ad_name":"ad_banner_collapsible_home(bottom)","ad_id":"ca-app-pub-5922524692564542/2455381444","is_show":true,"is_auto_reload_timer":true,"ad_reload_timer_interval":30}</value>
-  </entry>
-  <entry>
-    <key>ad_appopen_resume</key>
-    <value>{"ad_name":"appopen_resume","ad_id":"ca-app-pub-5922524692564542/8318082219","is_show":true}</value>
-  </entry>
-  <entry>
-    <key>ad_config_all</key>
-    <value>{"ad_context":"default","mediation_network":"admob","is_show":false,"inter_interval":15,"inter_start_interval":3}</value>
-  </entry>
-  <entry>
-    <key>ad_splash</key>
-    <value>{"ad_name":"splash","ad_id_appopen":"ca-app-pub-5922524692564542/4459394538","ad_id_inter":"ca-app-pub-5922524692564542/7439150784","is_show_app_open":true,"is_show_inter":true,"max_loading_time":15,"appopen_rate":5}</value>
-  </entry>
-  <entry>
-    <key>ad_inter_intro</key>
-    <value>{"ad_name":"ad_inter_intro","ad_id":"ca-app-pub-5922524692564542/4113309944","is_show":true,"is_preload_after_show_ad":false,"is_show_next_activity_before_ad":true}</value>
-  </entry>
+<!--  <entry>-->
+<!--    <key>ad_native_intro</key>-->
+<!--    <value>{"ad_name":"native_intro","ad_id":"ca-app-pub-5922524692564542/1944245557","is_show":true,"max_preload":2,"is_auto_reload_timer":true,"ad_reload_timer_interval":60,"is_change_button_click_only_when_fan":true,"ad_layout_file":"ads_native_1_button_2_info_3_media"}</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>ad_native_language_bottom</key>-->
+<!--    <value>{"ad_name":"native_language_bottom","ad_id":"ca-app-pub-5922524692564542/1837100624","is_show":true,"max_preload":2,"is_auto_reload_timer":true,"ad_reload_timer_interval":60,"is_change_button_click_only_when_fan":true,"ad_layout_file":"ads_native_1_button_2_info_3_media"}</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>ad_native_language_top</key>-->
+<!--    <value>{"ad_name":"native_language_top","ad_id":"ca-app-pub-3940256099942544/2247696110","is_show":false,"max_preload":2,"is_auto_reload_timer":false,"ad_reload_timer_interval":60,"is_change_button_click_only_when_fan":true,"ad_layout_file":"ads_native_1_media_2xxxinfovsbutton"}</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>ad_native_home_app_setting</key>-->
+<!--    <value>{"ad_name":"ad_native_app_setting","ad_id":"ca-app-pub-5922524692564542/4378837208","is_show":true,"max_preload":1,"is_auto_reload_timer":true,"ad_reload_timer_interval":30,"is_change_button_click_only_when_fan":true,"ad_layout_file":"ads_native_1_media_2xxxinfovsbutton"}</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>ad_native_home_bot_setting</key>-->
+<!--    <value>{"ad_name":"native_customization","ad_id":"ca-app-pub-5922524692564542/8600282078","is_show":true,"max_preload":3,"is_auto_reload_timer":true,"ad_reload_timer_interval":60,"is_change_button_click_only_when_fan":true,"ad_layout_file":"ads_native_1_info_2_button"}</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>ad_native_home_history</key>-->
+<!--    <value>{"ad_name":"native_history","ad_id":"ca-app-pub-5922524692564542/3981448003","is_show":true,"max_preload":2,"is_auto_reload_timer":false,"ad_reload_timer_interval":30,"is_change_button_click_only_when_fan":true,"ad_layout_file":"ads_native_xxxinfo_button"}</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>ad_native_welcomeback</key>-->
+<!--    <value>{"ad_name":"ad_native_welcomeback","ad_id":"","is_show":false,"max_preload":1,"is_auto_reload_timer":false,"ad_reload_timer_interval":60,"is_change_button_click_only_when_fan":true,"ad_layout_file":"ads_native_1_media_2xxxinfovsbutton"}</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>ad_native_app_update</key>-->
+<!--    <value>{"ad_name":"ad_native_app_update","ad_id":"","is_show":false,"max_preload":1,"is_auto_reload_timer":false,"ad_reload_timer_interval":60,"is_change_button_click_only_when_fan":true,"ad_layout_file":"ads_native_1_media_2xxxinfovsbutton"}</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>ad_native_feedback</key>-->
+<!--    <value>{-->
+<!--  "ad_name": "ad_native_feedback",-->
+<!--  "ad_id": "ca-app-pub-3940256099942544/2247696110",-->
+<!--  "is_show": true,-->
+<!--  "max_preload": 1,-->
+<!--  "is_auto_reload_timer": false,-->
+<!--  "ad_reload_timer_interval": 60,-->
+<!--  "is_change_button_click_only_when_fan": true,-->
+<!--  "ad_layout_file": "ads_native_1_media_2xxxinfovsbutton"-->
+<!--}</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>ad_native_exit</key>-->
+<!--    <value>{"ad_name":"ad_native_exit","ad_id":"ca-app-pub-3940256099942544/2247696110","is_show":true,"max_preload":1,"is_auto_reload_timer":false,"ad_reload_timer_interval":60,"is_change_button_click_only_when_fan":true,"ad_layout_file":"ads_native_1_media_2xxxinfovsbutton"}</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>screen_language_start</key>-->
+<!--    <value>{"screen_name":"language_start","is_show_012":0,"is_hide_navi_menu":false,"layout_name":"activity_language_start","next_screen_default":"intro","ad_placement":"bottom","ad_type":"native_advance","lang_c_pos":1,"lang_p_pos":7}</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>screen_intro</key>-->
+<!--    <value>{"screen_name":"intro","is_show_012":2,"is_hide_navi_menu":true,"layout_name":"not_implement_yet","next_screen_default":"home","is_slide1_show":true,"is_slide1_ad_show":true,"is_slide2_show":true,"is_slide2_ad_show":true,"is_slide3_show":false,"is_slide3_ad_show":false,"is_slide4_show":false,"is_slide4_ad_show":false,"distance_button_next_vs_ad":10,"font_size":20}</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>screen_app_update</key>-->
+<!--    <value>{"screen_name":"app_update_activity or dialog","is_show_012":2,"is_hide_navi_menu":true,"layout_name":"not implement yet","next_screen_default":"home"}</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>screen_splash</key>-->
+<!--    <value>{"screen_name":"splash","is_show_012":2,"is_hide_navi_menu":true,"layout_name":"not implement yet","next_screen_default":"language"}</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>screen_welcomeback</key>-->
+<!--    <value>{-->
+<!--  "screen_name": "screen_welcomeback dialog or activity",-->
+<!--  "is_show_012": 2,-->
+<!--  "is_hide_navi_menu": false,-->
+<!--  "layout_name": "not implement yet",-->
+<!--  "next_screen_default": "home"-->
+<!--}</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>screen_home</key>-->
+<!--    <value>{"screen_name":"home","is_hide_navi_menu":false,"ad_placement":"bottom","ad_type":"banner_adaptive"}</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>screen_feedback</key>-->
+<!--    <value>{"screen_name":"feedback","type":"bottom_sheet","fb_email":"","fb_tittle":"Comment feedback app AMA Assistant."}</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>appopen_resume</key>-->
+<!--    <value>true</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>collap_home</key>-->
+<!--    <value>true</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>inter_splash</key>-->
+<!--    <value>true</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>interstitial_from_start</key>-->
+<!--    <value>15</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>interval_between_interstitial</key>-->
+<!--    <value>20</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>native_home</key>-->
+<!--    <value>false</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>native_intro</key>-->
+<!--    <value>true</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>native_language</key>-->
+<!--    <value>true</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>native_settings</key>-->
+<!--    <value>true</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>open_splash</key>-->
+<!--    <value>true</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>rate_aoa_inter_splash</key>-->
+<!--    <value>10_90</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>app_config</key>-->
+<!--    <value>{"is_show_wellcomeback_screen":false,"welcomeback_tittle":"Hello!!!\nwelcome back to AMA Assistant\nplease setting in remote config!","app_update_diaglog_or_activity":"activity","api_url":"https://hghpq6wzrd.c1.hn.apigw.bfcplatform.vn/v1/","api_token":"Bearer app-jpPzQrhLjwmPMuoRHRO5k7Ws"}</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>version_update</key>-->
+<!--    <value>{"lastest_version":"1.1.1","lastest_update_content":"\nFix minor bugs to improve users' experience.","must_update":[],"should_update":["1.1.0"],"no_update":[]}</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>ad_banner_adaptive_test</key>-->
+<!--    <value>{"ad_name":"ad_banner_adaptive_home_chat(top)","ad_id":"ca-app-pub-3940256099942544/9214589741","is_show":false,"is_auto_reload_timer":true,"ad_reload_timer_interval":30}</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>ad_banner_collapsible_home</key>-->
+<!--    <value>{"ad_name":"ad_banner_collapsible_home(bottom)","ad_id":"ca-app-pub-5922524692564542/2455381444","is_show":true,"is_auto_reload_timer":true,"ad_reload_timer_interval":30}</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>ad_appopen_resume</key>-->
+<!--    <value>{"ad_name":"appopen_resume","ad_id":"ca-app-pub-5922524692564542/8318082219","is_show":true}</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>ad_config_all</key>-->
+<!--    <value>{"ad_context":"default","mediation_network":"admob","is_show":false,"inter_interval":15,"inter_start_interval":3}</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>ad_splash</key>-->
+<!--    <value>{"ad_name":"splash","ad_id_appopen":"ca-app-pub-5922524692564542/4459394538","ad_id_inter":"ca-app-pub-5922524692564542/7439150784","is_show_app_open":true,"is_show_inter":true,"max_loading_time":15,"appopen_rate":5}</value>-->
+<!--  </entry>-->
+<!--  <entry>-->
+<!--    <key>ad_inter_intro</key>-->
+<!--    <value>{"ad_name":"ad_inter_intro","ad_id":"ca-app-pub-5922524692564542/4113309944","is_show":true,"is_preload_after_show_ad":false,"is_show_next_activity_before_ad":true}</value>-->
+<!--  </entry>-->
 </defaults>
