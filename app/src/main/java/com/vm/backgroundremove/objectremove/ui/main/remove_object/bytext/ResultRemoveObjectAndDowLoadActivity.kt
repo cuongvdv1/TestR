@@ -70,7 +70,7 @@ class ResultRemoveObjectAndDowLoadActivity :
                                 resource: Bitmap, transition: Transition<in Bitmap>?
                             ) {
 
-                                 bitmap = resource
+                                bitmap = resource
                                 binding.ivRmvObject.setImageFromBitmap(bitmap!!)
 
                             }
@@ -81,8 +81,8 @@ class ResultRemoveObjectAndDowLoadActivity :
                         })
                 }
                 binding.ivBeforeAfter.tap {
-                    Log.d("YEUTRINHLAMLUON",  historyModel?.imageCreate.toString())
-                    val uriImage = Uri.parse( historyModel?.imageCreate.toString())
+                    Log.d("YEUTRINHLAMLUON", historyModel?.imageCreate.toString())
+                    val uriImage = Uri.parse(historyModel?.imageCreate.toString())
                     binding.ivRmvObject.toggleImage(bitmap!!, uriImage)
                 }
             }
@@ -93,15 +93,14 @@ class ResultRemoveObjectAndDowLoadActivity :
             val imageUrl = historyModel?.imageResult?.takeIf { it.isNotEmpty() }
 
             if (imageUrl != null) {
-                downloadImageFromUrl(this, imageUrl)
-                val intent = Intent(this, ResultRemoveObjectActivity::class.java)
-                intent.putExtra(Constants.INTENT_RESULT,historyModel)
-                dialog.show()
+                dialog.setOnDismissListener {
+                    downloadImageFromUrl(this, imageUrl)
+                }
                 dialog.showWithTimeout(3000)
-                dialog.dismiss()
-                startActivity(intent)
-                finish()
+            } else {
+                Log.d("TAG_IMAGE", "Image URL is null or empty")
             }
+
         }
     }
 
@@ -165,7 +164,15 @@ class ResultRemoveObjectAndDowLoadActivity :
                 }
 
                 CoroutineScope(Dispatchers.Main).launch {
-                Toast.makeText(context, "Image downloaded successfully", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(
+                        this@ResultRemoveObjectAndDowLoadActivity,
+                        ResultRemoveObjectActivity::class.java
+                    )
+                    intent.putExtra(Constants.INTENT_RESULT, historyModel)
+                    startActivity(intent)
+                    finish()
+                    Toast.makeText(context, "Image downloaded successfully", Toast.LENGTH_SHORT)
+                        .show()
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

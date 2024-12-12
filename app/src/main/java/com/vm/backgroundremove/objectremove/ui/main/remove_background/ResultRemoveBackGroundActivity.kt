@@ -238,9 +238,7 @@ class ResultRemoveBackGroundActivity :
     private fun saveImageWithBackground() {
         binding.cvRmvBg.isDrawingCacheEnabled = true
         val bitmapWithBackground = Bitmap.createBitmap(binding.cvRmvBg.drawingCache)
-        binding.cvRmvBg.isDrawingCacheEnabled = false // Tắt chế độ vẽ để giải phóng bộ nhớ
-
-        // Lưu bitmap này vào thư viện như đã làm trước đó
+        binding.cvRmvBg.isDrawingCacheEnabled = false
         downloadImage(bitmapWithBackground)
     }
     fun clearBackground() {

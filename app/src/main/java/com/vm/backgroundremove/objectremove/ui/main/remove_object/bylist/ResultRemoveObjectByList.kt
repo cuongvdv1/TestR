@@ -118,13 +118,14 @@ class ResultRemoveObjectByList :
                 val imageUrl = historyModel?.imageResult?.takeIf { it.isNotEmpty() }
 
                 if (imageUrl != null) {
-                    downloadImageFromUrl(this, imageUrl)
-                    val intent = Intent(this, ResultRemoveObjectActivity::class.java)
-                    intent.putExtra(Constants.INTENT_RESULT,historyModel)
-                    dialog.show()
-                    dialog.showWithTimeout(3000)
-                    startActivity(intent)
-                    finish()
+                    if (imageUrl != null) {
+                        dialog.setOnDismissListener {
+                            downloadImageFromUrl(this, imageUrl)
+                        }
+                        dialog.showWithTimeout(3000)
+                    } else {
+                        Log.d("TAG_IMAGE", "Image URL is null or empty")
+                    }
 
                 }
 
@@ -277,6 +278,10 @@ class ResultRemoveObjectByList :
                 }
 
                 CoroutineScope(Dispatchers.Main).launch {
+                    val intent = Intent(this@ResultRemoveObjectByList, ResultRemoveObjectActivity::class.java)
+                    intent.putExtra(Constants.INTENT_RESULT,historyModel)
+                    startActivity(intent)
+                    finish()
                     Toast.makeText(context, "Image downloaded successfully", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
