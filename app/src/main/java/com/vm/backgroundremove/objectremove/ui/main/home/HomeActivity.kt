@@ -39,6 +39,32 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, ProjectViewModel>(), Dial
     override fun bindView() {
         super.bindView()
 
+        projectAdapter.setOonDeleteClick {
+            viewModel.deleteHistory(it)
+            jobProcess = lifecycleScope.launch {
+                lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.arrProcess.collect { arrProcess ->
+                        if (arrProcess.size == 0){
+                            binding.ivEmpty.visibility = View.VISIBLE
+                            binding.tvEmpty.visibility = View.VISIBLE
+                        }else{
+
+                            binding.ivEmpty.visibility = View.GONE
+                            binding.tvEmpty.visibility = View.GONE
+                            binding.rcvRecentProjects.visibility = View.VISIBLE
+                        }
+                        Log.d("HomeActivity", "Data size: ${arrProcess.size}")
+                        if(arrProcess.size > 3){
+                            projectAdapter.submitList(arrProcess.subList(0,3))
+                        }else{
+                            projectAdapter.submitList(arrProcess)
+                        }
+                    }
+                }
+            }
+
+        }
+
 
         projectAdapter.setOnViewMoreClick {
             if (it.isSuccess()) {

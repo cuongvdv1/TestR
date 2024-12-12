@@ -19,8 +19,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="back_process"
-            android:padding="16dp"
-            android:src="@drawable/ic_home_on"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="24dp"
+            android:src="@drawable/ic_home_process"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -31,7 +32,7 @@
             android:layout_height="24dp"
             android:layout_marginEnd="16dp"
             android:contentDescription="@string/ic_clock"
-            android:src="@drawable/ic_history"
+            android:src="@drawable/ic_stop_watch"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -52,8 +53,8 @@
             style="@style/CustomText_color_37414B_26"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="17dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="16dp"
+            android:lineHeight="38dp"
             android:minLines="2"
             android:text="@string/your_photo_is_nbeing_remove_bg"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,14 +62,15 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctl_your_request"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="-38dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/bg_border_transparent_8"
             android:backgroundTint="#3362B0F9"
-            android:paddingVertical="6dp"
-            app:layout_constraintBottom_toBottomOf="@id/animationBird"
+            android:paddingVertical="7dp"
+            app:layout_constraintBottom_toBottomOf="@+id/animationBird"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/animationBird"
             app:layout_constraintTop_toTopOf="@+id/animationBird">
@@ -85,10 +87,10 @@
 
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont700
                 android:id="@+id/tvNumberPosition"
+                style="@style/CustomText_color_37414B_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
-                style="@style/CustomText_color_37414B_14"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvYourRequest" />
@@ -100,7 +102,7 @@
             android:id="@+id/animationBird"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="14dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_your_new_look"
             app:lottie_autoPlay="true"
@@ -108,17 +110,19 @@
             app:lottie_loop="true" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_estimate_time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="-80dp"
+            android:layout_marginStart="-75dp"
             android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/bg_border_transparent_8"
             android:backgroundTint="#3362B0F9"
-            android:paddingVertical="6dp"
+            android:paddingVertical="7dp"
             app:layout_constraintBottom_toBottomOf="@id/animationClock"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/animationClock"
-            app:layout_constraintTop_toTopOf="@+id/animationClock">
+            app:layout_constraintTop_toBottomOf="@+id/ctl_your_request">
 
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
                 android:id="@+id/tvTimeEstimated"
@@ -126,17 +130,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/time_estimated_until_done"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont700
                 android:id="@+id/tvTimeEst"
+                style="@style/CustomText_color_37414B_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
-                style="@style/CustomText_color_37414B_14"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTimeEstimated" />
@@ -162,13 +165,39 @@
             style="@style/CustomText_color_586674_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="17dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20.5dp"
             android:text="@string/your_new_look_will_be_available_soon"
             android:textColor="#586674"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_your_photo" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_your_photo" />
+        <com.vm.backgroundremove.objectremove.ui.main.progress.SeekbarProgress
+            android:id="@+id/pr_Indicator"
+            android:layout_width="match_parent"
+            android:layout_height="21dp"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="20dp"
+            app:indicatorColor="@color/color_FFA637"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="37dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl_estimate_time"
+            app:trackColor="@color/trackColor" />
+
+        <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont700
+            android:id="@+id/txt_progress"
+            style="@style/CustomText_color_37414B_28"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="0%"
+            android:textSize="38sp"
+            app:layout_constraintEnd_toEndOf="@id/pr_Indicator"
+            app:layout_constraintStart_toStartOf="@id/pr_Indicator"
+            app:layout_constraintTop_toBottomOf="@id/pr_Indicator" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -205,32 +234,8 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.vm.backgroundremove.objectremove.ui.main.progress.SeekbarProgress
-        android:id="@+id/pr_Indicator"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_centerInParent="true"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="16dp"
-        app:indicatorColor="@color/color_FFA637"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cnViewProcessGenerate"
-        app:trackColor="@color/trackColor" />
 
-    <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont700
-        android:id="@+id/txt_progress"
-        style="@style/CustomText_color_37414B_28"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:gravity="center"
-        android:includeFontPadding="false"
-        android:text="0%"
-        android:textSize="38sp"
-        app:layout_constraintEnd_toEndOf="@id/pr_Indicator"
-        app:layout_constraintStart_toStartOf="@id/pr_Indicator"
-        app:layout_constraintTop_toBottomOf="@id/pr_Indicator" />
+
 
     <FrameLayout
         android:id="@+id/fl_ad_setting"

@@ -61,6 +61,28 @@ class ProjectsActivity : BaseActivity<ActivityYourProjectsBinding, ProjectViewMo
 
     override fun bindView() {
         super.bindView()
+        projectAdapter.setOonDeleteClick {
+            viewModel.deleteHistory(it)
+            jobProcess = lifecycleScope.launch {
+                lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.arrProcess.collect { arrProcess ->
+                        if (arrProcess.size == 0){
+                            binding.ivEmpty.visibility = View.VISIBLE
+                            binding.rcvHistory.visibility = View.GONE
+                            binding.clEmpty.visibility = View.VISIBLE
+                            binding.tvEmpty.visibility = View.VISIBLE
+                        }else{
+                            binding.ivEmpty.visibility = View.GONE
+                            binding.tvEmpty.visibility = View.GONE
+
+                            binding.clEmpty.visibility = View.GONE
+                            binding.rcvHistory.visibility = View.VISIBLE
+                        }
+                        projectAdapter.submitList(arrProcess)
+                    }
+                }
+            }
+        }
         projectAdapter.setOnViewMoreClick {
             if (it.isSuccess()) {
                 Log.d("YEUTRINHLAMLUON",it.type)

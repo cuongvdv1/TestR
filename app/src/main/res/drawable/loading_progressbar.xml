@@ -6,7 +6,7 @@
                 android:width="20dp"
                 android:height="20dp"
                 android:thickness="4dp" />
-            <solid android:color="#FFFFFF" />
+            <solid android:color="#D9D9D9" />
         </shape>
     </item>
     <item android:id="@android:id/progress">
@@ -24,8 +24,8 @@
                     android:thickness="4dp" />
                 <gradient
                     android:angle="45"
-                    android:endColor="#FFFFFF"
-                    android:startColor="#40E99A"
+                    android:endColor="#FF964B"
+                    android:startColor="#FECE51"
                     android:type="sweep"
                     android:useLevel="false" />
             </shape>
