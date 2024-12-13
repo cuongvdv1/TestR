@@ -366,9 +366,6 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, BaseViewModel>() {
             }
         }
 
-        val intent = Intent(this@IntroActivity, nextScreen)
-        startActivity(intent)
-        finishAffinity()
     }
 
 

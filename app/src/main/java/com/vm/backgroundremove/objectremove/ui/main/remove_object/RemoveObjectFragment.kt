@@ -3,6 +3,7 @@ package com.vm.backgroundremove.objectremove.ui.main.remove_object
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -57,7 +58,8 @@ class RemoveObjectFragment : Fragment() {
             viewModel.setText(text.toString())
             viewModel.triggerRemove()
         }
-
+        val maxLengthFilter = InputFilter.LengthFilter(25)
+        binding.edRmvObject.filters = arrayOf(maxLengthFilter)
         binding.clDetecting.tap {
             viewModel.triggerRemoveByList()
         }
