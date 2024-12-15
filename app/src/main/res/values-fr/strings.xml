@@ -80,7 +80,7 @@
     <string name="iv_cancel">iv annuler</string>
     <string name="iv_selected">iv sélectionné</string>
     <string name="remove_nbackground">Supprimer\nArrière-plan</string>
-    <string name="this_action_may_contain_advertising">Cette action peut contenir de la publicité.</string>
+    <string name="this_action_may_contain_advertising">Cette action peut contenir de la publicité...</string>
     <string name="language">Langue</string>
     <string name="i_want_to_remove_the_background_from_any_image_with_precision">Je veux supprimer l\'arrière-plan de n\'importe quelle image avec précision.</string>
     <string name="i_want_to_erase_unwanted_objects_from_photos_for_a_clean_natural_look">Je veux effacer les objets indésirables des photos pour un rendu propre et naturel.</string>

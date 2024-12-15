@@ -73,27 +73,43 @@ class SettingActivity : BaseActivity<ActivitySettingBinding, BaseViewModel>(), D
         )
 
         binding.ctlHome.tap {
-            val intent = Intent(this@SettingActivity, HomeActivity::class.java)
-            startActivity(intent)
+            if (!check) {
+                check = true
+                val intent = Intent(this@SettingActivity, HomeActivity::class.java)
+                startActivity(intent)
+                finish()
+                resetCheckWithDelay()
+            }
+
         }
 
 
         binding.ctlYourProjects.tap {
-            val intent = Intent(this, ProjectsActivity::class.java)
-            startActivity(intent)
-            finish()
+            if (!check) {
+                check = true
+                val intent = Intent(this, ProjectsActivity::class.java)
+                startActivity(intent)
+                finish()
+                resetCheckWithDelay()
+            }
+
         }
 
         binding.languageSetting.tap {
-            val intent = Intent(this, LanguageSettingActivity::class.java)
-            startActivity(intent)
-            finish()
+            if (!check) {
+                check = true
+                val intent = Intent(this, LanguageSettingActivity::class.java)
+                startActivity(intent)
+                resetCheckWithDelay()
+            }
+
         }
 
         binding.shareSettings.tap {
             if (!check) {
                 check = true
                 share()
+                resetCheckWithDelay()
             }
         }
 
@@ -101,6 +117,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding, BaseViewModel>(), D
             if (!check) {
                 check = true
                 showRateDialog()
+                resetCheckWithDelay()
             }
         }
 
@@ -135,10 +152,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding, BaseViewModel>(), D
 
                 }
 
-                // Đặt lại biến sau khi hoàn thành hành động
-                Handler(Looper.getMainLooper()).postDelayed({
-                    check = false
-                }, 1000) // Thời gian chờ 500ms, điều chỉnh nếu cần
+                resetCheckWithDelay()
 
                 //disable ad resume for share
                 AppOpenResumeManager.setEnableAdsResume(false)
@@ -154,6 +168,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding, BaseViewModel>(), D
             )
             startActivity(intent)
             //disable ad resume for policy
+            resetCheckWithDelay()
             AppOpenResumeManager.setEnableAdsResume(false)
         }
 
@@ -164,7 +179,11 @@ class SettingActivity : BaseActivity<ActivitySettingBinding, BaseViewModel>(), D
         }
 
     }
-
+    private fun resetCheckWithDelay() {
+        binding.root.postDelayed({
+            check = false
+        }, 1000)
+    }
     private fun share() {
         check = true
         val intentShare = Intent(Intent.ACTION_SEND)

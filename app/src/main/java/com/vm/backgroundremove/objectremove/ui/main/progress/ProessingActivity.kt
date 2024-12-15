@@ -47,6 +47,7 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
     private var imageCreate: String? = null
     private var type_process : String? = null
     private var listOther : String? =null
+    private var listOtherSelected : String? =null
     private var keyRemove : String? =null
 
     override fun createBinding(): ActivityProcessBinding {
@@ -66,7 +67,7 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
             finish()
         }
         type_process = intent.getStringExtra("type_process")
-
+        listOtherSelected = intent.getStringExtra("listOtherSelected")
         if (type_process == "remove_obj_by_list"){
         binding.tvYourPhoto.text = getString(R.string.your_photo_is_being_remove_object)
         }else if (type_process == "remove_obj_by_text"){
@@ -207,6 +208,9 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
                                             val intent =
                                                 Intent(this@ProessingActivity, RemoveObjectByListActivity::class.java)
                                             intent.putExtra(Constants.INTENT_RESULT, processModel)
+
+                                            intent.putExtra("listOther",listOther)
+                                            intent.putExtra("listOtherSelected",listOtherSelected)
 //                                            intent.putStringArrayListExtra("item_list", arrayListOf(processModel))
                                             startActivity(intent)
                                             finish()
@@ -220,9 +224,10 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
                                             viewModel.updateNumProcessing()
                                             viewModel.cancelProcessListener()
                                             val intent =
-                                                Intent(this@ProessingActivity, ResultRemoveObjectByList::class.java)
+                                                Intent(this@ProessingActivity, RemoveObjectByListActivity::class.java)
                                             intent.putExtra(Constants.INTENT_RESULT, processModel)
                                             intent.putExtra("listOther",listOther)
+                                            intent.putExtra("listOtherSelected",listOtherSelected)
                                             startActivity(intent)
                                             finish()
                                             Log.d("ProcessActivity", "SUCCEEDED  $processModel")

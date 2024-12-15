@@ -81,7 +81,7 @@
 
 
     <string name="remove_nbackground">Remove\nBackground</string>
-    <string name="this_action_may_contain_advertising">This action may contain advertising.</string>
+    <string name="this_action_may_contain_advertising">This action may contain advertising...</string>
     <string name="language">Language</string>
     <string name="i_want_to_remove_the_background_from_any_image_with_precision">I want to remove the background from any image with precision.</string>
     <string name="i_want_to_erase_unwanted_objects_from_photos_for_a_clean_natural_look">I want to erase unwanted objects from photos for a clean, natural look.</string>
@@ -153,4 +153,7 @@
     <string name="are_you_sure_you_want_to_exit">Are you sure you want to exit?</string>
     <string name="exit_app">Exit App?</string>
     <string name="your_photos">Your Photos</string>
+    <string name="ok">OK</string>
+    <string name="choose_option">Choose option</string>
+    <string name="upload_timeout_please_try_again">Upload timeout. Please try again.</string>
 </resources>

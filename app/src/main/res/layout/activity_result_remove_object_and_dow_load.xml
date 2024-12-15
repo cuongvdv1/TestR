@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_F0F8FF"
     tools:context=".ui.main.remove_object.bytext.ResultRemoveObjectAndDowLoadActivity">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ctl_remove_bg"
@@ -31,6 +32,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintBottom_toBottomOf="parent"
             android:text="@string/object_remove"
             />
         <ImageView
