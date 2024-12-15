@@ -153,4 +153,7 @@
     <string name="are_you_sure_you_want_to_exit">Are you sure you want to exit?</string>
     <string name="exit_app">Exit App?</string>
     <string name="your_photos">Your Photos</string>
+    <string name="ok">OK</string>
+    <string name="choose_option">Choose option</string>
+    <string name="upload_timeout_please_try_again">Upload timeout. Please try again.</string>
 </resources>

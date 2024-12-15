@@ -27,50 +27,95 @@ class RemoveObjectByListFragment : Fragment() {
     ): View {
         binding = FragmentRemoveObjectByListBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(requireActivity())[RemoveBackGroundViewModel::class.java]
-        binding.tvText.isEnabled = false
+
+        adapter = RemoveObjectAdapter(emptyList()) // Khởi tạo với danh sách rỗng
+        binding.rlOther.adapter = adapter
+
         setupRecyclerView()
-        listClick()
+        setupListeners()
+
+
+        return binding.root
+    }
+
+    private fun setupListeners() {
+        updateEditTextState()
+
+        // Nút Remove
         binding.btnRemoveByList.tap {
+
             val text = binding.edRmvList.text.toString()
             val textList = adapter.getSelectedItems().toString()
             val textData = text + textList
-            if (textData.isEmpty()) {
-                return@tap
-            }
-            viewModel.setTextByListSelected(textData)
+            if (textData.isEmpty()) return@tap
+            val disabledItems = viewModel.itemDisabledState.value.orEmpty()
+            val updatedSelectedItems = adapter.mergeSelectionsWithDisabled(disabledItems)
+
+
+            // Gộp dữ liệu từ EditText và danh sách được chọn
+            val finalData = text + updatedSelectedItems.joinToString(", ")
+
+            if (finalData.isEmpty()) return@tap
+
+            // Cập nhật dữ liệu cho ViewModel
+            viewModel.setTextByListSelected(updatedSelectedItems.toString())
+            viewModel.setTextByList(text)
             viewModel.triggerRemoveByListSelected()
         }
-        val maxLengthFilter = InputFilter.LengthFilter(25)
-        binding.edRmvList.filters = arrayOf(maxLengthFilter)
+
+
         binding.edRmvList.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 updateRemoveButtonState()
                 if (s.isNullOrEmpty()) {
-                    binding.edRmvList.setBackgroundResource(R.drawable.bg_editext_selected)
+                    adapter.setSelectionEnabled(true)
+                    binding.rlOther.alpha = 1f
                 } else {
-                    binding.edRmvList.setBackgroundResource(R.drawable.bg_border_white_16)
+                    adapter.setSelectionEnabled(false)
+                    adapter.clearSelections()
+                    binding.rlOther.alpha = 0.5f
                 }
             }
 
             override fun afterTextChanged(s: Editable?) {}
         })
-
-        return binding.root
     }
+
 
     private fun setupRecyclerView() {
         viewModel.itemListObject.observe(requireActivity()) { listObject ->
             Log.d("RemoveObjectByListFragment", "$listObject")
-            adapter = RemoveObjectAdapter(listObject)
 
-            // Lắng nghe sự thay đổi của danh sách
+            if (listObject.toString().startsWith("[[")){
+                val convertList = convertOtherToList(listObject.toString())
+                adapter = RemoveObjectAdapter(convertList)
+            }else{
+                adapter = RemoveObjectAdapter(listObject)
+            }
+
+
+            viewModel.itemDisabledState.value?.let { disabledItems ->
+                adapter.setDisabledItems(disabledItems)
+            }
             adapter.setOnSelectionChangedListener { selectedCount ->
                 updateRemoveButtonState()
+                if (selectedCount == 0){
+                    binding.edRmvList.isEnabled = true
+                    binding.edRmvList.alpha = 1f
+                }else{
+                    binding.edRmvList.isEnabled = false
+                    binding.edRmvList.alpha = 0.5f
+                }
             }
 
             binding.rlOther.adapter = adapter
+        }
+        // Quan sát danh sách itemDisabledState
+        viewModel.itemDisabledState.observe(viewLifecycleOwner) { disabledItems ->
+            Log.d("TAG_MODEL", "disabledItems $disabledItems")
+            adapter.setDisabledItems(disabledItems) // Truyền danh sách String vào Adapter
         }
     }
 
@@ -86,16 +131,17 @@ class RemoveObjectByListFragment : Fragment() {
             binding.btnRemoveByList.isEnabled = true
         }
     }
+    private fun updateEditTextState() {
+        val selectedItemsCount = adapter.getSelectedItems().size
+        val isEditTextEmpty = binding.edRmvList.text.isNullOrEmpty()
 
-
-    private fun listClick() {
-        binding.tvList.tap {
-            binding.tvText.setTextColor(Color.parseColor("#8F9DAA"))
-            binding.tvList.setTextColor(Color.parseColor("#FF6846"))
-            binding.ctlRmvObjText.visibility = View.GONE
-            binding.ctlRmvObjList.visibility = View.VISIBLE
-        }
+        binding.edRmvList.isEnabled = selectedItemsCount == 0
+        binding.edRmvList.alpha = if (selectedItemsCount > 0) 0.5f else 1f
+        binding.rlOther.alpha = if (isEditTextEmpty) 1f else 0.5f
     }
-
+    private fun convertOtherToList(other: String): List<String> {
+        val cleanedString = other.removePrefix("[[").removeSuffix("]]")
+        return cleanedString.split(",").map { it.trim() }
+    }
 
 }

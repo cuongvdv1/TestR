@@ -16,6 +16,7 @@ import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.api.response.UpLoadImagesResponse
 import com.vm.backgroundremove.objectremove.databinding.ActivityRemoveObjectBinding
+import com.vm.backgroundremove.objectremove.dialog.ChooseOptionDialog
 import com.vm.backgroundremove.objectremove.dialog.DetectingDialog
 import com.vm.backgroundremove.objectremove.dialog.ProcessingDialog
 import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingActivity
@@ -36,14 +37,12 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
 
 class RemoveObjectActivity :
     BaseActivity<ActivityRemoveObjectBinding, RemoveBackGroundViewModel>() {
     private lateinit var processingDialog: DetectingDialog
     private lateinit var processingDialog1: ProcessingDialog
+    private lateinit var chooseOptionDialog: ChooseOptionDialog
     override fun createBinding() = ActivityRemoveObjectBinding.inflate(layoutInflater)
 
 
@@ -64,10 +63,13 @@ class RemoveObjectActivity :
         }
         processingDialog = DetectingDialog(this@RemoveObjectActivity)
         processingDialog1 = ProcessingDialog(this@RemoveObjectActivity)
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fl_rm_object, RemoveObjectFragment()).commit()
+        chooseOptionDialog = ChooseOptionDialog(this)
+        chooseOptionDialog.show()
+
+
         val imgPathGallery = intent.getStringExtra(Constants.IMG_GALLERY_PATH)
         val imagePathCamera = intent.getStringExtra(Constants.IMG_CAMERA_PATH)
+
         if (imgPathGallery != null) {
             getBitmapFrom(this, imgPathGallery) {
                 binding.ivRmvObject.setImageFromBitmap(it)
@@ -97,42 +99,55 @@ class RemoveObjectActivity :
                     } else if (imagePathCamera != null) {
                         startDataGenerate(response, imagePathCamera)
                     }
-                }else{
+                } else {
                     processingDialog1.dismiss()
                     processingDialog.dismiss()
-                    Toast.makeText(this, "Failed to process the image. Please try again.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        "Failed to process the image. Please try again.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@observe
                 }
 
             }
         }
-        viewModel.triggerRemoveByList.observe(this) {
-            if (imgPathGallery != null) {
-                getBitmapFrom(this, imgPathGallery) {
-                    uploadImageRemoveBackgroundByList(it, "")
-                }
-            } else if (imagePathCamera != null) {
-                getBitmapFrom(this, imagePathCamera) {
-                    uploadImageRemoveBackgroundByList(it, "")
-                }
-            }
-
-            viewModel.upLoadImage.observe(this) { response ->
-                if (response.task_id.isNotBlank() && response.cf_url.isNotBlank() && response.success) {
+        chooseOptionDialog.init(object : ChooseOptionDialog.OnOptionObject {
+            override fun send(selectedOption: Int) {
+                if (selectedOption == 1) {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fl_rm_object, RemoveObjectFragment()).commit()
+                } else {
                     if (imgPathGallery != null) {
-                        startDataGenerateByList(response, imgPathGallery)
+                        getBitmapFrom(this@RemoveObjectActivity, imgPathGallery) {
+                            uploadImageRemoveBackgroundByList(it, "")
+                        }
                     } else if (imagePathCamera != null) {
-                        startDataGenerateByList(response, imagePathCamera)
+                        getBitmapFrom(this@RemoveObjectActivity, imagePathCamera) {
+                            uploadImageRemoveBackgroundByList(it, "")
+                        }
                     }
-                }else{
-                    processingDialog.dismiss()
-                    Toast.makeText(this, "Failed to process the image. Please try again.", Toast.LENGTH_SHORT).show()
-                    return@observe
+
+                    viewModel.upLoadImage.observe(this@RemoveObjectActivity) { response ->
+                        if (response.task_id.isNotBlank() && response.cf_url.isNotBlank() && response.success) {
+                            if (imgPathGallery != null) {
+                                startDataGenerateByList(response, imgPathGallery)
+                            } else if (imagePathCamera != null) {
+                                startDataGenerateByList(response, imagePathCamera)
+                            }
+                        } else {
+                            processingDialog.dismiss()
+                            Toast.makeText(
+                                this@RemoveObjectActivity,
+                                "Failed to process the image. Please try again.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return@observe
+                        }
+                    }
                 }
-
-
             }
-        }
+        })
 
     }
 
@@ -143,7 +158,7 @@ class RemoveObjectActivity :
         modelGenerate.task_id = uploadResponse.task_id
         modelGenerate.imageCreate = Constants.ITEM_CODE_RMOBJECT
 //        val numberGenerate = limitNumber.toInt() - isCountGenerate
-        if (modelGenerate.cf_url != null){
+        if (modelGenerate.cf_url != null) {
             startActivity(
                 Intent(
                     this@RemoveObjectActivity,
@@ -181,6 +196,7 @@ class RemoveObjectActivity :
             })
         finish()
     }
+
     private fun uploadImageRemoveBackgroundByList(bitMap: Bitmap, objectRemovelist: String) {
         processingDialog.show()
         CoroutineScope(Dispatchers.IO).launch {
@@ -235,6 +251,7 @@ class RemoveObjectActivity :
             }
         }
     }
+
     private fun uploadImageRemoveBackground(bitMap: Bitmap, objectRemovelist: String) {
         processingDialog1.show()
         CoroutineScope(Dispatchers.IO).launch {

@@ -1,11 +1,13 @@
 package com.vm.backgroundremove.objectremove.ui.main.remove_object.bylist
 
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
@@ -23,6 +25,7 @@ import com.vm.backgroundremove.objectremove.a8_app_utils.parcelable
 import com.vm.backgroundremove.objectremove.api.response.UpLoadImagesResponse
 import com.vm.backgroundremove.objectremove.database.HistoryModel
 import com.vm.backgroundremove.objectremove.databinding.ActivityRemoveObjectByListBinding
+import com.vm.backgroundremove.objectremove.dialog.LoadingDialog
 import com.vm.backgroundremove.objectremove.dialog.ProcessingDialog
 import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingActivity
 import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingRefineActivity
@@ -30,6 +33,7 @@ import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBack
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity.Companion.KEY_GENERATE
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity.Companion.KEY_REMOVE
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
+import com.vm.backgroundremove.objectremove.ui.main.remove_object.ResultRemoveObjectActivity
 import com.vm.backgroundremove.objectremove.ui.main.your_projects.viewModel.ProjectViewModel
 import com.vm.backgroundremove.objectremove.util.Utils
 import com.vm.backgroundremove.objectremove.util.getBitmapFrom
@@ -49,9 +53,16 @@ class RemoveObjectByListActivity :
     BaseActivity<ActivityRemoveObjectByListBinding, RemoveBackGroundViewModel>() {
     private var historyModel: HistoryModel? = null
     private var type = ""
+    private var listOtherSelected: String? = null
+    private var listOtherAfterRemove: String? = null
+    private var listOtherByIntent =""
+
+    private lateinit var dialog: LoadingDialog
+    var listOther2 = listOf<String>()
     private var bitmap: Bitmap? = null
     private lateinit var processingDialog: ProcessingDialog
-//    private lateinit var projectViewModel: ProjectViewModel
+
+    //    private lateinit var projectViewModel: ProjectViewModel
     override fun createBinding(): ActivityRemoveObjectByListBinding {
         return ActivityRemoveObjectByListBinding.inflate(layoutInflater)
     }
@@ -62,22 +73,57 @@ class RemoveObjectByListActivity :
 
     override fun initView() {
         super.initView()
+        dialog= LoadingDialog(this)
 //        projectViewModel = viewModel<ProjectViewModel>().value
         binding.ivBack.tap {
             finish()
         }
         processingDialog = ProcessingDialog(this@RemoveObjectByListActivity)
         type = intent.getStringExtra(Constants.TYPE_HISTORY).toString()
+
+        listOtherByIntent = intent.getStringExtra("listOther").toString()
+        Log.d("TAG_MODEL", "listOtherByIntent $listOtherByIntent")
+        listOtherAfterRemove = intent.getStringExtra("listOther")
+        Log.d("TAG_MODEL", "$listOtherAfterRemove")
+        listOtherSelected = intent.getStringExtra("listOtherSelected")
+        Log.d("TAG_MODEL1", "$listOtherSelected")
+
         try {
             historyModel = intent.parcelable<HistoryModel>(Constants.INTENT_RESULT)
-            Log.d("TAG_MODEL", "$historyModel")
-            val items = convertOtherToList(historyModel?.other.toString())
-            viewModel.setItemList(items)
-            val fragment = RemoveObjectByListFragment()
 
+            listOther2 = convertOtherToList(historyModel?.other.toString())
+            val listOtherAfterRemoveList = listOtherAfterRemove?.let {
+                convertOtherToList(it)
+            } ?: emptyList()
+            Log.d("TAG_MODEL", "$historyModel")
+
+            if(listOtherByIntent.isNotEmpty() && listOtherByIntent != "" && listOtherByIntent != "null" && listOtherByIntent != "[]" && listOtherByIntent != null){
+                listOther2 = listOtherByIntent.removeSurrounding("[", "]").split(", ").map { it.trim() }
+            }
+            viewModel.setItemList(listOther2)
+            val selectedItems = listOtherSelected?.let {
+                convertStringToList(it)
+            } ?: emptyList()
+
+            // Disable các item đã có trong listOther
+            val itemsWithState = listOtherAfterRemoveList?.map { item ->
+                item to selectedItems.contains(item)
+            }
+
+            // Gửi dữ liệu vào Adapter (cập nhật Adapter)
+
+            val fragment = RemoveObjectByListFragment()
+            if (listOtherAfterRemove != null){
+
+                viewModel.setItemList(itemsWithState!!.map { it.first }) // Cập nhật list gốc
+            }
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fl_rm_object_by_list, fragment)
                 .commit()
+
+            // Pass trạng thái disable vào Fragment qua ViewModel
+            viewModel.setItemDisabledState(selectedItems )
+
             historyModel?.let { historyModel ->
                 if (!historyModel.imageResult.isNullOrEmpty()) {
                     Glide.with(this).asBitmap()
@@ -98,7 +144,39 @@ class RemoveObjectByListActivity :
                 }
                 viewModel.triggerRemoveByListSelected.observe(this) {
                     viewModel.textByListSelected.observe(this) { text ->
+                        if (text.isNullOrEmpty()) {
+                            return@observe
+                        }
+                        if (bitmap != null) {
+                            getBitmapFrom(this, historyModel.imageCreate) {
+                                uploadImageRemoveObjectByList(it, text.toString())
+                            }
+                        }
+                        viewModel.upLoadImage.observe(this) { response ->
 
+                            if (response.task_id.isNotBlank() && response.cf_url.isNotBlank() && response.success) {
+                                startDataGenerateByListSelected(
+                                    response,
+                                    listOther2.toString(),
+                                    text
+                                )
+                            } else {
+                                processingDialog.dismiss()
+                                Toast.makeText(
+                                    this,
+                                    "Failed to process the image. Please try again.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                return@observe
+                            }
+
+//                            projectViewModel.deleteHistory(historyModel)
+                        }
+                    }
+                    viewModel.textByList.observe(this) { text ->
+                        if (text.isNullOrEmpty()) {
+                            return@observe
+                        }
                         if (bitmap != null) {
                             getBitmapFrom(this, historyModel.imageCreate) {
                                 uploadImageRemoveObjectByList(it, text.toString())
@@ -108,9 +186,13 @@ class RemoveObjectByListActivity :
 
                             if (response.task_id.isNotBlank() && response.cf_url.isNotBlank() && response.success) {
                                 startDataGenerate(response, historyModel?.other.toString())
-                            }else{
+                            } else {
                                 processingDialog.dismiss()
-                                Toast.makeText(this, "Failed to process the image. Please try again.", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    this,
+                                    "Failed to process the image. Please try again.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                                 return@observe
                             }
 
@@ -120,11 +202,24 @@ class RemoveObjectByListActivity :
                 }
             }
             binding.ivBeforeAfter.tap {
-                val uriImage = Uri.parse( historyModel?.imageCreate.toString())
+                val uriImage = Uri.parse(historyModel?.imageCreate.toString())
                 binding.ivRmvObject.toggleImage(bitmap!!, uriImage)
             }
             binding.ivExport.tap {
-                downloadImageToGallery()
+                val imageUrl = historyModel?.imageResult?.takeIf { it.isNotEmpty() }
+
+                if (imageUrl != null) {
+                    if (imageUrl != null) {
+                        dialog.setOnDismissListener {
+                            downloadImageFromUrl(this, imageUrl)
+                        }
+                        dialog.showWithTimeout(3000)
+                    } else {
+                        Log.d("TAG_IMAGE", "Image URL is null or empty")
+                    }
+
+                }
+
             }
         } catch (_: Exception) {
         }
@@ -133,6 +228,13 @@ class RemoveObjectByListActivity :
     private fun convertOtherToList(other: String): List<String> {
         val cleanedString = other.removePrefix("[[").removeSuffix("]]")
         return cleanedString.split(",").map { it.trim() }
+    }
+
+    private fun convertStringToList(input: String?): List<String> {
+        return input?.removeSurrounding("[", "]")
+            ?.split(",")
+            ?.map { it.trim() }
+            ?.filter { it.isNotEmpty() } ?: emptyList()
     }
 
     private fun uploadImageRemoveObjectByList(bitMap: Bitmap, objectRemovelist: String) {
@@ -168,16 +270,18 @@ class RemoveObjectByListActivity :
         }
     }
 
-    private fun startDataGenerate(
+
+    private fun startDataGenerateByListSelected(
         uploadResponse: UpLoadImagesResponse,
-        listOther: String
+        listOther: String,
+        listOtherSelected: String
     ) {
         processingDialog.dismiss()
         val modelGenerate = GenerateResponse()
         modelGenerate.cf_url = uploadResponse.cf_url
         modelGenerate.task_id = uploadResponse.task_id
         modelGenerate.imageCreate = Constants.ITEM_CODE_RMOBJECT
-        if (modelGenerate.cf_url != null){
+        if (modelGenerate.cf_url != null) {
             startActivity(
                 Intent(
                     this@RemoveObjectByListActivity,
@@ -187,7 +291,36 @@ class RemoveObjectByListActivity :
                     putExtra(KEY_REMOVE, Constants.ITEM_CODE_RMOBJECT)
                     putExtra("imageCreate", historyModel?.imageCreate)
                     putExtra("type_process", "remove_obj_by_list_text")
-                    putExtra("listOther",listOther)
+                    putExtra("listOther", listOther)
+                    putExtra("listOtherSelected", listOtherSelected)
+//                putExtra(LIMIT_NUMBER_GENERATE, numberGenerate)
+                })
+            finish()
+        }
+    }
+
+
+    private fun startDataGenerate(
+        uploadResponse: UpLoadImagesResponse,
+        listOther: String
+    ) {
+        processingDialog.dismiss()
+        val modelGenerate = GenerateResponse()
+        modelGenerate.cf_url = uploadResponse.cf_url
+        modelGenerate.task_id = uploadResponse.task_id
+        modelGenerate.imageCreate = Constants.ITEM_CODE_RMOBJECT
+        if (modelGenerate.cf_url != null) {
+            startActivity(
+                Intent(
+                    this@RemoveObjectByListActivity,
+                    ProessingActivity::class.java
+                ).apply {
+                    putExtra(KEY_GENERATE, modelGenerate)
+                    putExtra(KEY_REMOVE, Constants.ITEM_CODE_RMOBJECT)
+                    putExtra("imageCreate", historyModel?.imageCreate)
+                    putExtra("type_process", "remove_obj_by_list_text")
+                    putExtra("listOther", listOther)
+
 //                putExtra(LIMIT_NUMBER_GENERATE, numberGenerate)
                 })
             finish()
@@ -207,60 +340,78 @@ class RemoveObjectByListActivity :
         }
     }
 
-
-
-    private fun downloadImageToGallery() {
-        try {
-            val imageUrl = historyModel?.imageResult
-            imageUrl?.let { url ->
-                Glide.with(this)
+    private fun downloadImageFromUrl(context: Context, imageUrl: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                // Tải bitmap từ URL
+                val bitmap = Glide.with(context)
                     .asBitmap()
-                    .load(url)
-                    .into(object : com.bumptech.glide.request.target.CustomTarget<Bitmap>() {
-                        override fun onResourceReady(
-                            resource: Bitmap,
-                            transition: com.bumptech.glide.request.transition.Transition<in Bitmap>?
-                        ) {
-                            val filename = "IMG_${System.currentTimeMillis()}.jpg"
-                            val fos: OutputStream?
-                            val contentResolver = contentResolver
+                    .load(imageUrl)
+                    .submit()
+                    .get()
 
-                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-                                val contentValues = ContentValues().apply {
-                                    put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
-                                    put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
-                                    put(
-                                        MediaStore.MediaColumns.RELATIVE_PATH,
-                                        Environment.DIRECTORY_PICTURES
-                                    )
-                                }
-                                val imageUri = contentResolver.insert(
-                                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                                    contentValues
-                                )
-                                fos = imageUri?.let { contentResolver.openOutputStream(it) }
-                            } else {
-                                val imagesDir =
-                                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                                val image = File(imagesDir, filename)
-                                fos = FileOutputStream(image)
-                            }
+                val outputStream: OutputStream?
 
-                            fos?.use {
-                                resource.compress(Bitmap.CompressFormat.JPEG, 100, it)
-                            }
-                            Toast.makeText(
-                                this@RemoveObjectByListActivity,
-                                "Download Success", Toast.LENGTH_SHORT
-                            ).show()
-                        }
+                // Tạo tên tệp ngẫu nhiên
+                val randomFileName = "Image_${System.currentTimeMillis()}.jpg"
 
-                        override fun onLoadCleared(placeholder: android.graphics.drawable.Drawable?) {
-                            // Handle placeholder if needed
-                        }
-                    })
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    // Android 10 trở lên: Lưu vào MediaStore
+                    val contentValues = ContentValues().apply {
+                        put(MediaStore.Images.Media.DISPLAY_NAME, randomFileName)
+                        put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+                        put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+                    }
+                    val uri = context.contentResolver.insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                        contentValues
+                    )
+
+                    if (uri == null) {
+                        throw Exception("Failed to create URI for saving the image")
+                    }
+                    outputStream = context.contentResolver.openOutputStream(uri)
+                } else {
+                    // Android 9 trở xuống: Lưu vào thư mục Pictures
+                    val downloadDir =
+                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                    if (!downloadDir.exists()) {
+                        downloadDir.mkdirs()
+                    }
+                    val file = File(downloadDir, randomFileName)
+                    outputStream = FileOutputStream(file)
+
+                    // Thêm vào MediaStore để hiển thị trong thư viện
+                    val values = ContentValues().apply {
+                        put(MediaStore.Images.Media.DISPLAY_NAME, randomFileName)
+                        put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+                        put(MediaStore.Images.Media.DATA, file.absolutePath)
+                    }
+                    context.contentResolver.insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                        values
+                    )
+                }
+
+                // Lưu bitmap vào file
+                outputStream?.let {
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
+                    it.close()
+                }
+
+                CoroutineScope(Dispatchers.Main).launch {
+                    val intent = Intent(this@RemoveObjectByListActivity, ResultRemoveObjectActivity::class.java)
+                    intent.putExtra(Constants.INTENT_RESULT,historyModel)
+                    startActivity(intent)
+                    finish()
+                    Toast.makeText(context, "Image downloaded successfully", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                CoroutineScope(Dispatchers.Main).launch {
+
+                }
             }
-        } catch (_: Exception) {
         }
     }
 
