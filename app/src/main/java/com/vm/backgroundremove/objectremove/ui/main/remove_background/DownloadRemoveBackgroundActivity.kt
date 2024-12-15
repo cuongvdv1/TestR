@@ -30,9 +30,11 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 
-class DownloadRemoveBackgroundActivity:BaseActivity<ActivityYourProjectsResultBinding, BaseViewModel>() {
+class DownloadRemoveBackgroundActivity :
+    BaseActivity<ActivityYourProjectsResultBinding, BaseViewModel>() {
     private var imageUrl = ""
-    private var historyModel : HistoryModel? = null
+    private var isClickable = true
+    private var historyModel: HistoryModel? = null
     override fun createBinding(): ActivityYourProjectsResultBinding {
         return ActivityYourProjectsResultBinding.inflate(layoutInflater)
     }
@@ -58,7 +60,7 @@ class DownloadRemoveBackgroundActivity:BaseActivity<ActivityYourProjectsResultBi
             Glide.with(this)
                 .load(imageUrl)
                 .into(binding.ivHistoryResult) // Assume you have an ImageView in your layout
-        }else{
+        } else {
             Log.d("TAG_IMAGE222", "imageUrl1111: $imageUrl")
             Log.d("TAG_IMAGE222", "historyModel: ${historyModel?.imageResult}")
             Glide.with(this)
@@ -67,30 +69,60 @@ class DownloadRemoveBackgroundActivity:BaseActivity<ActivityYourProjectsResultBi
         }
 
         binding.llBtnExport.tap {
-            Glide.with(this)
-                .asBitmap()
-                .load(historyModel?.imageResult)
-                .into(object : CustomTarget<Bitmap>() {
-                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                        // Chia sẻ file ảnh sau khi tải về thành công
-                        saveFileToDownload(resource)
-                        Toast.makeText(this@DownloadRemoveBackgroundActivity, "Image saved successfully", Toast.LENGTH_SHORT).show()
-                    }
+            if (isClickable) {
+                isClickable = false // Vô hiệu hóa click tiếp theo
+                Glide.with(this)
+                    .asBitmap()
+                    .load(historyModel?.imageResult)
+                    .into(object : CustomTarget<Bitmap>() {
+                        override fun onResourceReady(
+                            resource: Bitmap,
+                            transition: Transition<in Bitmap>?
+                        ) {
+                            // Chia sẻ file ảnh sau khi tải về thành công
+                            saveFileToDownload(resource)
+                            Toast.makeText(
+                                this@DownloadRemoveBackgroundActivity,
+                                "Image saved successfully",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
 
-                    override fun onLoadCleared(placeholder: Drawable?) {
-                        Log.d("TAG_IMAGE", "onLoadCleared: ")
-                    }
-                })
+                        override fun onLoadCleared(placeholder: Drawable?) {
+                            Log.d("TAG_IMAGE", "onLoadCleared: ")
+                        }
+                    })
+
+                // Khôi phục trạng thái sau một khoảng thời gian (nếu cần)
+                binding.llBtnShare.postDelayed({ isClickable = true }, 500)
+                binding.llBtnExport.postDelayed({ isClickable = true }, 500)
+                binding.llShareWithFriend.postDelayed({ isClickable = true }, 500)
+            }
 
 
         }
         binding.llBtnShare.tap {
-            shareImageFromCache(historyModel?.imageResult.toString())
-            Log.d("TAG_IMAGE", "shareImage: shared")
+            if (isClickable) {
+                isClickable = false
+
+                shareImageFromCache(historyModel?.imageResult.toString())
+
+                binding.llBtnShare.postDelayed({ isClickable = true }, 500)
+                binding.llBtnExport.postDelayed({ isClickable = true }, 500)
+                binding.llShareWithFriend.postDelayed({ isClickable = true }, 500)
+            }
+
         }
         binding.llShareWithFriend.tap {
-            Log.d("TAG_IMAGE111","shareImage: shared")
-           shareImageFromCache(imageUrl)
+            if (isClickable) {
+                isClickable = false
+
+                shareImageFromCache(imageUrl)
+
+                binding.llBtnShare.postDelayed({ isClickable = true }, 500)
+                binding.llBtnExport.postDelayed({ isClickable = true }, 500)
+                binding.llShareWithFriend.postDelayed({ isClickable = true }, 500)
+            }
         }
 
         binding.ivBack.tap {
@@ -105,7 +137,7 @@ class DownloadRemoveBackgroundActivity:BaseActivity<ActivityYourProjectsResultBi
     }
 
 
-        private fun shareImage(url: String) {
+    private fun shareImage(url: String) {
         // Tải hình ảnh từ URL và lưu tạm vào cache
         Glide.with(this)
             .asFile()
@@ -117,7 +149,7 @@ class DownloadRemoveBackgroundActivity:BaseActivity<ActivityYourProjectsResultBi
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {
-                   Log.d("TAG_IMAGE", "onLoadCleared: ")
+                    Log.d("TAG_IMAGE", "onLoadCleared: ")
                 }
             })
     }
@@ -140,6 +172,7 @@ class DownloadRemoveBackgroundActivity:BaseActivity<ActivityYourProjectsResultBi
         // Hiển thị dialog chọn ứng dụng
         startActivity(Intent.createChooser(shareIntent, "Share image via"))
     }
+
     private fun shareImageFromCache(imageUrl: String) {
         try {
 //            val imageUrl = historyModel?.imageResult
@@ -153,7 +186,8 @@ class DownloadRemoveBackgroundActivity:BaseActivity<ActivityYourProjectsResultBi
                             transition: com.bumptech.glide.request.transition.Transition<in Bitmap>?
                         ) {
                             try {
-                                val filePath = createDownloadFile(this@DownloadRemoveBackgroundActivity)
+                                val filePath =
+                                    createDownloadFile(this@DownloadRemoveBackgroundActivity)
                                 val file = File(filePath)
 
                                 val fos = FileOutputStream(file)
@@ -188,7 +222,8 @@ class DownloadRemoveBackgroundActivity:BaseActivity<ActivityYourProjectsResultBi
                         }
                     })
             }
-        }catch (_:Exception){}
+        } catch (_: Exception) {
+        }
     }
 
     fun createDownloadFile(context: Context): String {

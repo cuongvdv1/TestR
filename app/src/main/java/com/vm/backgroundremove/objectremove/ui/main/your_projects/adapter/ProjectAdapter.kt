@@ -20,8 +20,6 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity.LAYOUT_INFLATER_SERVICE
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.DiffUtil
@@ -53,10 +51,10 @@ class ProjectAdapter : ListAdapter<HistoryModel, ProjectAdapter.ProjectViewHolde
         .build()
 ) {
     private var onViewMoreClick: (HistoryModel) -> Unit = {}
-    private var onViewMoreShareClick: (HistoryModel) -> Unit = {}
 
     private var onDeleteClick: (HistoryModel) -> Unit = {}
 
+    private var isClickable = true
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProjectViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return ProjectViewHolder(ItemProjectBinding.inflate(layoutInflater, parent, false))
@@ -82,7 +80,13 @@ class ProjectAdapter : ListAdapter<HistoryModel, ProjectAdapter.ProjectViewHolde
 
         init {
             binding.root.tap {
-                data?.let(onViewMoreClick)
+
+                if (isClickable) {
+                    isClickable = false // Vô hiệu hóa click tiếp theo
+                    data?.let(onViewMoreClick)
+                    // Khôi phục trạng thái sau một khoảng thời gian (nếu cần)
+                    binding.root.postDelayed({ isClickable = true }, 300)
+                }
             }
         }
 
@@ -106,43 +110,6 @@ class ProjectAdapter : ListAdapter<HistoryModel, ProjectAdapter.ProjectViewHolde
                 Glide.with(binding.root.context).load(R.drawable.ic_image_processing)
                     .into(binding.imgProcess)
                 binding.ivMenuPopup.setImageResource(R.drawable.ic_menu)
-            }
-            else if (data.isFailed()) {
-                Glide.with(binding.root.context).load(R.drawable.ic_image_failed)
-                    .into(binding.imgProcess)
-                binding.progress.setIndicatorColor(
-                    ContextCompat.getColor(
-                        binding.root.context,
-                        R.color.color_F64534
-                    )
-                )
-                binding.ivMenuPopup.setImageResource(R.drawable.ic_menu)
-                binding.tvProgress.text = "Error"
-                binding.tvProgress.setTextColor(
-                    ContextCompat.getColor(
-                        binding.root.context,
-                        R.color.color_F64534
-                    )
-                )
-                binding.tvTimeProcess.setTextColor(
-                    ContextCompat.getColor(
-                        binding.root.context,
-                        R.color.color_F64534
-                    )
-                )
-                binding.tvDayProcess.setTextColor(
-                    ContextCompat.getColor(
-                        binding.root.context,
-                        R.color.color_F64534
-                    )
-                )
-                binding.tvItemName.setTextColor(
-                    ContextCompat.getColor(
-                        binding.root.context,
-                        R.color.color_F64534
-                    )
-                )
-                binding.ivMenuPopup.setImageResource(R.drawable.ic_popup_error)
             }
         }
     }
@@ -171,6 +138,7 @@ class ProjectAdapter : ListAdapter<HistoryModel, ProjectAdapter.ProjectViewHolde
             LinearLayout.LayoutParams.WRAP_CONTENT,
             true
         )
+        popupWindow.elevation =  10f.toDp()
 
         bindingPopup.clReport.tap {
             data?.let(onDeleteClick)
@@ -179,11 +147,6 @@ class ProjectAdapter : ListAdapter<HistoryModel, ProjectAdapter.ProjectViewHolde
         // Thiết lập sự kiện cho từng item
         bindingPopup.clDownload.tap {
             downloadImageFromUrl(view.context, data?.imageResult!!)
-//            Toast.makeText(
-//                this@YourProjectsActivity,
-//                getString(R.string.home), Toast.LENGTH_SHORT
-//            )
-//                .show()
             popupWindow.dismiss()
         }
 
@@ -205,10 +168,9 @@ class ProjectAdapter : ListAdapter<HistoryModel, ProjectAdapter.ProjectViewHolde
 
         val location = IntArray(2)
         view.getLocationOnScreen(location)
-        val x = location[0] + view.width
-        val y = location[1] - popupHeight
-
-        popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, x, y)
+        val x = location[0] + view.width - (popupWidth*1.2)
+        val y = location[1]
+        popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, x.toInt(), y)
     }
 
 
