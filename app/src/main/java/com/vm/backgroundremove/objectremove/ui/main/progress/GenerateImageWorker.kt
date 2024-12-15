@@ -47,7 +47,13 @@ class GenerateImageWorker(
         val rowCount = if (row > 0) row + 1 else 1
 
         processModel?.let {
-            it.name = "Create $rowCount"
+            it.name = if (it.type == "remove_background") {
+                val count = dbHistoryRepository.getRowRemoveBGCount()
+                "Remove BG $count"
+            } else {
+                val count = dbHistoryRepository.getRowObjectRemoveCount()
+                "Object Remove $count"
+            }
         }
 
         Log.e("GenerateImageWorker", processModel.toString())
