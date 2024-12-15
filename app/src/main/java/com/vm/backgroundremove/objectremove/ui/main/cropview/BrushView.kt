@@ -96,7 +96,7 @@ class BrushView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        canvas.drawColor(Color.parseColor("#DFDFDF"))
+//        canvas.drawColor(Color.parseColor("#DFDFDF"))
         canvasImage?.let {
             // Tính toán tỷ lệ để đảm bảo ảnh vừa với View theo chiều dọc
             val viewWidth = width.toFloat()
@@ -116,7 +116,7 @@ class BrushView @JvmOverloads constructor(
             val scaledHeight = imageHeight * scale
 
             val left = (viewWidth - scaledWidth) / 2
-            val top = (viewHeight - scaledHeight) / 2
+            val top = (viewHeight - scaledHeight)
             val right = left + scaledWidth
             val bottom = top + scaledHeight
 

@@ -42,6 +42,7 @@
         android:layout_marginBottom="16dp"
         android:textColor="@color/color_66727E"
         android:gravity="center"
+        android:visibility="invisible"
         android:text="@string/maybe_ads_will_be_showed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

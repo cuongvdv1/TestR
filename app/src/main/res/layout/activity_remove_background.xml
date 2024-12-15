@@ -26,15 +26,16 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
+
         <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont700
+            style="@style/CustomText_color_37414B_20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/CustomText_color_37414B_20"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:text="@string/remove_BG"
-            />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
         <ImageView
             android:id="@+id/iv_export"
             android:contentDescription="@string/ic_export"
@@ -88,6 +89,7 @@
             android:contentDescription="@string/ic_undo"
             android:src="@drawable/ic_undo_off"
             android:alpha="0.3"
+            android:layout_marginStart="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -98,6 +100,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/ic_redo"
             android:alpha="0.3"
+            android:layout_marginStart="8dp"
             android:src="@drawable/ic_redo_off"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_undo"
@@ -121,15 +124,15 @@
             android:layout_height="wrap_content"
             android:text="@string/edit"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/iv_before_after"
-            app:layout_constraintStart_toEndOf="@+id/iv_redo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/iv_before_after"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity=""
+            android:layout_marginEnd="14dp"
             android:contentDescription="@string/ic_before_after"
             android:src="@drawable/ic_before_after"
             app:layout_constraintBottom_toBottomOf="parent"

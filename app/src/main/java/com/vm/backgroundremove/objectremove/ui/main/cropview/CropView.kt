@@ -6,9 +6,12 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.LinearGradient
 import android.graphics.Matrix
+import android.graphics.Paint
 import android.graphics.PointF
 import android.graphics.RectF
+import android.graphics.Shader
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.util.AttributeSet
@@ -50,8 +53,8 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         calculateBitmapBound(w.toFloat(), h.toFloat())
-        bg_none?.setBounds(0,0, w,h)
-        boundBg.set(0f,0f,w.toFloat(),h.toFloat())
+        bg_none?.setBounds(0, 0, w, h)
+        boundBg.set(0f, 0f, w.toFloat(), h.toFloat())
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -74,23 +77,26 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
             else -> false
         }
     }
+
     fun createColorBitmap(color: Int, width: Int, height: Int): Bitmap {
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         canvas.drawColor(color) // Vẽ toàn bộ bitmap với màu được chỉ định
         return bitmap
     }
-//    fun setBackgroundBitmap(bitmap: Bitmap) {
-//        backgroundBitmap = bitmap
-//        invalidate() // Vẽ lại view khi có sự thay đổi
-//    }
-fun setBackgroundBitmap(bitmap: Bitmap) {
-    undoStack.add(backgroundBitmap) // Lưu trạng thái hiện tại vào undo stack
-    redoStack.clear() // Xóa redo stack vì đây là một thay đổi mới
-    backgroundBitmap = bitmap
-    invalidate() // Vẽ lại view khi có sự thay đổi
-    (context as? ResultRemoveBackGroundActivity)?.updateButtonStates()
-}
+
+    fun hasBackgroundBitmap(): Boolean {
+        return backgroundBitmap != null
+    }
+
+    fun setBackgroundBitmap(bitmap: Bitmap) {
+        undoStack.add(backgroundBitmap) // Lưu trạng thái hiện tại vào undo stack
+        redoStack.clear() // Xóa redo stack vì đây là một thay đổi mới
+        backgroundBitmap = bitmap
+        invalidate() // Vẽ lại view khi có sự thay đổi
+        (context as? ResultRemoveBackGroundActivity)?.updateButtonStates()
+    }
+
     fun undo() {
         if (undoStack.isNotEmpty()) {
             redoStack.add(backgroundBitmap) // Lưu trạng thái hiện tại vào redo stack
@@ -99,6 +105,7 @@ fun setBackgroundBitmap(bitmap: Bitmap) {
             (context as? ResultRemoveBackGroundActivity)?.updateButtonStates()
         }
     }
+
     fun redo() {
         if (redoStack.isNotEmpty()) {
             undoStack.add(backgroundBitmap) // Lưu trạng thái hiện tại vào undo stack
@@ -131,6 +138,7 @@ fun setBackgroundBitmap(bitmap: Bitmap) {
         backgroundBitmap = null
         invalidate()
     }
+
     fun canUndo(): Boolean {
         return undoStack.isNotEmpty()
     }
@@ -154,6 +162,7 @@ fun setBackgroundBitmap(bitmap: Bitmap) {
         }
         canvas.restore()
     }
+
     fun toggleImage(bitmap: Bitmap, uri: Uri) {
         if (isShowingBitmap) {
             // Hiển thị ảnh từ URI
@@ -165,6 +174,7 @@ fun setBackgroundBitmap(bitmap: Bitmap) {
         // Đảo trạng thái
         isShowingBitmap = !isShowingBitmap
     }
+
     fun setUri(uri: Uri) {
         try {
             // Chuyển đổi URI thành Bitmap
@@ -176,18 +186,22 @@ fun setBackgroundBitmap(bitmap: Bitmap) {
             e.printStackTrace() // Xử lý lỗi nếu có
         }
     }
+
     private fun calculateBitmapBound(parentWidth: Float, parentHeight: Float) {
         bitmap?.let {
-            val maxWidth = parentWidth - padding * 2f
             val maxHeight = parentHeight - padding * 2f
-            var width = maxWidth
-            var height = (maxWidth * it.height) / it.width
-            if (height > maxHeight) {
-                height = maxHeight
-                width = (height * it.width) / it.height
+            val maxWidth = parentWidth - padding * 2f
+            var height = maxHeight
+            var width = (height * it.width) / it.height
+
+            // Nếu chiều rộng vượt quá chiều rộng tối đa, điều chỉnh lại dựa trên chiều rộng
+            if (width > maxWidth) {
+                width = maxWidth
+                height = (width * it.height) / it.width
             }
+
             val left = (parentWidth - width) / 2f
-            val top = (parentHeight - height) / 2f
+            val top = (parentHeight - height)
             bound.set(left, top, left + width, top + height)
 
             boundPoint[0] = bound.left

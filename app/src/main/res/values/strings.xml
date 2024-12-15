@@ -153,4 +153,7 @@
     <string name="are_you_sure_you_want_to_exit">Are you sure you want to exit?</string>
     <string name="exit_app">Exit App?</string>
     <string name="your_photos">Your Photos</string>
+    <string name="grant_permission">Grant Permission</string>
+    <string name="please_grant_all_permissions_to_access_additional_functionality">Please grant all permissions to access additional functionality</string>
+    <string name="go_to_setting">Go to setting</string>
 </resources>

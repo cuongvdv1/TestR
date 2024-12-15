@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    app:cardElevation="8dp"
+    android:padding="8dp"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
     android:orientation="vertical">
 
     <LinearLayout
-        android:background="@drawable/bg_menu_popup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="16dp"
-        android:paddingHorizontal="20dp">
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="4dp"
+            android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_download"
@@ -70,8 +78,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_report"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:contentDescription="@string/ic_delete"
@@ -93,7 +100,8 @@
                 app:layout_constraintStart_toEndOf="@id/ic_report"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</androidx.cardview.widget.CardView>

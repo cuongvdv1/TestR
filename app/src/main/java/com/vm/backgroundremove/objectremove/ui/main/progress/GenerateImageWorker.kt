@@ -221,7 +221,7 @@ class GenerateImageWorker(
                 // Hoàn thành tiến trình
                 setProgressAsync(
                     Data.Builder()
-                        .putInt("progress", 100)
+                        .putInt("progress", 90)
                         .putString("status", status)
                         .putInt("positionProcessing", positionProcessing)
                         .putString("timeProcessing", "0") // Khi hoàn thành, thời gian còn lại = 0

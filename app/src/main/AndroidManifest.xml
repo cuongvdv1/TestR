@@ -37,7 +37,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.main.your_projects.ProjectsActivity"
-            android:exported="false" />
+            android:exported="false"/>
+
         <activity
             android:name=".ui.main.remove_object.ResultRemoveObjectActivity"
             android:exported="false" />
@@ -91,7 +92,8 @@
         </activity>
         <activity
             android:name=".ui.main.remove_background.ResultRemoveBackGroundActivity"
-            android:exported="false" />
+            android:exported="false"/>
+
         <activity
             android:name=".ui.main.remove_background.RemoveBackgroundActivity"
             android:exported="false" />
@@ -150,13 +152,14 @@
             android:name=".ui.common.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.App.Starting" >
+            android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
 
         <provider
             android:name="androidx.core.content.FileProvider"
