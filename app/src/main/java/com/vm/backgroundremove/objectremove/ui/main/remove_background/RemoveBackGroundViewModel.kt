@@ -47,6 +47,12 @@ class RemoveBackGroundViewModel(private val upLoadImageRepository: UpLoadImageRe
     private val _itemListObject = MutableLiveData<List<String>>()
     val itemListObject: LiveData<List<String>> get() = _itemListObject
 
+    private val _itemDisabledState = MutableLiveData<List<String>>()
+    val itemDisabledState: LiveData<List<String>> = _itemDisabledState
+
+    fun setItemDisabledState(state: List<String>) {
+        _itemDisabledState.value = state
+    }
     fun setItemList(items: List<String>) {
         _itemListObject.value = items
     }

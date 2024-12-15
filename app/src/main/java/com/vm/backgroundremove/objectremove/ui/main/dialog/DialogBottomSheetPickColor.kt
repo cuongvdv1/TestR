@@ -22,7 +22,7 @@ class DialogBottomSheetPickColor: BottomSheetDialogFragment() {
     private lateinit var vView: VView
     private lateinit var iv_picker_color: ImageView
     var customColor: Int? = null
-
+    private var check = false
     private var onDone: (Int) -> Unit = {}
 
     override fun onCreate(savedInstanceState: Bundle?) {

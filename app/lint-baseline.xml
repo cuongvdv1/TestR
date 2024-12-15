@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 8.6.0" type="baseline" client="gradle" dependencies="false" name="AGP (8.6.0)" variant="fatal" version="8.6.0">
+
+    <issue
+        id="Instantiatable"
+        message="`DemoApplication` must extend android.app.Application"
+        errorLine1="        android:name=&quot;.a1_common_utils.application.DemoApplication&quot;"
+        errorLine2="                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="21"
+            column="23"/>
+    </issue>
+
+</issues>

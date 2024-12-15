@@ -81,7 +81,7 @@
     <string name="iv_selected">iv_selecionado</string>
 
     <string name="remove_nbackground">Remover\nFundo</string>
-    <string name="this_action_may_contain_advertising">Esta ação pode conter publicidade.</string>
+    <string name="this_action_may_contain_advertising">Esta ação pode conter publicidade...</string>
     <string name="language">Idioma</string>
     <string name="i_want_to_remove_the_background_from_any_image_with_precision">Eu quero remover o fundo de qualquer imagem com precisão.</string>
     <string name="i_want_to_erase_unwanted_objects_from_photos_for_a_clean_natural_look">Eu quero apagar objetos indesejados de fotos para um visual limpo e natural.</string>

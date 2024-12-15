@@ -80,7 +80,7 @@
     <string name="iv_selected">iv_seleccionado</string>
 
     <string name="remove_nbackground">हटाएं\nबैकग्राउंड</string>
-    <string name="this_action_may_contain_advertising">यह क्रिया विज्ञापन शामिल कर सकती है।</string>
+    <string name="this_action_may_contain_advertising">यह क्रिया विज्ञापन शामिल कर सकती है। ...</string>
     <string name="language">भाषा</string>
     <string name="i_want_to_remove_the_background_from_any_image_with_precision">मैं किसी भी छवि से बैकग्राउंड को सटीकता से हटाना चाहता हूँ।</string>
     <string name="i_want_to_erase_unwanted_objects_from_photos_for_a_clean_natural_look">मैं तस्वीरों से अवांछित वस्तुओं को हटाना चाहता हूँ ताकि एक साफ, प्राकृतिक रूप बने।</string>
