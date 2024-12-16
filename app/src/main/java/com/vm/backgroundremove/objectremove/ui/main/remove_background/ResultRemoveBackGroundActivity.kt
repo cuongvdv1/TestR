@@ -101,8 +101,8 @@ class ResultRemoveBackGroundActivity :
             }
         } catch (_: Exception) {
         }
+
         // xet cac su kien click
-        // xet su kien back man
         binding.ivBack.tap {
             dialogExit.show()
             dialogExit.binding.tvYes.tap {
@@ -118,13 +118,17 @@ class ResultRemoveBackGroundActivity :
         binding.ivExport.tap {
             val imageUrl = historyModel?.imageResult?.takeIf { it.isNotEmpty() }
             if (imageUrl != null) {
-//                dialog.show()
                 dialog.setOnDismissListener {
                     if (binding.cvRmvBg.hasBackgroundBitmap()) {
                         Log.d("TAG_SAVE", "SAVED IMAGE WITH BACKGROUND")
                         saveImageWithBackground()
                     } else {
                         downloadImageFromUrl(this, imageUrl)
+                        val intent = Intent(
+                            this@ResultRemoveBackGroundActivity,
+                            DownloadRemoveBackgroundActivity::class.java
+                        )
+                        startActivity(intent)
                         Log.d("TAG_SAVE", "SAVED IMAGE WITHOUT BACKGROUND")
                     }
 
@@ -277,6 +281,7 @@ class ResultRemoveBackGroundActivity :
             }
         }
     }
+
     private fun downloadImage(bitmap: Bitmap) {
         CoroutineScope(Dispatchers.IO).launch {
             try {

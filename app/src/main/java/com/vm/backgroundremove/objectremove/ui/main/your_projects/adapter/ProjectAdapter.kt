@@ -169,8 +169,8 @@ class ProjectAdapter : ListAdapter<HistoryModel, ProjectAdapter.ProjectViewHolde
         val location = IntArray(2)
         view.getLocationOnScreen(location)
         val x = location[0] + view.width - (popupWidth*1.2)
-        val y = location[1]
-        popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, x.toInt(), y)
+        val y = location[1] + 20f.toDp()
+        popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, x.toInt(), y.toInt())
     }
 
 

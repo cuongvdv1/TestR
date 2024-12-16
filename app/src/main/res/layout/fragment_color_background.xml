@@ -194,16 +194,15 @@
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ll_picker_color">
 
             <com.vm.backgroundremove.objectremove.ui.main.color_picker.HSView
                 android:id="@+id/picker_color_fragment"
-                android:layout_width="125dp"
-                android:layout_height="125dp"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="9dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -214,7 +213,7 @@
                 android:layout_height="24dp"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="23dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/iv_color_picker"
