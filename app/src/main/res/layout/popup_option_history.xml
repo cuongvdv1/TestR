@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
-    app:cardElevation="4dp"
-    android:padding="8dp"
+    app:cardElevation="8dp"
     android:layout_margin="8dp"
-    app:cardCornerRadius="4dp"
+    app:cardCornerRadius="8dp"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,13 +25,15 @@
             android:id="@+id/cl_download"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingVertical="4dp"
             android:layout_marginBottom="14dp">
 
             <ImageView
-                android:contentDescription="@string/ic_download"
                 android:id="@+id/ic_download"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+
+                android:contentDescription="@string/ic_download"
                 android:src="@drawable/ic_download"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -53,13 +54,15 @@
             android:id="@+id/cl_share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingVertical="4dp"
             android:layout_marginBottom="14dp">
 
             <ImageView
                 android:contentDescription="@string/ic_share"
                 android:id="@+id/ic_share"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+
                 android:src="@drawable/ic_share"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -80,13 +83,14 @@
             android:id="@+id/cl_report"
             android:layout_width="wrap_content"
             android:layout_marginBottom="4dp"
+            android:paddingVertical="4dp"
             android:layout_height="wrap_content">
 
             <ImageView
                 android:contentDescription="@string/ic_delete"
                 android:id="@+id/ic_report"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:src="@drawable/ic_delete"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

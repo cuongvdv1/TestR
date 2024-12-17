@@ -32,6 +32,7 @@ public class Constants {
     public static final String INTENT_FROM_HOME_TO_OBJECT = "RemoveObjectActivity";
     public static final String INTENT_FROM_FRAGMENT_CHOOSE_BG ="FragmentChooseBackground";
     public static final String INTENT_RESULT = "INTENT_RESULT";
+    public static final String INTENT_IMG_RESULT_PATH = "INTENT_IMG_RESULT_PATH";
     public static final String  WORK_UUID = "WORK_UUID";
     public static final String KEY_PROCESS = "KEY_PROCESS";
 

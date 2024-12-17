@@ -103,7 +103,12 @@ class ProjectAdapter : ListAdapter<HistoryModel, ProjectAdapter.ProjectViewHolde
                     .placeholder(R.drawable.ic_image_processing).into(binding.imgProcess)
                 binding.ivMenuPopup.setImageResource(R.drawable.ic_menu_on)
                 binding.ivMenuPopup.tap {
-                    showCustomMenu(binding.root, data)
+                    if(isClickable){
+                        isClickable = false
+                        showCustomMenu(binding.root, data)
+                        binding.root.postDelayed({ isClickable = true }, 300)
+                    }
+
                 }
 
             } else if (data.isProcessing()) {
@@ -244,14 +249,6 @@ class ProjectAdapter : ListAdapter<HistoryModel, ProjectAdapter.ProjectViewHolde
                 }
             }
         }
-    }
-
-    private fun showAndHideView(view: View, duration: Long = 5000) {
-        view.visibility = View.VISIBLE // Hiển thị view
-
-        view.postDelayed({
-            view.visibility = View.GONE
-        }, duration)
     }
 
     private fun shareImage(url: String, context: Context) {

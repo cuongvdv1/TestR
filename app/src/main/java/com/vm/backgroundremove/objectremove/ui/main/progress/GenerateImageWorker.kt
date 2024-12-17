@@ -1,4 +1,4 @@
-package com.v1.photo.enhance.ui.main.ai_portraits.generate
+package com.vm.backgroundremove.objectremove.ui.main.progress
 
 
 import android.content.Context
@@ -159,8 +159,6 @@ class GenerateImageWorker(
                                     "GenerateImageWorker",
                                     "Status = todo. Position = 0.Estimated time = $estimatedTime ms"
                                 )
-
-
                                 delay(estimatedTime)
                             }
 

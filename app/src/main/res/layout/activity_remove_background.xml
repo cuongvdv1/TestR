@@ -33,7 +33,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="@string/remove_BG"
+            android:text="@string/background_removal"
             app:layout_constraintBottom_toBottomOf="parent"
             />
         <ImageView

@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.os.Handler
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
@@ -27,6 +28,7 @@ import com.vm.backgroundremove.objectremove.a8_app_utils.parcelable
 import com.vm.backgroundremove.objectremove.database.HistoryModel
 import com.vm.backgroundremove.objectremove.databinding.ActivityRemoveBackgroundBinding
 import com.vm.backgroundremove.objectremove.dialog.DialogExit
+import com.vm.backgroundremove.objectremove.dialog.DiscardChangesDialog
 import com.vm.backgroundremove.objectremove.dialog.LoadingDialog
 import com.vm.backgroundremove.objectremove.ui.main.cropview.CropView
 import com.vm.backgroundremove.objectremove.ui.main.remove_object.ResultRemoveObjectActivity
@@ -43,9 +45,11 @@ class ResultRemoveBackGroundActivity :
     BaseActivity<ActivityRemoveBackgroundBinding, RemoveBackGroundViewModel>() {
     private var historyModel: HistoryModel? = null
     private var type = ""
+    private var checkChangedBG: Boolean = false
+    private var isClicked: Boolean = false
 
     private lateinit var dialog: LoadingDialog
-    private lateinit var dialogExit: DialogExit
+    private lateinit var dialogDisCardChanges: DiscardChangesDialog
     private var bitmap: Bitmap? = null
     override fun createBinding(): ActivityRemoveBackgroundBinding {
         return ActivityRemoveBackgroundBinding.inflate(layoutInflater)
@@ -56,17 +60,30 @@ class ResultRemoveBackGroundActivity :
 
     override fun initView() {
         super.initView()
-        dialogExit = DialogExit(this)
+        dialogDisCardChanges = DiscardChangesDialog(this)
         dialog = LoadingDialog(this)
         type = intent.getStringExtra(Constants.TYPE_HISTORY).toString()
         viewModel.color.observe(this) { color ->
+            checkChangedBG = true
             binding.cvRmvBg.setBackgroundWithColor(color)
         }
         viewModel.backGround.observe(this) { backGround ->
+            checkChangedBG = true
+            Log.d("TAG_BG","TEST UNDO REDO")
             binding.cvRmvBg.setBackgroundBitmap(backGround)
         }
         viewModel.startColor.observe(this) { startColor ->
-            viewModel.endColor.observe(this) { endColor ->
+            val endColor = viewModel.endColor.value
+            if (endColor != null && startColor != null) {
+                checkChangedBG = true
+                binding.cvRmvBg.setBackgroundWithGradient(startColor, endColor)
+            }
+        }
+
+        viewModel.endColor.observe(this) { endColor ->
+            val startColor = viewModel.startColor.value
+            if (startColor != null && endColor != null) {
+                checkChangedBG = true
                 binding.cvRmvBg.setBackgroundWithGradient(startColor, endColor)
             }
         }
@@ -104,39 +121,52 @@ class ResultRemoveBackGroundActivity :
 
         // xet cac su kien click
         binding.ivBack.tap {
-            dialogExit.show()
-            dialogExit.binding.tvYes.tap {
-                finish()
+            if (!isClicked) {
+                isClicked = true
+                if (checkChangedBG) {
+                    checkChangedBG = true
+                    dialogDisCardChanges.show()
+                    dialogDisCardChanges.binding.tvYes.tap {
+                        finish()
+                    }
+                    dialogDisCardChanges.binding.tvCancel.tap {
+                        dialogDisCardChanges.dismiss()
+                    }
+                } else {
+                    finish()
+                }
             }
-            dialogExit.binding.tvCancel.tap {
-                dialogExit.dismiss()
-            }
+            Handler().postDelayed({ isClicked = false }, 500)
         }
 
         updateButtonStates()
 
         binding.ivExport.tap {
-            val imageUrl = historyModel?.imageResult?.takeIf { it.isNotEmpty() }
-            if (imageUrl != null) {
-                dialog.setOnDismissListener {
-                    if (binding.cvRmvBg.hasBackgroundBitmap()) {
-                        Log.d("TAG_SAVE", "SAVED IMAGE WITH BACKGROUND")
-                        saveImageWithBackground()
-                    } else {
-                        downloadImageFromUrl(this, imageUrl)
-                        val intent = Intent(
-                            this@ResultRemoveBackGroundActivity,
-                            DownloadRemoveBackgroundActivity::class.java
-                        )
-                        startActivity(intent)
-                        Log.d("TAG_SAVE", "SAVED IMAGE WITHOUT BACKGROUND")
-                    }
+            if (!isClicked) {
+                isClicked = true
+                val imageUrl = historyModel?.imageResult?.takeIf { it.isNotEmpty() }
+                if (imageUrl != null) {
+                    dialog.setOnDismissListener {
+                        if (binding.cvRmvBg.hasBackgroundBitmap()) {
+                            Log.d("TAG_SAVE", "SAVED IMAGE WITH BACKGROUND")
+                            saveImageWithBackground()
+                        } else {
+                            downloadImageFromUrl(this, imageUrl)
+                            val intent = Intent(
+                                this@ResultRemoveBackGroundActivity,
+                                DownloadRemoveBackgroundActivity::class.java
+                            )
+                            startActivity(intent)
+                            Log.d("TAG_SAVE", "SAVED IMAGE WITHOUT BACKGROUND")
+                        }
 
+                    }
+                    dialog.showWithTimeout(3000)
+                } else {
+                    Log.d("TAG_IMAGE", "Image URL is null or empty")
                 }
-                dialog.showWithTimeout(3000)
-            } else {
-                Log.d("TAG_IMAGE", "Image URL is null or empty")
             }
+            Handler().postDelayed({ isClicked = false }, 500)
         }
         // Tạo fragment
         val fragment = ChooseBackGroundColorFragment()
@@ -147,22 +177,29 @@ class ResultRemoveBackGroundActivity :
 
     override fun bindView() {
         binding.ivDone.tap {
-            supportFragmentManager.fragments.forEach { fragment ->
-                if (fragment is ChooseBackGroundColorFragment && fragment.isVisible) {
-                    if (fragment.check_gradient) {
-                        val startColor = fragment.color_start ?: Color.TRANSPARENT
-                        val endColor = fragment.color_end ?: Color.TRANSPARENT
-                        binding.cvRmvBg.setBackgroundWithGradient(startColor, endColor)
-                    } else if (fragment.check_single_color) {
-                        fragment.customColor?.let { color ->
-                            viewModel.setColor(color)
-                            binding.cvRmvBg.setBackgroundWithColor(color)
+            if(!isClicked){
+                isClicked = true
+                supportFragmentManager.fragments.forEach { fragment ->
+                    if (fragment is ChooseBackGroundColorFragment && fragment.isVisible) {
+                        if (fragment.check_gradient) {
+//                            val startColor = fragment.color_start ?: Color.TRANSPARENT
+//                            val endColor = fragment.color_end ?: Color.TRANSPARENT
+                            binding.cvRmvBg.saveStack()
+//                        binding.cvRmvBg.setBackgroundWithGradient(startColor, endColor)
+                        } else if (fragment.check_single_color) {
+                            fragment.customColor?.let { color ->
+                                viewModel.setColor(color)
+                                binding.cvRmvBg.setBackgroundWithColor(color)
+                            }
                         }
+                        viewModel.setStartColor(null)
+                        viewModel.setEndColor(null)
+                        fragment.showColorList()
+                        setBeforeImage()
                     }
-                    fragment.showColorList()
-                    setBeforeImage()
                 }
             }
+            Handler().postDelayed({ isClicked = false }, 500)
         }
 
         binding.ivUndo.tap {
@@ -174,13 +211,20 @@ class ResultRemoveBackGroundActivity :
         }
 
         binding.ivCancel.tap {
-            supportFragmentManager.fragments.forEach {
-                if (it is ChooseBackGroundColorFragment && it.isVisible) {
-                    it.showColorList()
-                    setBeforeImage()
-                    binding.cvRmvBg.clearBackGround()
+            if(!isClicked){
+                supportFragmentManager.fragments.forEach {
+                    if (it is ChooseBackGroundColorFragment && it.isVisible) {
+                        it.showColorList()
+                        setBeforeImage()
+                        if (it.check_gradient) {
+                            binding.cvRmvBg.applyCurrentConfig()
+                        }
+                        viewModel.setStartColor(null)
+                        viewModel.setEndColor(null)
+                    }
                 }
             }
+            Handler().postDelayed({ isClicked = false }, 500)
         }
     }
 
@@ -360,6 +404,5 @@ class ResultRemoveBackGroundActivity :
     fun clearBackground() {
         binding.cvRmvBg.clearBackGround() // Gọi hàm clearBackground trong CropView
     }
-
 
 }

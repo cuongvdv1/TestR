@@ -15,6 +15,7 @@ import android.graphics.Shader
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.widget.FrameLayout
 import androidx.appcompat.content.res.AppCompatResources
@@ -89,19 +90,42 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
         return backgroundBitmap != null
     }
 
-    fun setBackgroundBitmap(bitmap: Bitmap) {
-        undoStack.add(backgroundBitmap) // Lưu trạng thái hiện tại vào undo stack
-        redoStack.clear() // Xóa redo stack vì đây là một thay đổi mới
+    fun setBackgroundBitmap(bitmap: Bitmap, needSaveStack: Boolean = true) {
+
         backgroundBitmap = bitmap
         invalidate() // Vẽ lại view khi có sự thay đổi
+        if (needSaveStack) {
+            saveStack()
+        }
         (context as? ResultRemoveBackGroundActivity)?.updateButtonStates()
     }
 
+    fun saveStack() {
+        undoStack.add(backgroundBitmap) // Lưu trạng thái hiện tại vào undo stack
+        redoStack.clear() // Xóa redo stack vì đây là một thay đổi mới
+    }
+
+    fun applyCurrentConfig() {
+        if (undoStack.isNotEmpty()) {
+            backgroundBitmap = undoStack.last()
+            invalidate()
+        } else {
+            clearBackGround()
+        }
+    }
+
     fun undo() {
+        Log.d("TAG_UNDO", "UNDO: ${undoStack.size}")
         if (undoStack.isNotEmpty()) {
             redoStack.add(backgroundBitmap) // Lưu trạng thái hiện tại vào redo stack
-            backgroundBitmap = undoStack.removeLast() // Lấy trạng thái cuối cùng từ undo stack
-            invalidate() // Vẽ lại view
+            undoStack.removeLast()
+            if (undoStack.isNotEmpty()) {
+
+                backgroundBitmap = undoStack.last()  // Lấy trạng thái cuối cùng từ undo stack
+             invalidate() // Vẽ lại view
+            } else {
+                clearBackGround()
+            }
             (context as? ResultRemoveBackGroundActivity)?.updateButtonStates()
         }
     }
@@ -130,7 +154,7 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
         val canvas = Canvas(bitmap)
         gradientDrawable.setBounds(0, 0, width, height)
         gradientDrawable.draw(canvas)
-        setBackgroundBitmap(bitmap)
+        setBackgroundBitmap(bitmap, false)
         (context as? ResultRemoveBackGroundActivity)?.updateButtonStates()
     }
 

@@ -37,8 +37,10 @@ class RemoveBackgroundActivity :
 
     override fun initView() {
         super.initView()
+
         window.statusBarColor = ContextCompat.getColor(this, R.color.color_F0F8FF)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+
         binding.cvRmvBg.visibility = View.GONE
         binding.ivBeforeAfter.setImageResource(R.drawable.ic_before_after_20)
         processingDialog = ProcessingDialog(this@RemoveBackgroundActivity)
@@ -50,8 +52,6 @@ class RemoveBackgroundActivity :
                 binding.ivRmvBg.setImageFromBitmap(it)
             }
         } else if (!imgPathGallery.isNullOrEmpty()) {
-//            uploadImageRemoveBackground(imgPathGallery)
-            Log.d("tag111", "$imgPathGallery")
             getBitmapFrom(this, imgPathGallery) {
                 uploadImageRemoveBackground(it)
                 binding.ivRmvBg.setImageFromBitmap(it)
@@ -78,8 +78,6 @@ class RemoveBackgroundActivity :
 
     companion object {
         const val KEY_GENERATE = "KEY_GENERATE"
-        const val LIMIT_NUMBER_ERROR = "LIMIT_NUMBER_ERROR"
-        const val LIMIT_NUMBER_GENERATE = "LIMIT_NUMBER_GENERATE"
         const val KEY_REMOVE = "KEY_REMOVE"
     }
 
@@ -88,7 +86,6 @@ class RemoveBackgroundActivity :
         val modelGenerate = GenerateResponse()
         modelGenerate.cf_url = uploadResponse.cf_url
         modelGenerate.task_id = uploadResponse.task_id
-//        val numberGenerate = limitNumber.toInt() - isCountGenerate
         startActivity(
             Intent(
                 this@RemoveBackgroundActivity,
@@ -98,14 +95,11 @@ class RemoveBackgroundActivity :
                 putExtra(KEY_REMOVE, Constants.ITEM_CODE)
                 putExtra("imageCreate", imageCreate)
                 putExtra("type_process", "remove_background")
-//                putExtra(LIMIT_NUMBER_GENERATE, numberGenerate)
             })
         finish()
     }
 
     private fun uploadImageRemoveBackground(bitMap: Bitmap) {
-        // chuyen tu path sang bitmap
-//        val bitMap = path?.let { Utils.getBitmapFromPath(it) }
         processingDialog.show()
         CoroutineScope(Dispatchers.IO).launch {
 

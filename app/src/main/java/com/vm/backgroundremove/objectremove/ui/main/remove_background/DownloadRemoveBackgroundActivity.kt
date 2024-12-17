@@ -5,8 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.os.Build
-import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
@@ -23,16 +21,13 @@ import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.database.HistoryModel
 import com.vm.backgroundremove.objectremove.databinding.ActivityYourProjectsResultBinding
 import com.vm.backgroundremove.objectremove.ui.main.home.HomeActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
-import java.io.OutputStream
 
 class DownloadRemoveBackgroundActivity :
     BaseActivity<ActivityYourProjectsResultBinding, BaseViewModel>() {
     private var imageUrl = ""
+    private var imgUrl = ""
     private var isClickable = true
     private var historyModel: HistoryModel? = null
     override fun createBinding(): ActivityYourProjectsResultBinding {
