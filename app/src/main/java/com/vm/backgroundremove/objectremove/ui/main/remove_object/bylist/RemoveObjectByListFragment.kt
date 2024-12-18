@@ -34,6 +34,34 @@ class RemoveObjectByListFragment : Fragment() {
         setupRecyclerView()
         setupListeners()
 
+        viewModel.itemDisabledState.observe(requireActivity()) { disabledItems ->
+            if (disabledItems.isNotEmpty()) {
+                binding.rlOther.alpha = 0.5f
+                binding.btnRemoveByList.alpha = 0.5f
+                binding.edRmvList.alpha = 0.5f
+
+                // Vô hiệu hóa giao diện
+                binding.rlOther.isEnabled = false
+                binding.btnRemoveByList.isEnabled = false
+                binding.edRmvList.isEnabled = false
+
+                // Hủy sự kiện click
+                binding.rlOther.setOnClickListener(null)
+                binding.btnRemoveByList.setOnClickListener(null)
+                binding.edRmvList.setOnClickListener(null)
+            } else {
+                // Kích hoạt lại giao diện nếu cần
+                binding.rlOther.alpha = 1f
+                binding.btnRemoveByList.alpha = 1f
+                binding.edRmvList.alpha = 1f
+
+                binding.rlOther.isEnabled = true
+                binding.btnRemoveByList.isEnabled = true
+                binding.edRmvList.isEnabled = true
+
+                setupListeners() // Thiết lập lại sự kiện
+            }
+        }
 
         return binding.root
     }
@@ -49,8 +77,8 @@ class RemoveObjectByListFragment : Fragment() {
             val textData = text + textList
             if (textData.isEmpty()) return@tap
             val disabledItems = viewModel.itemDisabledState.value.orEmpty()
+            if (disabledItems.isNotEmpty())return@tap
             val updatedSelectedItems = adapter.mergeSelectionsWithDisabled(disabledItems)
-
 
             // Gộp dữ liệu từ EditText và danh sách được chọn
             val finalData = text + updatedSelectedItems.joinToString(", ")
@@ -115,7 +143,7 @@ class RemoveObjectByListFragment : Fragment() {
         // Quan sát danh sách itemDisabledState
         viewModel.itemDisabledState.observe(viewLifecycleOwner) { disabledItems ->
             Log.d("TAG_MODEL", "disabledItems $disabledItems")
-            adapter.setDisabledItems(disabledItems) // Truyền danh sách String vào Adapter
+            adapter.setDisabledItems(disabledItems)
         }
     }
 
