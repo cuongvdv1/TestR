@@ -65,11 +65,8 @@ class ResultRemoveObjectActivity :
                                 // Đây là nơi bạn nhận được Bitmap
                                 val bitmap: Bitmap = resource
                                 binding.ivHistoryResult.setImageFromBitmap(bitmap)
-
                             }
-
                             override fun onLoadCleared(placeholder: Drawable?) {
-                                // Xử lý khi cần thiết, không có gì đặc biệt trong trường hợp này
                             }
                         })
 

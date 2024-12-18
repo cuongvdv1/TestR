@@ -150,4 +150,12 @@
     <string name="no">Não</string>
     <string name="are_you_sure_you_want_to_exit">Você tem certeza de que deseja sair?</string>
     <string name="exit_app">Sair do aplicativo?</string>
+    <string name="your_photos">Suas fotos</string>
+    <string name="ok">OK</string>
+    <string name="choose_option">Escolher opção</string>
+    <string name="upload_timeout_please_try_again">Tempo de upload esgotado. Por favor, tente novamente.</string>
+    <string name="grant_permission">Conceder permissão</string>
+    <string name="please_grant_all_permissions_to_access_additional_functionality">Por favor, conceda todas as permissões para acessar funcionalidades adicionais.</string>
+    <string name="go_to_setting">Ir para configurações</string>
+
 </resources>

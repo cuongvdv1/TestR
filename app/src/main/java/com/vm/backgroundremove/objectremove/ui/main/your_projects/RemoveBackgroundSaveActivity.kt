@@ -45,8 +45,8 @@ class RemoveBackgroundSaveActivity :
         binding.tvSaved.visibility = View.VISIBLE
         binding.ivHome.visibility = View.VISIBLE
         binding.tvTitle.visibility = View.VISIBLE
-        binding.llBtnShareWith.visibility = View.VISIBLE
-        binding.llBtnShareWith.setOnClickListener {
+        binding.llShareWithFriend.visibility = View.VISIBLE
+        binding.llShareWithFriend.setOnClickListener {
             shareImage(imageUrl)
         }
 

@@ -153,11 +153,17 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
         if (requestCode == REQUEST_CODE_PERMISSION) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getAllImageInfos()
+            } else {
+                dialogPermission()
+                showDialogPermission()
             }
         }
         if (requestCode == REQUEST_CAMERA_PERMISSION) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 toOpenCameraNew()
+            } else {
+                dialogPermission()
+                showDialogPermission()
             }
         }
     }

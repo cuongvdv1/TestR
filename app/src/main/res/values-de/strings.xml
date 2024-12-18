@@ -150,4 +150,12 @@
     <string name="no">Nein</string>
     <string name="are_you_sure_you_want_to_exit">Sind Sie sicher, dass Sie die App beenden möchten?</string>
     <string name="exit_app">App beenden?</string>
+    <string name="your_photos">Ihre Fotos</string>
+    <string name="ok">OK</string>
+    <string name="choose_option">Option auswählen</string>
+    <string name="upload_timeout_please_try_again">Upload-Zeitüberschreitung. Bitte versuchen Sie es erneut.</string>
+    <string name="grant_permission">Erlaubnis erteilen</string>
+    <string name="please_grant_all_permissions_to_access_additional_functionality">Bitte erteilen Sie alle Berechtigungen, um zusätzliche Funktionen zu nutzen.</string>
+    <string name="go_to_setting">Zu den Einstellungen gehen</string>
+
 </resources>
