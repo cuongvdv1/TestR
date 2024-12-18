@@ -180,6 +180,7 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
                                             val intent =
                                                 Intent(this@ProessingActivity, ResultRemoveBackGroundActivity::class.java)
                                             intent.putExtra(Constants.INTENT_RESULT, processModel)
+                                            Log.d("ProcessActivity", "SUCCEEDED  $processModel")
                                             startActivity(intent)
                                             finish()
                                         }

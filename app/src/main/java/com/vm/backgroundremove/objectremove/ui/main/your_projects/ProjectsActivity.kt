@@ -134,7 +134,8 @@ class ProjectsActivity : BaseActivity<ActivityYourProjectsBinding, ProjectViewMo
                         binding.clEmpty.visibility = View.GONE
                         binding.rcvHistory.visibility = View.VISIBLE
                     }
-                    projectAdapter.submitList(arrProcess)
+                    val filteredList = arrProcess.filter { it.type != "remove_obj_by_list" }
+                    projectAdapter.submitList(filteredList)
                 }
             }
         }

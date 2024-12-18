@@ -60,6 +60,7 @@ class ResultRemoveBackGroundActivity :
 
     override fun initView() {
         super.initView()
+        binding.cvRmvBg.saveStack()
         dialogDisCardChanges = DiscardChangesDialog(this)
         dialog = LoadingDialog(this)
         type = intent.getStringExtra(Constants.TYPE_HISTORY).toString()
@@ -102,6 +103,7 @@ class ResultRemoveBackGroundActivity :
                             ) {
                                 // Đây là nơi bạn nhận được Bitmap
                                 bitmap = resource
+                                Log.d("TAG_BITMAP", "BITMAP: $bitmap")
                                 binding.cvRmvBg.setBitmap(bitmap!!)
                             }
 
@@ -145,6 +147,7 @@ class ResultRemoveBackGroundActivity :
             if (!isClicked) {
                 isClicked = true
                 val imageUrl = historyModel?.imageResult?.takeIf { it.isNotEmpty() }
+                Log.d("TAG_URL", "imageUrl: $imageUrl")
                 if (imageUrl != null) {
                     dialog.setOnDismissListener {
                         if (binding.cvRmvBg.hasBackgroundBitmap()) {
@@ -156,6 +159,7 @@ class ResultRemoveBackGroundActivity :
                                 this@ResultRemoveBackGroundActivity,
                                 DownloadRemoveBackgroundActivity::class.java
                             )
+                            intent.putExtra(Constants.INTENT_IMG_RESULT_PATH,imageUrl)
                             startActivity(intent)
                             Log.d("TAG_SAVE", "SAVED IMAGE WITHOUT BACKGROUND")
                         }
@@ -376,7 +380,8 @@ class ResultRemoveBackGroundActivity :
                             this@ResultRemoveBackGroundActivity,
                             DownloadRemoveBackgroundActivity::class.java
                         )
-                        intent.putExtra(Constants.IMG_CAMERA_PATH, path) // Truyền đường dẫn ảnh
+                        intent.putExtra(Constants.INTENT_IMG_RESULT_PATH, path) // Truyền đường dẫn ảnh
+
                         startActivity(intent)
                     }
                 }

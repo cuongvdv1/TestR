@@ -17,6 +17,7 @@ import android.net.Uri
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
 import android.widget.FrameLayout
 import androidx.appcompat.content.res.AppCompatResources
 import com.vm.backgroundremove.objectremove.R
@@ -109,22 +110,16 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
         if (undoStack.isNotEmpty()) {
             backgroundBitmap = undoStack.last()
             invalidate()
-        } else {
-            clearBackGround()
         }
     }
-
     fun undo() {
         Log.d("TAG_UNDO", "UNDO: ${undoStack.size}")
-        if (undoStack.isNotEmpty()) {
-            redoStack.add(backgroundBitmap) // Lưu trạng thái hiện tại vào redo stack
-            undoStack.removeLast()
+        if (undoStack.isNotEmpty()) { // Lưu trạng thái hiện tại vào redo stack
+            val redoItem = undoStack.removeLast()
+            redoStack.add(redoItem)
             if (undoStack.isNotEmpty()) {
-
                 backgroundBitmap = undoStack.last()  // Lấy trạng thái cuối cùng từ undo stack
-             invalidate() // Vẽ lại view
-            } else {
-                clearBackGround()
+                invalidate() // Vẽ lại view
             }
             (context as? ResultRemoveBackGroundActivity)?.updateButtonStates()
         }
@@ -132,12 +127,15 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
 
     fun redo() {
         if (redoStack.isNotEmpty()) {
-            undoStack.add(backgroundBitmap) // Lưu trạng thái hiện tại vào undo stack
-            backgroundBitmap = redoStack.removeLast() // Lấy trạng thái cuối cùng từ redo stack
+            val currentItem = redoStack.removeLast()
+            undoStack.add(currentItem) // Lưu trạng thái hiện tại vào undo stack
+            backgroundBitmap = currentItem // Lấy trạng thái cuối cùng từ redo stack
             invalidate() // Vẽ lại view
             (context as? ResultRemoveBackGroundActivity)?.updateButtonStates()
         }
     }
+
+
 
     fun setBackgroundWithColor(color: Int) {
         val bitmap = createColorBitmap(color, measuredWidth, measuredHeight)
@@ -164,7 +162,7 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
     }
 
     fun canUndo(): Boolean {
-        return undoStack.isNotEmpty()
+        return undoStack.size > 1
     }
 
     fun canRedo(): Boolean {

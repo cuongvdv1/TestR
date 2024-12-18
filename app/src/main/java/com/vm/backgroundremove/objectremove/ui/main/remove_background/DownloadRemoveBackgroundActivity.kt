@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.vm.backgroundremove.objectremove.R
@@ -18,20 +19,24 @@ import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseViewModel
 import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
+import com.vm.backgroundremove.objectremove.a8_app_utils.parcelable
 import com.vm.backgroundremove.objectremove.database.HistoryModel
+import com.vm.backgroundremove.objectremove.databinding.ActivityRemoveBackgroundProcessBinding
+import com.vm.backgroundremove.objectremove.databinding.ActivityRemovebackgroundSaveBinding
 import com.vm.backgroundremove.objectremove.databinding.ActivityYourProjectsResultBinding
 import com.vm.backgroundremove.objectremove.ui.main.home.HomeActivity
+import com.vm.backgroundremove.objectremove.ui.main.your_projects.ProjectsActivity
+import com.vm.backgroundremove.objectremove.ui.main.your_projects.YourProjectsActivity
 import java.io.File
 import java.io.FileOutputStream
 
 class DownloadRemoveBackgroundActivity :
-    BaseActivity<ActivityYourProjectsResultBinding, BaseViewModel>() {
-    private var imageUrl = ""
-    private var imgUrl = ""
+    BaseActivity<ActivityRemovebackgroundSaveBinding, BaseViewModel>() {
+    private var imageUrl :String? = null
     private var isClickable = true
     private var historyModel: HistoryModel? = null
-    override fun createBinding(): ActivityYourProjectsResultBinding {
-        return ActivityYourProjectsResultBinding.inflate(layoutInflater)
+    override fun createBinding(): ActivityRemovebackgroundSaveBinding {
+        return ActivityRemovebackgroundSaveBinding.inflate(layoutInflater)
     }
 
     override fun setViewModel(): BaseViewModel {
@@ -40,30 +45,40 @@ class DownloadRemoveBackgroundActivity :
 
     override fun initView() {
         super.initView()
-        imageUrl = intent.getStringExtra(Constants.IMG_CAMERA_PATH) ?: ""
-        historyModel = intent.getParcelableExtra(Constants.INTENT_RESULT)
+        imageUrl = intent.getStringExtra(Constants.INTENT_IMG_RESULT_PATH) ?: ""
+        Log.d("TAG_IMAGE_INTENT", "imageUrl: $imageUrl")
+        historyModel = intent.parcelable<HistoryModel>(Constants.INTENT_RESULT)
 
-        if (imageUrl.isEmpty().not()) {
-            binding.tvTitleName.visibility = View.GONE
-            binding.tvTitle.visibility = View.VISIBLE
-            binding.tvSaved.visibility = View.VISIBLE
-            binding.ivHome.visibility = View.VISIBLE
-            binding.llBtnShare.visibility = View.GONE
-            binding.llBtnExport.visibility = View.GONE
-            binding.llShareWithFriend.visibility = View.VISIBLE
-            Log.d("TAG_IMAGE111", "imageUrl: $imageUrl")
-            Glide.with(this)
+        if (!imageUrl.isNullOrEmpty()) {
+            Log.d("TAG_IMAGE_INTENT_2", "imageUrl: $imageUrl")
+            Glide.with(this).asBitmap()
                 .load(imageUrl)
-                .into(binding.ivHistoryResult) // Assume you have an ImageView in your layout
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onResourceReady(
+                        resource: Bitmap, transition: Transition<in Bitmap>?
+                    ) {
+                        binding.ivHistoryResult.setImageFromBitmap(resource)
+                    }
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                    }
+                })
         } else {
-            Log.d("TAG_IMAGE222", "imageUrl1111: $imageUrl")
-            Log.d("TAG_IMAGE222", "historyModel: ${historyModel?.imageResult}")
-            Glide.with(this)
+            Glide.with(this).asBitmap()
                 .load(historyModel?.imageResult)
-                .into(binding.ivHistoryResult) // Assume you have an ImageView in your layout
+                .skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(object :CustomTarget<Bitmap>(){
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        binding.ivHistoryResult.setImageFromBitmap(resource)
+                    }
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                    }
+                })
         }
 
-        binding.llBtnExport.tap {
+        binding.llSaveToDevice.tap {
             if (isClickable) {
                 isClickable = false // Vô hiệu hóa click tiếp theo
                 Glide.with(this)
@@ -89,83 +104,33 @@ class DownloadRemoveBackgroundActivity :
                     })
 
                 // Khôi phục trạng thái sau một khoảng thời gian (nếu cần)
-                binding.llBtnShare.postDelayed({ isClickable = true }, 500)
-                binding.llBtnExport.postDelayed({ isClickable = true }, 500)
-                binding.llShareWithFriend.postDelayed({ isClickable = true }, 500)
+                binding.llShareWithFriends.postDelayed({ isClickable = true }, 500)
+                binding.llSaveToDevice.postDelayed({isClickable = true},500)
             }
 
 
         }
-        binding.llBtnShare.tap {
+        binding.llShareWithFriends.tap {
             if (isClickable) {
                 isClickable = false
-
                 shareImageFromCache(historyModel?.imageResult.toString())
-
-                binding.llBtnShare.postDelayed({ isClickable = true }, 500)
-                binding.llBtnExport.postDelayed({ isClickable = true }, 500)
-                binding.llShareWithFriend.postDelayed({ isClickable = true }, 500)
+                binding.llSaveToDevice.postDelayed({ isClickable = true }, 500)
+                binding.llShareWithFriends.postDelayed({ isClickable = true }, 500)
             }
 
         }
-        binding.llShareWithFriend.tap {
-            if (isClickable) {
-                isClickable = false
 
-                shareImageFromCache(imageUrl)
-
-                binding.llBtnShare.postDelayed({ isClickable = true }, 500)
-                binding.llBtnExport.postDelayed({ isClickable = true }, 500)
-                binding.llShareWithFriend.postDelayed({ isClickable = true }, 500)
-            }
-        }
-
-        binding.ivBack.tap {
-            finish()
-        }
         binding.ivHome.tap {
             val intent = Intent(this@DownloadRemoveBackgroundActivity, HomeActivity::class.java)
             startActivity(intent)
             finish()
         }
-
-    }
-
-
-    private fun shareImage(url: String) {
-        // Tải hình ảnh từ URL và lưu tạm vào cache
-        Glide.with(this)
-            .asFile()
-            .load(url)
-            .into(object : CustomTarget<File>() {
-                override fun onResourceReady(resource: File, transition: Transition<in File>?) {
-                    // Chia sẻ file ảnh sau khi tải về thành công
-                    shareFile(resource)
-                }
-
-                override fun onLoadCleared(placeholder: Drawable?) {
-                    Log.d("TAG_IMAGE", "onLoadCleared: ")
-                }
-            })
-    }
-
-    private fun shareFile(imageFile: File) {
-        // Tạo URI từ File thông qua FileProvider
-        val uri = FileProvider.getUriForFile(
-            this,
-            "$packageName.provider", // Thay đổi theo package name
-            imageFile
-        )
-
-        // Tạo Intent chia sẻ
-        val shareIntent = Intent(Intent.ACTION_SEND).apply {
-            type = "image/*"
-            putExtra(Intent.EXTRA_STREAM, uri)
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION) // Cho phép quyền đọc file
+        binding.ivHistory.tap {
+            val intent = Intent(this@DownloadRemoveBackgroundActivity, ProjectsActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
-        // Hiển thị dialog chọn ứng dụng
-        startActivity(Intent.createChooser(shareIntent, "Share image via"))
     }
 
     private fun shareImageFromCache(imageUrl: String) {

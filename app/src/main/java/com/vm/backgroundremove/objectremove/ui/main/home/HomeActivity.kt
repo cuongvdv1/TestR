@@ -15,6 +15,7 @@ import com.vm.backgroundremove.objectremove.databinding.ActivityHomeBinding
 import com.vm.backgroundremove.objectremove.dialog.DialogExit
 import com.vm.backgroundremove.objectremove.ui.common.setting.SettingActivity
 import com.vm.backgroundremove.objectremove.ui.main.choose_photo_rmv_bg.ChoosePhotoActivity
+import com.vm.backgroundremove.objectremove.ui.main.edit.ChoosePhotoEditActivity
 import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingActivity
 import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingRefineActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.DownloadRemoveBackgroundActivity
@@ -31,7 +32,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, ProjectViewModel>(), Dial
     private val projectAdapter by lazy { ProjectAdapter() }
     private lateinit var dialogExit : DialogExit
     override fun createBinding(): ActivityHomeBinding {
-        return ActivityHomeBinding.inflate(layoutInflater)
+            return ActivityHomeBinding.inflate(layoutInflater)
     }
 
     override fun setViewModel() = viewModel<ProjectViewModel>().value
@@ -147,6 +148,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, ProjectViewModel>(), Dial
             finish()
         }
 
+        binding.clOptionEditPhoto.tap {
+            val intent = Intent(this, ChoosePhotoEditActivity::class.java)
+//            intent.putExtra(Constants.NAME_INTENT_FROM_HOME, Constants.INTENT_FROM_HOME_TO_EDIT)
+            startActivity(intent)
+        }
+
 
     }
     override fun viewModel() {
@@ -165,10 +172,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, ProjectViewModel>(), Dial
                     }
 
                     if(arrProcess.size > 3){
-                        projectAdapter.submitList(arrProcess.subList(0,3))
+                        val filteredList = arrProcess.filter { it.type != "remove_obj_by_list" }
+                        projectAdapter.submitList(filteredList.subList(0,3))
                         Log.d("HomeActivity", "Data size1111: ${arrProcess}")
                     }else{
-                        projectAdapter.submitList(arrProcess)
+                        val filteredList = arrProcess.filter { it.type != "remove_obj_by_list" }
+                        projectAdapter.submitList(filteredList)
                     }
                 }
             }
