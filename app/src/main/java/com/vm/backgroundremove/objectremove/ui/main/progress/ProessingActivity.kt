@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.util.Log
+import android.view.View
 import android.view.animation.DecelerateInterpolator
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -69,7 +70,9 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
         type_process = intent.getStringExtra("type_process")
         listOtherSelected = intent.getStringExtra("listOtherSelected")
         if (type_process == "remove_obj_by_list"){
-        binding.tvYourPhoto.text = getString(R.string.your_photo_is_being_remove_object)
+        binding.tvYourPhoto.text = getString(R.string.your_photo_s_object_is_being_detecting)
+            binding.animationBird.visibility = View.GONE
+            binding.ctlYourRequest.visibility = View.GONE
         }else if (type_process == "remove_obj_by_text"){
             binding.tvYourPhoto.text = getString(R.string.your_photo_is_being_remove_object)
         }else if (type_process == "remove_obj_by_list_text"){

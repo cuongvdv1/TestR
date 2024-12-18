@@ -156,4 +156,5 @@
     <string name="ok">OK</string>
     <string name="choose_option">Choose option</string>
     <string name="upload_timeout_please_try_again">Upload timeout. Please try again.</string>
+    <string name="your_photo_s_object_is_being_detecting">Your photo\'s object\nis being detecting.</string>
 </resources>
