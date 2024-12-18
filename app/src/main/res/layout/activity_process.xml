@@ -198,44 +198,34 @@
             app:layout_constraintEnd_toEndOf="@id/pr_Indicator"
             app:layout_constraintStart_toStartOf="@id/pr_Indicator"
             app:layout_constraintTop_toBottomOf="@id/pr_Indicator" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cnViewGenerateStop"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/cnViewProcessGenerate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cl_generate_toolbar">
-
-        <ImageView
-            android:id="@+id/ivStopGenerate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
-            android:src="@drawable/ic_stop_generate"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
+        <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
+            android:id="@+id/tv_sitback"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="24dp"
-            android:gravity="center"
-            android:text="@string/you_have_ran_out_of_your_free_generate_requests_today_come_back_tomorrow_for_more"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_progress"
+            android:text="@string/sit_back"
+            android:minLines="2"
+            android:layout_marginHorizontal="16dp"
+            android:lineHeight="17.3dp"
+            android:layout_marginTop="40dp" />
+
+        <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont700
+            android:id="@+id/btn_try_now"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/try_Again"
+            style="@style/CustomText_White_16"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@id/txt_progress"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivStopGenerate" />
-
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textAlignment="center"
+            android:background="@drawable/bg_gradient_border_27"
+            android:paddingVertical="16dp"
+            android:layout_marginHorizontal="54dp"
+            android:layout_marginTop="76dp"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
 
     <FrameLayout
         android:id="@+id/fl_ad_setting"

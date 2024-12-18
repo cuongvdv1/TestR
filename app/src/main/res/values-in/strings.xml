@@ -150,4 +150,12 @@
     <string name="no">Tidak</string>
     <string name="are_you_sure_you_want_to_exit">Apakah Anda yakin ingin keluar?</string>
     <string name="exit_app">Keluar dari Aplikasi?</string>
+    <string name="your_photos">Foto Anda</string>
+    <string name="ok">OK</string>
+    <string name="choose_option">Pilih opsi</string>
+    <string name="upload_timeout_please_try_again">Waktu unggah habis. Silakan coba lagi.</string>
+    <string name="grant_permission">Beri Izin</string>
+    <string name="please_grant_all_permissions_to_access_additional_functionality">Harap berikan semua izin untuk mengakses fungsionalitas tambahan.</string>
+    <string name="go_to_setting">Pergi ke pengaturan</string>
+
 </resources>

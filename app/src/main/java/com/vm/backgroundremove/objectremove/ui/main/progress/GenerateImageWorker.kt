@@ -1,4 +1,4 @@
-package com.v1.photo.enhance.ui.main.ai_portraits.generate
+package com.vm.backgroundremove.objectremove.ui.main.progress
 
 
 import android.content.Context
@@ -47,7 +47,15 @@ class GenerateImageWorker(
         val rowCount = if (row > 0) row + 1 else 1
 
         processModel?.let {
-            it.name = "Create $rowCount"
+            it.name = if (it.type == "remove_background") {
+                val count = dbHistoryRepository.getRowRemoveBGCount()
+                val rowCount = if (row > 0) row + 1 else 1
+                "Remove BG $rowCount"
+            } else {
+                val count = dbHistoryRepository.getRowObjectRemoveCount()
+                val rowCount = if (row > 0) row + 1 else 1
+                "Object Remove $rowCount"
+            }
         }
 
         Log.e("GenerateImageWorker", processModel.toString())
@@ -151,8 +159,6 @@ class GenerateImageWorker(
                                     "GenerateImageWorker",
                                     "Status = todo. Position = 0.Estimated time = $estimatedTime ms"
                                 )
-
-
                                 delay(estimatedTime)
                             }
 
@@ -221,7 +227,7 @@ class GenerateImageWorker(
                 // Hoàn thành tiến trình
                 setProgressAsync(
                     Data.Builder()
-                        .putInt("progress", 100)
+                        .putInt("progress", 90)
                         .putString("status", status)
                         .putInt("positionProcessing", positionProcessing)
                         .putString("timeProcessing", "0") // Khi hoàn thành, thời gian còn lại = 0

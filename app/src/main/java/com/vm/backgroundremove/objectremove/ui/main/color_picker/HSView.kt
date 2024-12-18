@@ -35,7 +35,7 @@ class HSView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
     private var radius = 0f
 
     private var hsControllerPoint = PointF(strokeWidth, strokeWidth)
-    private val hsControllerRadius = 8f.toDp()
+    private val hsControllerRadius = 5f.toDp()
     private var hsBound = RectF()
     private var onColorChanged: (Int) -> Unit = {}
     private var vView: OnHSChange? = null
@@ -48,12 +48,6 @@ class HSView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
     private val backgroundPaint = Paint().apply {
         color = Color.WHITE
     }
-    private val strokePaint = Paint().apply {
-        color = Color.WHITE
-        style = Paint.Style.STROKE
-        strokeWidth = this@HSView.strokeWidth
-    }
-
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
@@ -70,7 +64,6 @@ class HSView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
             h.toFloat()
         )
         calculateControllerPoint(w.toFloat(), h.toFloat())
-        colorPaint.color = Color.HSVToColor(colorArray)
         vView?.onHSChange(colorArray[0], colorArray[1])
         vView?.setValue(colorArray[2])
         setUpHSShader()
@@ -166,13 +159,6 @@ class HSView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
         this.onColorChanged = onColorChanged
     }
 
-    fun setColor(color: Int) {
-        Color.colorToHSV(color, colorArray)
-        calculateControllerPoint(measuredWidth.toFloat(), measuredHeight.toFloat())
-        colorPaint.color = color
-        invalidate()
-    }
-
     fun setValue(value: Float) {
         colorArray[2] = value
         updateNewColor()
@@ -184,7 +170,6 @@ class HSView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
     private fun updateNewColor() {
         val color = Color.HSVToColor(colorArray)
-        colorPaint.color = color
         onColorChanged(color)
         invalidate()
     }

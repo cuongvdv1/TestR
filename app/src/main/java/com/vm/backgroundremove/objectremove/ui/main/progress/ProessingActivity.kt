@@ -180,9 +180,9 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
                                             val intent =
                                                 Intent(this@ProessingActivity, ResultRemoveBackGroundActivity::class.java)
                                             intent.putExtra(Constants.INTENT_RESULT, processModel)
+                                            Log.d("ProcessActivity", "SUCCEEDED  $processModel")
                                             startActivity(intent)
                                             finish()
-                                            Log.d("ProcessActivity", "SUCCEEDED  $processModel")
                                         }
                                         "remove_obj_by_text"-> {
                                             val processModelJson =
@@ -214,7 +214,6 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
 //                                            intent.putStringArrayListExtra("item_list", arrayListOf(processModel))
                                             startActivity(intent)
                                             finish()
-                                            Log.d("ProcessActivity", "SUCCEEDED  $processModel")
                                         }
                                         else ->{
                                             val processModelJson =

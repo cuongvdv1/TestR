@@ -8,6 +8,6 @@ import kotlinx.parcelize.Parcelize
 @Keep
 data class  GenerateResponse(
     var task_id: String = "",
-    var cf_url: String = "",
+    var cf_url: String? = "",
     var imageCreate: String = ""
 ) : Parcelable

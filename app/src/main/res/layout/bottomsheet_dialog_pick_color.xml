@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:contentDescription="@string/iv_cancel"
-                android:paddingStart="16dp"
+                android:paddingStart="20dp"
                 android:src="@drawable/ic_cancel" />
 
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont600
@@ -50,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
                 android:text="@string/color_picker"
+                style="@style/CustomText_color_37414B_16"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toStartOf="@+id/iv_selected"
                 app:layout_constraintStart_toEndOf="@+id/iv_cancel"
@@ -61,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
                 android:contentDescription="@string/iv_selected"
-                android:paddingEnd="6dp"
+                android:paddingEnd="18dp"
                 android:src="@drawable/ic_selected"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -96,29 +97,28 @@
             <com.vm.backgroundremove.objectremove.ui.main.color_picker.VView
                 android:id="@+id/vView_dialog"
                 android:layout_width="0dp"
-                android:layout_height="16dp"
+                android:layout_height="24dp"
                 android:layout_marginStart="25dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="23dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/iv_color_picker_dialog"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/picker_color" />
+
             <ImageView
                 android:id="@+id/iv_color_picker_dialog"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/ic_circle_color_picker"
                 android:backgroundTint="#E4A5C6"
+                app:layout_constraintBottom_toBottomOf="@+id/vView_dialog"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/picker_color"
-                app:tint="@color/color_FF6846"/>
+                app:layout_constraintTop_toTopOf="@+id/vView_dialog"
+                app:tint="@color/color_FF6846" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

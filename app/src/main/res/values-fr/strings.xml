@@ -146,5 +146,13 @@
     <string name="no">Non</string>
     <string name="are_you_sure_you_want_to_exit">Êtes-vous sûr de vouloir quitter ?</string>
     <string name="exit_app">Quitter l\'application ?</string>
+    <string name="your_photos">Vos photos</string>
+    <string name="ok">OK</string>
+    <string name="choose_option">Choisir une option</string>
+    <string name="upload_timeout_please_try_again">Délai de téléchargement dépassé. Veuillez réessayer.</string>
+    <string name="grant_permission">Accorder l\'autorisation</string>
+    <string name="please_grant_all_permissions_to_access_additional_functionality">Veuillez accorder toutes les autorisations pour accéder à des fonctionnalités supplémentaires.</string>
+    <string name="go_to_setting">Aller aux paramètres</string>
+
 
 </resources>

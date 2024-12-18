@@ -16,6 +16,7 @@ import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseViewModel
 import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.SystemUtil
 import com.vm.backgroundremove.objectremove.databinding.ActivityLanguageSettingBinding
+import com.vm.backgroundremove.objectremove.ui.main.home.HomeActivity
 
 
 class LanguageSettingActivity : BaseActivity<ActivityLanguageSettingBinding, BaseViewModel>() {
@@ -36,7 +37,7 @@ class LanguageSettingActivity : BaseActivity<ActivityLanguageSettingBinding, Bas
         binding.ivSave.tap {
             //other process
             SystemUtil.saveLocale(this@LanguageSettingActivity, lang)
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, HomeActivity::class.java))
             finish()
         }
 

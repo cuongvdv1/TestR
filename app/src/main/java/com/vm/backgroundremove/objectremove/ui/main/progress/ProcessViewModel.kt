@@ -9,8 +9,6 @@ import androidx.work.Data
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.v1.photo.enhance.ui.main.ai_portraits.generate.GenerateImageWorker
-import com.v1.photo.enhance.ui.main.ai_portraits.generate.ITEM_GENERATE
 import com.vm.backgroundremove.objectremove.a8_app_utils.ProcessState
 import com.vm.backgroundremove.objectremove.database.HistoryModel
 import com.vm.backgroundremove.objectremove.database.HistoryRepository
