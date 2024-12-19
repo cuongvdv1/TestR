@@ -172,4 +172,5 @@
     <string name="try_Again">Try Again</string>
     <string name="result">Result</string>
     <string name="save_to_your_device">Save to your device</string>
+    <string name="your_photo_s_object_is_being_detecting">Your photo\'s object\nis being detecting.</string>
 </resources>
