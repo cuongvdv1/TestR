@@ -13,9 +13,6 @@ interface HistoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertProcess(processModel: HistoryModel): Long
 
-    @Update
-    suspend fun updateProcess(processModel: HistoryModel)
-
     @Query("select * from HistoryModel")
     fun getAllProcess(): Flow<List<HistoryModel>>
 
@@ -34,16 +31,19 @@ interface HistoryDao {
     @Query("UPDATE HistoryModel SET type = :type WHERE id = :id")
     suspend fun updateType(id: Long, type: String)
 
+    @Query("UPDATE HistoryModel SET type = :type WHERE id = :id")
+    fun updateRmvBGType(id: Long, type: String)
+
     @Query("UPDATE HistoryModel SET other = :other WHERE id = :id")
     suspend fun updateOther(id: Long, other: String)
 
     @Query("SELECT COUNT(name) FROM HistoryModel")
     fun getRowCount() : Int
 
-    @Query("SELECT COUNT(name) FROM HistoryModel where type like 'remove_obj_by_text' OR type like 'remove_obj_by_list'")
+    @Query("SELECT COUNT(name) FROM HistoryModel where type like 'remove_obj_by_text' OR type like 'remove_obj_by_list_text'")
     fun getRowObjectRemoveCount() : Int
 
-    @Query("SELECT COUNT(name) FROM HistoryModel where type like 'remove_background'")
+    @Query("SELECT COUNT(name) FROM HistoryModel where type like 'remove_background'OR type like 'remove_background_done'")
     fun getRowRemoveBGCount() : Int
 
     @Query("select * from HistoryModel where id like :id")

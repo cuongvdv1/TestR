@@ -52,13 +52,13 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.vm.backgroundremove.objectremove.ui.main.cropview.CropView
+    <ImageView
         android:id="@+id/iv_history_result_crop"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="21dp"
-        android:adjustViewBounds="true"
+        android:background="@drawable/bg_none"
         app:layout_constraintBottom_toTopOf="@id/ll_option1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

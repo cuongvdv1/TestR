@@ -29,6 +29,7 @@ import java.io.FileOutputStream
 class DownloadRemoveBackgroundActivity :
     BaseActivity<ActivityResultSaveBinding, BaseViewModel>() {
     private var imageUrl :String? = null
+    private var image_path : String? = null
     private var isClickable = true
     private var historyModel: HistoryModel? = null
     override fun createBinding(): ActivityResultSaveBinding {
@@ -41,7 +42,8 @@ class DownloadRemoveBackgroundActivity :
 
     override fun initView() {
         super.initView()
-        imageUrl = intent.getStringExtra(Constants.INTENT_IMG_RESULT_PATH) ?: ""
+        imageUrl = intent.getStringExtra(Constants.INTENT_IMG_RESULT) ?: ""
+        image_path = intent.getStringExtra(Constants.INTENT_IMG_RESULT_PATH)
         Log.d("TAG_IMAGE_INTENT", "imageUrl: $imageUrl")
         historyModel = intent.parcelable<HistoryModel>(Constants.INTENT_RESULT)
 

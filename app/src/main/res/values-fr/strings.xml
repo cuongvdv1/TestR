@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SupprimerFond</string>
+
     <string name="img_project_empty">img_projet_vide</string>
     <string name="there_are_no_projects_yet">Il n\'y a pas encore de projets</string>
     <string name="home">Accueil</string>
@@ -154,5 +154,26 @@
     <string name="please_grant_all_permissions_to_access_additional_functionality">Veuillez accorder toutes les autorisations pour accéder à des fonctionnalités supplémentaires.</string>
     <string name="go_to_setting">Aller aux paramètres</string>
 
+
+    <string name="remove_object">Supprimer l\'objet</string>
+    <string name="background_removal">Suppression de l\'arrière-plan</string>
+    <string name="edit_photo_s_background">Modifier l\'arrière-plan de la photo</string>
+    <string name="change_the_background_from_any_image_with_precision">Changez l\'arrière-plan de n\'importe quelle image avec précision.</string>
+    <string name="choose_photos">Choisir des photos</string>
+    <string name="choose_a_photo_to_start_editing_the_background">Choisissez une photo pour commencer à modifier l\'arrière-plan</string>
+    <string name="no_photos">Aucune photo disponible pour modifier les arrière-plans. Choisissez des photos avec des arrière-plans supprimés pour continuer</string>
+    <string name="start_removing">Commencez à supprimer l\'arrière-plan de votre photo maintenant !</string>
+    <string name="try_now">Essayez maintenant</string>
+    <string name="sit_back">Asseyez-vous et détendez-vous—votre superbe modification d\'arrière-plan est en cours !</string>
+    <string name="try_Again">Réessayer</string>
+    <string name="result">Résultat</string>
+    <string name="save_to_your_device">Enregistrer sur votre appareil</string>
+    <string name="your_photo_s_object_is_being_detecting">L\'objet de votre photo est en cours de détection.</string>
+    <string name="all_objects_in_the_photo_are_being_detected">Tous les objets de la photo sont en cours de détection</string>
+    <string name="that_object_is_being_removed_from_your_photo">Cet objet est en train d\'être supprimé de votre photo</string>
+    <string name="your_photo_s_object_is_being_removed">L\'objet de votre photo est en cours de suppression.</string>
+    <string name="if_the_object">Si l\'objet que vous souhaitez supprimer ne figure pas dans la liste ci-dessus, tapez-le ici :</string>
+    <string name="the_result_will_be_done_soon_stay_patient">Le résultat sera bientôt prêt. Restez patient !</string>
+    <string name="keep_calm_and_wait_for_ai_do_its_job">Restez calme et attendez que l\'IA fasse son travail !</string>
 
 </resources>

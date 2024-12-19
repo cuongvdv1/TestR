@@ -9,7 +9,8 @@ data class ResultImageResponse (
     val img_url : List<ImgUrlResponse>,
     val other: List<List<String>>,
     val success: Boolean,
-    val status: String
+    val status: String,
+    val position: Int? = null
 ): Serializable
 
 

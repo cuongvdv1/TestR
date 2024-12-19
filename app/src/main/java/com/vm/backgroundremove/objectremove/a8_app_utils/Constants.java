@@ -1,5 +1,7 @@
 package com.vm.backgroundremove.objectremove.a8_app_utils;
 
+import org.jetbrains.annotations.Nullable;
+
 public class Constants {
 
     public static final String STREAMING_COMPLETED = "streaming_completed";
@@ -28,6 +30,7 @@ public class Constants {
     public static final String NAME_INTENT_FROM_HOME = "from_home";
     public static final String NAME_INTENT_FORM_FRAGMENT ="fragment";
     public static final String INTENT_FROM_HOME_TO_BACKGROUND = "RemoveBackgroundActivity";
+    public static final String INTENT_FROM_HOME_TO_EDIT = "EditRemoveBackGroundActivity";
     public static final String INTENT_FROM_HOME_TO_OBJECT = "RemoveObjectActivity";
     public static final String INTENT_FROM_FRAGMENT_CHOOSE_BG ="FragmentChooseBackground";
     public static final String INTENT_RESULT = "INTENT_RESULT";
@@ -41,6 +44,6 @@ public class Constants {
     public static final String INTENT_EDIT_FROM= "INTENT_EDIT_FROM";
     public static final String INTENT_EDIT_FROM_HISTORY = "INTENT_EDIT_FROM_HISTORY";
     public static final String INTENT_EDIT_FROM_PROCESS = "INTENT_EDIT_FROM_PROCESS";
-
-
+    public static final String INTENT_IMG_RESULT= "INTENT_IMG_RESULT";
+    public static final String INTENT_IMG_RESULT_URL= "INTENT_IMG_RESULT_URL";
 }

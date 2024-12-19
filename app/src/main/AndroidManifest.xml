@@ -50,7 +50,7 @@
             android:name=".ui.main.remove_object.bylist.RemoveObjectByListActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.main.progress.ProessingActivity"
+            android:name=".ui.main.progress.ProcessingActivity"
             android:exported="false" />
         <activity
             android:name=".ui.main.remove_background.DownloadRemoveBackgroundActivity"

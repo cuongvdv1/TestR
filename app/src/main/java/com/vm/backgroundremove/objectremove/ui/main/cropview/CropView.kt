@@ -130,8 +130,6 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
         }
     }
 
-
-
     fun setBackgroundWithColor(color: Int) {
         val bitmap = createColorBitmap(color, measuredWidth, measuredHeight)
         setBackgroundBitmap(bitmap)
@@ -169,6 +167,19 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
         this.bitmap = bitmap
         calculateBitmapBound(measuredWidth.toFloat(), measuredHeight.toFloat())
         invalidate()
+    }
+    fun getBitmapWithBackground(): Bitmap {
+        // Kiểm tra liệu có nền không
+        if (!hasBackgroundBitmap()) return Bitmap.createBitmap(0, 0, Bitmap.Config.ARGB_8888)
+
+        // Tạo bitmap mới
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+
+        // Vẽ nền lên canvas
+        draw(canvas)
+
+        return bitmap
     }
 
     private fun drawBitmap(canvas: Canvas) {

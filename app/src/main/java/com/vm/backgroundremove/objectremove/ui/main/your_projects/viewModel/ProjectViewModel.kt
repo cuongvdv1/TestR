@@ -34,4 +34,12 @@ class ProjectViewModel(private val historyRepository: HistoryRepository): ViewMo
             getAllProcess()
         }
     }
+    fun updatePhotoEditList() {
+        viewModelScope.launch {
+            arrProcess.collect { arrProcess ->
+                val filteredList = arrProcess.filter { it.type == "remove_background_done" }
+                _arrProcess.value = filteredList
+            }
+        }
+    }
 }

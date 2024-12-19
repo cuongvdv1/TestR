@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
@@ -17,23 +16,22 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
-import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseViewModel
 import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.a8_app_utils.parcelable
 import com.vm.backgroundremove.objectremove.api.response.UpLoadImagesResponse
 import com.vm.backgroundremove.objectremove.database.HistoryModel
-import com.vm.backgroundremove.objectremove.databinding.ActivityResultRemoveObjectAndDowLoadBinding
+import com.vm.backgroundremove.objectremove.databinding.ActivityResultSaveBinding
 import com.vm.backgroundremove.objectremove.dialog.LoadingDialog
 import com.vm.backgroundremove.objectremove.dialog.ProcessingDialog
-import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingActivity
+import com.vm.backgroundremove.objectremove.ui.main.home.HomeActivity
+import com.vm.backgroundremove.objectremove.ui.main.progress.ProcessingActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackGroundViewModel
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity.Companion.KEY_GENERATE
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity.Companion.KEY_REMOVE
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
 import com.vm.backgroundremove.objectremove.ui.main.remove_object.ResultRemoveObjectActivity
 import com.vm.backgroundremove.objectremove.util.Utils
-import com.vm.backgroundremove.objectremove.util.getBitmapFrom
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.TimeoutCancellationException
@@ -49,10 +47,11 @@ import java.io.FileOutputStream
 import java.io.OutputStream
 
 class ResultRemoveObjectAndDowLoadActivity :
-    BaseActivity<ActivityResultRemoveObjectAndDowLoadBinding, RemoveBackGroundViewModel>() {
-    override fun createBinding(): ActivityResultRemoveObjectAndDowLoadBinding {
-        return ActivityResultRemoveObjectAndDowLoadBinding.inflate(layoutInflater)
+    BaseActivity<ActivityResultSaveBinding, RemoveBackGroundViewModel>() {
+    override fun createBinding(): ActivityResultSaveBinding {
+        return ActivityResultSaveBinding.inflate(layoutInflater)
     }
+
     private lateinit var processingDialog1: ProcessingDialog
     private var historyModel: HistoryModel? = null
     private var bitmap: Bitmap? = null
@@ -66,10 +65,11 @@ class ResultRemoveObjectAndDowLoadActivity :
         super.initView()
         processingDialog1 = ProcessingDialog(this@ResultRemoveObjectAndDowLoadActivity)
         dialog = LoadingDialog(this@ResultRemoveObjectAndDowLoadActivity)
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fl_rm_object_by_list_dowload, RemoveByTextResultFragment()).commit()
+//        supportFragmentManager.beginTransaction()
+//            .replace(R.id.fl_rm_object_by_list_dowload, RemoveByTextResultFragment()).commit()
 
-        binding.ivBack.tap {
+        binding.ivHome.tap {
+            startActivity(Intent(this, HomeActivity::class.java))
             finish()
         }
 
@@ -88,7 +88,7 @@ class ResultRemoveObjectAndDowLoadActivity :
                             ) {
 
                                 bitmap = resource
-                                binding.ivRmvObject.setImageFromBitmap(bitmap!!)
+                                binding.ivHistoryResult.setImageFromBitmap(bitmap!!)
 
                             }
 
@@ -98,47 +98,17 @@ class ResultRemoveObjectAndDowLoadActivity :
                         })
                 }
 
-                viewModel.triggerRemove.observe(this) {
-                    viewModel.text.observe(this) { text ->
-                        if (text.isNullOrEmpty()) {
-                            return@observe
-                        }
-                        if (bitmap != null) {
-                            getBitmapFrom(this, historyModel?.imageCreate) {
-                                uploadImageRemoveBackground(it, text.toString())
-                            }
-                        }
-                        viewModel.upLoadImage.observe(this) { response ->
-                            if (response.task_id.isNotBlank() && response.cf_url.isNotBlank() && response.success) {
-                                startDataGenerate(
-                                    response,
-                                    historyModel?.imageCreate!!
-                                )
-                            } else {
-                                processingDialog1.dismiss()
-                                Toast.makeText(
-                                    this,
-                                    "Failed to process the image. Please try again.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                return@observe
-                            }
 
-//                            projectViewModel.deleteHistory(historyModel)
-                        }
-                    }
-                }
-                binding.ivBeforeAfter.tap {
-                    Log.d("YEUTRINHLAMLUON", historyModel?.imageCreate.toString())
-                    val uriImage = Uri.parse(historyModel?.imageCreate.toString())
-                    binding.ivRmvObject.toggleImage(bitmap!!, uriImage)
-                }
+//                binding.ivBeforeAfter.tap {
+//                    val uriImage = Uri.parse(historyModel?.imageCreate.toString())
+//                    binding.ivRmvObject.toggleImage(bitmap!!, uriImage)
+//                }
             }
 
         } catch (_: Exception) {
         }
 
-        binding.ivExport.tap {
+        binding.llSaveToDevice.tap {
             val imageUrl = historyModel?.imageResult?.takeIf { it.isNotEmpty() }
 
             if (imageUrl != null) {
@@ -202,6 +172,7 @@ class ResultRemoveObjectAndDowLoadActivity :
             }
         }
     }
+
     private fun startDataGenerate(uploadResponse: UpLoadImagesResponse, imageCreate: String) {
         processingDialog1.dismiss()
         val modelGenerate = GenerateResponse()
@@ -213,7 +184,7 @@ class ResultRemoveObjectAndDowLoadActivity :
             startActivity(
                 Intent(
                     this@ResultRemoveObjectAndDowLoadActivity,
-                    ProessingActivity::class.java
+                    ProcessingActivity::class.java
                 ).apply {
                     putExtra(KEY_GENERATE, modelGenerate)
                     putExtra(KEY_REMOVE, Constants.ITEM_CODE_RMOBJECT)
@@ -225,6 +196,7 @@ class ResultRemoveObjectAndDowLoadActivity :
         }
 
     }
+
     private fun downloadImageFromUrl(context: Context, imageUrl: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {

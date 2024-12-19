@@ -157,4 +157,26 @@
     <string name="please_grant_all_permissions_to_access_additional_functionality">Por favor, concede todos los permisos para acceder a funcionalidades adicionales.</string>
     <string name="go_to_setting">Ir a configuración</string>
 
+    <string name="remove_object">Eliminar objeto</string>
+    <string name="background_removal">Eliminación de fondo</string>
+    <string name="edit_photo_s_background">Editar el fondo de la foto</string>
+    <string name="change_the_background_from_any_image_with_precision">Cambia el fondo de cualquier imagen con precisión.</string>
+    <string name="choose_photos">Elegir fotos</string>
+    <string name="choose_a_photo_to_start_editing_the_background">Elige una foto para empezar a editar el fondo</string>
+    <string name="no_photos">No hay fotos disponibles para editar fondos. Elige fotos con fondos eliminados para continuar</string>
+    <string name="start_removing">¡Empieza a eliminar el fondo de tu foto ahora!</string>
+    <string name="try_now">Probar ahora</string>
+    <string name="sit_back">Relájate—¡la impresionante edición de fondo está en camino!</string>
+    <string name="try_Again">Intentar de nuevo</string>
+    <string name="result">Resultado</string>
+    <string name="save_to_your_device">Guardar en tu dispositivo</string>
+    <string name="your_photo_s_object_is_being_detecting">El objeto de tu foto está siendo detectado.</string>
+    <string name="all_objects_in_the_photo_are_being_detected">Todos los objetos en la foto están siendo detectados</string>
+    <string name="that_object_is_being_removed_from_your_photo">Ese objeto está siendo eliminado de tu foto</string>
+    <string name="your_photo_s_object_is_being_removed">El objeto de tu foto está siendo eliminado.</string>
+    <string name="if_the_object">Si el objeto que quieres eliminar no está en la lista anterior, escríbelo aquí:</string>
+    <string name="the_result_will_be_done_soon_stay_patient">El resultado estará listo pronto. ¡Sé paciente!</string>
+    <string name="keep_calm_and_wait_for_ai_do_its_job">Mantén la calma y espera a que la IA haga su trabajo.</string>
+
+
 </resources>

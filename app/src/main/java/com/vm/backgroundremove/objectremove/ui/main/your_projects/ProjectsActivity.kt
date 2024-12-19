@@ -7,21 +7,15 @@ import androidx.activity.addCallback
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.lib.admob.interstitialAds.base.InterCallback
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
-import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseViewModel
 import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.databinding.ActivityYourProjectsBinding
-import com.vm.backgroundremove.objectremove.dialog.DetectingDialog
 import com.vm.backgroundremove.objectremove.dialog.DialogExit
 import com.vm.backgroundremove.objectremove.ui.common.setting.SettingActivity
-import com.vm.backgroundremove.objectremove.ui.main.choose_photo_rmv_bg.ChoosePhotoActivity
 import com.vm.backgroundremove.objectremove.ui.main.home.HomeActivity
-import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingActivity
+import com.vm.backgroundremove.objectremove.ui.main.progress.ProcessingActivity
 import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingRefineActivity
-import com.vm.backgroundremove.objectremove.ui.main.remove_background.DownloadRemoveBackgroundActivity
-import com.vm.backgroundremove.objectremove.ui.main.remove_background.ResultRemoveBackGroundActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_object.bylist.RemoveObjectByListActivity
 import com.vm.backgroundremove.objectremove.ui.main.your_projects.adapter.ProjectAdapter
 import com.vm.backgroundremove.objectremove.ui.main.your_projects.viewModel.ProjectViewModel
@@ -85,12 +79,13 @@ class ProjectsActivity : BaseActivity<ActivityYourProjectsBinding, ProjectViewMo
         }
         projectAdapter.setOnViewMoreClick {
             if (it.isSuccess()) {
-                Log.d("YEUTRINHLAMLUON",it.type)
                 if (it.type.equals("remove_obj_by_list")){
                     val intent = Intent(this, RemoveObjectByListActivity::class.java)
+                    Log.d("TAG", "bindView: ${it.idWorker}")
                     intent.putExtra(Constants.INTENT_RESULT, it)
                     startActivity(intent)
-                }else {
+                }
+                else {
                     val intent =
                         Intent(this@ProjectsActivity, HistoryResultActivity::class.java)
                     intent.putExtra(Constants.INTENT_RESULT, it)
@@ -98,21 +93,12 @@ class ProjectsActivity : BaseActivity<ActivityYourProjectsBinding, ProjectViewMo
                 }
 
             } else {
-                if (it.type.equals("rmobject_refine_obj")){
-                    val intent = Intent(this, ProessingRefineActivity::class.java)
-                    intent.putExtra(Constants.WORK_UUID, it.idWorker)
-                    intent.putExtra(Constants.KEY_PROCESS, it)
-                    intent.putExtra("type_process","remove_obj_by_list")
-                    startActivity(intent)
-                    finish()
-                }else{
-                    val intent = Intent(this, ProessingActivity::class.java)
+
+                    val intent = Intent(this, ProcessingActivity::class.java)
                     intent.putExtra(Constants.WORK_UUID, it.idWorker)
                     intent.putExtra(Constants.KEY_PROCESS, it)
                     intent.putExtra("type_process",it.type)
                     startActivity(intent)
-                    finish()
-                }
             }
         }
     }
@@ -122,7 +108,9 @@ class ProjectsActivity : BaseActivity<ActivityYourProjectsBinding, ProjectViewMo
         jobProcess = lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.arrProcess.collect { arrProcess ->
-                    if (arrProcess.size == 0){
+
+                    val filteredList = arrProcess.filter { it.type != "remove_obj_by_list" }
+                    if (filteredList.size == 0){
                         binding.ivEmpty.visibility = View.VISIBLE
                         binding.rcvHistory.visibility = View.GONE
                         binding.clEmpty.visibility = View.VISIBLE
@@ -134,7 +122,6 @@ class ProjectsActivity : BaseActivity<ActivityYourProjectsBinding, ProjectViewMo
                         binding.clEmpty.visibility = View.GONE
                         binding.rcvHistory.visibility = View.VISIBLE
                     }
-                    val filteredList = arrProcess.filter { it.type != "remove_obj_by_list" }
                     projectAdapter.submitList(filteredList)
                 }
             }

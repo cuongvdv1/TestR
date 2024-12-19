@@ -11,7 +11,7 @@ import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.api.response.UpLoadImagesResponse
 import com.vm.backgroundremove.objectremove.databinding.ActivityRemoveBackgroundBinding
 import com.vm.backgroundremove.objectremove.dialog.ProcessingDialog
-import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingActivity
+import com.vm.backgroundremove.objectremove.ui.main.progress.ProcessingActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
 import com.vm.backgroundremove.objectremove.util.Utils
 import com.vm.backgroundremove.objectremove.util.getBitmapFrom
@@ -88,7 +88,7 @@ class RemoveBackgroundActivity :
         startActivity(
             Intent(
                 this@RemoveBackgroundActivity,
-                ProessingActivity::class.java
+                ProcessingActivity::class.java
             ).apply {
                 putExtra(KEY_GENERATE, modelGenerate)
                 putExtra(KEY_REMOVE, Constants.ITEM_CODE)

@@ -85,6 +85,13 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
                     setResult(RESULT_OK, intent)
                     finish()
                 }
+
+                checkRemove == Constants.INTENT_FROM_HOME_TO_EDIT ->{
+                    val intent = Intent(this@ChoosePhotoActivity, RemoveBackgroundActivity::class.java)
+                    intent.putExtra(Constants.IMG_GALLERY_PATH, uriPhoto)
+                    startActivity(intent)
+                    finish()
+                }
             }
 
         }

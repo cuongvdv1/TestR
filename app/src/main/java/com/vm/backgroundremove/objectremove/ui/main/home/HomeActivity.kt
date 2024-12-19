@@ -16,7 +16,7 @@ import com.vm.backgroundremove.objectremove.dialog.DialogExit
 import com.vm.backgroundremove.objectremove.ui.common.setting.SettingActivity
 import com.vm.backgroundremove.objectremove.ui.main.choose_photo_rmv_bg.ChoosePhotoActivity
 import com.vm.backgroundremove.objectremove.ui.main.edit.ChoosePhotoEditActivity
-import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingActivity
+import com.vm.backgroundremove.objectremove.ui.main.progress.ProcessingActivity
 import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingRefineActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_object.bylist.RemoveObjectByListActivity
 import com.vm.backgroundremove.objectremove.ui.main.your_projects.HistoryResultActivity
@@ -54,12 +54,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, ProjectViewModel>(), Dial
                             binding.tvEmpty.visibility = View.GONE
                             binding.rcvRecentProjects.visibility = View.VISIBLE
                         }
-
+                        val filteredList = arrProcess.filter { it.type != "remove_obj_by_list" }
                         if(arrProcess.size > 3){
-                            Log.d("HomeActivity", "Data sizeeeeee: ${arrProcess}")
-                            projectAdapter.submitList(arrProcess.subList(0,3))
+                            projectAdapter.submitList(filteredList.subList(0,3))
                         }else{
-                            projectAdapter.submitList(arrProcess)
+                            projectAdapter.submitList(filteredList)
                         }
                     }
                 }
@@ -91,7 +90,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, ProjectViewModel>(), Dial
                     startActivity(intent)
                     finish()
                 }else{
-                    val intent = Intent(this, ProessingActivity::class.java)
+                    val intent = Intent(this, ProcessingActivity::class.java)
                     intent.putExtra(Constants.WORK_UUID, it.idWorker)
                     intent.putExtra(Constants.KEY_PROCESS, it)
                     intent.putExtra("type_process",it.type)

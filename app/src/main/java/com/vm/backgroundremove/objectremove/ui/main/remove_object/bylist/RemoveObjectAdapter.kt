@@ -53,6 +53,7 @@ class RemoveObjectAdapter(
     override fun getItemCount(): Int {
         return list.size
     }
+
     fun mergeSelectionsWithDisabled(disabledItems: List<String>): List<String> {
         val allSelectedItems = getSelectedItems().toMutableList()
         allSelectedItems.addAll(disabledItems.filterNot { allSelectedItems.contains(it) })
@@ -72,29 +73,29 @@ class RemoveObjectAdapter(
 
         val isSelected = selectedItems.contains(position)
 
-            if (isDisabled) {
-                holder.binding.tvObject.alpha = 0.3f
-                holder.binding.root.isEnabled = false
-            } else {
-                holder.binding.root.isEnabled = true
-                holder.binding.tvObject.alpha = 1f
-                holder.binding.root.setOnClickListener {
+        if (isDisabled) {
+            holder.binding.tvObject.alpha = 0.3f
+            holder.binding.root.isEnabled = false
+        } else {
+            holder.binding.root.isEnabled = true
+            holder.binding.tvObject.alpha = 1f
+            holder.binding.root.setOnClickListener {
 
-                    if (isSelectionEnabled) {
-                        if(disabledItems.size == 0){
-                            if (selectedItems.contains(position)) {
-                                selectedItems.remove(position)
-                            } else {
-                                selectedItems.add(position)
-                            }
-                            Log.d("selectedItems", "${selectedItems.size}")
-                            onSelectionChangedListener?.invoke(selectedItems.size)
-                            notifyItemChanged(position)
+                if (isSelectionEnabled) {
+                    if (disabledItems.size == 0) {
+                        if (selectedItems.contains(position)) {
+                            selectedItems.remove(position)
+                        } else {
+                            selectedItems.add(position)
                         }
-
+                        Log.d("selectedItems", "${selectedItems.size}")
+                        onSelectionChangedListener?.invoke(selectedItems.size)
+                        notifyItemChanged(position)
                     }
 
                 }
+
+            }
 
 
         }

@@ -173,4 +173,10 @@
     <string name="result">Result</string>
     <string name="save_to_your_device">Save to your device</string>
     <string name="your_photo_s_object_is_being_detecting">Your photo\'s object\nis being detecting.</string>
+    <string name="all_objects_in_the_photo_are_being_detected">All objects in the photo are being detected</string>
+    <string name="that_object_is_being_removed_from_your_photo">That object is being removed from your photo</string>
+    <string name="your_photo_s_object_is_being_removed">Your photo\'s object is being removed.</string>
+    <string name="if_the_object">If the object you want to remove is not in the list above, type it here:</string>
+    <string name="the_result_will_be_done_soon_stay_patient">The result will be done soon. Stay patient!</string>
+    <string name="keep_calm_and_wait_for_ai_do_its_job">Keep calm and wait for AI do its job!</string>
 </resources>

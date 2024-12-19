@@ -2,6 +2,7 @@ package com.vm.backgroundremove.objectremove.database
 
 import android.os.Parcelable
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.google.gson.Gson
 import kotlinx.parcelize.Parcelize
@@ -26,6 +27,8 @@ data class HistoryModel(
     var type: String = "",
     var other: String? = null,
     var status_type: Boolean? = null,
+    @Ignore
+    val isSelected: Boolean = false,
 ) : Parcelable {
 
     fun convertToString(): String = Gson().toJson(this)

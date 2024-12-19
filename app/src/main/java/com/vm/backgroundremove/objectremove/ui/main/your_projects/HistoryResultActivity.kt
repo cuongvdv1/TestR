@@ -50,17 +50,7 @@ class HistoryResultActivity : BaseActivity<ActivityHistoryResultBinding, BaseVie
                     Glide.with(this).asBitmap()
                         .load(historyModel?.imageResult)
                         .skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .into(object : CustomTarget<Bitmap>() {
-                            override fun onResourceReady(
-                                resource: Bitmap,
-                                transition: Transition<in Bitmap>?
-                            ) {
-                                binding.ivHistoryResultCrop.setBitmap(resource)
-                            }
-
-                            override fun onLoadCleared(placeholder: Drawable?) {
-                            }
-                        })
+                        .into(binding.ivHistoryResultCrop)
                 } else {
 
                     binding.ivHistoryResultCrop.visibility = View.INVISIBLE

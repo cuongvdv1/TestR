@@ -157,4 +157,25 @@
     <string name="please_grant_all_permissions_to_access_additional_functionality">अतिरिक्त कार्यक्षमता का उपयोग करने के लिए कृपया सभी अनुमतियाँ प्रदान करें।</string>
     <string name="go_to_setting">सेटिंग में जाएं</string>
 
+    <string name="remove_object">ऑब्जेक्ट हटाएं</string>
+    <string name="background_removal">पृष्ठभूमि हटाएं</string>
+    <string name="edit_photo_s_background">फोटो की पृष्ठभूमि संपादित करें</string>
+    <string name="change_the_background_from_any_image_with_precision">किसी भी छवि की पृष्ठभूमि को सटीकता के साथ बदलें।</string>
+    <string name="choose_photos">फोटो चुनें</string>
+    <string name="choose_a_photo_to_start_editing_the_background">पृष्ठभूमि संपादित करने के लिए एक फोटो चुनें</string>
+    <string name="no_photos">पृष्ठभूमि संपादित करने के लिए कोई फोटो उपलब्ध नहीं हैं। जारी रखने के लिए पृष्ठभूमि हटाए गए फोटो चुनें</string>
+    <string name="start_removing">अपनी फोटो की पृष्ठभूमि को अभी हटाना शुरू करें!</string>
+    <string name="try_now">अभी आज़माएं</string>
+    <string name="sit_back">आराम से बैठें—आपका शानदार पृष्ठभूमि संपादन तैयार हो रहा है!</string>
+    <string name="try_Again">फिर से प्रयास करें</string>
+    <string name="result">परिणाम</string>
+    <string name="save_to_your_device">अपने डिवाइस में सहेजें</string>
+    <string name="your_photo_s_object_is_being_detecting">आपकी फोटो की वस्तु का पता लगाया जा रहा है।</string>
+    <string name="all_objects_in_the_photo_are_being_detected">फोटो में सभी वस्तुओं का पता लगाया जा रहा है</string>
+    <string name="that_object_is_being_removed_from_your_photo">वह वस्तु आपकी फोटो से हटाई जा रही है</string>
+    <string name="your_photo_s_object_is_being_removed">आपकी फोटो की वस्तु हटाई जा रही है।</string>
+    <string name="if_the_object">यदि ऊपर सूची में वह वस्तु नहीं है जिसे आप हटाना चाहते हैं, तो इसे यहां टाइप करें:</string>
+    <string name="the_result_will_be_done_soon_stay_patient">परिणाम जल्द ही तैयार होगा। कृपया धैर्य रखें!</string>
+    <string name="keep_calm_and_wait_for_ai_do_its_job">शांत रहें और एआई को अपना काम करने दें!</string>
+
 </resources>
