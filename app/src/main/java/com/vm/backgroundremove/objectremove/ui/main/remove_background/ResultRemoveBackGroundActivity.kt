@@ -4,9 +4,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
@@ -16,10 +13,10 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.bumptech.glide.request.transition.Transition
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
 import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
@@ -27,12 +24,8 @@ import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.a8_app_utils.parcelable
 import com.vm.backgroundremove.objectremove.database.HistoryModel
 import com.vm.backgroundremove.objectremove.databinding.ActivityRemoveBackgroundBinding
-import com.vm.backgroundremove.objectremove.dialog.DialogExit
 import com.vm.backgroundremove.objectremove.dialog.DiscardChangesDialog
 import com.vm.backgroundremove.objectremove.dialog.LoadingDialog
-import com.vm.backgroundremove.objectremove.ui.main.cropview.CropView
-import com.vm.backgroundremove.objectremove.ui.main.remove_object.ResultRemoveObjectActivity
-import com.vm.backgroundremove.objectremove.ui.main.your_projects.YourProjectsActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -47,6 +40,7 @@ class ResultRemoveBackGroundActivity :
     private var type = ""
     private var checkChangedBG: Boolean = false
     private var isClicked: Boolean = false
+    private var intent_from : String ?= null
 
     private lateinit var dialog: LoadingDialog
     private lateinit var dialogDisCardChanges: DiscardChangesDialog
@@ -60,6 +54,15 @@ class ResultRemoveBackGroundActivity :
 
     override fun initView() {
         super.initView()
+
+        intent_from = intent.getStringExtra(Constants.INTENT_EDIT_FROM)
+
+        if(intent_from.equals(Constants.INTENT_EDIT_FROM_HISTORY)){
+            binding.tvTitle.text = getString(R.string.edit_photo_s_background)
+        }else{
+            binding.tvTitle.text = getString(R.string.background_removal)
+        }
+
         binding.cvRmvBg.saveStack()
         dialogDisCardChanges = DiscardChangesDialog(this)
         dialog = LoadingDialog(this)
@@ -94,21 +97,18 @@ class ResultRemoveBackGroundActivity :
             Log.d("TAG_MODEL", "$historyModel")
             historyModel?.let {
                 if (!it.imageResult.isNullOrEmpty()) {
-                    Glide.with(this).asBitmap() // Chỉ định rằng bạn muốn tải Bitmap
-                        .load(it.imageResult) // Tải hình ảnh từ file
+                    Glide.with(this).asBitmap()
+                        .load(it.imageResult)
                         .skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE)
                         .into(object : CustomTarget<Bitmap>() {
                             override fun onResourceReady(
                                 resource: Bitmap, transition: Transition<in Bitmap>?
                             ) {
-                                // Đây là nơi bạn nhận được Bitmap
                                 bitmap = resource
-                                Log.d("TAG_BITMAP", "BITMAP: $bitmap")
                                 binding.cvRmvBg.setBitmap(bitmap!!)
                             }
 
                             override fun onLoadCleared(placeholder: Drawable?) {
-                                // Xử lý khi cần thiết, không có gì đặc biệt trong trường hợp này
                             }
                         })
                 }

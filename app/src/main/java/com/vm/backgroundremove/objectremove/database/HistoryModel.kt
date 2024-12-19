@@ -25,6 +25,7 @@ data class HistoryModel(
     var status: String? = null,
     var type: String = "",
     var other: String? = null,
+    var status_type: Boolean? = null,
 ) : Parcelable {
 
     fun convertToString(): String = Gson().toJson(this)

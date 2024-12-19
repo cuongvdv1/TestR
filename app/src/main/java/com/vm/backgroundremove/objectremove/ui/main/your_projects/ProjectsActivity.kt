@@ -92,7 +92,7 @@ class ProjectsActivity : BaseActivity<ActivityYourProjectsBinding, ProjectViewMo
                     startActivity(intent)
                 }else {
                     val intent =
-                        Intent(this@ProjectsActivity, DownloadRemoveBackgroundActivity::class.java)
+                        Intent(this@ProjectsActivity, HistoryResultActivity::class.java)
                     intent.putExtra(Constants.INTENT_RESULT, it)
                     startActivity(intent)
                 }

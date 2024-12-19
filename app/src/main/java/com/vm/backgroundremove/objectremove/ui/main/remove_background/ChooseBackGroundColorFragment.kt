@@ -11,6 +11,7 @@ import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -43,6 +44,7 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
     var check_gradient: Boolean = false
     var check_single_color: Boolean = false
     var customColor: Int? = null
+    var isClickable: Boolean = true
 
     private val register =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -98,9 +100,11 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
 
         colorAdapter = ColorAdapter(requireContext(), colorList, object : ColorSelectorListener {
             override fun onColorClicked(position: Int, color: String) {
-                handleSingleClick {
+                if(isClickable){
+                    isClickable = false
                     viewModel.setColor(Color.parseColor(color))
                     Log.d("TAG_COLOR", "onColorClicked: $color")
+                    Handler(Looper.getMainLooper()).postDelayed({isClickable = true},200)
                 }
             }
         })
@@ -143,23 +147,27 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
         // Chon mau cho BackGround
         colorAdapter.setActionListener(object : ColorSelectorListener {
             override fun onColorClicked(position: Int, color: String) {
-                if (position == 1) {
-                    showPickerColor()
-                    check_single_color = true
-                    check_gradient = false
-                    if (activity is ResultRemoveBackGroundActivity) {
-                        (activity as ResultRemoveBackGroundActivity).setNewImage()
-                    }
-                } else if (position == 0) {
-                    if (activity is ResultRemoveBackGroundActivity) {
-                        (activity as ResultRemoveBackGroundActivity).clearBackground()
-                    }
-                } else {
-                    check_single_color = false
-                    check_gradient = true
-                    viewModel.setColor(Color.parseColor(color))
-                    Log.d("TAG_COLOR", "onColorClicked: $color")
-                }
+              if(isClickable){
+                  isClickable = false
+                  if (position == 1) {
+                      showPickerColor()
+                      check_single_color = true
+                      check_gradient = false
+                      if (activity is ResultRemoveBackGroundActivity) {
+                          (activity as ResultRemoveBackGroundActivity).setNewImage()
+                      }
+                  } else if (position == 0) {
+                      if (activity is ResultRemoveBackGroundActivity) {
+                          (activity as ResultRemoveBackGroundActivity).clearBackground()
+                      }
+                  } else {
+                      check_single_color = false
+                      check_gradient = true
+                      viewModel.setColor(Color.parseColor(color))
+                      Log.d("TAG_COLOR", "onColorClicked: $color")
+                  }
+                  Handler(Looper.getMainLooper()).postDelayed({isClickable = true},200)
+              }
 
             }
         })
@@ -200,11 +208,18 @@ class ChooseBackGroundColorFragment : BaseFragment<FragmentColorBackgroundBindin
 
 
         viewBinding.tvChooseBgColor.tap {
-            showColorList()
+            if(isClickable){
+                isClickable = false
+                showColorList()
+                Handler(Looper.getMainLooper()).postDelayed({isClickable = true},200)
+            }
+
         }
         viewBinding.tvChooseBgImage.tap {
-            handleSingleClick {
+            if(isClickable){
+                isClickable = false
                 showBackgroundList()
+                Handler(Looper.getMainLooper()).postDelayed({isClickable = true},200)
             }
         }
         viewBinding.tvPickerColorGradient.tap {

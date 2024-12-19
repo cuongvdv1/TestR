@@ -39,22 +39,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont700
-            android:id="@+id/tv_saved"
-            style="@style/CustomText_color_37414B_20"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="16dp"
-            android:paddingVertical="5dp"
-            android:text="@string/saved"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_back"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
         <ImageView
             android:id="@+id/iv_history"
             android:layout_width="wrap_content"
@@ -69,22 +53,32 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.vm.backgroundremove.objectremove.ui.main.cropview.CropView
-        android:id="@+id/iv_history_result"
+        android:id="@+id/iv_history_result_crop"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="21dp"
         android:adjustViewBounds="true"
-        android:background="@color/white"
-        android:contentDescription="@string/img_result"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@id/ll_edit"
+        app:layout_constraintBottom_toTopOf="@id/ll_option1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
 
+    <com.vm.backgroundremove.objectremove.ui.main.cropview.BrushView
+        android:id="@+id/iv_history_result_brush"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="21dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/ll_option1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
+        />
+
     <LinearLayout
-        android:id="@+id/ll_edit"
+        android:id="@+id/ll_option1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="170dp"
@@ -99,7 +93,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
-            android:id="@+id/iv_share"
+            android:id="@+id/iv_option1"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:contentDescription="@string/ic_download"
@@ -107,7 +101,7 @@
             app:tint="@color/white" />
 
         <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont500
-            android:id="@+id/tv_share"
+            android:id="@+id/tv_option1"
             style="@style/CustomText_White_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -120,10 +114,10 @@
         android:id="@+id/view3"
         android:layout_width="24dp"
         android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="@+id/ll_edit"
+        app:layout_constraintBottom_toBottomOf="@+id/ll_option1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ll_edit" />
+        app:layout_constraintTop_toTopOf="@+id/ll_option1" />
 
     <LinearLayout
         android:id="@+id/ll_share"

@@ -2,7 +2,6 @@ package com.vm.backgroundremove.objectremove.ui.main.remove_background
 
 import android.content.Intent
 import android.graphics.Bitmap
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.vm.backgroundremove.objectremove.R

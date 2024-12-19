@@ -25,12 +25,14 @@ interface HistoryDao {
     @Query("UPDATE HistoryModel SET process = :process WHERE id = :id")
     suspend fun updateProcess(id: Long, process: Int)
 
-
     @Query("UPDATE HistoryModel SET imageResult = :imageResult WHERE id = :id")
     suspend fun updateImage(id: Long, imageResult: String)
 
     @Query("UPDATE HistoryModel SET status = :status WHERE id = :id")
     suspend fun updateStatus(id: Long, status: String)
+
+    @Query("UPDATE HistoryModel SET type = :type WHERE id = :id")
+    suspend fun updateType(id: Long, type: String)
 
     @Query("UPDATE HistoryModel SET other = :other WHERE id = :id")
     suspend fun updateOther(id: Long, other: String)

@@ -1,11 +1,10 @@
 package com.vm.backgroundremove.objectremove.ui.main.progress
 
-import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.util.Log
+import android.view.View
 import android.view.animation.DecelerateInterpolator
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -15,6 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.work.WorkInfo
 import com.util.CheckInternet
 import com.vm.backgroundremove.objectremove.R
+import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
 import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.a8_app_utils.ProcessState
@@ -29,13 +29,12 @@ import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBack
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.ResultRemoveBackGroundActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
 import com.vm.backgroundremove.objectremove.ui.main.remove_object.bylist.RemoveObjectByListActivity
-import com.vm.backgroundremove.objectremove.ui.main.remove_object.bylist.ResultRemoveObjectByList
 import com.vm.backgroundremove.objectremove.ui.main.remove_object.bytext.ResultRemoveObjectAndDowLoadActivity
 import com.vm.backgroundremove.objectremove.ui.main.your_projects.ProjectsActivity
-import com.vm.backgroundremove.objectremove.ui.main.your_projects.YourProjectsActivity
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.UUID
 
 class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>() {
@@ -180,7 +179,7 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
                                             val intent =
                                                 Intent(this@ProessingActivity, ResultRemoveBackGroundActivity::class.java)
                                             intent.putExtra(Constants.INTENT_RESULT, processModel)
-                                            Log.d("ProcessActivity", "SUCCEEDED  $processModel")
+                                            intent.putExtra(Constants.INTENT_EDIT_FROM,Constants.INTENT_EDIT_FROM_PROCESS)
                                             startActivity(intent)
                                             finish()
                                         }
@@ -243,6 +242,9 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
                                         this@ProessingActivity,
                                         R.color.color_F64534
                                     )
+                                    binding.btnTryAgain.visibility = View.VISIBLE
+                                    binding.tvSitback.visibility = View.INVISIBLE
+
 
                                     binding.prIndicator.endColor = ContextCompat.getColor(
                                         this@ProessingActivity,
