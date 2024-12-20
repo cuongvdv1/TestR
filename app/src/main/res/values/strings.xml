@@ -179,4 +179,5 @@
     <string name="if_the_object">If the object you want to remove is not in the list above, type it here:</string>
     <string name="the_result_will_be_done_soon_stay_patient">The result will be done soon. Stay patient!</string>
     <string name="keep_calm_and_wait_for_ai_do_its_job">Keep calm and wait for AI do its job!</string>
+    <string name="image_saved_successfully">Image saved successfully</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.vm.backgroundremove.objectremove.ui.main.edit
 
 import android.content.Intent
+import android.os.Handler
 import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -25,6 +26,7 @@ class ChoosePhotoEditActivity : BaseActivity<ActivityChoosePhotoEditBinding, Pro
     private var listPhotoRmv: List<HistoryModel> = emptyList()
     private lateinit var adapterPhotoEdit: ChoosePhotoEditAdapter
     private var historyModel : HistoryModel ?= null
+    private var isClickable : Boolean = true
 
 
     private var jobProcess: Job? = null
@@ -40,12 +42,16 @@ class ChoosePhotoEditActivity : BaseActivity<ActivityChoosePhotoEditBinding, Pro
             finish()
         }
         adapterPhotoEdit = ChoosePhotoEditAdapter(this, onItemClick = { itemSelected ->
-            binding.ivSelected.visibility = View.VISIBLE
-            historyModel = itemSelected
-            var list = adapterPhotoEdit.listPhoto.map {
-                it.copy(isSelected = itemSelected.id == it.id)
+            if(isClickable){
+                isClickable = false
+                binding.ivSelected.visibility = View.VISIBLE
+                historyModel = itemSelected
+                var list = adapterPhotoEdit.listPhoto.map {
+                    it.copy(isSelected = itemSelected.id == it.id)
+                }
+                adapterPhotoEdit.setData(list)
+                Handler().postDelayed({ isClickable = true }, 500)
             }
-            adapterPhotoEdit.setData(list)
         })
 
         binding.ivSelected.tap {
@@ -83,7 +89,7 @@ class ChoosePhotoEditActivity : BaseActivity<ActivityChoosePhotoEditBinding, Pro
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.arrProcess.collect { listPhotoEdit ->
-                    val filter = listPhotoEdit.filter { it.type == "remove_background" }
+                    val filter = listPhotoEdit.filter { it.type == "remove_background_done" }
                     listPhotoRmv = filter
                     adapterPhotoEdit.setData(filter)
                     setUI(filter.isEmpty())

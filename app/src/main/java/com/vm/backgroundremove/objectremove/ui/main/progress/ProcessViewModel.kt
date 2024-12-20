@@ -86,6 +86,14 @@ class ProcessViewModel(
         }
     }
 
+    fun updateTypeRemoveBackGround(historyModel: HistoryModel){
+        viewModelScope.launch(Dispatchers.IO) {
+            historyModel?.let {
+                dbHistoryRepository.updateType(historyModel.id, historyModel.type)
+            }
+        }
+    }
+
     fun updateNumProcessing() {
         viewModelScope.launch {
             numProcessStateFlow.emit(numProcessStateFlow.value - 1)

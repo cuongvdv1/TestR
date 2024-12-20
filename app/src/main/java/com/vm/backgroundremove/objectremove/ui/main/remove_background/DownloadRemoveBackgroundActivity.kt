@@ -91,7 +91,7 @@ class DownloadRemoveBackgroundActivity :
                             saveFileToDownload(resource)
                             Toast.makeText(
                                 this@DownloadRemoveBackgroundActivity,
-                                "Image saved successfully",
+                                R.string.image_saved_successfully,
                                 Toast.LENGTH_SHORT
                             ).show()
                         }

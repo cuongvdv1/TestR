@@ -160,14 +160,11 @@ class ResultRemoveBackGroundActivity :
                             val bitmapWithBackground = Bitmap.createBitmap(binding.cvRmvBg.getBitmapWithBackground()) // Lấy bitmap từ drawing cache
                             val path = saveBitmapToCache(bitmapWithBackground)
                             historyModel?.imageResult = path
-                            Log.d("TAG_PATH", "path: $path")
                             lifecycleScope.launch(Dispatchers.IO) {
                                 historyModel?.id = 0
                                 val count = dbHistoryRepository.getRowRemoveBGCount()
                                 val rowCount = if (count > 0) count + 1 else 1
-                                Log.d("TAG_ROW_COUNT", "count: $count")
-                                Log.d("TAG_ROW_COUNT", "rowCount: $rowCount")
-                                historyModel?.type = "remove_background_done"
+                                historyModel?.type = "remove_background_edit"
                                 historyModel?.time = System.currentTimeMillis()
                                 historyModel?.name = getString(R.string.remove_BG) + " $rowCount"
                                 historyModel?.imageResult = path
@@ -182,7 +179,6 @@ class ResultRemoveBackGroundActivity :
                             startActivity(intent)
 
                         } else {
-//                            downloadImageFromUrl(this, imageUrl)
                             val intent = Intent(
                                 this@ResultRemoveBackGroundActivity,
                                 DownloadRemoveBackgroundActivity::class.java

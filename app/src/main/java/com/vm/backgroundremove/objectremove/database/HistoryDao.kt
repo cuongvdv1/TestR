@@ -43,7 +43,7 @@ interface HistoryDao {
     @Query("SELECT COUNT(name) FROM HistoryModel where type like 'remove_obj_by_text' OR type like 'remove_obj_by_list_text'")
     fun getRowObjectRemoveCount() : Int
 
-    @Query("SELECT COUNT(name) FROM HistoryModel where type like 'remove_background'OR type like 'remove_background_done'")
+    @Query("SELECT COUNT(name) FROM HistoryModel where type like 'remove_background_edit'OR type like 'remove_background_done'OR type like 'remove_background'")
     fun getRowRemoveBGCount() : Int
 
     @Query("select * from HistoryModel where id like :id")

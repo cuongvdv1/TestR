@@ -50,13 +50,36 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
         return BaseViewModel()
     }
 
+    override fun onResume() {
+        super.onResume()
+        if(checkStorePermission()){
+            showPhotoView()
+            getAllImageInfos()
+        }else{
+            showNoPhotoView()
+        }
+    }
+
     override fun initView() {
         super.initView()
-        checkPermission()
+
+        if(checkStorePermission()){
+            showPhotoView()
+            getAllImageInfos()
+        }else{
+            showNoPhotoView()
+        }
 
         binding.ivBack.tap {
             finish()
         }
+
+        binding.btnTryNow.tap {
+            dialogPermission()
+            showDialogPermission()
+        }
+
+
         checkRemove = intent.getStringExtra(Constants.NAME_INTENT_FROM_HOME).toString()
         val checkRemoveFragment =
             intent.getStringExtra(Constants.NAME_INTENT_FORM_FRAGMENT).toString()
@@ -104,6 +127,7 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
                     android.Manifest.permission.READ_MEDIA_IMAGES
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
+                showNoPhotoView()
                 requestPermission()
             } else {
                 getAllImageInfos()
@@ -114,6 +138,7 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
                     android.Manifest.permission.READ_EXTERNAL_STORAGE
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
+                showNoPhotoView()
                 requestPermission()
             } else {
                 getAllImageInfos()
@@ -211,9 +236,30 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
                 imageInfos.add(imageInfo)
             }
         }
+        if (imageInfos.isEmpty()) {
+            showNoPhotoView() // Gọi hàm hiển thị ivNoPhoto khi không có ảnh
+        } else {
+            binding.ivNoPhoto.visibility = View.GONE // Ẩn ảnh không có ảnh
+            binding.rvChoosePhoto.visibility = View.VISIBLE // Hiển thị recycler view
+            setupRecyclerView(imageInfos) // Thiết lập recycler view với ảnh
+        }
 
-        setupRecyclerView(imageInfos)
     }
+
+    private fun showNoPhotoView() {
+        binding.tvStartRemoving.visibility = View.VISIBLE
+        binding.btnTryNow.visibility = View.VISIBLE
+        binding.tvNoPhoto.visibility = View.VISIBLE // Hiển thị thông báo không có ảnh
+        binding.ivNoPhoto.visibility = View.VISIBLE // Hiển thị ivNoPhoto
+        binding.rvChoosePhoto.visibility = View.GONE // Ẩn recycler view
+    }
+    private fun showPhotoView() {
+        binding.tvStartRemoving.visibility = View.GONE
+        binding.btnTryNow.visibility = View.GONE
+        binding.tvNoPhoto.visibility = View.GONE // Ẩn thông báo không có ảnh
+        binding.ivNoPhoto.visibility = View.GONE //
+    }
+
 
 
     private fun setupRecyclerView(allImage: List<ChoosePhotoModel>) {

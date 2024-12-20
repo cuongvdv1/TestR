@@ -27,6 +27,7 @@ import com.vm.backgroundremove.objectremove.dialog.LoadingDialog
 import com.vm.backgroundremove.objectremove.dialog.ProcessingDialog
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackGroundViewModel
 import com.vm.backgroundremove.objectremove.ui.main.remove_object.ResultRemoveObjectActivity
+import com.vm.backgroundremove.objectremove.ui.main.your_projects.ProjectsActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -57,6 +58,10 @@ class ResultRemoveObjectByList :
         dialog = LoadingDialog(this)
         binding.ivBack.tap {
             finish()
+        }
+        binding.ivExport.tap {
+            val intent = Intent(this@ResultRemoveObjectByList, ProjectsActivity::class.java)
+            startActivity(intent)
         }
         processingDialog = ProcessingDialog(this@ResultRemoveObjectByList)
         type = intent.getStringExtra(Constants.TYPE_HISTORY).toString()
@@ -122,60 +127,6 @@ class ResultRemoveObjectByList :
         return cleanedString.split(",").map { it.trim() }
     }
 
-//    private fun uploadImageRemoveObjectByList(bitMap: Bitmap, objectRemovelist: String) {
-//        processingDialog.show()
-//        CoroutineScope(Dispatchers.IO).launch {
-//            // resize lai kich thuoc va luu anh vao cache
-//            val resizedBitmap = bitMap?.let { Utils.scaleBitmap(it) }
-//            val tempFile = resizedBitmap?.let {
-//                Utils.getFileFromScaledBitmap(
-//                    this@ResultRemoveObjectByList,
-//                    it,
-//                    Utils.NAME_IMAGE + "_" + System.currentTimeMillis()
-//                )
-//            }
-//
-//            if (tempFile != null) {
-//                val requestBody =
-//                    tempFile.asRequestBody("image/*".toMediaTypeOrNull())
-//                val multipart =
-//                    MultipartBody.Part.createFormData(
-//                        Constants.PAYLOAD_REPLACE_SRC,
-//                        tempFile.name,
-//                        requestBody
-//                    )
-//                viewModel.upLoadImage(
-//                    Constants.ITEM_CODE_RMOBJECT.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-//                    Constants.CLIENT_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-//                    Constants.CLIENT_MEMO.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-//                    multipart,
-//                    objectRemovelist.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull())
-//                )
-//            }
-//        }
-//    }
-//
-//    private fun startDataGenerate(uploadResponse: UpLoadImagesResponse, imageCreate: String) {
-//        processingDialog.dismiss()
-//        val modelGenerate = GenerateResponse()
-//        modelGenerate.cf_url = uploadResponse.cf_url
-//        modelGenerate.task_id = uploadResponse.task_id
-//        modelGenerate.imageCreate = Constants.ITEM_CODE_RMOBJECT
-//
-////        val numberGenerate = limitNumber.toInt() - isCountGenerate
-//        startActivity(
-//            Intent(
-//                this@ResultRemoveObjectByList,
-//                ProessingActivity::class.java
-//            ).apply {
-//                putExtra(KEY_GENERATE, modelGenerate)
-//                putExtra(KEY_REMOVE, Constants.ITEM_CODE_RMOBJECT)
-//                putExtra("imageCreate", imageCreate)
-////                putExtra(LIMIT_NUMBER_GENERATE, numberGenerate)
-//            })
-//        finish()
-//    }
-
     fun saveBitmapToPath(bitmap: Bitmap, filePath: String) {
         try {
             val file = File(filePath)
@@ -189,19 +140,6 @@ class ResultRemoveObjectByList :
         }
     }
 
-    fun getBitmapFromPath(path: String): Bitmap? {
-        return try {
-            val file = File(path)
-            if (file.exists()) {
-                BitmapFactory.decodeFile(path) // Trả về Bitmap từ file
-            } else {
-                null // Trả về null nếu file không tồn tại
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null // Trả về null nếu có lỗi
-        }
-    }
 
     private fun downloadImageFromUrl(context: Context, imageUrl: String) {
         CoroutineScope(Dispatchers.IO).launch {

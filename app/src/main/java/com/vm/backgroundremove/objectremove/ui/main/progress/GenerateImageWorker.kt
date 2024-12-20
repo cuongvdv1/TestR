@@ -101,6 +101,10 @@ class GenerateImageWorker(
                                 val imageUrlResult = data.img_url[0].image_url
                                 val other = data.other
                                 CoroutineScope(Dispatchers.IO).launch {
+                                    if(processModel?.type == "remove_background"){
+                                        dbHistoryRepository.updateType(processId, "remove_background_done")
+                                    }
+                                    
                                     dbHistoryRepository.updateProcessWithImage(
                                         processId,
                                         imageUrlResult

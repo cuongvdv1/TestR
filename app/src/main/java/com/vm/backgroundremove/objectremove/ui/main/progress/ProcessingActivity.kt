@@ -21,6 +21,7 @@ import com.vm.backgroundremove.objectremove.a8_app_utils.ProcessState
 import com.vm.backgroundremove.objectremove.a8_app_utils.convertToObject
 import com.vm.backgroundremove.objectremove.a8_app_utils.getParcelable
 import com.vm.backgroundremove.objectremove.database.HistoryModel
+import com.vm.backgroundremove.objectremove.database.HistoryRepository
 import com.vm.backgroundremove.objectremove.databinding.ActivityProcessBinding
 import com.vm.backgroundremove.objectremove.ui.common.nointernet.NoInternetActivity
 import com.vm.backgroundremove.objectremove.ui.main.home.HomeActivity
@@ -31,6 +32,7 @@ import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.G
 import com.vm.backgroundremove.objectremove.ui.main.remove_object.bylist.RemoveObjectByListActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_object.bytext.ResultRemoveObjectAndDowLoadActivity
 import com.vm.backgroundremove.objectremove.ui.main.your_projects.ProjectsActivity
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
@@ -49,7 +51,6 @@ class ProcessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel
     private var listOther: String? = null
     private var listOtherSelected: String? = null
     private var keyRemove: String? = null
-
     override fun createBinding(): ActivityProcessBinding {
         return ActivityProcessBinding.inflate(layoutInflater)
     }
@@ -191,6 +192,13 @@ class ProcessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel
                                                 workInfo.outputData.getString(Constants.INTENT_HISTORY_WORKER)
                                             val processModel =
                                                 processModelJson?.convertToObject<HistoryModel>()
+                                            processModel?.type = "remove_background_done"
+                                            lifecycleScope.launch(Dispatchers.IO) {
+                                                processModel?.let { it1 ->
+                                                    viewModel.updateTypeRemoveBackGround(processModel)
+                                                }
+                                            }
+                                            Log.d("TAG_PROCESSMODEL", "aa ${processModel}")
                                             viewModel.updateNumProcessing()
                                             viewModel.cancelProcessListener()
                                             val intent =

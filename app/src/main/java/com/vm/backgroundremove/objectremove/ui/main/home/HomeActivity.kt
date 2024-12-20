@@ -29,7 +29,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeActivity : BaseActivity<ActivityHomeBinding, ProjectViewModel>(), DialogExit.OnPress {
     private var jobProcess: Job? = null
-    private val projectAdapter by lazy { ProjectAdapter() }
+    private val projectAdapter by lazy { ProjectAdapter(this) }
     private lateinit var dialogExit : DialogExit
     override fun createBinding(): ActivityHomeBinding {
             return ActivityHomeBinding.inflate(layoutInflater)

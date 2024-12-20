@@ -10,6 +10,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
+import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.CustomTarget
@@ -31,6 +32,7 @@ import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBack
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity.Companion.KEY_REMOVE
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
 import com.vm.backgroundremove.objectremove.ui.main.remove_object.ResultRemoveObjectActivity
+import com.vm.backgroundremove.objectremove.ui.main.your_projects.ProjectsActivity
 import com.vm.backgroundremove.objectremove.util.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -65,11 +67,13 @@ class ResultRemoveObjectAndDowLoadActivity :
         super.initView()
         processingDialog1 = ProcessingDialog(this@ResultRemoveObjectAndDowLoadActivity)
         dialog = LoadingDialog(this@ResultRemoveObjectAndDowLoadActivity)
-//        supportFragmentManager.beginTransaction()
-//            .replace(R.id.fl_rm_object_by_list_dowload, RemoveByTextResultFragment()).commit()
-
         binding.ivHome.tap {
             startActivity(Intent(this, HomeActivity::class.java))
+            finish()
+        }
+
+        binding.ivHistory.tap {
+            startActivity(Intent(this, ProjectsActivity::class.java))
             finish()
         }
 
@@ -119,82 +123,80 @@ class ResultRemoveObjectAndDowLoadActivity :
             } else {
                 Log.d("TAG_IMAGE", "Image URL is null or empty")
             }
-
+        }
+        binding.llShareWithFriends.tap {
+            shareImageFromCache()
         }
     }
+    fun createDownloadFile(context: Context): String {
+        val cacheDir = File(context.cacheDir, "Stylist")
 
-    private fun uploadImageRemoveBackground(bitMap: Bitmap, objectRemovelist: String) {
-        processingDialog1.show()
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                // Giới hạn thời gian tải lên là 30 giây
-                withTimeout(30000) {
-                    val resizedBitmap = bitMap.let { Utils.scaleBitmap(it) }
-                    val tempFile = resizedBitmap?.let {
-                        Utils.getFileFromScaledBitmap(
-                            this@ResultRemoveObjectAndDowLoadActivity,
-                            it,
-                            Utils.NAME_IMAGE + "_" + System.currentTimeMillis()
-                        )
-                    }
+        val fileName = "Stylist${System.currentTimeMillis()}.png"
 
-                    if (tempFile != null) {
-                        val requestBody = tempFile.asRequestBody("image/*".toMediaTypeOrNull())
-                        val multipart = MultipartBody.Part.createFormData(
-                            Constants.PAYLOAD_REPLACE_SRC,
-                            tempFile.name,
-                            requestBody
-                        )
-                        viewModel.upLoadImage(
-                            Constants.ITEM_CODE_RMOBJECT.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-                            Constants.CLIENT_CODE.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-                            Constants.CLIENT_MEMO.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull()),
-                            multipart,
-                            objectRemovelist.toRequestBody(Constants.TEXT_PLAIN.toMediaTypeOrNull())
-                        )
-                    }
-                }
-            } catch (e: TimeoutCancellationException) {
-                // Đóng dialog và hiển thị thông báo nếu quá 30 giây
-                processingDialog1.dismiss()
-                CoroutineScope(Dispatchers.Main).launch {
-                    Toast.makeText(
-                        this@ResultRemoveObjectAndDowLoadActivity,
-                        getString(R.string.upload_timeout_please_try_again),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            } catch (e: Exception) {
-                processingDialog1.dismiss()
-                CoroutineScope(Dispatchers.Main).launch {
+        val cacheFile = File(cacheDir, fileName)
 
-                }
+        try {
+            if (!cacheFile.exists()) {
+                cacheDir.mkdirs()
+                cacheFile.createNewFile()
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+
+        return cacheFile.absolutePath
     }
 
-    private fun startDataGenerate(uploadResponse: UpLoadImagesResponse, imageCreate: String) {
-        processingDialog1.dismiss()
-        val modelGenerate = GenerateResponse()
-        modelGenerate.cf_url = uploadResponse.cf_url
-        modelGenerate.task_id = uploadResponse.task_id
-        modelGenerate.imageCreate = Constants.ITEM_CODE_RMOBJECT
-//        val numberGenerate = limitNumber.toInt() - isCountGenerate
-        if (modelGenerate.cf_url != null) {
-            startActivity(
-                Intent(
-                    this@ResultRemoveObjectAndDowLoadActivity,
-                    ProcessingActivity::class.java
-                ).apply {
-                    putExtra(KEY_GENERATE, modelGenerate)
-                    putExtra(KEY_REMOVE, Constants.ITEM_CODE_RMOBJECT)
-                    putExtra("imageCreate", imageCreate)
-                    putExtra("type_process", "remove_obj_by_text")
-//                putExtra(LIMIT_NUMBER_GENERATE, numberGenerate)
-                })
-            finish()
-        }
+    private fun shareImageFromCache() {
+        try {
+            val imageUrl = historyModel?.imageResult
+            imageUrl?.let { url ->
+                Glide.with(this)
+                    .asBitmap()
+                    .load(url)
+                    .into(object : com.bumptech.glide.request.target.CustomTarget<Bitmap>() {
+                        override fun onResourceReady(
+                            resource: Bitmap,
+                            transition: com.bumptech.glide.request.transition.Transition<in Bitmap>?
+                        ) {
+                            try {
+                                val filePath = createDownloadFile(this@ResultRemoveObjectAndDowLoadActivity)
+                                val file = File(filePath)
 
+                                val fos = FileOutputStream(file)
+                                resource.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+                                fos.close()
+
+                                val imageUri = FileProvider.getUriForFile(
+                                    this@ResultRemoveObjectAndDowLoadActivity,
+                                    "$packageName.provider",
+                                    file
+                                )
+
+                                val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                                    type = "image/jpeg"
+                                    putExtra(Intent.EXTRA_STREAM, imageUri)
+                                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                }
+                                startActivity(
+                                    Intent.createChooser(
+                                        shareIntent,
+                                        getString(R.string.share)
+                                    )
+                                )
+                            } catch (e: Exception) {
+                                Log.d("share", e.message.toString())
+                                e.printStackTrace()
+                            }
+                        }
+
+                        override fun onLoadCleared(placeholder: android.graphics.drawable.Drawable?) {
+
+                        }
+                    })
+            }
+        } catch (_: Exception) {
+        }
     }
 
     private fun downloadImageFromUrl(context: Context, imageUrl: String) {

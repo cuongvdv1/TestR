@@ -26,7 +26,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class ProjectsActivity : BaseActivity<ActivityYourProjectsBinding, ProjectViewModel>(), DialogExit.OnPress  {
 
     private var jobProcess: Job? = null
-    private val projectAdapter by lazy { ProjectAdapter() }
+    private val projectAdapter by lazy { ProjectAdapter(this) }
     private lateinit var dialogExit : DialogExit
     override fun createBinding() = ActivityYourProjectsBinding.inflate(layoutInflater)
 
@@ -55,6 +55,7 @@ class ProjectsActivity : BaseActivity<ActivityYourProjectsBinding, ProjectViewMo
 
     override fun bindView() {
         super.bindView()
+
         projectAdapter.setOonDeleteClick {
             viewModel.deleteHistory(it)
             jobProcess = lifecycleScope.launch {
@@ -93,7 +94,6 @@ class ProjectsActivity : BaseActivity<ActivityYourProjectsBinding, ProjectViewMo
                 }
 
             } else {
-
                     val intent = Intent(this, ProcessingActivity::class.java)
                     intent.putExtra(Constants.WORK_UUID, it.idWorker)
                     intent.putExtra(Constants.KEY_PROCESS, it)
