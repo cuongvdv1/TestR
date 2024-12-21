@@ -55,11 +55,11 @@ class GenerateImageWorker(
             } else if (it.type == "remove_obj_by_text") {
                 val count = dbHistoryRepository.getRowObjectRemoveCount()
                 val rowCount = if (count > 0) count + 1 else 1
-                it.name = "Object Remove $rowCount"
+                it.name = "Remove object $rowCount"
             } else if (it.type == "remove_obj_by_list_text") {
                 val count = dbHistoryRepository.getRowObjectRemoveCount()
                 val rowCount = if (count > 0) count + 1 else 1
-                it.name = "Object Remove $rowCount"
+                it.name = "Remove object $rowCount"
             }
         }
 

@@ -75,10 +75,11 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
         }
 
         binding.btnTryNow.tap {
-            dialogPermission()
-            showDialogPermission()
+            if(!checkStorePermission()){
+                dialogPermission()
+                showDialogPermission()
+            }
         }
-
 
         checkRemove = intent.getStringExtra(Constants.NAME_INTENT_FROM_HOME).toString()
         val checkRemoveFragment =
@@ -237,11 +238,11 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
             }
         }
         if (imageInfos.isEmpty()) {
-            showNoPhotoView() // Gọi hàm hiển thị ivNoPhoto khi không có ảnh
+            showNoPhotoView()
         } else {
-            binding.ivNoPhoto.visibility = View.GONE // Ẩn ảnh không có ảnh
-            binding.rvChoosePhoto.visibility = View.VISIBLE // Hiển thị recycler view
-            setupRecyclerView(imageInfos) // Thiết lập recycler view với ảnh
+            binding.ivNoPhoto.visibility = View.GONE
+            binding.rvChoosePhoto.visibility = View.VISIBLE
+            setupRecyclerView(imageInfos)
         }
 
     }
@@ -249,15 +250,15 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
     private fun showNoPhotoView() {
         binding.tvStartRemoving.visibility = View.VISIBLE
         binding.btnTryNow.visibility = View.VISIBLE
-        binding.tvNoPhoto.visibility = View.VISIBLE // Hiển thị thông báo không có ảnh
-        binding.ivNoPhoto.visibility = View.VISIBLE // Hiển thị ivNoPhoto
-        binding.rvChoosePhoto.visibility = View.GONE // Ẩn recycler view
+        binding.tvNoPhoto.visibility = View.VISIBLE
+        binding.ivNoPhoto.visibility = View.VISIBLE
+        binding.rvChoosePhoto.visibility = View.GONE
     }
     private fun showPhotoView() {
         binding.tvStartRemoving.visibility = View.GONE
         binding.btnTryNow.visibility = View.GONE
-        binding.tvNoPhoto.visibility = View.GONE // Ẩn thông báo không có ảnh
-        binding.ivNoPhoto.visibility = View.GONE //
+        binding.tvNoPhoto.visibility = View.GONE
+        binding.ivNoPhoto.visibility = View.GONE
     }
 
 
@@ -345,6 +346,14 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
                         selectedImagePath = selectedOutputPath
                         val intent =
                             Intent(this@ChoosePhotoActivity, RemoveObjectActivity::class.java)
+                        intent.putExtra(Constants.IMG_CAMERA_PATH, selectedImagePath)
+                        startActivity(intent)
+                        finish()
+                    }
+                    checkRemove == Constants.INTENT_FROM_HOME_TO_EDIT->{
+                        selectedImagePath = selectedOutputPath
+                        val intent =
+                            Intent(this@ChoosePhotoActivity, RemoveBackgroundActivity::class.java)
                         intent.putExtra(Constants.IMG_CAMERA_PATH, selectedImagePath)
                         startActivity(intent)
                         finish()
