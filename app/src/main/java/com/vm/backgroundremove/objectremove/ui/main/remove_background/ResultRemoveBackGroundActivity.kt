@@ -177,14 +177,25 @@ class ResultRemoveBackGroundActivity :
                             intent.putExtra(Constants.INTENT_RESULT, historyModel)
                             Log.d("TAG_HISTORY_MODEL", "historyModel: ${historyModel?.imageResult}")
                             startActivity(intent)
+                            finish()
 
                         } else {
+                            if(historyModel?.type == "remove_background"){
+                                lifecycleScope.launch(Dispatchers.IO) {
+                                    historyModel?.type= "remove_background_done"
+                                    historyModel?.let { it1 -> it1?.id?.let { it2 ->
+                                        dbHistoryRepository.updateType(
+                                            it2, it1.type)
+                                    } }
+                                }
+                            }
                             val intent = Intent(
                                 this@ResultRemoveBackGroundActivity,
                                 DownloadRemoveBackgroundActivity::class.java
                             )
                             intent.putExtra(Constants.INTENT_RESULT, historyModel)
                             startActivity(intent)
+                            finish()
                             Log.d("TAG_SAVE", "SAVED IMAGE WITHOUT BACKGROUND")
                         }
 

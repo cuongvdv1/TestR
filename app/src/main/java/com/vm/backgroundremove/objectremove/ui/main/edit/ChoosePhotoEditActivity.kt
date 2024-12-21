@@ -36,6 +36,10 @@ class ChoosePhotoEditActivity : BaseActivity<ActivityChoosePhotoEditBinding, Pro
 
     override fun setViewModel() = viewModel<ProjectViewModel>().value
 
+    override fun onResume() {
+        super.onResume()
+        binding.ivSelected.visibility = View.GONE
+    }
     override fun initView() {
         super.initView()
         binding.ivBack.tap {
@@ -74,11 +78,13 @@ class ChoosePhotoEditActivity : BaseActivity<ActivityChoosePhotoEditBinding, Pro
             binding.tvNoPhoto.visibility = View.VISIBLE
             binding.ivNoPhoto.visibility = View.VISIBLE
             binding.btnTryNow.visibility = View.VISIBLE
+            binding.tvStartRemoving.visibility = View.VISIBLE
             binding.tvContent.visibility = View.GONE
         } else {
             binding.tvNoPhoto.visibility = View.GONE
             binding.ivNoPhoto.visibility = View.GONE
             binding.btnTryNow.visibility = View.GONE
+            binding.tvStartRemoving.visibility = View.GONE
             binding.tvContent.visibility = View.VISIBLE
 
         }

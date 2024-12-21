@@ -52,7 +52,7 @@ class HistoryResultActivity : BaseActivity<ActivityHistoryResultBinding, BaseVie
         historyModel = intent.parcelable<HistoryModel>(Constants.INTENT_RESULT)
 
         binding.tvTitleName.text = historyModel?.name
-        if(historyModel?.type == "remove_background_done" || historyModel?.type == "remove_background_edit"|| historyModel?.type == "remove_background"){
+        if(historyModel?.type == "remove_background_done" || historyModel?.type == "remove_background"){
             binding.ivHistory.visibility = View.VISIBLE
         }
 
