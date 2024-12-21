@@ -16,10 +16,10 @@ import com.vm.backgroundremove.objectremove.dialog.DialogExit
 import com.vm.backgroundremove.objectremove.ui.common.setting.SettingActivity
 import com.vm.backgroundremove.objectremove.ui.main.choose_photo_rmv_bg.ChoosePhotoActivity
 import com.vm.backgroundremove.objectremove.ui.main.edit.ChoosePhotoEditActivity
-import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingActivity
+import com.vm.backgroundremove.objectremove.ui.main.progress.ProcessingActivity
 import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingRefineActivity
-import com.vm.backgroundremove.objectremove.ui.main.remove_background.DownloadRemoveBackgroundActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_object.bylist.RemoveObjectByListActivity
+import com.vm.backgroundremove.objectremove.ui.main.your_projects.HistoryResultActivity
 import com.vm.backgroundremove.objectremove.ui.main.your_projects.ProjectsActivity
 import com.vm.backgroundremove.objectremove.ui.main.your_projects.adapter.ProjectAdapter
 import com.vm.backgroundremove.objectremove.ui.main.your_projects.viewModel.ProjectViewModel
@@ -29,7 +29,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeActivity : BaseActivity<ActivityHomeBinding, ProjectViewModel>(), DialogExit.OnPress {
     private var jobProcess: Job? = null
-    private val projectAdapter by lazy { ProjectAdapter() }
+    private val projectAdapter by lazy { ProjectAdapter(this) }
     private lateinit var dialogExit : DialogExit
     override fun createBinding(): ActivityHomeBinding {
             return ActivityHomeBinding.inflate(layoutInflater)
@@ -54,12 +54,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, ProjectViewModel>(), Dial
                             binding.tvEmpty.visibility = View.GONE
                             binding.rcvRecentProjects.visibility = View.VISIBLE
                         }
-
+                        val filteredList = arrProcess.filter { it.type != "remove_obj_by_list" }
                         if(arrProcess.size > 3){
-                            Log.d("HomeActivity", "Data sizeeeeee: ${arrProcess}")
-                            projectAdapter.submitList(arrProcess.subList(0,3))
+                            projectAdapter.submitList(filteredList.subList(0,3))
                         }else{
-                            projectAdapter.submitList(arrProcess)
+                            projectAdapter.submitList(filteredList)
                         }
                     }
                 }
@@ -70,14 +69,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, ProjectViewModel>(), Dial
 
         projectAdapter.setOnViewMoreClick {
             if (it.isSuccess()) {
-                Log.d("YEUTRINHLAMLUON",it.type)
                 if (it.type.equals("remove_obj_by_list")){
                     val intent = Intent(this, RemoveObjectByListActivity::class.java)
                     intent.putExtra(Constants.INTENT_RESULT, it)
                     startActivity(intent)
                 }else {
                     val intent =
-                        Intent(this@HomeActivity, DownloadRemoveBackgroundActivity::class.java)
+                        Intent(this@HomeActivity, HistoryResultActivity::class.java)
                     intent.putExtra(Constants.INTENT_RESULT, it)
                     startActivity(intent)
                 }
@@ -92,7 +90,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, ProjectViewModel>(), Dial
                     startActivity(intent)
                     finish()
                 }else{
-                    val intent = Intent(this, ProessingActivity::class.java)
+                    val intent = Intent(this, ProcessingActivity::class.java)
                     intent.putExtra(Constants.WORK_UUID, it.idWorker)
                     intent.putExtra(Constants.KEY_PROCESS, it)
                     intent.putExtra("type_process",it.type)

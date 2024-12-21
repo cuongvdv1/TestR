@@ -101,6 +101,7 @@
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animationBird"
             android:layout_width="100dp"
+
             android:layout_height="100dp"
             android:layout_marginTop="14dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -121,8 +122,9 @@
             android:paddingVertical="7dp"
             app:layout_constraintBottom_toBottomOf="@id/animationClock"
             app:layout_constraintEnd_toEndOf="parent"
+             android:layout_marginTop="10dp"
             app:layout_constraintStart_toEndOf="@id/animationClock"
-            app:layout_constraintTop_toBottomOf="@+id/ctl_your_request">
+            app:layout_constraintTop_toTopOf="@+id/animationClock">
 
             <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont400
                 android:id="@+id/tvTimeEstimated"
@@ -210,7 +212,7 @@
             android:layout_marginTop="40dp" />
 
         <com.vm.backgroundremove.objectremove.a8_app_utils.CustomTextView.CustomTextViewFont700
-            android:id="@+id/btn_try_now"
+            android:id="@+id/btn_try_again"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/try_Again"

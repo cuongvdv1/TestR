@@ -4,18 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.os.Bundle
 import android.util.Log
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import com.lib.admob.resumeAds.AppOpenResumeManager
 import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseViewModel
@@ -23,17 +17,18 @@ import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.a8_app_utils.parcelable
 import com.vm.backgroundremove.objectremove.database.HistoryModel
-import com.vm.backgroundremove.objectremove.databinding.ActivityResultRemoveObjectBinding
+import com.vm.backgroundremove.objectremove.databinding.ActivityResultSaveBinding
 import com.vm.backgroundremove.objectremove.ui.main.home.HomeActivity
+import com.vm.backgroundremove.objectremove.ui.main.your_projects.ProjectsActivity
 import java.io.File
 import java.io.FileOutputStream
 
 class ResultRemoveObjectActivity :
-    BaseActivity<ActivityResultRemoveObjectBinding, BaseViewModel>() {
+    BaseActivity<ActivityResultSaveBinding, BaseViewModel>() {
     private var historyModel: HistoryModel? = null
     private var type = ""
-    override fun createBinding(): ActivityResultRemoveObjectBinding {
-        return ActivityResultRemoveObjectBinding.inflate(layoutInflater)
+    override fun createBinding(): ActivityResultSaveBinding {
+        return ActivityResultSaveBinding.inflate(layoutInflater)
     }
 
     override fun setViewModel(): BaseViewModel {
@@ -42,11 +37,11 @@ class ResultRemoveObjectActivity :
 
     override fun initView() {
         super.initView()
-        binding.icHome.tap {
+        binding.ivHome.tap {
             startActivity(Intent(this@ResultRemoveObjectActivity, HomeActivity::class.java))
         }
-        binding.ivBack.tap {
-            finish()
+        binding.ivHistory.tap {
+            startActivity(Intent(this@ResultRemoveObjectActivity, ProjectsActivity::class.java))
         }
 
         type = intent.getStringExtra(Constants.TYPE_HISTORY).toString()
@@ -66,17 +61,19 @@ class ResultRemoveObjectActivity :
                                 val bitmap: Bitmap = resource
                                 binding.ivHistoryResult.setImageFromBitmap(bitmap)
                             }
+
                             override fun onLoadCleared(placeholder: Drawable?) {
                             }
                         })
 
                 }
             }
-            binding.llShareWithFriend.tap { shareImageFromCache() }
+            binding.llShareWithFriends.tap { shareImageFromCache() }
         } catch (_: Exception) {
         }
 
     }
+
     fun createDownloadFile(context: Context): String {
         val cacheDir = File(context.cacheDir, "Stylist")
 
@@ -95,6 +92,7 @@ class ResultRemoveObjectActivity :
 
         return cacheFile.absolutePath
     }
+
     private fun shareImageFromCache() {
         try {
             val imageUrl = historyModel?.imageResult
@@ -143,7 +141,8 @@ class ResultRemoveObjectActivity :
                         }
                     })
             }
-        }catch (_:Exception){}
+        } catch (_: Exception) {
+        }
     }
 
 }

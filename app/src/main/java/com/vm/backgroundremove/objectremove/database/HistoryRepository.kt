@@ -24,8 +24,13 @@ class HistoryRepository(private val processDao: HistoryDao) {
     suspend fun updateOther(processId: Long, other: String) {
         processDao.updateOther(processId, other)
     }
+    suspend fun updateType(processId: Long, type: String) {
+        processDao.updateType(processId, type)
+    }
 
-
+    fun updateTypeRmvBG(processId: Long, type: String) {
+        processDao.updateRmvBGType(processId,type)
+    }
     fun getRowCount(): Int = processDao.getRowCount()
 
     fun getRowObjectRemoveCount(): Int = processDao.getRowObjectRemoveCount()

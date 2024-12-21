@@ -1,4 +1,4 @@
-package com.vm.backgroundremove.objectremove.ui.main.remove_object.bytext
+package com.vm.backgroundremove.objectremove.ui.main.your_projects
 
 import android.content.ContentValues
 import android.content.Context
@@ -7,8 +7,10 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Environment
+import android.os.Handler
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
@@ -17,139 +19,157 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
+import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseViewModel
 import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.a8_app_utils.parcelable
-import com.vm.backgroundremove.objectremove.api.response.UpLoadImagesResponse
 import com.vm.backgroundremove.objectremove.database.HistoryModel
-import com.vm.backgroundremove.objectremove.databinding.ActivityResultSaveBinding
-import com.vm.backgroundremove.objectremove.dialog.LoadingDialog
-import com.vm.backgroundremove.objectremove.dialog.ProcessingDialog
-import com.vm.backgroundremove.objectremove.ui.main.home.HomeActivity
-import com.vm.backgroundremove.objectremove.ui.main.progress.ProcessingActivity
-import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackGroundViewModel
-import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity.Companion.KEY_GENERATE
-import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity.Companion.KEY_REMOVE
-import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
-import com.vm.backgroundremove.objectremove.ui.main.remove_object.ResultRemoveObjectActivity
-import com.vm.backgroundremove.objectremove.ui.main.your_projects.ProjectsActivity
-import com.vm.backgroundremove.objectremove.util.Utils
+import com.vm.backgroundremove.objectremove.databinding.ActivityHistoryResultBinding
+import com.vm.backgroundremove.objectremove.ui.main.remove_background.ResultRemoveBackGroundActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withTimeout
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 
-class ResultRemoveObjectAndDowLoadActivity :
-    BaseActivity<ActivityResultSaveBinding, RemoveBackGroundViewModel>() {
-    override fun createBinding(): ActivityResultSaveBinding {
-        return ActivityResultSaveBinding.inflate(layoutInflater)
+class HistoryResultActivity : BaseActivity<ActivityHistoryResultBinding, BaseViewModel>() {
+
+    private var historyModel: HistoryModel? = null
+    private var isClickable : Boolean = true
+
+    override fun createBinding(): ActivityHistoryResultBinding {
+        return ActivityHistoryResultBinding.inflate(layoutInflater)
     }
 
-    private lateinit var processingDialog1: ProcessingDialog
-    private var historyModel: HistoryModel? = null
-    private var bitmap: Bitmap? = null
-    private var type = ""
-    private lateinit var dialog: LoadingDialog
-
-    override fun setViewModel(): RemoveBackGroundViewModel =
-        viewModel<RemoveBackGroundViewModel>().value
+    override fun setViewModel(): BaseViewModel {
+        return BaseViewModel()
+    }
 
     override fun initView() {
         super.initView()
-        processingDialog1 = ProcessingDialog(this@ResultRemoveObjectAndDowLoadActivity)
-        dialog = LoadingDialog(this@ResultRemoveObjectAndDowLoadActivity)
-        binding.ivHome.tap {
-            startActivity(Intent(this, HomeActivity::class.java))
-            finish()
+
+        historyModel = intent.parcelable<HistoryModel>(Constants.INTENT_RESULT)
+
+        binding.tvTitleName.text = historyModel?.name
+        if(historyModel?.type == "remove_background_done" || historyModel?.type == "remove_background_edit"|| historyModel?.type == "remove_background"){
+            binding.ivHistory.visibility = View.VISIBLE
         }
 
         binding.ivHistory.tap {
-            startActivity(Intent(this, ProjectsActivity::class.java))
-            finish()
+            if(isClickable){
+                isClickable = false
+                Glide.with(this)
+                    .asBitmap()
+                    .load(historyModel?.imageResult)
+                    .into(object : CustomTarget<Bitmap>() {
+                        override fun onResourceReady(
+                            resource: Bitmap,
+                            transition: Transition<in Bitmap>?
+                        ) {
+                            saveFileToDownload(resource)
+                            Toast.makeText(
+                                this@HistoryResultActivity,
+                                getString(R.string.image_saved_successfully),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
+                        override fun onLoadCleared(placeholder: Drawable?) {
+                        }
+                    })
+                Handler().postDelayed({ isClickable = true }, 500)
+            }
+
         }
 
-        type = intent.getStringExtra(Constants.TYPE_HISTORY).toString()
-        try {
-            historyModel = intent.parcelable<HistoryModel>(Constants.INTENT_RESULT)
-            Log.d("TAG_MODEL", "$historyModel")
-            historyModel?.let {
-                if (!it.imageResult.isNullOrEmpty()) {
-                    Glide.with(this).asBitmap() // Chỉ định rằng bạn muốn tải Bitmap
-                        .load(it.imageResult) // Tải hình ảnh từ file
+        // hien thi anh len tren ivHistoryResult
+        historyModel?.let {
+            if (!it.imageResult.isNullOrEmpty()) {
+                if (it.type == "remove_background_done" || it.type =="remove_background") {
+                    Glide.with(this).asBitmap()
+                        .load(historyModel?.imageResult)
+                        .skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .into(binding.ivHistoryResultCrop)
+                } else {
+
+                    binding.ivHistoryResultCrop.visibility = View.INVISIBLE
+                    binding.ivHistoryResultBrush.visibility = View.VISIBLE
+                    binding.tvOption1.text = getString(R.string.export)
+                    binding.ivOption1.setImageResource(R.drawable.ic_export_history)
+
+                    Glide.with(this).asBitmap()
+                        .load(historyModel?.imageResult)
                         .skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE)
                         .into(object : CustomTarget<Bitmap>() {
                             override fun onResourceReady(
-                                resource: Bitmap, transition: Transition<in Bitmap>?
+                                resource: Bitmap,
+                                transition: Transition<in Bitmap>?
                             ) {
-
-                                bitmap = resource
-                                binding.ivHistoryResult.setImageFromBitmap(bitmap!!)
-
+                                binding.ivHistoryResultBrush.setImageFromBitmap(resource)
+                                Log.d("TAG_IMAGE_RESULT2", "initView: ${it.type}")
                             }
 
                             override fun onLoadCleared(placeholder: Drawable?) {
-
                             }
                         })
                 }
-
-
-//                binding.ivBeforeAfter.tap {
-//                    val uriImage = Uri.parse(historyModel?.imageCreate.toString())
-//                    binding.ivRmvObject.toggleImage(bitmap!!, uriImage)
-//                }
             }
-
-        } catch (_: Exception) {
         }
+        //
+        binding.llOption1.tap {
+            if(isClickable){
+                isClickable = false
+                if (historyModel?.type == "remove_background_done" || historyModel?.type =="remove_background") {
+                    val intent =
+                        Intent(this@HistoryResultActivity, ResultRemoveBackGroundActivity::class.java)
+                    intent.putExtra(Constants.INTENT_RESULT, historyModel)
+                    intent.putExtra(Constants.INTENT_EDIT_FROM, Constants.INTENT_EDIT_FROM_HISTORY)
+                    startActivity(intent)
+                } else {
+                    Glide.with(this)
+                        .asBitmap()
+                        .load(historyModel?.imageResult)
+                        .into(object : CustomTarget<Bitmap>() {
+                            override fun onResourceReady(
+                                resource: Bitmap,
+                                transition: Transition<in Bitmap>?
+                            ) {
+                                saveFileToDownload(resource)
+                                Toast.makeText(
+                                    this@HistoryResultActivity,
+                                    R.string.image_saved_successfully,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
 
-        binding.llSaveToDevice.tap {
-            val imageUrl = historyModel?.imageResult?.takeIf { it.isNotEmpty() }
+                            override fun onLoadCleared(placeholder: Drawable?) {
+                            }
+                        })
 
-            if (imageUrl != null) {
-                dialog.setOnDismissListener {
-                    downloadImageFromUrl(this, imageUrl)
                 }
-                dialog.showWithTimeout(3000)
-            } else {
-                Log.d("TAG_IMAGE", "Image URL is null or empty")
+                Handler().postDelayed({ isClickable = true }, 500)
             }
+
         }
-        binding.llShareWithFriends.tap {
-            shareImageFromCache()
+
+        binding.ivBack.tap {
+            finish()
         }
-    }
-    fun createDownloadFile(context: Context): String {
-        val cacheDir = File(context.cacheDir, "Stylist")
 
-        val fileName = "Stylist${System.currentTimeMillis()}.png"
-
-        val cacheFile = File(cacheDir, fileName)
-
-        try {
-            if (!cacheFile.exists()) {
-                cacheDir.mkdirs()
-                cacheFile.createNewFile()
+        binding.llShare.tap {
+            if(isClickable){
+                isClickable = false
+                shareImageFromCache(historyModel?.imageResult.toString())
+                Handler().postDelayed({isClickable = true}, 500)
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
+
         }
 
-        return cacheFile.absolutePath
     }
 
-    private fun shareImageFromCache() {
+    private fun shareImageFromCache(imageUrl: String) {
         try {
-            val imageUrl = historyModel?.imageResult
             imageUrl?.let { url ->
                 Glide.with(this)
                     .asBitmap()
@@ -160,7 +180,8 @@ class ResultRemoveObjectAndDowLoadActivity :
                             transition: com.bumptech.glide.request.transition.Transition<in Bitmap>?
                         ) {
                             try {
-                                val filePath = createDownloadFile(this@ResultRemoveObjectAndDowLoadActivity)
+                                val filePath =
+                                    createDownloadFile(this@HistoryResultActivity)
                                 val file = File(filePath)
 
                                 val fos = FileOutputStream(file)
@@ -168,7 +189,7 @@ class ResultRemoveObjectAndDowLoadActivity :
                                 fos.close()
 
                                 val imageUri = FileProvider.getUriForFile(
-                                    this@ResultRemoveObjectAndDowLoadActivity,
+                                    this@HistoryResultActivity,
                                     "$packageName.provider",
                                     file
                                 )
@@ -199,6 +220,42 @@ class ResultRemoveObjectAndDowLoadActivity :
         }
     }
 
+    private fun saveFileToDownload(bitmap: Bitmap) {
+        val resolver = contentResolver
+        var name = System.currentTimeMillis().toString()
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, name)
+            put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
+            put(MediaStore.MediaColumns.RELATIVE_PATH, "Pictures/removebg")
+        }
+
+        val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+        uri?.let {
+            resolver.openOutputStream(it)?.use {
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
+            }
+        }
+        Log.v("tag111", "gen success: $name")
+    }
+
+    fun createDownloadFile(context: Context): String {
+        val cacheDir = File(context.cacheDir, "Stylist")
+
+        val fileName = "Stylist${System.currentTimeMillis()}.png"
+
+        val cacheFile = File(cacheDir, fileName)
+
+        try {
+            if (!cacheFile.exists()) {
+                cacheDir.mkdirs()
+                cacheFile.createNewFile()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return cacheFile.absolutePath
+    }
     private fun downloadImageFromUrl(context: Context, imageUrl: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -259,13 +316,6 @@ class ResultRemoveObjectAndDowLoadActivity :
                 }
 
                 CoroutineScope(Dispatchers.Main).launch {
-                    val intent = Intent(
-                        this@ResultRemoveObjectAndDowLoadActivity,
-                        ResultRemoveObjectActivity::class.java
-                    )
-                    intent.putExtra(Constants.INTENT_RESULT, historyModel)
-                    startActivity(intent)
-                    finish()
                     Toast.makeText(context, "Image downloaded successfully", Toast.LENGTH_SHORT)
                         .show()
                 }
@@ -277,4 +327,7 @@ class ResultRemoveObjectAndDowLoadActivity :
             }
         }
     }
+
+
+
 }

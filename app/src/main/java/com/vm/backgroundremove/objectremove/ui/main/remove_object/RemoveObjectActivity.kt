@@ -1,17 +1,10 @@
 package com.vm.backgroundremove.objectremove.ui.main.remove_object
 
-import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.os.Build
-import android.os.Environment
-import android.provider.MediaStore
 import android.widget.Toast
-import com.bumptech.glide.Glide
 import com.vm.backgroundremove.objectremove.R
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
-import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseViewModel
 import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.api.response.UpLoadImagesResponse
@@ -19,8 +12,7 @@ import com.vm.backgroundremove.objectremove.databinding.ActivityRemoveObjectBind
 import com.vm.backgroundremove.objectremove.dialog.ChooseOptionDialog
 import com.vm.backgroundremove.objectremove.dialog.DetectingDialog
 import com.vm.backgroundremove.objectremove.dialog.ProcessingDialog
-import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingActivity
-import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingRefineActivity
+import com.vm.backgroundremove.objectremove.ui.main.progress.ProcessingActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackGroundViewModel
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity.Companion.KEY_GENERATE
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity.Companion.KEY_REMOVE
@@ -162,7 +154,7 @@ class RemoveObjectActivity :
             startActivity(
                 Intent(
                     this@RemoveObjectActivity,
-                    ProessingActivity::class.java
+                    ProcessingActivity::class.java
                 ).apply {
                     putExtra(KEY_GENERATE, modelGenerate)
                     putExtra(KEY_REMOVE, Constants.ITEM_CODE_RMOBJECT)
@@ -186,7 +178,7 @@ class RemoveObjectActivity :
         startActivity(
             Intent(
                 this@RemoveObjectActivity,
-                ProessingActivity::class.java
+                ProcessingActivity::class.java
             ).apply {
                 putExtra(KEY_GENERATE, modelGenerate)
                 putExtra(KEY_REMOVE, Constants.ITEM_CODE_RMOBJECT_REFINE_OBJ)

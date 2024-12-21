@@ -1,5 +1,7 @@
 package com.vm.backgroundremove.objectremove.a8_app_utils;
 
+import org.jetbrains.annotations.Nullable;
+
 public class Constants {
 
     public static final String STREAMING_COMPLETED = "streaming_completed";
@@ -16,7 +18,6 @@ public class Constants {
     public static final String ITEM_CODE = "rmbg";
     public static final String ITEM_CODE_RMOBJECT_REFINE_OBJ = "rmobject_refine_obj";
     public static final String ITEM_CODE_RMOBJECT = "rmobject";
-    public static final String IMG_CATEGORY_PATH = "filePath";
     public static final String IMG_GALLERY_PATH = "image_gallery_path";
     public static final String IMG_CAMERA_PATH = "image_camera_path";
     public static final String TEXT_PLAIN = "text/plain";
@@ -29,6 +30,7 @@ public class Constants {
     public static final String NAME_INTENT_FROM_HOME = "from_home";
     public static final String NAME_INTENT_FORM_FRAGMENT ="fragment";
     public static final String INTENT_FROM_HOME_TO_BACKGROUND = "RemoveBackgroundActivity";
+    public static final String INTENT_FROM_HOME_TO_EDIT = "EditRemoveBackGroundActivity";
     public static final String INTENT_FROM_HOME_TO_OBJECT = "RemoveObjectActivity";
     public static final String INTENT_FROM_FRAGMENT_CHOOSE_BG ="FragmentChooseBackground";
     public static final String INTENT_RESULT = "INTENT_RESULT";
@@ -38,6 +40,10 @@ public class Constants {
 
     public static final String PAYLOAD_REPLACE_SRC = "___payload_replace_img_src";
     public static final String TYPE_HISTORY = "TYPE_HISTORY";
-    public static final String COLOR ="COLOR";
 
+    public static final String INTENT_EDIT_FROM= "INTENT_EDIT_FROM";
+    public static final String INTENT_EDIT_FROM_HISTORY = "INTENT_EDIT_FROM_HISTORY";
+    public static final String INTENT_EDIT_FROM_PROCESS = "INTENT_EDIT_FROM_PROCESS";
+    public static final String INTENT_IMG_RESULT= "INTENT_IMG_RESULT";
+    public static final String INTENT_IMG_RESULT_URL= "INTENT_IMG_RESULT_URL";
 }

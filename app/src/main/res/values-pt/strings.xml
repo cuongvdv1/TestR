@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RemoverFundo</string>
     <string name="img_project_empty">img_projeto_vazio</string>
     <string name="there_are_no_projects_yet">Ainda não há projetos</string>
     <string name="home">Início</string>
@@ -157,5 +156,27 @@
     <string name="grant_permission">Conceder permissão</string>
     <string name="please_grant_all_permissions_to_access_additional_functionality">Por favor, conceda todas as permissões para acessar funcionalidades adicionais.</string>
     <string name="go_to_setting">Ir para configurações</string>
+
+    <string name="remove_object">Remover objeto</string>
+    <string name="background_removal">Remoção de fundo</string>
+    <string name="edit_photo_s_background">Editar o fundo da foto</string>
+    <string name="change_the_background_from_any_image_with_precision">Altere o fundo de qualquer imagem com precisão.</string>
+    <string name="choose_photos">Escolher fotos</string>
+    <string name="choose_a_photo_to_start_editing_the_background">Escolha uma foto para começar a editar o fundo</string>
+    <string name="no_photos">Nenhuma foto disponível para editar fundos. Escolha fotos com fundos removidos para continuar</string>
+    <string name="start_removing">Comece a remover o fundo da sua foto agora!</string>
+    <string name="try_now">Experimente agora</string>
+    <string name="sit_back">Relaxe—sua edição impressionante de fundo está a caminho!</string>
+    <string name="try_Again">Tente novamente</string>
+    <string name="result">Resultado</string>
+    <string name="save_to_your_device">Salvar no seu dispositivo</string>
+    <string name="your_photo_s_object_is_being_detecting">O objeto da sua foto está sendo detectado.</string>
+    <string name="all_objects_in_the_photo_are_being_detected">Todos os objetos na foto estão sendo detectados</string>
+    <string name="that_object_is_being_removed_from_your_photo">Esse objeto está sendo removido da sua foto</string>
+    <string name="your_photo_s_object_is_being_removed">O objeto da sua foto está sendo removido.</string>
+    <string name="if_the_object">Se o objeto que você deseja remover não estiver na lista acima, digite-o aqui:</string>
+    <string name="the_result_will_be_done_soon_stay_patient">O resultado estará pronto em breve. Tenha paciência!</string>
+    <string name="keep_calm_and_wait_for_ai_do_its_job">Mantenha a calma e espere a IA fazer o trabalho!</string>
+
 
 </resources>

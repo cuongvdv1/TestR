@@ -1,8 +1,5 @@
 package com.vm.backgroundremove.objectremove.api
 
-import com.vm.backgroundremove.objectremove.api.response.ResultImageResponse
-import com.vm.backgroundremove.objectremove.api.response.UpLoadImagesResponse
-
 //dao add
 sealed class ApiResult<out T> {
     // Một lớp con cho kết quả thành công

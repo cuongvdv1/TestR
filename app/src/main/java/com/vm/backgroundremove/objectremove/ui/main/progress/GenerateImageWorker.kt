@@ -44,17 +44,22 @@ class GenerateImageWorker(
         val cf_url = processModel?.cf_url
         Log.d("GenerateImageWorker", "sdUrl: $cf_url")
         val row = dbHistoryRepository.getRowCount()
-        val rowCount = if (row > 0) row + 1 else 1
+//        val rowCount = if (row > 0) row + 1 else 1
 
         processModel?.let {
-            it.name = if (it.type == "remove_background") {
+            if (it.type == "remove_background") {
                 val count = dbHistoryRepository.getRowRemoveBGCount()
-                val rowCount = if (row > 0) row + 1 else 1
-                "Remove BG $rowCount"
-            } else {
+                Log.d("TAG_COUNT", "$count")
+                val rowCount = if (count > 0) count + 1 else 1
+                it.name = "Remove BG $rowCount"
+            } else if (it.type == "remove_obj_by_text") {
                 val count = dbHistoryRepository.getRowObjectRemoveCount()
-                val rowCount = if (row > 0) row + 1 else 1
-                "Object Remove $rowCount"
+                val rowCount = if (count > 0) count + 1 else 1
+                it.name = "Object Remove $rowCount"
+            } else if (it.type == "remove_obj_by_list_text") {
+                val count = dbHistoryRepository.getRowObjectRemoveCount()
+                val rowCount = if (count > 0) count + 1 else 1
+                it.name = "Object Remove $rowCount"
             }
         }
 
@@ -71,7 +76,7 @@ class GenerateImageWorker(
             val finalResult = pollForImageResult(task_id!!, cf_url!!)
 
             if (finalResult != null) {
-                Log.d("YEUBANTRINH",finalResult.toString())
+                Log.d("YEUBANTRINH", finalResult.toString())
                 return finalResult
             }
 
@@ -85,7 +90,7 @@ class GenerateImageWorker(
         var attempts = 0
         while (attempts < 10) { // Giới hạn số lần retry để tránh vòng lặp vô hạn
 
-            when (val result = remoteResultRepository.getImageResult(task_id,cf_url )) {
+            when (val result = remoteResultRepository.getImageResult(task_id, cf_url)) {
                 is ApiResult.Success -> {
                     val data = result.data
                     Log.d("GenerateImageWorker", "Data $data")
@@ -96,6 +101,10 @@ class GenerateImageWorker(
                                 val imageUrlResult = data.img_url[0].image_url
                                 val other = data.other
                                 CoroutineScope(Dispatchers.IO).launch {
+                                    if(processModel?.type == "remove_background"){
+                                        dbHistoryRepository.updateType(processId, "remove_background_done")
+                                    }
+                                    
                                     dbHistoryRepository.updateProcessWithImage(
                                         processId,
                                         imageUrlResult
@@ -142,14 +151,14 @@ class GenerateImageWorker(
 
                             "todo" -> {
                                 // Task trong hàng đợi
-//                                val position = data.position?.toIntOrNull() ?: 0
+                                val position = data.position ?: 0
 
                                 val estimatedTime = (20 + 5) * 1000L
                                 val startTime = System.currentTimeMillis()
 
 
                                 CoroutineScope(Dispatchers.Default).launch {
-                                    trackProgress(estimatedTime, startTime, "todo", 0)
+                                    trackProgress(estimatedTime, startTime, "todo", position)
                                 }
 
                                 CoroutineScope(Dispatchers.IO).launch {

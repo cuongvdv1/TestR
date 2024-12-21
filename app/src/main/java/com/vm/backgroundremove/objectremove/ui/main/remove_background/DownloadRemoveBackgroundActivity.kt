@@ -7,7 +7,6 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.provider.MediaStore
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
@@ -21,22 +20,20 @@ import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.a8_app_utils.parcelable
 import com.vm.backgroundremove.objectremove.database.HistoryModel
-import com.vm.backgroundremove.objectremove.databinding.ActivityRemoveBackgroundProcessBinding
-import com.vm.backgroundremove.objectremove.databinding.ActivityRemovebackgroundSaveBinding
-import com.vm.backgroundremove.objectremove.databinding.ActivityYourProjectsResultBinding
+import com.vm.backgroundremove.objectremove.databinding.ActivityResultSaveBinding
 import com.vm.backgroundremove.objectremove.ui.main.home.HomeActivity
 import com.vm.backgroundremove.objectremove.ui.main.your_projects.ProjectsActivity
-import com.vm.backgroundremove.objectremove.ui.main.your_projects.YourProjectsActivity
 import java.io.File
 import java.io.FileOutputStream
 
 class DownloadRemoveBackgroundActivity :
-    BaseActivity<ActivityRemovebackgroundSaveBinding, BaseViewModel>() {
+    BaseActivity<ActivityResultSaveBinding, BaseViewModel>() {
     private var imageUrl :String? = null
+    private var image_path : String? = null
     private var isClickable = true
     private var historyModel: HistoryModel? = null
-    override fun createBinding(): ActivityRemovebackgroundSaveBinding {
-        return ActivityRemovebackgroundSaveBinding.inflate(layoutInflater)
+    override fun createBinding(): ActivityResultSaveBinding {
+        return ActivityResultSaveBinding.inflate(layoutInflater)
     }
 
     override fun setViewModel(): BaseViewModel {
@@ -45,7 +42,8 @@ class DownloadRemoveBackgroundActivity :
 
     override fun initView() {
         super.initView()
-        imageUrl = intent.getStringExtra(Constants.INTENT_IMG_RESULT_PATH) ?: ""
+        imageUrl = intent.getStringExtra(Constants.INTENT_IMG_RESULT) ?: ""
+        image_path = intent.getStringExtra(Constants.INTENT_IMG_RESULT_PATH)
         Log.d("TAG_IMAGE_INTENT", "imageUrl: $imageUrl")
         historyModel = intent.parcelable<HistoryModel>(Constants.INTENT_RESULT)
 
@@ -93,7 +91,7 @@ class DownloadRemoveBackgroundActivity :
                             saveFileToDownload(resource)
                             Toast.makeText(
                                 this@DownloadRemoveBackgroundActivity,
-                                "Image saved successfully",
+                                R.string.image_saved_successfully,
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -135,7 +133,6 @@ class DownloadRemoveBackgroundActivity :
 
     private fun shareImageFromCache(imageUrl: String) {
         try {
-//            val imageUrl = historyModel?.imageResult
             imageUrl?.let { url ->
                 Glide.with(this)
                     .asBitmap()

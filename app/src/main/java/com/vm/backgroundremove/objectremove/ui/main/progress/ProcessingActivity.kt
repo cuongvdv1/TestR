@@ -1,7 +1,5 @@
 package com.vm.backgroundremove.objectremove.ui.main.progress
 
-import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -16,12 +14,14 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.work.WorkInfo
 import com.util.CheckInternet
 import com.vm.backgroundremove.objectremove.R
+import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseActivity
 import com.vm.backgroundremove.objectremove.a1_common_utils.view.tap
 import com.vm.backgroundremove.objectremove.a8_app_utils.Constants
 import com.vm.backgroundremove.objectremove.a8_app_utils.ProcessState
 import com.vm.backgroundremove.objectremove.a8_app_utils.convertToObject
 import com.vm.backgroundremove.objectremove.a8_app_utils.getParcelable
 import com.vm.backgroundremove.objectremove.database.HistoryModel
+import com.vm.backgroundremove.objectremove.database.HistoryRepository
 import com.vm.backgroundremove.objectremove.databinding.ActivityProcessBinding
 import com.vm.backgroundremove.objectremove.ui.common.nointernet.NoInternetActivity
 import com.vm.backgroundremove.objectremove.ui.main.home.HomeActivity
@@ -30,27 +30,27 @@ import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBack
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.ResultRemoveBackGroundActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
 import com.vm.backgroundremove.objectremove.ui.main.remove_object.bylist.RemoveObjectByListActivity
-import com.vm.backgroundremove.objectremove.ui.main.remove_object.bylist.ResultRemoveObjectByList
 import com.vm.backgroundremove.objectremove.ui.main.remove_object.bytext.ResultRemoveObjectAndDowLoadActivity
 import com.vm.backgroundremove.objectremove.ui.main.your_projects.ProjectsActivity
-import com.vm.backgroundremove.objectremove.ui.main.your_projects.YourProjectsActivity
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.UUID
 
-class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>() {
+
+class ProcessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>() {
     private var generateResponse: GenerateResponse? = null
     private var itemCode: String? = null
     private var taskId: String? = null
     private var cfUrl: String? = null
     private var uuid: String? = null
     private var imageCreate: String? = null
-    private var type_process : String? = null
-    private var listOther : String? =null
-    private var listOtherSelected : String? =null
-    private var keyRemove : String? =null
-
+    private var type_process: String? = null
+    private var listOther: String? = null
+    private var listOtherSelected: String? = null
+    private var keyRemove: String? = null
     override fun createBinding(): ActivityProcessBinding {
         return ActivityProcessBinding.inflate(layoutInflater)
     }
@@ -60,28 +60,42 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
     override fun initView() {
         super.initView()
         binding.icHomeGenerate.tap {
-            startActivity(Intent(this@ProessingActivity,HomeActivity::class.java))
+            startActivity(Intent(this@ProcessingActivity, HomeActivity::class.java))
             finish()
         }
         binding.icHistory.tap {
-            startActivity(Intent(this@ProessingActivity, ProjectsActivity::class.java))
+            startActivity(Intent(this@ProcessingActivity, ProjectsActivity::class.java))
             finish()
         }
+
+//        binding.btnTryAgain.tap {
+//
+//        }
         type_process = intent.getStringExtra("type_process")
         listOtherSelected = intent.getStringExtra("listOtherSelected")
-        if (type_process == "remove_obj_by_list"){
-        binding.tvYourPhoto.text = getString(R.string.your_photo_s_object_is_being_detecting)
+        if (type_process == "remove_obj_by_list") {
+            binding.tvSitback.visibility = View.GONE
+            binding.tvYourNewLook.text = getString(R.string.keep_calm_and_wait_for_ai_do_its_job)
+            binding.tvYourPhoto.text =
+                getString(R.string.all_objects_in_the_photo_are_being_detected)
             binding.animationBird.visibility = View.GONE
             binding.ctlYourRequest.visibility = View.GONE
-        }else if (type_process == "remove_obj_by_text"){
-            binding.tvYourPhoto.text = getString(R.string.your_photo_is_being_remove_object)
-        }else if (type_process == "remove_obj_by_list_text"){
-            binding.tvYourPhoto.text = getString(R.string.your_photo_is_being_remove_object)
-        }else{
+        } else if (type_process == "remove_obj_by_text") {
+            binding.tvYourNewLook.text =
+                getString(R.string.the_result_will_be_done_soon_stay_patient)
+            binding.tvSitback.visibility = View.GONE
+            binding.tvYourPhoto.text =
+                getString(R.string.that_object_is_being_removed_from_your_photo)
+        } else if (type_process == "remove_obj_by_list_text") {
+            binding.tvSitback.visibility = View.GONE
+            binding.tvYourPhoto.text = getString(R.string.your_photo_s_object_is_being_removed)
+        } else {
+            binding.tvSitback.visibility = View.VISIBLE
             binding.tvYourPhoto.text = getString(R.string.your_photo_is_nbeing_remove_bg)
         }
-        Log.d("ProessingActivity","ProessingActivity")
-        generateResponse = intent.getParcelable<GenerateResponse>(RemoveBackgroundActivity.KEY_GENERATE)
+        Log.d("ProessingActivity", "ProessingActivity")
+        generateResponse =
+            intent.getParcelable<GenerateResponse>(RemoveBackgroundActivity.KEY_GENERATE)
 
         imageCreate = intent.getStringExtra("imageCreate")
         listOther = intent.getStringExtra("listOther")
@@ -90,9 +104,9 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
             taskId = it.task_id
             cfUrl = it.cf_url
             itemCode = it.imageCreate
-            Log.d("ProcessActivity","$taskId")
-            Log.d("ProcessActivity","$cfUrl")
-            Log.d("ProcessActivity","$itemCode")
+            Log.d("ProcessActivity", "$taskId")
+            Log.d("ProcessActivity", "$cfUrl")
+            Log.d("ProcessActivity", "$itemCode")
         }
 
         uuid = intent.getStringExtra(Constants.WORK_UUID)
@@ -101,13 +115,13 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
             viewModel.trackProcessUUID.value = uuid
             listenerWorker()
             viewModel.getNumProgressing()
-                binding.tvNumberPosition.text = viewModel.historyModel?.process?.toString() ?: ""
+            binding.tvNumberPosition.text = viewModel.historyModel?.process?.toString() ?: ""
         } else {
-            if (type_process == "remove_obj_by_list_text"){
+            if (type_process == "remove_obj_by_list_text") {
                 viewModel.newProcessItem(type_process!!, imageCreate!!, taskId!!, cfUrl!!)
                 viewModel.onNewID()
                 viewModel.getNumProgressing()
-            }else{
+            } else {
                 viewModel.newProcessItem(type_process!!, imageCreate!!, taskId!!, cfUrl!!)
                 viewModel.onNewID()
                 viewModel.getNumProgressing()
@@ -172,22 +186,36 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
                             }
                             when (workInfo.state) {
                                 WorkInfo.State.SUCCEEDED -> {
-                                    when (type_process){
+                                    when (type_process) {
                                         "remove_background" -> {
                                             val processModelJson =
                                                 workInfo.outputData.getString(Constants.INTENT_HISTORY_WORKER)
                                             val processModel =
                                                 processModelJson?.convertToObject<HistoryModel>()
+                                            processModel?.type = "remove_background_done"
+                                            lifecycleScope.launch(Dispatchers.IO) {
+                                                processModel?.let { it1 ->
+                                                    viewModel.updateTypeRemoveBackGround(processModel)
+                                                }
+                                            }
+                                            Log.d("TAG_PROCESSMODEL", "aa ${processModel}")
                                             viewModel.updateNumProcessing()
                                             viewModel.cancelProcessListener()
                                             val intent =
-                                                Intent(this@ProessingActivity, ResultRemoveBackGroundActivity::class.java)
+                                                Intent(
+                                                    this@ProcessingActivity,
+                                                    ResultRemoveBackGroundActivity::class.java
+                                                )
                                             intent.putExtra(Constants.INTENT_RESULT, processModel)
-                                            Log.d("ProcessActivity", "SUCCEEDED  $processModel")
+                                            intent.putExtra(
+                                                Constants.INTENT_EDIT_FROM,
+                                                Constants.INTENT_EDIT_FROM_PROCESS
+                                            )
                                             startActivity(intent)
                                             finish()
                                         }
-                                        "remove_obj_by_text"-> {
+
+                                        "remove_obj_by_text" -> {
                                             val processModelJson =
                                                 workInfo.outputData.getString(Constants.INTENT_HISTORY_WORKER)
                                             val processModel =
@@ -195,12 +223,16 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
                                             viewModel.updateNumProcessing()
                                             viewModel.cancelProcessListener()
                                             val intent =
-                                                Intent(this@ProessingActivity, ResultRemoveObjectAndDowLoadActivity::class.java)
+                                                Intent(
+                                                    this@ProcessingActivity,
+                                                    ResultRemoveObjectAndDowLoadActivity::class.java
+                                                )
                                             intent.putExtra(Constants.INTENT_RESULT, processModel)
                                             startActivity(intent)
                                             finish()
                                             Log.d("ProcessActivity", "SUCCEEDED  $processModel")
                                         }
+
                                         "remove_obj_by_list" -> {
                                             val processModelJson =
                                                 workInfo.outputData.getString(Constants.INTENT_HISTORY_WORKER)
@@ -209,16 +241,20 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
                                             viewModel.updateNumProcessing()
                                             viewModel.cancelProcessListener()
                                             val intent =
-                                                Intent(this@ProessingActivity, RemoveObjectByListActivity::class.java)
+                                                Intent(
+                                                    this@ProcessingActivity,
+                                                    RemoveObjectByListActivity::class.java
+                                                )
                                             intent.putExtra(Constants.INTENT_RESULT, processModel)
 
-                                            intent.putExtra("listOther",listOther)
-                                            intent.putExtra("listOtherSelected",listOtherSelected)
+                                            intent.putExtra("listOther", listOther)
+                                            intent.putExtra("listOtherSelected", listOtherSelected)
 //                                            intent.putStringArrayListExtra("item_list", arrayListOf(processModel))
                                             startActivity(intent)
                                             finish()
                                         }
-                                        else ->{
+
+                                        else -> {
                                             val processModelJson =
                                                 workInfo.outputData.getString(Constants.INTENT_HISTORY_WORKER)
                                             val processModel =
@@ -226,10 +262,13 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
                                             viewModel.updateNumProcessing()
                                             viewModel.cancelProcessListener()
                                             val intent =
-                                                Intent(this@ProessingActivity, RemoveObjectByListActivity::class.java)
+                                                Intent(
+                                                    this@ProcessingActivity,
+                                                    ResultRemoveObjectAndDowLoadActivity::class.java
+                                                )
                                             intent.putExtra(Constants.INTENT_RESULT, processModel)
-                                            intent.putExtra("listOther",listOther)
-                                            intent.putExtra("listOtherSelected",listOtherSelected)
+                                            intent.putExtra("listOther", listOther)
+                                            intent.putExtra("listOtherSelected", listOtherSelected)
                                             startActivity(intent)
                                             finish()
                                             Log.d("ProcessActivity", "SUCCEEDED  $processModel")
@@ -243,18 +282,24 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
                                     binding.prIndicator.progress = 100f
                                     viewModel.updateNumProcessing()
                                     binding.prIndicator.indicatorColor = ContextCompat.getColor(
-                                        this@ProessingActivity,
+                                        this@ProcessingActivity,
                                         R.color.color_F64534
                                     )
+                                    binding.btnTryAgain.visibility = View.VISIBLE
+                                    binding.tvSitback.visibility = View.INVISIBLE
+                                    binding.btnTryAgain.tap {
+                                        viewModel.retryProcess()
+                                    }
+
 
                                     binding.prIndicator.endColor = ContextCompat.getColor(
-                                        this@ProessingActivity,
+                                        this@ProcessingActivity,
                                         R.color.color_F64534
                                     )
                                     binding.txtProgress.text = "Error"
                                     binding.txtProgress.setTextColor(
                                         ContextCompat.getColor(
-                                            this@ProessingActivity,
+                                            this@ProcessingActivity,
                                             R.color.color_353B40
                                         )
                                     )
@@ -262,13 +307,13 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
                                     viewModel.cancelProcessListener()
                                     binding.tvTimeEst.setTextColor(
                                         ContextCompat.getColor(
-                                            this@ProessingActivity,
+                                            this@ProcessingActivity,
                                             R.color.color_353B40
                                         )
                                     )
                                     binding.tvNumberPosition.setTextColor(
                                         ContextCompat.getColor(
-                                            this@ProessingActivity,
+                                            this@ProcessingActivity,
                                             R.color.color_353B40
                                         )
                                     )
@@ -282,10 +327,10 @@ class ProessingActivity : BaseActivity<ActivityProcessBinding, ProcessViewModel>
                                 WorkInfo.State.ENQUEUED -> Log.d("ProcessActivity", "ENQUEUED")
 
                                 WorkInfo.State.RUNNING -> {
-                                    if (!CheckInternet.haveNetworkConnection(this@ProessingActivity)) {
+                                    if (!CheckInternet.haveNetworkConnection(this@ProcessingActivity)) {
                                         startActivity(
                                             Intent(
-                                                this@ProessingActivity,
+                                                this@ProcessingActivity,
                                                 NoInternetActivity::class.java
                                             )
                                         )

@@ -8,9 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.vm.backgroundremove.objectremove.a1_common_utils.base.BaseViewModel
 import com.vm.backgroundremove.objectremove.api.ApiResult
 import com.vm.backgroundremove.objectremove.api.repository.UpLoadImageRepository
-import com.vm.backgroundremove.objectremove.api.response.ResultImageResponse
 import com.vm.backgroundremove.objectremove.api.response.UpLoadImagesResponse
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

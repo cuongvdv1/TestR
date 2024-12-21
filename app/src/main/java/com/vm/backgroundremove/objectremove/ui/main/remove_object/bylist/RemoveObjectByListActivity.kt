@@ -4,7 +4,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
@@ -12,7 +11,6 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.CustomTarget
@@ -27,14 +25,12 @@ import com.vm.backgroundremove.objectremove.database.HistoryModel
 import com.vm.backgroundremove.objectremove.databinding.ActivityRemoveObjectByListBinding
 import com.vm.backgroundremove.objectremove.dialog.LoadingDialog
 import com.vm.backgroundremove.objectremove.dialog.ProcessingDialog
-import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingActivity
-import com.vm.backgroundremove.objectremove.ui.main.progress.ProessingRefineActivity
+import com.vm.backgroundremove.objectremove.ui.main.progress.ProcessingActivity
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackGroundViewModel
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity.Companion.KEY_GENERATE
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.RemoveBackgroundActivity.Companion.KEY_REMOVE
 import com.vm.backgroundremove.objectremove.ui.main.remove_background.generate.GenerateResponse
 import com.vm.backgroundremove.objectremove.ui.main.remove_object.ResultRemoveObjectActivity
-import com.vm.backgroundremove.objectremove.ui.main.your_projects.viewModel.ProjectViewModel
 import com.vm.backgroundremove.objectremove.util.Utils
 import com.vm.backgroundremove.objectremove.util.getBitmapFrom
 import kotlinx.coroutines.CoroutineScope
@@ -55,7 +51,7 @@ class RemoveObjectByListActivity :
     private var type = ""
     private var listOtherSelected: String? = null
     private var listOtherAfterRemove: String? = null
-    private var listOtherByIntent =""
+    private var listOtherByIntent = ""
 
     private lateinit var dialog: LoadingDialog
     var listOther2 = listOf<String>()
@@ -73,7 +69,7 @@ class RemoveObjectByListActivity :
 
     override fun initView() {
         super.initView()
-        dialog= LoadingDialog(this)
+        dialog = LoadingDialog(this)
 //        projectViewModel = viewModel<ProjectViewModel>().value
         binding.ivBack.tap {
             finish()
@@ -97,8 +93,9 @@ class RemoveObjectByListActivity :
             } ?: emptyList()
             Log.d("TAG_MODEL", "$historyModel")
 
-            if(listOtherByIntent.isNotEmpty() && listOtherByIntent != "" && listOtherByIntent != "null" && listOtherByIntent != "[]" && listOtherByIntent != null){
-                listOther2 = listOtherByIntent.removeSurrounding("[", "]").split(", ").map { it.trim() }
+            if (listOtherByIntent.isNotEmpty() && listOtherByIntent != "" && listOtherByIntent != "null" && listOtherByIntent != "[]" && listOtherByIntent != null) {
+                listOther2 =
+                    listOtherByIntent.removeSurrounding("[", "]").split(", ").map { it.trim() }
             }
             viewModel.setItemList(listOther2)
             val selectedItems = listOtherSelected?.let {
@@ -113,7 +110,7 @@ class RemoveObjectByListActivity :
             // Gửi dữ liệu vào Adapter (cập nhật Adapter)
 
             val fragment = RemoveObjectByListFragment()
-            if (listOtherAfterRemove != null){
+            if (listOtherAfterRemove != null) {
 
                 viewModel.setItemList(itemsWithState!!.map { it.first }) // Cập nhật list gốc
             }
@@ -122,7 +119,7 @@ class RemoveObjectByListActivity :
                 .commit()
 
             // Pass trạng thái disable vào Fragment qua ViewModel
-            viewModel.setItemDisabledState(selectedItems )
+            viewModel.setItemDisabledState(selectedItems)
 
             historyModel?.let { historyModel ->
                 if (!historyModel.imageResult.isNullOrEmpty()) {
@@ -285,7 +282,7 @@ class RemoveObjectByListActivity :
             startActivity(
                 Intent(
                     this@RemoveObjectByListActivity,
-                    ProessingActivity::class.java
+                    ProcessingActivity::class.java
                 ).apply {
                     putExtra(KEY_GENERATE, modelGenerate)
                     putExtra(KEY_REMOVE, Constants.ITEM_CODE_RMOBJECT)
@@ -313,7 +310,7 @@ class RemoveObjectByListActivity :
             startActivity(
                 Intent(
                     this@RemoveObjectByListActivity,
-                    ProessingActivity::class.java
+                    ProcessingActivity::class.java
                 ).apply {
                     putExtra(KEY_GENERATE, modelGenerate)
                     putExtra(KEY_REMOVE, Constants.ITEM_CODE_RMOBJECT)
@@ -400,11 +397,15 @@ class RemoveObjectByListActivity :
                 }
 
                 CoroutineScope(Dispatchers.Main).launch {
-                    val intent = Intent(this@RemoveObjectByListActivity, ResultRemoveObjectActivity::class.java)
-                    intent.putExtra(Constants.INTENT_RESULT,historyModel)
+                    val intent = Intent(
+                        this@RemoveObjectByListActivity,
+                        ResultRemoveObjectActivity::class.java
+                    )
+                    intent.putExtra(Constants.INTENT_RESULT, historyModel)
                     startActivity(intent)
                     finish()
-                    Toast.makeText(context, "Image downloaded successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Image downloaded successfully", Toast.LENGTH_SHORT)
+                        .show()
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

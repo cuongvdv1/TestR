@@ -158,4 +158,26 @@
     <string name="please_grant_all_permissions_to_access_additional_functionality">Harap berikan semua izin untuk mengakses fungsionalitas tambahan.</string>
     <string name="go_to_setting">Pergi ke pengaturan</string>
 
+    <string name="remove_object">Hapus objek</string>
+    <string name="background_removal">Hapus latar belakang</string>
+    <string name="edit_photo_s_background">Edit latar belakang foto</string>
+    <string name="change_the_background_from_any_image_with_precision">Ubah latar belakang dari gambar apa pun dengan presisi.</string>
+    <string name="choose_photos">Pilih Foto</string>
+    <string name="choose_a_photo_to_start_editing_the_background">Pilih foto untuk mulai mengedit latar belakang</string>
+    <string name="no_photos">Tidak ada foto yang tersedia untuk mengedit latar belakang. Pilih foto dengan latar belakang yang sudah dihapus untuk melanjutkan</string>
+    <string name="start_removing">Mulailah menghapus latar belakang foto Anda sekarang!</string>
+    <string name="try_now">Coba sekarang</string>
+    <string name="sit_back">Duduk santai dan rileks—edit latar belakang yang menakjubkan sedang diproses!</string>
+    <string name="try_Again">Coba Lagi</string>
+    <string name="result">Hasil</string>
+    <string name="save_to_your_device">Simpan ke perangkat Anda</string>
+    <string name="your_photo_s_object_is_being_detecting">Objek foto Anda sedang dideteksi.</string>
+    <string name="all_objects_in_the_photo_are_being_detected">Semua objek dalam foto sedang dideteksi</string>
+    <string name="that_object_is_being_removed_from_your_photo">Objek itu sedang dihapus dari foto Anda</string>
+    <string name="your_photo_s_object_is_being_removed">Objek foto Anda sedang dihapus.</string>
+    <string name="if_the_object">Jika objek yang ingin Anda hapus tidak ada dalam daftar di atas, ketik di sini:</string>
+    <string name="the_result_will_be_done_soon_stay_patient">Hasilnya akan segera selesai. Tetap sabar!</string>
+    <string name="keep_calm_and_wait_for_ai_do_its_job">Tetap tenang dan tunggu AI menyelesaikan tugasnya!</string>
+
+
 </resources>

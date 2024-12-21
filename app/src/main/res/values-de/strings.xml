@@ -157,5 +157,27 @@
     <string name="grant_permission">Erlaubnis erteilen</string>
     <string name="please_grant_all_permissions_to_access_additional_functionality">Bitte erteilen Sie alle Berechtigungen, um zusätzliche Funktionen zu nutzen.</string>
     <string name="go_to_setting">Zu den Einstellungen gehen</string>
+    <string name="remove_object">Objekt entfernen</string>
+    <string name="background_removal">Hintergrund entfernen</string>
+    <string name="edit_photo_s_background">Hintergrund des Fotos bearbeiten</string>
+    <string name="change_the_background_from_any_image_with_precision">Hintergrund von jedem Bild mit Präzision ändern.</string>
+    <string name="choose_photos">Fotos auswählen</string>
+    <string name="choose_a_photo_to_start_editing_the_background">Wählen Sie ein Foto aus, um den Hintergrund zu bearbeiten</string>
+    <string name="no_photos">Keine Fotos verfügbar, um Hintergründe zu bearbeiten. Wählen Sie Fotos mit entfernten Hintergründen, um fortzufahren</string>
+    <string name="start_removing">Beginnen Sie jetzt mit dem Entfernen des Hintergrunds Ihres Fotos!</string>
+    <string name="try_now">Jetzt ausprobieren</string>
+    <string name="sit_back">Lehnen Sie sich zurück und entspannen Sie sich – Ihre beeindruckende Hintergrundbearbeitung ist unterwegs!</string>
+    <string name="try_Again">Erneut versuchen</string>
+    <string name="result">Ergebnis</string>
+    <string name="save_to_your_device">Auf Ihrem Gerät speichern</string>
+    <string name="your_photo_s_object_is_being_detecting">Das Objekt Ihres Fotos wird erkannt.</string>
+    <string name="all_objects_in_the_photo_are_being_detected">Alle Objekte im Foto werden erkannt</string>
+    <string name="that_object_is_being_removed_from_your_photo">Dieses Objekt wird aus Ihrem Foto entfernt</string>
+    <string name="your_photo_s_object_is_being_removed">Das Objekt Ihres Fotos wird entfernt.</string>
+    <string name="if_the_object">Wenn das zu entfernende Objekt nicht in der Liste oben ist, geben Sie es hier ein:</string>
+    <string name="the_result_will_be_done_soon_stay_patient">Das Ergebnis wird bald fertig sein. Bitte bleiben Sie geduldig!</string>
+    <string name="keep_calm_and_wait_for_ai_do_its_job">Bleiben Sie ruhig und warten Sie, bis die KI ihre Arbeit erledigt!</string>
+
+
 
 </resources>

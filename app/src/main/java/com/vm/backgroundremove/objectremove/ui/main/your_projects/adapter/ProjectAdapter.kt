@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -21,11 +22,13 @@ import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity.LAYOUT_INFLATER_SERVICE
 import androidx.core.content.FileProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.vm.backgroundremove.objectremove.R
@@ -34,8 +37,11 @@ import com.vm.backgroundremove.objectremove.a8_app_utils.HOUR_FORMAT
 import com.vm.backgroundremove.objectremove.a8_app_utils.convertTime
 import com.vm.backgroundremove.objectremove.a8_app_utils.toDp
 import com.vm.backgroundremove.objectremove.database.HistoryModel
+import com.vm.backgroundremove.objectremove.database.HistoryRepository
 import com.vm.backgroundremove.objectremove.databinding.ItemProjectBinding
 import com.vm.backgroundremove.objectremove.databinding.PopupOptionHistoryBinding
+import com.vm.backgroundremove.objectremove.ui.main.progress.ProcessViewModel
+import com.vm.backgroundremove.objectremove.ui.main.your_projects.viewModel.ProjectViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,11 +51,16 @@ import java.io.OutputStream
 import java.util.concurrent.Executors
 
 
-class ProjectAdapter : ListAdapter<HistoryModel, ProjectAdapter.ProjectViewHolder>(
-    AsyncDifferConfig.Builder(diffCallback)
-        .setBackgroundThreadExecutor(Executors.newSingleThreadExecutor())
-        .build()
-) {
+class ProjectAdapter(private val context: Context) :
+    ListAdapter<HistoryModel, ProjectAdapter.ProjectViewHolder>(
+
+
+        AsyncDifferConfig.Builder(diffCallback)
+            .setBackgroundThreadExecutor(Executors.newSingleThreadExecutor())
+            .build(),
+
+
+        ) {
     private var onViewMoreClick: (HistoryModel) -> Unit = {}
 
     private var onDeleteClick: (HistoryModel) -> Unit = {}
@@ -69,7 +80,6 @@ class ProjectAdapter : ListAdapter<HistoryModel, ProjectAdapter.ProjectViewHolde
         this.onDeleteClick = onDeleteClick
     }
 
-
     fun setOnViewMoreClick(onViewMoreClick: (HistoryModel) -> Unit) {
         this.onViewMoreClick = onViewMoreClick
     }
@@ -80,7 +90,6 @@ class ProjectAdapter : ListAdapter<HistoryModel, ProjectAdapter.ProjectViewHolde
 
         init {
             binding.root.tap {
-
                 if (isClickable) {
                     isClickable = false // Vô hiệu hóa click tiếp theo
                     data?.let(onViewMoreClick)
@@ -99,11 +108,12 @@ class ProjectAdapter : ListAdapter<HistoryModel, ProjectAdapter.ProjectViewHolde
             binding.tvProgress.text = "${data.process}%"
 
             if (data.isSuccess()) {
+//                updateDatabase(data)
                 Glide.with(binding.root.context).load(data.imageResult)
                     .placeholder(R.drawable.ic_image_processing).into(binding.imgProcess)
                 binding.ivMenuPopup.setImageResource(R.drawable.ic_menu_on)
                 binding.ivMenuPopup.tap {
-                    if(isClickable){
+                    if (isClickable) {
                         isClickable = false
                         showCustomMenu(binding.root, data)
                         binding.root.postDelayed({ isClickable = true }, 300)
@@ -143,17 +153,36 @@ class ProjectAdapter : ListAdapter<HistoryModel, ProjectAdapter.ProjectViewHolde
             LinearLayout.LayoutParams.WRAP_CONTENT,
             true
         )
-        popupWindow.elevation =  10f.toDp()
+        popupWindow.elevation = 10f.toDp()
 
         bindingPopup.clReport.tap {
-            data?.let(onDeleteClick)
+            data?.let(onViewMoreClick)
             popupWindow.dismiss()
         }
         // Thiết lập sự kiện cho từng item
         bindingPopup.clDownload.tap {
-            downloadImageFromUrl(view.context, data?.imageResult!!)
+            CoroutineScope(Dispatchers.IO).launch {
+                data?.imageResult?.let { imageUrl ->
+                    Glide.with(context).asBitmap()
+                        .load(imageUrl)
+                        .skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .into(object : CustomTarget<Bitmap>() {
+                            override fun onResourceReady(
+                                resource: Bitmap, transition: Transition<in Bitmap>?
+                            ) {
+                                saveFileToDownload(context, resource)
+                            }
+
+                            override fun onLoadCleared(placeholder: Drawable?) {
+                            }
+                        })
+                }
+            }
+
             popupWindow.dismiss()
+
         }
+
 
         bindingPopup.clShare.tap {
             shareImage(data?.imageResult ?: "", view.context)
@@ -173,9 +202,29 @@ class ProjectAdapter : ListAdapter<HistoryModel, ProjectAdapter.ProjectViewHolde
 
         val location = IntArray(2)
         view.getLocationOnScreen(location)
-        val x = location[0] + view.width - (popupWidth*1.2)
+        val x = location[0] + view.width - (popupWidth * 1.2)
         val y = location[1] + 20f.toDp()
         popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, x.toInt(), y.toInt())
+    }
+
+
+    private fun saveFileToDownload(context: Context, bitmap: Bitmap) {
+        val resolver = context.contentResolver
+        var name = System.currentTimeMillis().toString()
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, name)
+            put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
+            put(MediaStore.MediaColumns.RELATIVE_PATH, "Pictures/removebg")
+        }
+
+        val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+        uri?.let {
+            resolver.openOutputStream(it)?.use {
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
+            }
+        }
+        Log.v("tag111", "gen success: $name")
+        Toast.makeText(context, R.string.image_saved_successfully, Toast.LENGTH_SHORT).show()
     }
 
 
@@ -286,6 +335,5 @@ class ProjectAdapter : ListAdapter<HistoryModel, ProjectAdapter.ProjectViewHolde
 
         // Hiển thị dialog chọn ứng dụng
         (context as? Activity)?.startActivity(Intent.createChooser(shareIntent, "Share image via"))
-
     }
 }
