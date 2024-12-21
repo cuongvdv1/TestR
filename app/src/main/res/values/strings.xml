@@ -48,6 +48,7 @@
     <string name="library">Library</string>
     <string name="countinue_without_permissions">Countinue without permission</string>
     <string name="remove_BG">Remove BG</string>
+    <string name="edit_photo">Edit Photo</string>
     <string name="ic_export">ic_export</string>
     <string name="ic_undo">ic_undo</string>
     <string name="ic_redo">ic_redo</string>

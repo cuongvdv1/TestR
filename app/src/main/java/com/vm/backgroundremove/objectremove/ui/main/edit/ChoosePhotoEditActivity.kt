@@ -1,8 +1,12 @@
 package com.vm.backgroundremove.objectremove.ui.main.edit
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Handler
 import android.view.View
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -39,9 +43,13 @@ class ChoosePhotoEditActivity : BaseActivity<ActivityChoosePhotoEditBinding, Pro
     override fun onResume() {
         super.onResume()
         binding.ivSelected.visibility = View.GONE
+        if (checkStorePermission()) {
+            viewModel.getAllProcess()
+        }
     }
     override fun initView() {
         super.initView()
+        dialogPermission()
         binding.ivBack.tap {
             finish()
         }

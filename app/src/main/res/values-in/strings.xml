@@ -49,6 +49,7 @@
     <string name="library">Perpustakaan</string>
     <string name="countinue_without_permissions">Lanjutkan tanpa izin</string>
     <string name="remove_BG">Hapus BG</string>
+    <string name="edit_photo">Edit Foto</string>
     <string name="ic_export">ic_ekspor</string>
     <string name="ic_undo">ic_batal</string>
     <string name="ic_redo">ic_ulang</string>

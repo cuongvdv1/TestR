@@ -48,6 +48,7 @@
     <string name="library">पुस्तकालय</string>
     <string name="countinue_without_permissions">अनुमतियों के बिना जारी रखें</string>
     <string name="remove_BG">BG हटाएं</string>
+    <string name="edit_photo">फ़ोटो संपादित करें</string>
     <string name="ic_export">ic_exportar</string>
     <string name="ic_undo">ic_deshacer</string>
     <string name="ic_redo">ic_rehacer</string>

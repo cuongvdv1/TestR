@@ -59,6 +59,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="21dp"
         android:background="@drawable/bg_none"
+        android:scaleType="center"
         app:layout_constraintBottom_toTopOf="@id/ll_option1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

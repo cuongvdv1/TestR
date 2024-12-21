@@ -20,7 +20,7 @@ class ProjectViewModel(private val historyRepository: HistoryRepository): ViewMo
 
     }
 
-    private fun getAllProcess() {
+    fun getAllProcess() {
         viewModelScope.launch(Dispatchers.IO) {
             historyRepository.getAllProcesses().distinctUntilChanged().collect { processes ->
                 _arrProcess.value = processes.reversed()

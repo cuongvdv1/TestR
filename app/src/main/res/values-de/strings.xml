@@ -49,6 +49,7 @@
     <string name="library">Bibliothek</string>
     <string name="countinue_without_permissions">Ohne Berechtigung fortfahren</string>
     <string name="remove_BG">Hintergrund Entfernen</string>
+    <string name="edit_photo">Foto bearbeiten</string>
     <string name="ic_export">ic_export</string>
     <string name="ic_undo">ic_rückgängig</string>
     <string name="ic_redo">ic_wiederholen</string>

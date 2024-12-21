@@ -49,6 +49,7 @@
     <string name="library">Bibliothèque</string>
     <string name="countinue_without_permissions">Continuer sans autorisations</string>
     <string name="remove_BG">Supprimer Fond</string>
+    <string name="edit_photo">Modifier la photo</string>
     <string name="ic_export">ic_exporter</string>
     <string name="ic_undo">ic_annuler</string>
     <string name="ic_redo">ic_rétablir</string>

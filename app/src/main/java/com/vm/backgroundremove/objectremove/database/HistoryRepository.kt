@@ -37,6 +37,8 @@ class HistoryRepository(private val processDao: HistoryDao) {
 
     fun getRowRemoveBGCount(): Int = processDao.getRowRemoveBGCount()
 
+    fun getRowRemoveBGEdit(): Int = processDao.getRowRemoveBGEdit()
+
     suspend fun deleteProcess(processModel: HistoryModel) {
         processDao.deleteProcess(processModel)
     }

@@ -36,7 +36,7 @@ import java.io.OutputStream
 class HistoryResultActivity : BaseActivity<ActivityHistoryResultBinding, BaseViewModel>() {
 
     private var historyModel: HistoryModel? = null
-    private var isClickable : Boolean = true
+    private var isClickable: Boolean = true
 
     override fun createBinding(): ActivityHistoryResultBinding {
         return ActivityHistoryResultBinding.inflate(layoutInflater)
@@ -57,7 +57,7 @@ class HistoryResultActivity : BaseActivity<ActivityHistoryResultBinding, BaseVie
         }
 
         binding.ivHistory.tap {
-            if(isClickable){
+            if (isClickable) {
                 isClickable = false
                 Glide.with(this)
                     .asBitmap()
@@ -86,11 +86,15 @@ class HistoryResultActivity : BaseActivity<ActivityHistoryResultBinding, BaseVie
         // hien thi anh len tren ivHistoryResult
         historyModel?.let {
             if (!it.imageResult.isNullOrEmpty()) {
-                if (it.type == "remove_background_done" || it.type =="remove_background") {
-                    Glide.with(this).asBitmap()
+                if (it.type == "remove_background_done" || it.type == "remove_background" || it.type == "remove_background_edit") {
+                    Glide.with(this)
                         .load(historyModel?.imageResult)
                         .skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE)
                         .into(binding.ivHistoryResultCrop)
+                    if (it.type == "remove_background_edit") {
+                        binding.tvOption1.text = getString(R.string.export)
+                        binding.ivOption1.setImageResource(R.drawable.ic_export_history)
+                    }
                 } else {
 
                     binding.ivHistoryResultCrop.visibility = View.INVISIBLE
@@ -118,11 +122,14 @@ class HistoryResultActivity : BaseActivity<ActivityHistoryResultBinding, BaseVie
         }
         //
         binding.llOption1.tap {
-            if(isClickable){
+            if (isClickable) {
                 isClickable = false
-                if (historyModel?.type == "remove_background_done" || historyModel?.type =="remove_background") {
+                if (historyModel?.type == "remove_background_done" || historyModel?.type == "remove_background") {
                     val intent =
-                        Intent(this@HistoryResultActivity, ResultRemoveBackGroundActivity::class.java)
+                        Intent(
+                            this@HistoryResultActivity,
+                            ResultRemoveBackGroundActivity::class.java
+                        )
                     intent.putExtra(Constants.INTENT_RESULT, historyModel)
                     intent.putExtra(Constants.INTENT_EDIT_FROM, Constants.INTENT_EDIT_FROM_HISTORY)
                     startActivity(intent)
@@ -158,10 +165,10 @@ class HistoryResultActivity : BaseActivity<ActivityHistoryResultBinding, BaseVie
         }
 
         binding.llShare.tap {
-            if(isClickable){
+            if (isClickable) {
                 isClickable = false
                 shareImageFromCache(historyModel?.imageResult.toString())
-                Handler().postDelayed({isClickable = true}, 500)
+                Handler().postDelayed({ isClickable = true }, 500)
             }
 
         }
@@ -256,6 +263,7 @@ class HistoryResultActivity : BaseActivity<ActivityHistoryResultBinding, BaseVie
 
         return cacheFile.absolutePath
     }
+
     private fun downloadImageFromUrl(context: Context, imageUrl: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -327,7 +335,6 @@ class HistoryResultActivity : BaseActivity<ActivityHistoryResultBinding, BaseVie
             }
         }
     }
-
 
 
 }

@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Matrix
+import android.graphics.Path
 import android.graphics.PointF
 import android.graphics.RectF
 import android.graphics.drawable.GradientDrawable
@@ -42,6 +43,10 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
     private val oldTouchPoint = PointF()
     private var oldDistance = 0f
     private var isShowingBitmap = true
+    private val path = Path().apply {
+        fillType = Path.FillType.INVERSE_EVEN_ODD
+    }
+
     init {
         setLayerType(LAYER_TYPE_SOFTWARE, null)
         setWillNotDraw(false)
@@ -56,10 +61,13 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
 
     override fun onDraw(canvas: Canvas) {
         bg_none?.draw(canvas)
+//        canvas.save()
+        canvas.clipPath(path)
         backgroundBitmap?.let {
             canvas.drawBitmap(it, null, boundBg, null)
         }
         drawBitmap(canvas)
+//        canvas.restore()
     }
 
 
@@ -73,6 +81,19 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
             MotionEvent.ACTION_UP -> handleUp()
             else -> false
         }
+    }
+
+    fun getResultBitmap(): Bitmap {
+        val bitmapAll = Bitmap.createBitmap(measuredWidth, measuredHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmapAll)
+        draw(canvas)
+        return Bitmap.createBitmap(
+            bitmapAll,
+            bound.left.toInt(),
+            bound.top.toInt(),
+            bound.width().toInt(),
+            bound.height().toInt()
+        )
     }
 
     fun createColorBitmap(color: Int, width: Int, height: Int): Bitmap {
@@ -179,7 +200,13 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
         // Vẽ nền lên canvas
         draw(canvas)
 
-        return bitmap
+        return Bitmap.createBitmap(
+            bitmap,
+            bound.left.toInt(),
+            bound.top.toInt(),
+            bound.width().toInt(),
+            bound.height().toInt()
+        )
     }
 
     private fun drawBitmap(canvas: Canvas) {
@@ -229,13 +256,16 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
             }
 
             val left = (parentWidth - width) / 2f
-            val top = (parentHeight - height)
+            val top = (parentHeight - height) / 2f
             bound.set(left, top, left + width, top + height)
 
             boundPoint[0] = bound.left
             boundPoint[1] = bound.top
             boundPoint[2] = bound.right
             boundPoint[3] = bound.bottom
+            path.reset()
+            path.addRect(0f, 0f, parentWidth, parentHeight, Path.Direction.CW)
+            path.addRect(bound, Path.Direction.CW)
         }
     }
 
@@ -273,7 +303,7 @@ class CropView(context: Context, attrs: AttributeSet?) : FrameLayout(context, at
 
     private fun handleMove(event: MotionEvent): Boolean {
         return when (actionType) {
-            ActionType.DRAG -> move(event)
+//            ActionType.DRAG -> move(event)
             ActionType.ZOOM_AND_ROTATION -> zoom(event)
             else -> false
         }

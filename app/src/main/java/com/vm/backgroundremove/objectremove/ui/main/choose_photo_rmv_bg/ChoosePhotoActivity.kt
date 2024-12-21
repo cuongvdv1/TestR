@@ -62,12 +62,12 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
 
     override fun initView() {
         super.initView()
-
+        dialogPermission()
         if(checkStorePermission()){
             showPhotoView()
             getAllImageInfos()
         }else{
-            showNoPhotoView()
+            showNoPhotoView(    )
         }
 
         binding.ivBack.tap {
@@ -76,8 +76,7 @@ class ChoosePhotoActivity : BaseActivity<ActivityChoosePhotoBinding, BaseViewMod
 
         binding.btnTryNow.tap {
             if(!checkStorePermission()){
-                dialogPermission()
-                showDialogPermission()
+                requestPermissionPhoto()
             }
         }
 

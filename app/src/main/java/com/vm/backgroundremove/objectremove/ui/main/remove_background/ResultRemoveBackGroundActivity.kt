@@ -162,11 +162,11 @@ class ResultRemoveBackGroundActivity :
                             historyModel?.imageResult = path
                             lifecycleScope.launch(Dispatchers.IO) {
                                 historyModel?.id = 0
-                                val count = dbHistoryRepository.getRowRemoveBGCount()
+                                val count = dbHistoryRepository.getRowRemoveBGEdit()
                                 val rowCount = if (count > 0) count + 1 else 1
                                 historyModel?.type = "remove_background_edit"
                                 historyModel?.time = System.currentTimeMillis()
-                                historyModel?.name = getString(R.string.remove_BG) + " $rowCount"
+                                historyModel?.name = getString(R.string.edit_photo) + " $rowCount"
                                 historyModel?.imageResult = path
                                 historyModel?.let { it1 -> dbHistoryRepository.insertProcess(it1) }
                             }
